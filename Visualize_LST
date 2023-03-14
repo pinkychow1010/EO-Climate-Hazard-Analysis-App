@@ -1,0 +1,211 @@
+// Define config for visualization
+var palettes = require('users/gena/packages:palettes');
+var palette = palettes.misc.tol_rainbow[7];
+
+// Check summer months based on geo-coordinates
+// https://gis.stackexchange.com/questions/318959/get-lon-lat-of-a-top-left-corner-for-geometry-in-google-earth-engine
+
+// return the list of coordinates
+var listCoords = ee.Array.cat(bbox.coordinates(), 1); 
+
+// get the Y-coordinates
+var yCoords = listCoords.slice(1, 1, 2)
+
+// reduce the arrays
+var yMin = yCoords.reduce('min', [0]).get([0,0])
+var yMax = yCoords.reduce('max', [0]).get([0,0])
+
+var south = yMin.add(yMax).divide(2).lt(0);
+var shift = south.multiply(6);
+
+var summer_start = ee.Date('2018-06-01').advance(shift, 'month'); // Starting date
+var summer_end = summer_start.advance(3, 'month');
+
+// MODIS LST dataset
+var dataset = ee.ImageCollection('MODIS/061/MOD11A1')
+                  .filter(ee.Filter.date(summer_start, summer_end))
+                  .mean().multiply(0.02).add(-273.15)
+                  .clip(bbox);
+
+// Day and Night Temperature               
+var dayTemp = dataset.select('LST_Day_1km');
+var nightTemp = dataset.select('LST_Night_1km');
+
+var tempDiff = dayTemp.subtract(nightTemp);
+
+// Data Visualization
+Map.centerObject(bbox, 9);
+
+// Map.addLayer(dayTemp, {min: 30, max: 40, palette: palette}, 'MODIS 1km day temperature');
+// Map.addLayer(nightTemp, {min: 20, max: 23, palette: palette}, 'MODIS 1km night temperature');
+// Map.addLayer(tempDiff, {min: 8, max: 18, palette: palette}, 'MODIS 1km temperature difference');
+
+var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  .map(maskL8sr)
+  .filterDate('2018-06-01', '2018-09-01')
+  .mean()
+  .clip(bbox);
+
+var lst = calc_ls_lst(landsat);
+
+var vis = {min: 29, max:36, palette: palette};
+Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
+
+var chart = reduce_by_lulc(lst, bbox, "LST by LULC");
+print(chart);
+
+
+// #################################
+// ######## Define Functions #######
+// #################################
+    
+    
+function calc_ls_lst(landsat) {
+    // #################################
+    // # calculating LST from landsat ##
+    // #################################
+    // https://gis.stackexchange.com/questions/314374/calculating-lst-from-landsat-8-in-google-earth-engine
+
+    
+    // ndvi    
+    var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
+
+    //select thermal band 10(with brightness tempereature), no calculation 
+    var thermal= landsat.select('B10').multiply(0.1);
+    
+    // find the min and max of NDVI
+    var min_ndvi = ee.Number(ndvi.reduceRegion({
+      reducer: ee.Reducer.min(),
+      geometry: bbox,
+      scale: 30,
+      maxPixels: 1e9
+      }
+      ).values().get(0));
+    
+    var max_ndvi = ee.Number(ndvi.reduceRegion({
+      reducer: ee.Reducer.max(),
+      geometry: bbox,
+      scale: 30,
+      maxPixels: 1e9
+      }
+      ).values().get(0));
+    
+    // Fractional Vegetation
+    var fv = (ndvi.subtract(min_ndvi).divide(max_ndvi.subtract(min_ndvi)))
+      .pow(ee.Number(2))
+      .rename('FV'); 
+    
+    // Emissivity
+    var EM = fv.multiply(ee.Number(0.004)).add(ee.Number(0.986)).rename('EMM');
+    
+    // LST in Celsius Degree bring -273.15
+    var LST = thermal.expression(
+      '(Tb/(1 + (0.00115* (Tb / 1.438))*log(Ep)))-273.15', 
+      {
+        'Tb': thermal.select('B10'),
+        'Ep': EM.select('EMM')
+      }
+      ).rename('LST');
+    
+    return LST;
+}
+
+
+function reduce_by_lulc(image, bbox, title) {
+    // #################################
+    // # plot band by land use class  ##
+    // #################################
+    
+    var lulc = ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox);
+    var combine_bands = image.addBands(lulc);
+    
+    // Grouped a mean reducer: LST by land cover category.
+    var means = combine_bands.reduceRegion({
+      reducer: ee.Reducer.mean().group({
+        groupField: 1,
+        groupName: 'landUseClass',
+      }),
+      geometry: bbox,
+      scale: 1000,
+      maxPixels: 1e8
+    });
+    
+    // Helper function: Convert number to string
+    function toString(number) {
+      return ee.Number(number).format('%d')
+    }
+    
+    // Create a dict for look up class names
+    var lookup_names = ee.Dictionary.fromLists(
+      ee.List(lulc.get('Map_class_values')).map(toString),
+      lulc.get('Map_class_names')
+    );
+    
+    // Create a dict for look up class colors
+    var lookup_palette = ee.Dictionary.fromLists(
+      ee.List(lulc.get('Map_class_values')).map(toString),
+      lulc.get('Map_class_palette')
+    );
+    
+    function createChartSliceDictionary(fc) {
+      return ee.List(fc.aggregate_array("landcover_class_palette"))
+        .map(function(p) {
+          return {
+            'color': p
+          };
+        }).getInfo();
+    }
+    
+    // Create feature without geometry
+    function createFeature(stats) {
+      var stats_dict = ee.Dictionary(stats);
+      var class_number = stats_dict.get('landUseClass');
+      var result = {
+        landcover_class_number: class_number,
+        landcover_class_name: lookup_names.get(class_number),
+        landcover_class_palette: lookup_palette.get(class_number),
+        mean: stats_dict.get('mean')
+      };
+      return ee.Feature(null, result); // Creates a feature without a geometry.
+    }
+    
+    // Object to list of group info
+    var stats = ee.List(means.get('groups'));
+    
+    // Convert list to feature collection
+    var by_lulc = ee.FeatureCollection(stats.map(createFeature));
+    
+    // Create bar chart
+    var landcover_summary_chart = ui.Chart.feature.byFeature({
+        features: by_lulc,
+        xProperty: 'landcover_class_name',
+        yProperties: ['mean']
+      })
+      .setChartType('BarChart')
+      .setOptions({
+        title: title,
+        slices: createChartSliceDictionary(by_lulc),
+        sliceVisibilityThreshold: 0 // Don't group small slices.
+      });
+    
+    return landcover_summary_chart;
+}
+
+
+function maskL8sr(col) {
+  // #################################
+  // ###  Landsat 8 cloud mask   #####
+  // #################################
+  
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  
+  // Get the pixel QA band.
+  var qa = col.select('pixel_qa');
+  
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+                 .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return col.updateMask(mask);
+}
