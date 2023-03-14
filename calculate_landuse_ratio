@@ -1,0 +1,98 @@
+var intraUrban = require('users/pinkychow1010/WB_IntraUrban:app_interface');
+
+intraUrban.app(calculate_landuse_ratio);
+
+function calculate_landuse_ratio(aoi) {
+  
+  var bbox = aoi.geometry();
+
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var visualization = {
+    bands: ['Map'],
+  };
+  
+  Map.addLayer(lulc, visualization, "Landcover");
+  
+  // Generate an image in which the value of each pixel is the area of that pixel in square meters
+  var area_image = ee.Image.pixelArea().addBands(lulc);
+  
+  // Group image of target area with class values
+  var reduction_results = area_image.reduceRegion({
+    reducer: ee.Reducer.sum().group({
+      groupField: 1,
+      groupName: 'Map_class_value',
+    }),
+    geometry: bbox,
+    scale: 30,
+    bestEffort: true,
+  });
+  
+  // Get stats and create feature collection
+  var roi_stats = ee.List(reduction_results.get('groups'));
+  var landcover_fc = ee.FeatureCollection(roi_stats.map(createFeature));
+  
+  // Summarize land use with a pie chart
+  var landcover_summary_chart = ui.Chart.feature.byFeature({
+      features: landcover_fc,
+      xProperty: 'landcover_class_name',
+      yProperties: ['area_m2', 'landcover_class_number']
+    })
+    .setChartType('PieChart')
+    .setOptions({
+      title: 'Summary of landcover class areas',
+      slices: createPieChartSliceDictionary(landcover_fc),
+      sliceVisibilityThreshold: 0 // Don't group small slices.
+    });
+  
+  return landcover_summary_chart;
+}
+
+
+// Create a dict for ESA land use cover look up class names
+var worldcover_ds = ee.ImageCollection('ESA/WorldCover/v200').first();
+
+var lookup_names = ee.Dictionary.fromLists(
+  ee.List(worldcover_ds.get('Map_class_values')).map(toString),
+  worldcover_ds.get('Map_class_names')
+);
+
+// Create a dict for look up class colors
+var lookup_palette = ee.Dictionary.fromLists(
+  ee.List(worldcover_ds.get('Map_class_values')).map(toString),
+  worldcover_ds.get('Map_class_palette')
+);
+
+// Create a feature for a landcover class that includes the area covered.
+function createFeature(landcover_class_stats) {
+  landcover_class_stats = ee.Dictionary(landcover_class_stats);
+  var class_number = landcover_class_stats.get('Map_class_value');
+  var result = {
+    landcover_class_number: class_number,
+    landcover_class_name: lookup_names.get(class_number),
+    landcover_class_palette: lookup_palette.get(class_number),
+    area_m2: landcover_class_stats.get('sum')
+  };
+  
+  return ee.Feature(null, result); // Creates a feature without a geometry.
+}
+
+// Create a JSON dictionary that defines piechart colors based on the
+// landcover class palette.
+// https://developers.google.com/chart/interactive/docs/gallery/piechart
+function createPieChartSliceDictionary(fc) {
+  return ee.List(fc.aggregate_array("landcover_class_palette"))
+    .map(function(p) {
+      return {
+        'color': p
+      };
+    }).getInfo();
+}
+
+// Helper function: Convert number to string
+function toString(number) {
+  return ee.Number(number).format('%d')
+}
+
