@@ -1,0 +1,68 @@
+// extract_urbanization_trend
+// this script is used to extract urban areas which are developed adter 2000
+// it displays ratio of the newly urbanized grid cells (< 5% is masked out)
+
+// import modules
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
+var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
+
+// construct app using framework
+intraUrban.app(extract_urbanization_trend);
+
+// Karachi
+// var bbox = ee.Geometry.Polygon(
+//         [[[66.53649977956582, 25.24832952195102],
+//           [66.53649977956582, 24.670637047045766],
+//           [67.49231032644082, 24.670637047045766],
+//           [67.49231032644082, 25.24832952195102]]], null, false);
+
+function extract_urbanization_trend(aoi) {
+  
+  // import global settlement dataset
+  // GHSL: Global Human Settlement Layers, Built-Up Grid
+  var bbox = aoi.geometry();
+  var GHSL = ee.Image('JRC/GHSL/P2016/BUILT_LDSMT_GLOBE_V1');
+  var builtUpMultitemporal = GHSL.select('built').clip(bbox);
+  
+  // set up data viz
+  var palette = palettes.misc.tol_rainbow[7];
+  var visParams = {
+    min: 0,
+    max: 100,
+    palette: palette
+  };
+  
+  // get new buildings
+  var after2000 = builtUpMultitemporal.eq(3);
+
+  // land use cover by 2021
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+    .first()
+    .clip(bbox);
+  
+  // get settlements not covered by GHSL
+  var urban_mask = lulc.eq(50);
+  var no_builtup_2014 = builtUpMultitemporal.eq(2);
+  
+  // update new settlements
+  var newBuilt = urban_mask.and(no_builtup_2014).or(after2000);
+  
+  // recently urbanization ratio
+  var urbanizationRatio = newBuilt.reduceNeighborhood(
+      ee.Reducer.mean(), 
+      ee.Kernel.circle(600, 'meters')
+    ).multiply(100).toByte();
+  
+  // focus on ubanization clusters
+  var threshold = urbanizationRatio.gt(5);
+  var masked = urbanizationRatio.updateMask(threshold);
+  
+  // data visualization
+  Map.addLayer(masked, visParams, 'Built-Up Ratio after 2000');
+  Map.centerObject(bbox, 10);
+  Map.setOptions("HYBRID")
+  
+  var legend = helper.add_colorbar(visParams, "Urbanization Ratio");
+  Map.add(legend);
+} 
