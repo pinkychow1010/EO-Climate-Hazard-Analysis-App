@@ -1,0 +1,209 @@
+// ################################# //
+// ######    intra-urban      ###### //
+// ###### analysis functions  ###### //
+// ################################# //
+
+// TO DO: https://gis.stackexchange.com/questions/368569/google-earth-engine-name-parameters-in-custom-function
+
+// import module
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/WB_IntraUrban/helper');
+
+/**
+ * This is an analysis function on choropleth map, where polygons in the vector layer 
+ * will be colored according to the attribute values and defined color scale.
+ */
+
+/**
+ * Choropleth Map: statistical thematic map that uses pseudocolor of a attributes within spatial units.
+ * 
+ * This function is used to construct and visualize a choropleth map based on values of a vector layer.
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @see  helper.add_colormap
+ * @link 'users/pinkychow1010/GEE:WorldBank/helper'
+ * @global
+ *
+ * @fires   add colored map layer
+ * @listens select layer to be evaluated
+ *
+ * @param {ee.FeatureCollection}   vector        A vector layer which consists of multiple polygons.
+ * @param {string}                 attribute     The attribute to be categorized for the color mapping.
+ * @param {variable}               [palette=palettes.cmocean.Balance[7]] A list of color with length of class_n or palette variable from 'users/gena/packages:palettes'.
+ * @param {float}                  [opacity=1]   Opacity of the map layer. Default 1.
+ * @param {bool}                   [log=0]       Boolean option for log color scale. With 1 the values will be colored in log scale. With 0 the values will be mapped linearly.
+ * @param {integer}                [class_n=7]   Number of class for color mapping. Default 7.
+ * @param {string}                 [title=attribute] Title for the map layer. Default same as attribute.
+ * 
+ * @return {null} null.
+ *
+ */
+
+var choropleth_map = function choropleth_map(
+  vector, 
+  attribute, 
+  palette,
+  opacity,
+  log, 
+  class_n,
+  title
+  ) {
+  
+  if (log === undefined || log === null){var log = 0};
+  if (class_n === undefined || class_n === null){var class_n = 7};
+  if (title === undefined || title === null){var title = attribute};
+  if (opacity === undefined || opacity === null){var opacity = 1};
+  if (palette === undefined || palette === null){var palette = palettes.cmocean.Balance[7]};
+  
+  var colors = ee.List(palette);
+  var zone = ee.FeatureCollection(vector);
+
+  var min_val = ee.Number(vector.aggregate_min(attribute).getInfo());
+  var max_val = ee.Number(vector.aggregate_max(attribute).getInfo());
+  
+  Map.centerObject(zone, 10);
+  Map.setOptions('HYBRID');
+  
+  function get_digit(number) {
+    return number.toString().length;
+  }
+  
+  var get_index = function(value) {
+    
+    var log_inv = ee.Number(log).eq(ee.Number(0)); // 1 if log = 0 and 0 if log = 1
+    
+    var scaled_linear = value.multiply(log_inv);
+    var scaled_log = value.log().multiply(log);
+    
+    var scaled_val = scaled_linear.add(scaled_log);
+    
+    var min_linear = min_val.multiply(log_inv);
+    var min_log = min_val.log().multiply(log);
+    var min = min_log.add(min_linear);
+    
+    var max_linear = max_val.multiply(log_inv);
+    var max_log = max_val.log().multiply(log);
+    var max = max_log.add(max_linear);
+    
+    var step = (max.subtract(min)).divide(class_n);
+    
+    var index = (scaled_val.subtract(min)).divide(step).round();
+    var index_clamp = index.clamp(0, ee.Number(class_n).subtract(1));
+
+    return index_clamp;
+  };
+  
+  zone = zone.map(function(f) {
+
+    var value = f.getNumber(attribute);
+    var index = get_index(value);
+    
+    var color = colors.get(index);
+    return f.set('style', {fillColor: color});
+    });
+  
+  var VisCustom = zone.style({
+    styleProperty: 'style'
+  });
+
+  Map.addLayer(VisCustom, {'opacity': opacity}, title);
+  
+  var vis = {
+    min: vector.aggregate_min(attribute).getInfo(),
+    max: vector.aggregate_max(attribute).getInfo(),
+    palette: palette
+  };
+  
+  var log_hint = ee.Dictionary({
+    '1': "(log)",
+    '0': ""
+  });
+  
+  function toString(number) {
+    return ee.Number(number).format('%d')
+  }
+
+  var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
+  Map.add(legend);
+
+};
+
+/**
+ * This is a wrapper function on choropleth map, population sum inside the feature collection 
+ * will be colored for data visualization. Population data are extracted from GPWv411: Population Count (Gridded Population of the World Version 4.11),
+ * which is also used in the GHSL - Global Human Settlement Layer.
+ */
+
+/**
+ * Total Population Zonal Statistics.
+ * 
+ * This function is used to construct and visualize a choropleth map based on population sum of a vector layer.
+ * 
+ * Example usage:
+ * var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+ * var analysis = require('users/pinkychow1010/GEE:WorldBank/analysis_utils');
+ * analysis.zonal_pop_sum(geometry);
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @see  helper.add_colormap, choropleth_map
+ * @link 'users/pinkychow1010/GEE:WorldBank/helper'
+ * @global
+ *
+ * @fires   add colored map layer
+ * @listens select layer to be evaluated
+ *
+ * @param {ee.FeatureCollection}   geometry      A vector layer which consists of multiple polygons.
+ * @param {variable}               [palette=palettes.cmocean.Balance[7]] A list of color with length of class_n or palette variable from 'users/gena/packages:palettes'.
+ * @param {float}                  [opacity=1]   Opacity of the map layer. Default 1.
+ * @param {bool}                   [log=0]       Boolean option for log color scale. With 1 the values will be colored in log scale. With 0 the values will be mapped linearly.
+ * @param {integer}                [class_n=7]   Number of class for color mapping. Default 7.
+ * @param {string}                 [title=attribute] Title for the map layer. Default same as attribute.
+ * 
+ * @return {null} null.
+ *
+ */
+
+exports.zonal_pop_sum = function zonal_pop_sum(
+  geometry,
+  palette,
+  log,
+  class_n,
+  title,
+  opacity
+  ) {
+  
+  var dataset = ee.ImageCollection("CIESIN/GPWv411/GPW_Population_Count").first();
+  var pop = dataset.select('population_count').clip(geometry);
+          
+  var total_pop = pop.reduceRegions({
+    collection: geometry,
+    reducer:  ee.Reducer.sum()
+  });
+
+  var vector = total_pop;
+  var attribute = 'sum';
+  if (title === undefined || title === null){var title = "Total Population"};
+  if (log === undefined || log === null){var log = 1};
+
+  return choropleth_map(
+    vector=vector, 
+    attribute=attribute, 
+    palette=palette, 
+    opacity=opacity, 
+    log=log, 
+    class_n=class_n, 
+    title=title
+    );
+};
+
+exports.choropleth_map = choropleth_map;
+
+
+
+
+
+
+
+
