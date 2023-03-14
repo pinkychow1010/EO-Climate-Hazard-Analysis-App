@@ -1,0 +1,82 @@
+
+var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+ 
+function zonal_pop_density(
+  geometry,
+  palette,
+  log,
+  class_n,
+  title,
+  opacity
+  ) {
+    
+    var dataset = ee.ImageCollection("CIESIN/GPWv411/GPW_Population_Count").first();
+    var pop = dataset.select('population_count').clip(geometry);
+    
+    var pop_density = pop.reduceNeighborhood(
+      ee.Reducer.sum(), 
+      ee.Kernel.circle(5000, 'meters')
+    ).divide(25).int(); // population count within 1 km grid
+      
+    var zonal_pop_density = pop_density.reduceRegions({
+      collection: geometry,
+      reducer:  ee.Reducer.mean()
+    });
+    
+    var vector = zonal_pop_density;
+    var attribute = 'mean';
+    if (title === undefined || title === null){var title = "Population Density"};
+    if (log === undefined || log === null){var log = 1};
+    
+    analysis.choropleth_map(
+      vector=vector, 
+      attribute=attribute,
+      palette=palette, 
+      opacity=opacity, 
+      log=log, 
+      class_n=class_n, 
+      title=title
+      );
+      
+    return vector;
+  }
+
+var pop_density = zonal_pop_density(geometry);
+
+// Create a panel and add it to the map.
+var inspector = ui.Panel([ui.Label('Click on the district')]);
+Map.add(inspector);
+
+Map.onClick(function(coords) {
+  // Show the loading label.
+  inspector.widgets().set(0, ui.Label({
+    value: 'Loading...',
+    style: {color: 'gray'}
+  }));
+
+  var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+
+  var district = pop_density.reduceColumns(ee.Reducer.toList(), ['DISTRICT']).get('list');
+  var density_feature = pop_density.reduceColumns(ee.Reducer.toList(), ['mean']).get('list');
+
+  var district_list = pop_density.toList(pop_density.size());
+  
+  var retIdx = district_list.map(function(element) {
+    var idx = district_list.indexOf(element);
+    return ee.Algorithms.If(ee.Feature(element).contains(click_point), idx, 0);
+  }).removeAll([0]);
+
+  var name = "";
+  var density = "NA"
+  
+  if (retIdx.size().getInfo() > 0 ) {
+     var name = ee.List(district).get(retIdx.get(0).getInfo()).getInfo();
+     var density = ee.List(density_feature).get(retIdx.get(0).getInfo()).getInfo().toFixed(0);
+  }  
+
+  inspector.widgets().set(0, ui.Label({
+    value: "Population density in " + name + ": " + density + "/ km2"
+  }));
+   
+});
