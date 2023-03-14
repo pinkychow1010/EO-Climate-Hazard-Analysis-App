@@ -1,0 +1,60 @@
+var bbox = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-75.15063168610841, 41.59222515155188],
+          [-75.15063168610841, 40.33125159664709],
+          [-71.63500668610841, 40.33125159664709],
+          [-71.63500668610841, 41.59222515155188]]], null, false);
+          
+// extract urban centre
+// this script is used to extract urban areas (larger than 20%) and estimate urban density 
+
+// import module
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
+var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
+
+// construct app
+intraUrban.app(extract_urban_centre);
+
+// define function for extract dense urban areas
+function extract_urban_centre(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(50);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  // viz params
+  var palette = palettes.misc.tol_rainbow[7];
+  var vis = {min: 20, max: 80, palette: palette};
+  
+  // focus on dense areas
+  var urban_threshold = reduceNeighborhood.gt(20);
+  var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
+  
+  // add layer for urban density
+  Map.addLayer(reduceNeighborhoodMasked, vis, 'Urban Density');
+  Map.centerObject(bbox, 8);
+  Map.setOptions("HYBRID");
+  
+  var legend = helper.add_colorbar(vis, "Urban Density");
+  Map.add(legend);
+  
+}
