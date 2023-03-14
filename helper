@@ -1,0 +1,69 @@
+// ############################## //
+// ###  Analysis Helper Tool #### //
+// ############################## //
+
+//LEGEND (Vertical, Gradient, position can be changed intuitvely)
+//Source: https://mygeoblog.com/2017/03/02/creating-a-gradient-legend/
+
+exports.add_colorbar = function add_color_bar(vis, title, decimal) {
+  
+  if (decimal === undefined || decimal === null){var decimal = 2};
+  if (title === undefined || title === null){var title = "Legend"};
+  
+  // set position of panel
+  var legendpos = ui.Panel({
+    style: {
+      position: 'bottom-right',
+      padding: '6px 10px'
+    }
+  });
+   
+  // Create legend title
+  var legendTitle = ui.Label({
+    value: title,
+    style: {
+      fontWeight: 'bold',
+      fontSize: '16px',
+      margin: '0 0 4px 0',
+      padding: '0'
+      }
+  });
+  
+   // Add the title to the panel
+  legendpos.add(legendTitle); 
+  
+  // create the legend image
+  var lon = ee.Image.pixelLonLat().select('latitude');
+  var gradient = lon.multiply((vis.max-vis.min)/100).add(vis.min);
+  var legendImage = gradient.visualize(vis);
+  
+  // create text on top of legend
+  var panel = ui.Panel({
+      widgets: [
+        ui.Label(vis['max'].toFixed(decimal))
+      ],
+    });
+  
+  legendpos.add(panel);
+    
+  // create thumbnail from the image
+  var thumbnail = ui.Thumbnail({
+    image: legendImage, 
+    params: {bbox:'0,0,10,100', dimensions:'10x200'},  
+    style: {padding: '0.5px', position: 'bottom-center'}
+  });
+  
+  // add the thumbnail to the legend
+  legendpos.add(thumbnail);
+  
+  // create text on top of legend
+  var panel = ui.Panel({
+      widgets: [
+        ui.Label(vis['min'].toFixed(decimal))
+      ],
+    });
+  
+  legendpos.add(panel);
+  
+  return legendpos
+}
