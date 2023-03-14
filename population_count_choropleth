@@ -1,0 +1,44 @@
+// GPWv411: Population Count (Gridded Population of the World Version 4.11)
+
+// import module
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+
+analysis.zonal_pop_sum(geometry);
+
+// var dataset = ee.ImageCollection("CIESIN/GPWv411/GPW_Population_Count").first();
+// var pop = dataset.select('population_count').clip(geometry);
+        
+// var total_pop = pop.reduceRegions({
+//   collection: geometry,
+//   scale: 30,
+//   reducer:  ee.Reducer.sum()
+// })
+
+// print(total_pop);
+
+// var vector = total_pop;
+// var attribute = 'sum';
+// var palette = palettes.colorbrewer.YlOrRd[7]; //palettes.cmocean.Balance[7];
+// var log = 0;
+// var class_n = 7;
+// var title = "Total Population";
+// var opacity = 0.9;
+
+// analysis.choropleth_map(
+//   vector=vector, 
+//   attribute=attribute, 
+//   palette=palette, 
+//   opacity=opacity, 
+//   log=log, 
+//   class_n=class_n, 
+//   title=title
+//   );
+  
+// Export.table.toDrive({
+//   collection: total_pop,
+//   folder: '',
+//   description: '',
+//   fileFormat: 'SHP'
+// });
