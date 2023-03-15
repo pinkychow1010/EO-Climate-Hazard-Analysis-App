@@ -11,16 +11,21 @@ Map.centerObject(geometry, 12);
 // Check summer months based on geo-coordinates
 // https://gis.stackexchange.com/questions/318959/get-lon-lat-of-a-top-left-corner-for-geometry-in-google-earth-engine
 var centroid = geometry.first().geometry().centroid();
+
 var listCoords = ee.Array.cat(centroid.coordinates(), 1); 
-var yCoords = listCoords.slice(1, 1, 2) // get the Y-coordinates
+var yCoords = ee.List(listCoords).getInfo()[1];
+// var yCoords = listCoords.slice(1, 1, 2) // get the Y-coordinates
 
-// reduce the arrays
-var yMin = yCoords.reduce('min', [0]).get([0,0])
-var yMax = yCoords.reduce('max', [0]).get([0,0])
+// // reduce the arrays
+// var yMin = yCoords.reduce('min', [0]).get([0,0])
+// var yMax = yCoords.reduce('max', [0]).get([0,0])
 
-var south = yMin.add(yMax).divide(2).lt(0);
+// var south = yMin.add(yMax).divide(2).lt(0);
+
+var south = ee.Number(yCoords).lt(0);
 var shift = south.multiply(6);
 
+print(shift)
 var start_year = ee.Date("2000-01-01");
 var end_year = ee.Date("2016-01-01");
 
@@ -33,13 +38,29 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
 
 // Data Visualization
 
+// var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+//   .map(maskL8sr)
+//   .filterDate('2018-06-01', '2018-09-01')
+//   .mean()
+//   .clip(geometry);
+
 var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .map(maskL8sr)
-  .filterDate('2018-06-01', '2018-09-01')
+  .filter(yearFilter)
+  .filter(summerFilter)
   .mean()
   .clip(geometry);
 
-var lst = calc_ls_lst(landsat, geometry);
+var lst = calc_ls_lst(landsat);
+
+var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  .map(maskL8sr)
+  .filter(yearFilter)
+  .filter(summerFilter)
+  .clip(geometry)
+  .map(calc_ls_lst);
+
+print(test)
 
 var max = ee.Number(lst.reduceRegion({
   reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
@@ -72,7 +93,7 @@ print(median);
 // #################################
     
     
-function calc_ls_lst(landsat, geometry) {
+function calc_ls_lst(landsat) {
     // #################################
     // # calculating LST from landsat ##
     // #################################
