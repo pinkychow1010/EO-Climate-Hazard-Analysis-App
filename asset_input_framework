@@ -1,0 +1,28 @@
+var loc = ui.Textbox({
+  value: "",//"projects/ee-pinkychow1010/assets/WB_GEE/lahore_katchi_abadis",
+  placeholder: 'Enter location asset here...',
+  onChange: function(value) {
+    // set value with a dedicated method
+    loc.setValue(value);
+    return(value);
+  }
+});
+
+var loc;
+var button = ui.Button({
+  label: 'Start analysis',
+  onClick: function() {
+    loc = loc.getValue();
+    Map.centerObject(ee.FeatureCollection(loc), 12);
+  }
+});
+
+var panel = ui.Panel({
+  layout: ui.Panel.Layout.flow('vertical'),
+  style: {width: '250px'}
+});
+
+
+panel.add(loc);
+panel.add(button);
+ui.root.add(panel);
