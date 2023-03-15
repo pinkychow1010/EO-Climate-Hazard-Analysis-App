@@ -10,7 +10,7 @@ var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/lah
 // #################################
 
 var location_input = ui.Textbox({
-  value: "",//"projects/ee-pinkychow1010/assets/WB_GEE/lahore_katchi_abadis",
+  value: "projects/ee-pinkychow1010/assets/WB_GEE/lahore_katchi_abadis",
   placeholder: 'Enter location asset here...',
   onChange: function(value) {
     // set value with a dedicated method
