@@ -1,0 +1,139 @@
+// Define config for visualization
+// var palettes = require('users/gena/packages:palettes');
+// var palette = palettes.misc.tol_rainbow[7];
+var palette = ['#781C81', '#3F60AE', '#539EB6', '#6DB388', '#CAB843', '#E78532', '#D92120'];
+
+// area of interest
+var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+
+Map.centerObject(geometry, 12);
+
+// Check summer months based on geo-coordinates
+// https://gis.stackexchange.com/questions/318959/get-lon-lat-of-a-top-left-corner-for-geometry-in-google-earth-engine
+var centroid = geometry.first().geometry().centroid();
+var listCoords = ee.Array.cat(centroid.coordinates(), 1); 
+var yCoords = listCoords.slice(1, 1, 2) // get the Y-coordinates
+
+// reduce the arrays
+var yMin = yCoords.reduce('min', [0]).get([0,0])
+var yMax = yCoords.reduce('max', [0]).get([0,0])
+
+var south = yMin.add(yMax).divide(2).lt(0);
+var shift = south.multiply(6);
+
+var start_year = ee.Date("2000-01-01");
+var end_year = ee.Date("2016-01-01");
+
+var yearFilter = ee.Filter.date(
+  start_year.advance(-1, "year"), 
+  end_year.advance(1, "year")
+  );
+
+var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+
+// Data Visualization
+
+var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  .map(maskL8sr)
+  .filterDate('2018-06-01', '2018-09-01')
+  .mean()
+  .clip(geometry);
+
+var lst = calc_ls_lst(landsat, geometry);
+
+var max = ee.Number(lst.reduceRegion({
+  reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
+  geometry: geometry,
+  scale: 30,
+  maxPixels: 1e9
+  }
+  ).values().get(0));
+  
+var min = ee.Number(lst.reduceRegion({
+  reducer: ee.Reducer.percentile([5]), //ee.Reducer.min(),
+  geometry: geometry,
+  scale: 30,
+  maxPixels: 1e9
+  }
+  ).values().get(0));
+
+var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
+Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
+
+var median = lst.reduceRegions({
+  collection: geometry,
+  reducer:  ee.Reducer.median()
+});
+
+print(median);
+
+// #################################
+// ######## Define Functions #######
+// #################################
+    
+    
+function calc_ls_lst(landsat, geometry) {
+    // #################################
+    // # calculating LST from landsat ##
+    // #################################
+    // https://gis.stackexchange.com/questions/314374/calculating-lst-from-landsat-8-in-google-earth-engine
+    // ndvi    
+    var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
+
+    //select thermal band 10(with brightness tempereature), no calculation 
+    var thermal= landsat.select('B10').multiply(0.1);
+    
+    // find the min and max of NDVI
+    var min_ndvi = ee.Number(ndvi.reduceRegion({
+      reducer: ee.Reducer.min(),
+      geometry: geometry,
+      scale: 30,
+      maxPixels: 1e9
+      }
+      ).values().get(0));
+    
+    var max_ndvi = ee.Number(ndvi.reduceRegion({
+      reducer: ee.Reducer.max(),
+      geometry: geometry,
+      scale: 30,
+      maxPixels: 1e9
+      }
+      ).values().get(0));
+    
+    // Fractional Vegetation
+    var fv = (ndvi.subtract(min_ndvi).divide(max_ndvi.subtract(min_ndvi)))
+      .pow(ee.Number(2))
+      .rename('FV'); 
+    
+    // Emissivity
+    var EM = fv.multiply(ee.Number(0.004)).add(ee.Number(0.986)).rename('EMM');
+    
+    // LST in Celsius Degree bring -273.15
+    var LST = thermal.expression(
+      '(Tb/(1 + (0.00115* (Tb / 1.438))*log(Ep)))-273.15', 
+      {
+        'Tb': thermal.select('B10'),
+        'Ep': EM.select('EMM')
+      }
+      ).rename('LST');
+    
+    return LST;
+}
+
+function maskL8sr(col) {
+  // #################################
+  // ###  Landsat 8 cloud mask   #####
+  // #################################
+  
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  
+  // Get the pixel QA band.
+  var qa = col.select('pixel_qa');
+  
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+                 .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return col.updateMask(mask);
+}
