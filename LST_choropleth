@@ -253,7 +253,8 @@ function choropleth_map(
     });
   
   var VisCustom = zone.style({
-    styleProperty: 'style'
+    styleProperty: 'style',
+    width: 1
   });
 
   Map.addLayer(VisCustom, {'opacity': opacity}, title);
