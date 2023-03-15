@@ -99,7 +99,7 @@ var lst_mean = lst.reduceRegions({
 
 // print(lst_mean);
 
-analysis.horopleth_map(
+analysis.choropleth_map(
   lst_mean, 
   'mean', 
   palette,
