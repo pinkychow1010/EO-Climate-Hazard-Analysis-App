@@ -55,9 +55,7 @@ var min = ee.Number(lst.reduceRegion({
   ).values().get(0));
 
 var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
-Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
-
-// print(lst); //band LST
+//Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
 
 var lulc = ee.ImageCollection('ESA/WorldCover/v200')
 .first()
