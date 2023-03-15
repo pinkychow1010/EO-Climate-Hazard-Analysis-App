@@ -4,7 +4,8 @@ var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 // Define config for visualization
 // var palettes = require('users/gena/packages:palettes');
 // var palette = palettes.misc.tol_rainbow[7];
-var palette = ['#781C81', '#3F60AE', '#539EB6', '#6DB388', '#CAB843', '#E78532', '#D92120'];
+var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
+//['#781C81', '#3F60AE', '#539EB6', '#6DB388', '#CAB843', '#E78532', '#D92120'];
 
 // area of interest
 var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
@@ -120,9 +121,9 @@ choropleth_map(
   );
 
 var abadis_vis = {
-  color: '#262400',
+  color: '#217aff',
   width: 1,
-  fillColor: '#ffef3b', 
+  fillColor: '#66a3ff', 
 };
 
 Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
