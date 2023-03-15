@@ -24,7 +24,7 @@ var yCoords = ee.List(listCoords).getInfo()[1];
 // var south = yMin.add(yMax).divide(2).lt(0);
 
 var south = ee.Number(yCoords).lt(0);
-var shift = south.multiply(6);
+var shift = south.multiply(6).getInfo();
 
 print(shift)
 var start_year = ee.Date("2000-01-01");
@@ -58,8 +58,8 @@ var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .map(maskL8sr)
   .filter(yearFilter)
   .filter(summerFilter)
-  .clip(geometry)
-  .map(calc_ls_lst);
+  //.clip(geometry)
+  //.map(calc_ls_lst);
 
 print(test)
 
