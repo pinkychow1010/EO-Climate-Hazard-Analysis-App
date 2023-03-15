@@ -120,9 +120,9 @@ choropleth_map(
   );
 
 var abadis_vis = {
-  color: '#ffef3b',
+  color: '#827900',
   width: 1,
-  fillColor: '#1c1a00', 
+  fillColor: '#ffef3b', 
 };
 
 Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
