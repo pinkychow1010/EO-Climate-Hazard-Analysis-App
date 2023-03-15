@@ -110,7 +110,7 @@ var lst_mean = lst_masked.reduceRegions({
 
 // print(lst_mean);
 
-choropleth_map(
+analysis.choropleth_map(
   lst_mean, 
   'median', 
   palette,
