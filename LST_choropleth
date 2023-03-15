@@ -12,8 +12,9 @@ Map.centerObject(geometry, 12);
 // https://gis.stackexchange.com/questions/318959/get-lon-lat-of-a-top-left-corner-for-geometry-in-google-earth-engine
 var centroid = geometry.first().geometry().centroid();
 
-var listCoords = ee.Array.cat(centroid.coordinates(), 1); 
+var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
 var yCoords = ee.List(listCoords).getInfo()[1];
+//var listCoords = ee.Array.cat(centroid.coordinates(), 1); 
 // var yCoords = listCoords.slice(1, 1, 2) // get the Y-coordinates
 
 // // reduce the arrays
