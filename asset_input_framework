@@ -17,12 +17,25 @@ var button = ui.Button({
   }
 });
 
-var panel = ui.Panel({
-  layout: ui.Panel.Layout.flow('vertical'),
-  style: {width: '250px'}
+var mainPanel = ui.Panel({
+  style: {width: '300px'}
 });
 
 
-panel.add(loc);
-panel.add(button);
-ui.root.add(panel);
+var title = ui.Label({
+  value: 'Urban Heat Explorer',
+  style: {'fontSize': '24px'}
+});
+// add widgets to the panel
+mainPanel.add(title)
+
+var text_panel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal')
+});
+
+
+text_panel.add(loc);
+text_panel.add(button);
+mainPanel.add(text_panel);
+
+ui.root.add(mainPanel);
