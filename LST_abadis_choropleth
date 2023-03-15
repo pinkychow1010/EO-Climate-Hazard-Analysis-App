@@ -9,46 +9,6 @@ var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/lah
 // ######## Set Up Panels ## #######
 // #################################
 
-// var loc = ui.Textbox({
-//   value: "",//"projects/ee-pinkychow1010/assets/WB_GEE/lahore_katchi_abadis",
-//   placeholder: 'Enter location asset here...',
-//   onChange: function(value) {
-//     // set value with a dedicated method
-//     loc.setValue(value);
-//     return(value);
-//   }
-// });
-
-// var loc;
-// var button = ui.Button({
-//   label: 'Start analysis',
-//   onClick: function() {
-//     loc = loc.getValue();
-//     geometry = ee.FeatureCollection(loc);
-//     Map.centerObject(geometry, 12);
-//     urban_lst_choropleth(geometry);
-//   }
-// });
-
-// var mainPanel = ui.Panel({
-//   style: {width: '300px'}
-// });
-
-
-// var title = ui.Label({
-//   value: 'Urban Heat Explorer',
-//   style: {'fontSize': '24px'}
-// });
-// // add widgets to the panel
-// mainPanel.add(title)
-
-// var text_panel = ui.Panel({
-//   layout: ui.Panel.Layout.flow('horizontal')
-// });
-// text_panel.add(loc);
-// text_panel.add(button);
-// mainPanel.add(text_panel);
-
 var location_input = ui.Textbox({
   value: "",//"projects/ee-pinkychow1010/assets/WB_GEE/lahore_katchi_abadis",
   placeholder: 'Enter location asset here...',
