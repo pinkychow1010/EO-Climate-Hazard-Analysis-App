@@ -118,8 +118,14 @@ choropleth_map(
   7, 
   "LST"
   );
-  
-Map.addLayer(abadis, {}, 'Informal Settlements');
+
+var abadis_vis = {
+  color: '#590500',
+  width: 1,
+  fillColor: '#ff7c75', 
+};
+
+Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
 
 
 // #################################
