@@ -26,6 +26,7 @@ var button = ui.Button({
     loc = location_input.getValue();
     geometry = ee.FeatureCollection(loc);
     
+    Map.clear();
     Map.centerObject(geometry, 12);
     urban_lst_choropleth(geometry);
   }
