@@ -1,82 +1,156 @@
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
-// Define config for visualization
-var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
-
-// area of interest
-//var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 
-Map.centerObject(geometry, 12);
-
-// Check summer months based on geo-coordinates
-var centroid = geometry.first().geometry().centroid();
-var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
-var yCoords = ee.List(listCoords).getInfo()[1];
-var south = ee.Number(yCoords).lt(0);
-var shift = south.multiply(6).getInfo();
-
-var start_year = ee.Date("2021-01-01");
-var end_year = ee.Date("2022-01-01");
-
-var yearFilter = ee.Filter.date(
-  start_year.advance(-1, "year"), 
-  end_year.advance(1, "year")
-  );
-
-var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
-
-var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  .map(maskL8sr)
-  .filter(yearFilter)
-  .filter(summerFilter)
-  .mean()
-  .clip(geometry);
-
-var lst = calc_ls_lst(landsat);
-
-var max = ee.Number(lst.reduceRegion({
-  reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
-  geometry: geometry,
-  scale: 30,
-  maxPixels: 1e9
-  }
-  ).values().get(0));
-  
-var min = ee.Number(lst.reduceRegion({
-  reducer: ee.Reducer.percentile([5]), //ee.Reducer.min(),
-  geometry: geometry,
-  scale: 30,
-  maxPixels: 1e9
-  }
-  ).values().get(0));
-
-var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
-//Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
-
-var lulc = ee.ImageCollection('ESA/WorldCover/v200')
-.first()
-.clip(geometry);
-
-var urban_mask = lulc.eq(50);
-var lst_masked = lst.updateMask(urban_mask);
-
-var lst_mean = lst_masked.reduceRegions({
-  collection: geometry,
-  scale: 30,
-  reducer:  ee.Reducer.median()
-});
-
-analysis.choropleth_map(
-  lst_mean, 
-  'median', 
-  palette
-  );
+urban_lst_choropleth(geometry);
 
 // #################################
 // ######## Define Functions #######
 // #################################
+
+function urban_lst_choropleth(geometry) {
+  // Define config for visualization
+  var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
+  
+  Map.centerObject(geometry, 12);
+  
+  // Check summer months based on geo-coordinates
+  var centroid = geometry.first().geometry().centroid();
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  var south = ee.Number(yCoords).lt(0);
+  var shift = south.multiply(6).getInfo();
+  
+  var start_year = ee.Date("2021-01-01");
+  var end_year = ee.Date("2022-01-01");
+  
+  var yearFilter = ee.Filter.date(
+    start_year.advance(-1, "year"), 
+    end_year.advance(1, "year")
+    );
+  
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+  
+  var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+    .map(maskL8sr)
+    .filter(yearFilter)
+    .filter(summerFilter)
+    .mean()
+    .clip(geometry);
+  
+  var lst = calc_ls_lst(landsat);
+  
+  var max = ee.Number(lst.reduceRegion({
+    reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
+    geometry: geometry,
+    scale: 30,
+    maxPixels: 1e9
+    }
+    ).values().get(0));
+    
+  var min = ee.Number(lst.reduceRegion({
+    reducer: ee.Reducer.percentile([5]), //ee.Reducer.min(),
+    geometry: geometry,
+    scale: 30,
+    maxPixels: 1e9
+    }
+    ).values().get(0));
+  
+  var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
+
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(geometry);
+  
+  var urban_mask = lulc.eq(50);
+  var lst_masked = lst.updateMask(urban_mask);
+  
+  var lst_mean = lst_masked.reduceRegions({
+    collection: geometry,
+    scale: 30,
+    reducer:  ee.Reducer.median()
+  });
+  
+  analysis.choropleth_map(
+    lst_mean, 
+    'median', 
+    palette
+    );
+}
+
+// // Define config for visualization
+// var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
+
+// // area of interest
+// //var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+// var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
+
+// Map.centerObject(geometry, 12);
+
+// // Check summer months based on geo-coordinates
+// var centroid = geometry.first().geometry().centroid();
+// var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+// var yCoords = ee.List(listCoords).getInfo()[1];
+// var south = ee.Number(yCoords).lt(0);
+// var shift = south.multiply(6).getInfo();
+
+// var start_year = ee.Date("2021-01-01");
+// var end_year = ee.Date("2022-01-01");
+
+// var yearFilter = ee.Filter.date(
+//   start_year.advance(-1, "year"), 
+//   end_year.advance(1, "year")
+//   );
+
+// var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+
+// var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+//   .map(maskL8sr)
+//   .filter(yearFilter)
+//   .filter(summerFilter)
+//   .mean()
+//   .clip(geometry);
+
+// var lst = calc_ls_lst(landsat);
+
+// var max = ee.Number(lst.reduceRegion({
+//   reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
+//   geometry: geometry,
+//   scale: 30,
+//   maxPixels: 1e9
+//   }
+//   ).values().get(0));
+  
+// var min = ee.Number(lst.reduceRegion({
+//   reducer: ee.Reducer.percentile([5]), //ee.Reducer.min(),
+//   geometry: geometry,
+//   scale: 30,
+//   maxPixels: 1e9
+//   }
+//   ).values().get(0));
+
+// var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
+// //Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
+
+// var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+// .first()
+// .clip(geometry);
+
+// var urban_mask = lulc.eq(50);
+// var lst_masked = lst.updateMask(urban_mask);
+
+// var lst_mean = lst_masked.reduceRegions({
+//   collection: geometry,
+//   scale: 30,
+//   reducer:  ee.Reducer.median()
+// });
+
+// analysis.choropleth_map(
+//   lst_mean, 
+//   'median', 
+//   palette
+//   );
     
     
 function calc_ls_lst(landsat) {
