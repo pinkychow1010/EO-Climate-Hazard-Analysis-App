@@ -120,7 +120,7 @@ choropleth_map(
   );
 
 var abadis_vis = {
-  color: '#827900',
+  color: '#262400',
   width: 1,
   fillColor: '#ffef3b', 
 };
