@@ -126,6 +126,7 @@ var choropleth_map = function choropleth_map(
 
   var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
   Map.add(legend);
+  return legend;
 };
 
 /**
