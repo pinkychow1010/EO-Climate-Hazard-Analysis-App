@@ -9,6 +9,8 @@ var palette = ['#781C81', '#3F60AE', '#539EB6', '#6DB388', '#CAB843', '#E78532',
 // area of interest
 var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 
+var abadis = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
+
 Map.centerObject(geometry, 12);
 
 // Check summer months based on geo-coordinates
@@ -116,6 +118,9 @@ choropleth_map(
   7, 
   "LST"
   );
+  
+Map.addLayer(abadis, {}, 'Informal Settlements');
+
 
 // #################################
 // ######## Define Functions #######
