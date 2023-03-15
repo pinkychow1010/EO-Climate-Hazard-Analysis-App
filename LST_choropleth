@@ -27,7 +27,7 @@ var south = ee.Number(yCoords).lt(0);
 var shift = south.multiply(6).getInfo();
 
 print(shift)
-var start_year = ee.Date("2000-01-01");
+var start_year = ee.Date("2015-01-01");
 var end_year = ee.Date("2016-01-01");
 
 var yearFilter = ee.Filter.date(
@@ -52,40 +52,46 @@ var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .mean()
   .clip(geometry);
 
-var lst = calc_ls_lst(landsat);
+// var lst = calc_ls_lst(landsat);
 
-var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  .map(maskL8sr)
-  .filter(yearFilter)
-  .filter(summerFilter)
-  //.clip(geometry)
-  .map(calc_ls_lst);
-
-var max = ee.Number(lst.reduceRegion({
-  reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
-  geometry: geometry,
-  scale: 30,
-  maxPixels: 1e9
-  }
-  ).values().get(0));
+// var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+//   .map(maskL8sr)
+//   .filter(yearFilter)
+//   .filter(summerFilter)
+//   .filterBounds(geometry)
+//   .map(calc_ls_lst)
+  //.mean();
+  //.clip(geometry);
   
-var min = ee.Number(lst.reduceRegion({
-  reducer: ee.Reducer.percentile([5]), //ee.Reducer.min(),
-  geometry: geometry,
-  scale: 30,
-  maxPixels: 1e9
-  }
-  ).values().get(0));
+// print(test);
+  
 
-var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
-Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
 
-var median = lst.reduceRegions({
-  collection: geometry,
-  reducer:  ee.Reducer.median()
-});
+// var max = ee.Number(lst.reduceRegion({
+//   reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
+//   geometry: geometry,
+//   scale: 30,
+//   maxPixels: 1e9
+//   }
+//   ).values().get(0));
+  
+// var min = ee.Number(lst.reduceRegion({
+//   reducer: ee.Reducer.percentile([5]), //ee.Reducer.min(),
+//   geometry: geometry,
+//   scale: 30,
+//   maxPixels: 1e9
+//   }
+//   ).values().get(0));
 
-print(median);
+// var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
+// Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
+
+// var median = lst.reduceRegions({
+//   collection: geometry,
+//   reducer:  ee.Reducer.median()
+// });
+
+// print(median);
 
 // #################################
 // ######## Define Functions #######
