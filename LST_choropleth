@@ -99,9 +99,9 @@ var lst_mean = lst.reduceRegions({
 
 // print(lst_mean);
 
-analysis.choropleth_map(
+choropleth_map(
   lst_mean, 
-  'mean', 
+  'median', 
   palette,
   1, 
   0, 
