@@ -59,9 +59,7 @@ var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filter(yearFilter)
   .filter(summerFilter)
   //.clip(geometry)
-  //.map(calc_ls_lst);
-
-print(test)
+  .map(calc_ls_lst);
 
 var max = ee.Number(lst.reduceRegion({
   reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
