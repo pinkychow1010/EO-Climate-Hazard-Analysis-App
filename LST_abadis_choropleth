@@ -26,9 +26,6 @@ var button = ui.Button({
     loc = location_input.getValue();
     geometry = ee.FeatureCollection(loc);
     
-    ui.root.clear();
-    ui.root.add(reset);
-    
     Map.centerObject(geometry, 12);
     urban_lst_choropleth(geometry);
   }
@@ -57,8 +54,6 @@ text_panel.add(button);
 mainPanel.add(text_panel);
 
 ui.root.add(mainPanel);
-
-var reset = ui.root.widgets().get(0);
 
 // #################################
 // ######## Define Functions #######
