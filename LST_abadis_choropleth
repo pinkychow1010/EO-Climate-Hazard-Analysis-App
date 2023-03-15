@@ -1,7 +1,7 @@
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
-var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
+var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/lahore_katchi_abadis");
 
 urban_lst_choropleth(geometry);
 
