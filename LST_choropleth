@@ -91,7 +91,15 @@ Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
 
 // print(lst); //band LST
 
-var lst_mean = lst.reduceRegions({
+var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+.first()
+.clip(geometry);
+
+var urban_mask = lulc.eq(50);
+
+var lst_masked = lst.updateMask(urban_mask);
+
+var lst_mean = lst_masked.reduceRegions({
   collection: geometry,
   scale: 30,
   reducer:  ee.Reducer.median()
