@@ -64,7 +64,9 @@ var button = ui.Button({
   label: 'Start analysis',
   onClick: function() {
     loc = location_input.getValue();
-    Map.centerObject(ee.FeatureCollection(loc), 12);
+    geometry = ee.FeatureCollection(loc);
+    Map.centerObject(geometry, 12);
+    urban_lst_choropleth(geometry);
   }
 });
 
