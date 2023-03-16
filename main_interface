@@ -15,13 +15,14 @@ function changeDescription(value) {
   return(value);
 }
 
-var urban_heat = "This is to analysis the Landsat-derived Land Surface Temperature during the last summer";
+var urban_heat = "This app analyses the Landsat-derived Land Surface Temperature during the last summer";
+var land_use_cover_ratio = "This app analyses the proportion of different land use cover within a global admin boundary.";
 
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
   items: [
-    {value: urban_heat, label: 'first app...'}, 
-    {value: 'App2', label: 'second app...'},
+    {value: land_use_cover_ratio, label: 'Land use cover ratio'}, 
+    {value: urban_heat, label: 'Urban Heat Analysis'},
     {value: 'App3', label: 'third app...'},
     {value: 'App4', label: 'fourth app...'}
   ],
