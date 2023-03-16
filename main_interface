@@ -32,14 +32,16 @@ function changeDescription(value) {
 
 var urban_heat = "This app analyses the Landsat-derived Land Surface Temperature during the last summer";
 var land_use_cover_ratio = "This app analyses the proportion of different land use cover within the admin boundary.";
+var recent_urbanization = "This app analyses regions that have been intensely urbanized in the 21th century.";
+var population_density = "This app analyses the spatial distribution of urban population density.";
 
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
   items: [
     {value: land_use_cover_ratio, label: 'Land use cover ratio'}, 
     {value: urban_heat, label: 'Urban Heat Analysis'},
-    // {value: 'App3', label: 'third app...'},
-    // {value: 'App4', label: 'fourth app...'}
+    {value: recent_urbanization, label: 'Recent Urbanization'},
+    {value: population_density, label: 'Population Density'}
   ],
   style: {padding: '1px 25px 25px 25px'},
   onChange: changeDescription
