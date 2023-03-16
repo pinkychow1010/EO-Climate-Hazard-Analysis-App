@@ -1,4 +1,4 @@
-var basemap = require('users/pinkychow1010/WB_IntraUrban:baemap_resources');
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 
 function changeApp(layerKey) {
   ui.root.clear();
