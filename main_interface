@@ -34,26 +34,15 @@ var selection = ui.Select({
   onChange: changeDescription
 });
 
-
-// var img = ui.Chart(
-//     [
-//       ['<img src= width=500px>']
-//     ],
-//     'Table', {allowHtml: true});
-
-
-// var figurePanel = ui.Panel([img], 'flow', {width: '500px', padding: '8px', stretch: 'horizontal'});
-
-
 function createPanel(selection, description_label) {
   var title = ui.Label({
     value: 'World Bank Intra-urban Analysis Explorer 🌎',
-    style: {color: '#FFFFFF', fontWeight: 'bold', fontSize: '22px', textAlign: 'left'}
+    style: {color: '#FFFFFF', fontWeight: 'bold', fontSize: '22px', whiteSpace: 'pre', textAlign: 'left', padding: '25px 1px 25px 25px'}
   })
   
   var description = ui.Label({
     value: 'Welcome to the explorer! Satellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ',
-    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '16px', whiteSpace: 'pre', textAlign: 'left'}
+    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '16px', whiteSpace: 'pre', textAlign: 'left', padding: '1px 25px 25px 25px'}
   })
   
   title.style().set('backgroundColor', '#002244');
