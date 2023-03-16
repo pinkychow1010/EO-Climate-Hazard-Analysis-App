@@ -5,33 +5,54 @@ function changeApp(layerKey) {
   Map.setOptions('HYBRID');
 }
 
+var selected_app;
+
+var desciption_label = ui.Label({
+    value: "",
+    style: {fontWeight: 'normal', fontSize: '18px'}
+  });
+
+function changeDescription(value) {
+  desciption_label.setValue(value);
+  // main_page.add(
+  //   ui.Label({
+  //   value: value,
+  //   style: {fontWeight: 'normal', fontSize: '18px'}
+  // })
+  // );
+  //selected_app.setValue(value);
+  return(value);
+}
+
 // Make a selection ui.element that will update the layer
 var selection = ui.Select({
-  placeholder: 'Select analysis to begin ..',
+  placeholder: 'Select analysis to begin with...',
   items: [
     {value: 'App1', label: 'first app...'}, 
-    {value: 'App2', label: 'second app...'}
+    {value: 'App2', label: 'second app...'},
+    {value: 'App3', label: 'third app...'},
+    {value: 'App4', label: 'fourth app...'}
   ],
-  onChange: changeApp
+  onChange: changeDescription
 });
 
-function createPanel(selection) {
-  var label1 = ui.Label({
+function createPanel(selection, description_label) {
+  var title = ui.Label({
     value: 'World Bank Intra-urban Analysis Explorer',
     style: {fontWeight: 'bold', fontSize: '22px'}
   })
   
-  var label2 = ui.Label({
+  var description = ui.Label({
     value: 'content',
     style: {fontWeight: 'normal', fontSize: '18px'}
   })
   
   return ui.Panel([
-    ui.Panel([label1, selection, label2], null, {stretch:'vertical'})
+    ui.Panel([title, description, selection, description_label], null, {stretch:'vertical'})
   ])
 }
 
-var main_page = createPanel(selection)
+var main_page = createPanel(selection, desciption_label)
 
 ui.root.clear()
 ui.root.add(main_page)
