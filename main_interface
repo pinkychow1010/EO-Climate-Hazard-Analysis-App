@@ -12,7 +12,7 @@ function changeApp(layerKey) {
 
 var desciption_label = ui.Label({
     value: "",
-    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '14px', padding: '1px 25px 25px 25px'}
+    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '12px', padding: '1px 25px 25px 25px', fontFamily: 'monospace'}
   });
 
 function changeDescription(value) {
