@@ -32,13 +32,12 @@ var selection = ui.Select({
 
 // var img = ui.Chart(
 //     [
-//       ['<img src=https://github.com/Azure/pixel_level_land_classification/raw/master/outputs/comparison_fullsize.PNG width=500px>']
+//       ['<img src= width=500px>']
 //     ],
 //     'Table', {allowHtml: true});
 
 
 // var figurePanel = ui.Panel([img], 'flow', {width: '500px', padding: '8px', stretch: 'horizontal'});
-// //ui.root.insert(0, titlePanel);
 
 
 function createPanel(selection, description_label) {
@@ -53,8 +52,7 @@ function createPanel(selection, description_label) {
   })
   
   return ui.Panel([
-    ui.Panel([title, description, selection, description_label], null, {stretch:'vertical'}),
-    figurePanel
+    ui.Panel([title, description, selection, description_label], null, {stretch:'vertical'})
   ])
 }
 
@@ -62,8 +60,6 @@ var main_page = createPanel(selection, desciption_label)
 
 ui.root.clear()
 ui.root.add(main_page)
-
-
 
 
 
