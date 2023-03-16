@@ -5,8 +5,6 @@ function changeApp(layerKey) {
   Map.setOptions('HYBRID');
 }
 
-var selected_app;
-
 var desciption_label = ui.Label({
     value: "",
     style: {fontWeight: 'normal', fontSize: '18px'}
@@ -14,21 +12,17 @@ var desciption_label = ui.Label({
 
 function changeDescription(value) {
   desciption_label.setValue(value);
-  // main_page.add(
-  //   ui.Label({
-  //   value: value,
-  //   style: {fontWeight: 'normal', fontSize: '18px'}
-  // })
-  // );
-  //selected_app.setValue(value);
   return(value);
 }
 
 // Make a selection ui.element that will update the layer
+
+var urban_heat = "This is to analysis the Landsat-derived Land Surface Temperature during the last summer";
+
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
   items: [
-    {value: 'App1', label: 'first app...'}, 
+    {value: urban_heat, label: 'first app...'}, 
     {value: 'App2', label: 'second app...'},
     {value: 'App3', label: 'third app...'},
     {value: 'App4', label: 'fourth app...'}
