@@ -12,7 +12,7 @@ function changeApp(layerKey) {
 
 var desciption_label = ui.Label({
     value: "",
-    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '14px'}
+    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '14px', padding: '1px 25px 25px 25px'}
   });
 
 function changeDescription(value) {
@@ -49,6 +49,7 @@ function createPanel(selection, description_label) {
   selection.style().set('backgroundColor', '#002244');
   title.style().set('backgroundColor', '#002244');
   description.style().set('backgroundColor', '#002244');
+  description_label.style().set('backgroundColor', '#002244');
   
   var content = ui.Panel([title, description, selection, description_label], null, {stretch:'vertical'});
   content.style().set('backgroundColor', '#002244');
