@@ -1,6 +1,7 @@
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 
 basemap.addCustomBasemap('MutedMonotone');
+Map.setCenter(70, 30, 4.5);
 
 function changeApp(layerKey) {
   ui.root.clear();
