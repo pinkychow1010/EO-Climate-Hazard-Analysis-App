@@ -1,8 +1,10 @@
-//create a function
+var basemap = require('users/pinkychow1010/WB_IntraUrban:baemap_resources');
+
 function changeApp(layerKey) {
   ui.root.clear();
   ui.root.add(ui.Map());
-  Map.setOptions('HYBRID');
+  basemap.addCustomBasemap('MutedMonotone');
+  //Map.setOptions('HYBRID');
 }
 
 var desciption_label = ui.Label({
