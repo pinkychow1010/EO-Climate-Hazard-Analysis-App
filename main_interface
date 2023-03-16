@@ -31,13 +31,13 @@ var selection = ui.Select({
 
 function createPanel(selection, description_label) {
   var title = ui.Label({
-    value: 'World Bank Intra-urban Analysis Explorer',
+    value: 'World Bank Intra-urban Analysis Explorer 🌎',
     style: {fontWeight: 'bold', fontSize: '22px'}
   })
   
   var description = ui.Label({
-    value: 'content',
-    style: {fontWeight: 'normal', fontSize: '18px'}
+    value: 'Welcome to the explorer! This tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ',
+    style: {fontWeight: 'normal', fontSize: '16px', whiteSpace: 'pre'}
   })
   
   return ui.Panel([
