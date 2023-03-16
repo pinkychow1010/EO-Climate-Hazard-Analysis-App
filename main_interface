@@ -7,7 +7,7 @@ function changeApp(layerKey) {
 
 var desciption_label = ui.Label({
     value: "",
-    style: {fontWeight: 'normal', fontSize: '18px'}
+    style: {fontWeight: 'normal', fontSize: '14px'}
   });
 
 function changeDescription(value) {
