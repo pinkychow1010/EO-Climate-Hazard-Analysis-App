@@ -31,6 +31,7 @@ var selection = ui.Select({
     // {value: 'App3', label: 'third app...'},
     // {value: 'App4', label: 'fourth app...'}
   ],
+  style: {padding: '1px 25px 25px 25px'},
   onChange: changeDescription
 });
 
@@ -45,6 +46,7 @@ function createPanel(selection, description_label) {
     style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '16px', whiteSpace: 'pre', textAlign: 'left', padding: '1px 25px 25px 25px'}
   })
   
+  selection.style().set('backgroundColor', '#002244');
   title.style().set('backgroundColor', '#002244');
   description.style().set('backgroundColor', '#002244');
   
