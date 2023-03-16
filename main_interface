@@ -53,6 +53,7 @@ function createPanel(selection, description_label) {
   
   var start_button = ui.Button({
     label: "Let's go!",
+    style: {width: '80px'},
     onClick: function() {
       
     }
