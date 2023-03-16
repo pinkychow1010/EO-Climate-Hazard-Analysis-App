@@ -1,7 +1,17 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    ee.Geometry.MultiPoint();
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 
 basemap.addCustomBasemap('MutedMonotone');
 Map.setCenter(70, 30, 4.5);
+
+Map.setControlVisibility({
+  drawingToolsControl:false
+});
 
 function changeApp(layerKey) {
   ui.root.clear();
