@@ -4,8 +4,11 @@ var geometry =
     /* shown: false */
     ee.Geometry.MultiPoint();
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// Map Session:
+// get base map for display
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 
+// config
 basemap.addCustomBasemap('MutedMonotone');
 Map.setCenter(70, 30, 4.5);
 
@@ -13,6 +16,7 @@ Map.setControlVisibility({
   drawingToolsControl:false
 });
 
+// Switch for changing apps
 function changeApp(layerKey) {
   ui.root.clear();
   ui.root.add(ui.Map());
@@ -20,21 +24,25 @@ function changeApp(layerKey) {
   //Map.setOptions('HYBRID');
 }
 
+// Initial description (empty)
 var desciption_label = ui.Label({
     value: "",
     style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '12px', padding: '1px 25px 25px 25px', fontFamily: 'monospace'}
   });
 
+// Change decription based on the app user selects
 function changeDescription(value) {
   desciption_label.setValue(value);
   return(value);
 }
 
+// Labels to be displayed for each app
 var urban_heat = "This app analyses the Landsat-derived Land Surface Temperature during the last summer";
 var land_use_cover_ratio = "This app analyses the proportion of different land use cover within the admin boundary.";
 var recent_urbanization = "This app analyses regions that have been intensely urbanized in the 21th century.";
 var population_density = "This app analyses the spatial distribution of urban population density.";
 
+// Drop-down menu for app selection
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
   items: [
@@ -47,22 +55,28 @@ var selection = ui.Select({
   onChange: changeDescription
 });
 
+// Config side bar
 function createPanel(selection, description_label) {
+  
+  // app main title
   var title = ui.Label({
     value: 'World Bank Intra-urban Analysis Explorer 🌎',
     style: {color: '#FFFFFF', fontWeight: 'bold', fontSize: '22px', whiteSpace: 'pre', textAlign: 'left', padding: '25px 1px 25px 25px'}
-  })
+  });
   
+  // headings
   var description = ui.Label({
     value: 'Welcome to the explorer!🔎 \n\nSatellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ',
     style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '15px', whiteSpace: 'pre', textAlign: 'left', padding: '1px 25px 25px 25px'}
-  })
+  });
   
+  // set consistent background color for all elements
   selection.style().set('backgroundColor', '#002244');
   title.style().set('backgroundColor', '#002244');
   description.style().set('backgroundColor', '#002244');
   description_label.style().set('backgroundColor', '#002244');
   
+  // jump to analysis interface
   var start_button = ui.Button({
     label: "Let's go!",
     style: {width: '80px'},
@@ -71,6 +85,7 @@ function createPanel(selection, description_label) {
     }
   });
   
+  // panel for app selection and switch interface
   var app = ui.Panel({
     layout: ui.Panel.Layout.flow('horizontal'),
     style: {width: '500px'}
@@ -80,6 +95,7 @@ function createPanel(selection, description_label) {
   app.add(start_button);
   app.style().set('backgroundColor', '#002244');
   
+  // set layouts
   var content = ui.Panel([title, description, app, description_label], null, {stretch:'vertical'});
   
   content.style().set('backgroundColor', '#002244');
@@ -91,6 +107,7 @@ function createPanel(selection, description_label) {
   return page
 }
 
+// call the main page
 var main_page = createPanel(selection, desciption_label);
 
 //ui.root.clear()
