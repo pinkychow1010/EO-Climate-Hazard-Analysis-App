@@ -1,5 +1,7 @@
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 
+basemap.addCustomBasemap('MutedMonotone');
+
 function changeApp(layerKey) {
   ui.root.clear();
   ui.root.add(ui.Map());
@@ -9,7 +11,7 @@ function changeApp(layerKey) {
 
 var desciption_label = ui.Label({
     value: "",
-    style: {fontWeight: 'normal', fontSize: '14px'}
+    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '14px'}
   });
 
 function changeDescription(value) {
@@ -25,8 +27,8 @@ var selection = ui.Select({
   items: [
     {value: land_use_cover_ratio, label: 'Land use cover ratio'}, 
     {value: urban_heat, label: 'Urban Heat Analysis'},
-    {value: 'App3', label: 'third app...'},
-    {value: 'App4', label: 'fourth app...'}
+    // {value: 'App3', label: 'third app...'},
+    // {value: 'App4', label: 'fourth app...'}
   ],
   onChange: changeDescription
 });
@@ -45,22 +47,30 @@ var selection = ui.Select({
 function createPanel(selection, description_label) {
   var title = ui.Label({
     value: 'World Bank Intra-urban Analysis Explorer 🌎',
-    style: {fontWeight: 'bold', fontSize: '22px', textAlign: 'left'}
+    style: {color: '#FFFFFF', fontWeight: 'bold', fontSize: '22px', textAlign: 'left'}
   })
   
   var description = ui.Label({
     value: 'Welcome to the explorer! Satellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ',
-    style: {fontWeight: 'normal', fontSize: '16px', whiteSpace: 'pre', textAlign: 'left'}
+    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '16px', whiteSpace: 'pre', textAlign: 'left'}
   })
   
-  return ui.Panel([
-    ui.Panel([title, description, selection, description_label], null, {stretch:'vertical'})
+  title.style().set('backgroundColor', '#002244');
+  description.style().set('backgroundColor', '#002244');
+  
+  var content = ui.Panel([title, description, selection, description_label], null, {stretch:'vertical'});
+  content.style().set('backgroundColor', '#002244');
+  var page = ui.Panel([
+    content
   ])
+  
+  page.style().set('backgroundColor', '#002244');
+  return page
 }
 
-var main_page = createPanel(selection, desciption_label)
+var main_page = createPanel(selection, desciption_label);
 
-ui.root.clear()
+//ui.root.clear()
 ui.root.add(main_page)
 
 
