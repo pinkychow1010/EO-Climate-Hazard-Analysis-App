@@ -1,0 +1,37 @@
+//create a function
+function changeApp(layerKey) {
+  ui.root.clear();
+  ui.root.add(ui.Map());
+  Map.setOptions('HYBRID');
+}
+
+// Make a selection ui.element that will update the layer
+var selection = ui.Select({
+  placeholder: 'Select analysis to begin ..',
+  items: [
+    {value: 'App1', label: 'first app...'}, 
+    {value: 'App2', label: 'second app...'}
+  ],
+  onChange: changeApp
+});
+
+function createPanel(selection) {
+  var label1 = ui.Label({
+    value: 'World Bank Intra-urban Analysis Explorer',
+    style: {fontWeight: 'bold', fontSize: '22px'}
+  })
+  
+  var label2 = ui.Label({
+    value: 'content',
+    style: {fontWeight: 'normal', fontSize: '18px'}
+  })
+  
+  return ui.Panel([
+    ui.Panel([label1, selection, label2], null, {stretch:'vertical'})
+  ])
+}
+
+var main_page = createPanel(selection)
+
+ui.root.clear()
+ui.root.add(main_page)
