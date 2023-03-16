@@ -15,8 +15,6 @@ function changeDescription(value) {
   return(value);
 }
 
-// Make a selection ui.element that will update the layer
-
 var urban_heat = "This is to analysis the Landsat-derived Land Surface Temperature during the last summer";
 
 var selection = ui.Select({
