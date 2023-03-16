@@ -21,7 +21,7 @@ function changeDescription(value) {
 }
 
 var urban_heat = "This app analyses the Landsat-derived Land Surface Temperature during the last summer";
-var land_use_cover_ratio = "This app analyses the proportion of different land use cover within a global admin boundary.";
+var land_use_cover_ratio = "This app analyses the proportion of different land use cover within the admin boundary.";
 
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
@@ -43,7 +43,7 @@ function createPanel(selection, description_label) {
   
   var description = ui.Label({
     value: 'Welcome to the explorer! \n\nSatellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ',
-    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '16px', whiteSpace: 'pre', textAlign: 'left', padding: '1px 25px 25px 25px'}
+    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '15px', whiteSpace: 'pre', textAlign: 'left', padding: '1px 25px 25px 25px'}
   })
   
   selection.style().set('backgroundColor', '#002244');
@@ -51,7 +51,24 @@ function createPanel(selection, description_label) {
   description.style().set('backgroundColor', '#002244');
   description_label.style().set('backgroundColor', '#002244');
   
-  var content = ui.Panel([title, description, selection, description_label], null, {stretch:'vertical'});
+  var start_button = ui.Button({
+    label: "Let's go!",
+    onClick: function() {
+      
+    }
+  });
+  
+  var app = ui.Panel({
+    layout: ui.Panel.Layout.flow('horizontal'),
+    style: {width: '500px'}
+  });
+  
+  app.add(selection);
+  app.add(start_button);
+  app.style().set('backgroundColor', '#002244');
+  
+  var content = ui.Panel([title, description, app, description_label], null, {stretch:'vertical'});
+  
   content.style().set('backgroundColor', '#002244');
   var page = ui.Panel([
     content
