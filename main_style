@@ -1,4 +1,6 @@
 
+exports.bg_color = '#002244';
+
 exports.description = {
       color: '#FFFFFF', 
       fontWeight: 'normal', 
