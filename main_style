@@ -26,3 +26,5 @@ exports.headings = {
     };
 
 exports.start_button = {width: '80px'};
+
+exports.app_panel = {width: '500px'};
