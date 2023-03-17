@@ -7,9 +7,6 @@ var geometry =
 // Copyright © 2023 Ka Hei Chow
 
 // import module
-var palettes = require('users/gena/packages:palettes');
-var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
-var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var style = require('users/pinkychow1010/WB_IntraUrban:main_style');
 var txt = require('users/pinkychow1010/WB_IntraUrban:main_text');
 var app = require('users/pinkychow1010/WB_IntraUrban:app_func');
