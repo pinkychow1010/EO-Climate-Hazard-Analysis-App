@@ -54,12 +54,12 @@ var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
   
   items: [
-    {value: land_use_cover_ratio, label: 'Land use cover ratio'}, 
-    {value: urban_heat, label: 'Urban Heat Analysis'},
-    {value: recent_urbanization, label: 'Recent Urbanization'},
-    {value: population_density, label: 'Population Density'},
-    {value: veg_cover_changes, label: 'Vegetation Cover Changes'},
-    {value: heat_by_lulc, label: 'Urban Heat by Land Use'}
+    {value: txt.land_use_cover_ratio, label: 'Land use cover ratio'}, 
+    {value: txt.urban_heat, label: 'Urban Heat Analysis'},
+    {value: txt.recent_urbanization, label: 'Recent Urbanization'},
+    {value: txt.population_density, label: 'Population Density'},
+    {value: txt.veg_cover_changes, label: 'Vegetation Cover Changes'},
+    {value: txt.heat_by_lulc, label: 'Urban Heat by Land Use'}
   ],
   
   style: style.selection,
