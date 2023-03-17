@@ -45,8 +45,8 @@ var urban_heat = "This app analyses the Landsat-derived Land Surface Temperature
 var land_use_cover_ratio = "This app analyses the proportion of different land use cover within the admin boundary.";
 var recent_urbanization = "This app analyses regions that have been intensely urbanized in the 21th century.";
 var population_density = "This app analyses the spatial distribution of urban population density.";
-var veg_cover_changes = "";
-var heat_by_lulc = "";
+var veg_cover_changes = "This app analyses the changes of vegetation cover over the last decade.";
+var heat_by_lulc = "This app explores the temperature different between land uses.";
 
 // Drop-down menu for app selection
 var selection = ui.Select({
