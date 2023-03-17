@@ -2,9 +2,9 @@
 // This script stores the displayed text for the main explorer interface
 
 // Labels to be displayed for each app
-var urban_heat = "This app analyses the Landsat-derived Land Surface Temperature during the last summer.";
-var land_use_cover_ratio = "This app analyses the proportion of different land use cover within the admin boundary.";
-var recent_urbanization = "This app analyses regions that have been intensely urbanized in the 21th century.";
-var population_density = "This app analyses the spatial distribution of urban population density.";
-var veg_cover_changes = "This app analyses the changes of vegetation cover over the last decade.";
-var heat_by_lulc = "This app explores the temperature different between land uses.";
+exports.urban_heat = "This app analyses the Landsat-derived Land Surface Temperature during the last summer.";
+exports.land_use_cover_ratio = "This app analyses the proportion of different land use cover within the admin boundary.";
+exports.recent_urbanization = "This app analyses regions that have been intensely urbanized in the 21th century.";
+exports.population_density = "This app analyses the spatial distribution of urban population density.";
+exports.veg_cover_changes = "This app analyses the changes of vegetation cover over the last decade.";
+exports.heat_by_lulc = "This app explores the temperature different between land uses.";
