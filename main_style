@@ -15,3 +15,12 @@ exports.title = {
       textAlign: 'left', 
       padding: '25px 1px 25px 25px'
     };
+
+exports.headings = {
+      color: '#FFFFFF', 
+      fontWeight: 'normal', 
+      fontSize: '15px', 
+      whiteSpace: 'pre', 
+      textAlign: 'left', 
+      padding: '1px 25px 25px 25px'
+    };
