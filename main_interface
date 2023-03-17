@@ -76,7 +76,7 @@ function createPanel(selection, description_label) {
   
   // app main title
   var title = ui.Label({
-    value: 'World Bank Intra-urban Analysis Explorer 🌎',
+    value: 'EO-based Intra-urban Analysis Explorer 🌎',
     style: style.title
   });
   
