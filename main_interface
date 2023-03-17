@@ -26,6 +26,11 @@ Map.setControlVisibility({
   drawingToolsControl:false
 });
 
+function pop_app() {
+  var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+  analysis.zonal_pop_sum(geometry);
+}
+
 // Switch for changing apps
 function changeApp(value) {
   var selected_app = selection.getValue();
@@ -37,8 +42,7 @@ function changeApp(value) {
   var app_label = ui.Label({value: message_dict[selected_app]});
   Map.add(app_label);
   
-  var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
-  analysis.zonal_pop_sum(geometry);
+  pop_app();
 }
 
 // Initial description (empty)
