@@ -12,6 +12,7 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 basemap.addCustomBasemap('MutedMonotone');
 Map.setCenter(70, 30, 4.5);
 
+// turn off drawing tool bar
 Map.setControlVisibility({
   drawingToolsControl:false
 });
@@ -27,7 +28,13 @@ function changeApp(layerKey) {
 // Initial description (empty)
 var desciption_label = ui.Label({
     value: "",
-    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '12px', padding: '1px 25px 25px 25px', fontFamily: 'monospace'}
+    style: {
+      color: '#FFFFFF', 
+      fontWeight: 'normal', 
+      fontSize: '12px', 
+      padding: '1px 25px 25px 25px', 
+      fontFamily: 'monospace'
+    }
   });
 
 // Change decription based on the app user selects
@@ -65,13 +72,27 @@ function createPanel(selection, description_label) {
   // app main title
   var title = ui.Label({
     value: 'World Bank Intra-urban Analysis Explorer 🌎',
-    style: {color: '#FFFFFF', fontWeight: 'bold', fontSize: '22px', whiteSpace: 'pre', textAlign: 'left', padding: '25px 1px 25px 25px'}
+    style: {
+      color: '#FFFFFF', 
+      fontWeight: 'bold', 
+      fontSize: '22px', 
+      whiteSpace: 'pre', 
+      textAlign: 'left', 
+      padding: '25px 1px 25px 25px'
+    }
   });
   
   // headings
   var description = ui.Label({
     value: 'Welcome to the explorer!🔎 \n\nSatellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ',
-    style: {color: '#FFFFFF', fontWeight: 'normal', fontSize: '15px', whiteSpace: 'pre', textAlign: 'left', padding: '1px 25px 25px 25px'}
+    style: {
+      color: '#FFFFFF', 
+      fontWeight: 'normal', 
+      fontSize: '15px', 
+      whiteSpace: 'pre', 
+      textAlign: 'left', 
+      padding: '1px 25px 25px 25px'
+    }
   });
   
   // set consistent background color for all elements
@@ -100,15 +121,18 @@ function createPanel(selection, description_label) {
   app.style().set('backgroundColor', '#002244');
   
   // set layouts
-  var content = ui.Panel([title, description, app, description_label], null, {stretch:'vertical'});
+  var content = ui.Panel([
+    title, description, app, description_label
+    ], null, {stretch:'vertical'});
   
   content.style().set('backgroundColor', '#002244');
+  
   var page = ui.Panel([
     content
-  ])
+  ]);
   
   page.style().set('backgroundColor', '#002244');
-  return page
+  return page;
 }
 
 // call the main page
