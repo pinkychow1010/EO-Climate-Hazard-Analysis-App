@@ -28,9 +28,6 @@ Map.setControlVisibility({
 function changeApp(value) {
   var selected_app = selection.getValue();
   main_page.clear();
-  //ui.root.clear();
-  //ui.root.add(ui.Map());
-  //basemap.addCustomBasemap('MutedMonotone');
   
   var app_label = ui.Label({value: message_dict[selected_app]});
   Map.add(app_label);
