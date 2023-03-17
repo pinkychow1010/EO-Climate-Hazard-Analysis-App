@@ -1,5 +1,5 @@
 
-exports.description_style = {
+exports.description = {
       color: '#FFFFFF', 
       fontWeight: 'normal', 
       fontSize: '12px', 
