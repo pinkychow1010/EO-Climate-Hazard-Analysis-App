@@ -18,6 +18,8 @@ exports.title = {
       padding: '25px 1px 25px 25px'
     };
 
+exports.selection = {padding: '1px 25px 25px 25px'};
+
 exports.headings = {
       color: '#FFFFFF', 
       fontWeight: 'normal', 
