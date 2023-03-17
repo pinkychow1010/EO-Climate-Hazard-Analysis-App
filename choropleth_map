@@ -1,3 +1,5 @@
+// released under MIT License Copyright © 2023 Ka Hei Chow
+
 /**
  * This is a helper function on choropleth map, where polygons in the vector layer 
  * will be colored according to the attribute values and defined color scale.
