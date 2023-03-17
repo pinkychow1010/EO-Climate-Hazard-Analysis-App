@@ -37,21 +37,30 @@ var desciption_label = ui.Label({
 
 // Change decription based on the app user selects
 function changeDescription(value) {
-  desciption_label.setValue(value);
+  desciption_label.setValue(app_dict[value]);
   return(value);
 }
+
+var app_dict = {
+  'land_use_cover_ratio': txt.land_use_cover_ratio,
+  'urban_heat': txt.urban_heat,
+  'recent_urbanization': txt.recent_urbanization,
+  'population_density': txt.population_density,
+  'veg_cover_changes': txt.veg_cover_changes,
+  'heat_by_lulc': txt.heat_by_lulc
+};
 
 // Drop-down menu for app selection
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
   
   items: [
-    {value: txt.land_use_cover_ratio, label: 'Land use cover ratio'}, 
-    {value: txt.urban_heat, label: 'Urban Heat Analysis'},
-    {value: txt.recent_urbanization, label: 'Recent Urbanization'},
-    {value: txt.population_density, label: 'Population Density'},
-    {value: txt.veg_cover_changes, label: 'Vegetation Cover Changes'},
-    {value: txt.heat_by_lulc, label: 'Urban Heat by Land Use'}
+    {value: 'land_use_cover_ratio', label: 'Land use cover ratio'}, 
+    {value: 'urban_heat', label: 'Urban Heat Analysis'},
+    {value: 'recent_urbanization', label: 'Recent Urbanization'},
+    {value: 'population_density', label: 'Population Density'},
+    {value: 'veg_cover_changes', label: 'Vegetation Cover Changes'},
+    {value: 'heat_by_lulc', label: 'Urban Heat by Land Use'}
   ],
   
   style: style.selection,
