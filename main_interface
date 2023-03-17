@@ -11,20 +11,7 @@ var style = require('users/pinkychow1010/WB_IntraUrban:main_style');
 var txt = require('users/pinkychow1010/WB_IntraUrban:main_text');
 var app = require('users/pinkychow1010/WB_IntraUrban:app_func');
 
-// Map Session:
-// // get base map for display
-// var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
-
-// // config
-// basemap.addCustomBasemap('MutedMonotone');
-// Map.setCenter(70, 30, 4.5);
-
-// // turn off drawing tool bar
-// Map.setControlVisibility({
-//   drawingToolsControl:false
-// });
-
-app.set_up();
+app.set_up(); // map initial set up
 
 // Switch for changing apps
 function changeApp(value) {
