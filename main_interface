@@ -4,7 +4,7 @@ var geometry =
     /* shown: false */
     ee.Geometry.MultiPoint();
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// Copyright © 2023 Ka Hei Chow
+// released under MIT License Copyright © 2023 Ka Hei Chow
 
 // import module
 var style = require('users/pinkychow1010/WB_IntraUrban:main_style');
