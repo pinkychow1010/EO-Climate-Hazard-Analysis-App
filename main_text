@@ -8,3 +8,5 @@ exports.recent_urbanization = "This app analyses regions that have been intensel
 exports.population_density = "This app analyses the spatial distribution of urban population density.";
 exports.veg_cover_changes = "This app analyses the changes of vegetation cover over the last decade.";
 exports.heat_by_lulc = "This app explores the temperature different between land uses.";
+
+exports.headings = 'Welcome to the explorer!🔎 \n\nSatellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ';
