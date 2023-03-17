@@ -38,7 +38,7 @@ function changeApp(value) {
   var app_label = ui.Label({value: message_dict[selected_app]});
   Map.add(app_label);
   
-  pop_app();
+  app.pop_count();
 }
 
 // Initial description (empty)
