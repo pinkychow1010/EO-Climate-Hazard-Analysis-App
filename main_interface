@@ -30,7 +30,7 @@ function changeApp(value) {
   main_page.clear();
   //ui.root.clear();
   //ui.root.add(ui.Map());
-  basemap.addCustomBasemap('MutedMonotone');
+  //basemap.addCustomBasemap('MutedMonotone');
   
   var app_label = ui.Label({value: message_dict[selected_app]});
   Map.add(app_label);
