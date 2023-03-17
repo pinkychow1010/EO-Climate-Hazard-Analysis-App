@@ -77,7 +77,7 @@ function createPanel(selection, description_label) {
   
   // headings
   var description = ui.Label({
-    value: 'Welcome to the explorer!🔎 \n\nSatellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ',
+    value: txt.headings,
     style: style.headings
   });
   
