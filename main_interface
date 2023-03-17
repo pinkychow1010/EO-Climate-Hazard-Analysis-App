@@ -34,7 +34,7 @@ function changeApp(value) {
   //ui.root.add(ui.Map());
   basemap.addCustomBasemap('MutedMonotone');
   
-  var app_label = ui.Label({value: selected_app});
+  var app_label = ui.Label({value: message_dict[selected_app]});
   Map.add(app_label);
   
   var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
