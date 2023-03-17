@@ -24,3 +24,5 @@ exports.headings = {
       textAlign: 'left', 
       padding: '1px 25px 25px 25px'
     };
+
+exports.start_button = {width: '80px'};
