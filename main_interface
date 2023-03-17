@@ -67,7 +67,8 @@ var selection = ui.Select({
     {value: heat_by_lulc, label: 'Urban Heat by Land Use'}
   ],
   
-  style: {padding: '1px 25px 25px 25px'},
+  style: style.selection,
+  // style: {padding: '1px 25px 25px 25px'},
   onChange: changeDescription
 });
 
@@ -103,10 +104,10 @@ function createPanel(selection, description_label) {
   });
   
   // set consistent background color for all elements
-  selection.style().set('backgroundColor', '#002244');
-  title.style().set('backgroundColor', '#002244');
-  description.style().set('backgroundColor', '#002244');
-  description_label.style().set('backgroundColor', '#002244');
+  selection.style().set('backgroundColor', style.bg_color);
+  title.style().set('backgroundColor', style.bg_color);
+  description.style().set('backgroundColor', style.bg_color);
+  description_label.style().set('backgroundColor', style.bg_color);
   
   // jump to analysis interface
   var start_button = ui.Button({
@@ -127,20 +128,20 @@ function createPanel(selection, description_label) {
   
   app.add(selection);
   app.add(start_button);
-  app.style().set('backgroundColor', '#002244');
+  app.style().set('backgroundColor', style.bg_color);
   
   // set layouts
   var content = ui.Panel([
     title, description, app, description_label
     ], null, {stretch:'vertical'});
   
-  content.style().set('backgroundColor', '#002244');
+  content.style().set('backgroundColor', style.bg_color);
   
   var page = ui.Panel([
     content
   ]);
   
-  page.style().set('backgroundColor', '#002244');
+  page.style().set('backgroundColor', style.bg_color);
   return page;
 }
 
