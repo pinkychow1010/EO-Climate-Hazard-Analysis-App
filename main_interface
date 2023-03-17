@@ -12,6 +12,7 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var style = require('users/pinkychow1010/WB_IntraUrban:main_style');
 var txt = require('users/pinkychow1010/WB_IntraUrban:main_text');
+var app = require('users/pinkychow1010/WB_IntraUrban:app_func');
 
 // Map Session:
 // get base map for display
@@ -25,11 +26,6 @@ Map.setCenter(70, 30, 4.5);
 Map.setControlVisibility({
   drawingToolsControl:false
 });
-
-function pop_app() {
-  var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
-  analysis.zonal_pop_sum(geometry);
-}
 
 // Switch for changing apps
 function changeApp(value) {
