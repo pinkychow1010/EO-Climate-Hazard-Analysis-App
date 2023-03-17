@@ -6,6 +6,10 @@ var geometry =
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // Copyright © 2023 Ka Hei Chow
 
+// import module
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var style = require('users/pinkychow1010/WB_IntraUrban:main_style');
 var txt = require('users/pinkychow1010/WB_IntraUrban:main_text');
 
@@ -32,6 +36,9 @@ function changeApp(value) {
   
   var app_label = ui.Label({value: selected_app});
   Map.add(app_label);
+  
+  var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+  analysis.zonal_pop_sum(geometry);
 }
 
 // Initial description (empty)
@@ -53,6 +60,15 @@ var app_dict = {
   'population_density': txt.population_density,
   'veg_cover_changes': txt.veg_cover_changes,
   'heat_by_lulc': txt.heat_by_lulc
+};
+
+var message_dict = {
+  'land_use_cover_ratio': "Land Use Cover Proportion Analysis",
+  'urban_heat': "Urban Heat Island Effect Analysis",
+  'recent_urbanization': "Urbanization Trend Analysis",
+  'population_density': "Urban Population Analysis",
+  'veg_cover_changes': "Vegetation Cover Change Analysis",
+  'heat_by_lulc': "Land Use Impact on Urban Heat Analysis"
 };
 
 // Drop-down menu for app selection
