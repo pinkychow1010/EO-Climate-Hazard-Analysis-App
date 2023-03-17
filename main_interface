@@ -24,6 +24,7 @@ Map.setControlVisibility({
 
 // Switch for changing apps
 function changeApp(layerKey) {
+  var selected_app = selection.getValue();
   ui.root.clear();
   ui.root.add(ui.Map());
   basemap.addCustomBasemap('MutedMonotone');
@@ -92,9 +93,7 @@ function createPanel(selection, description_label) {
   var start_button = ui.Button({
     label: "Let's go!",
     style: style.start_button,
-    onClick: function() {
-      
-    }
+    onClick: changeApp
   });
   
   // panel for app selection and switch interface
