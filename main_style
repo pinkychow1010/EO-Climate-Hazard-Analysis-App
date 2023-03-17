@@ -6,3 +6,12 @@ exports.description = {
       padding: '1px 25px 25px 25px', 
       fontFamily: 'monospace'
     };
+    
+exports.title = {
+      color: '#FFFFFF', 
+      fontWeight: 'bold', 
+      fontSize: '22px', 
+      whiteSpace: 'pre', 
+      textAlign: 'left', 
+      padding: '25px 1px 25px 25px'
+    };
