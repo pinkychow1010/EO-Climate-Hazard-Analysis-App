@@ -1,0 +1,9 @@
+
+// This script stores functionalities of all available app
+
+// app functions
+
+exports.pop_app = function pop_app() {
+  var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+  analysis.zonal_pop_sum(geometry);
+};
