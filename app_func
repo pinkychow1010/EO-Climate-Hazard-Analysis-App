@@ -1,8 +1,12 @@
 
 // This script stores functionalities of all available app
 
-// app functions
+// import module
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
+// app functions
 exports.pop_count = function pop_app() {
   var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
   analysis.zonal_pop_sum(geometry);
