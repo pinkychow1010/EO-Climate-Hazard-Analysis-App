@@ -23,11 +23,15 @@ Map.setControlVisibility({
 });
 
 // Switch for changing apps
-function changeApp(layerKey) {
+function changeApp(app_key) {
   var selected_app = selection.getValue();
   ui.root.clear();
   ui.root.add(ui.Map());
   basemap.addCustomBasemap('MutedMonotone');
+  
+  var app_label = ui.Label({value: app_key});
+
+  Map.add(app_label);
 }
 
 // Initial description (empty)
