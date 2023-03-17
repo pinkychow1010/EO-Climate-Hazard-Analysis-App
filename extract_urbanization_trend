@@ -1,3 +1,5 @@
+// released under MIT License Copyright © 2023 Ka Hei Chow
+
 // extract_urbanization_trend
 // this script is used to extract urban areas which are developed adter 2000
 // it displays ratio of the newly urbanized grid cells (< 5% is masked out)
