@@ -54,6 +54,7 @@ var heat_by_lulc = "";
 // Drop-down menu for app selection
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
+  
   items: [
     {value: land_use_cover_ratio, label: 'Land use cover ratio'}, 
     {value: urban_heat, label: 'Urban Heat Analysis'},
@@ -62,6 +63,7 @@ var selection = ui.Select({
     {value: veg_cover_changes, label: 'Vegetation Cover Changes'},
     {value: heat_by_lulc, label: 'Urban Heat by Land Use'}
   ],
+  
   style: {padding: '1px 25px 25px 25px'},
   onChange: changeDescription
 });
