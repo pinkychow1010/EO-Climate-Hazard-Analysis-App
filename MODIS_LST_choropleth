@@ -24,20 +24,11 @@ var centroid = geometry.first().geometry().centroid();
 var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
 var yCoords = ee.List(listCoords).getInfo()[1];
 
-//var listCoords = ee.Array.cat(centroid.coordinates(), 1); 
-// var yCoords = listCoords.slice(1, 1, 2) // get the Y-coordinates
-
-// // reduce the arrays
-// var yMin = yCoords.reduce('min', [0]).get([0,0])
-// var yMax = yCoords.reduce('max', [0]).get([0,0])
-
-// var south = yMin.add(yMax).divide(2).lt(0);
-
 var south = ee.Number(yCoords).lt(0);
 var shift = south.multiply(6).getInfo();
 
-var start_year = ee.Date("2015-01-01");
-var end_year = ee.Date("2016-01-01");
+var start_year = ee.Date("2020-01-01");
+var end_year = ee.Date("2021-01-01");
 
 var yearFilter = ee.Filter.date(
   start_year.advance(-1, "year"), 
@@ -48,33 +39,13 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
 
 // Data Visualization
 
-// var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-//   .map(maskL8sr)
-//   .filterDate('2018-06-01', '2018-09-01')
-//   .mean()
-//   .clip(geometry);
-
-var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  .map(maskL8sr)
+var lst = ee.ImageCollection("MODIS/061/MOD11A1")
+  //.map(maskClouds)
+  .select("LST_Day_1km")
   .filter(yearFilter)
   .filter(summerFilter)
   .mean()
   .clip(geometry);
-
-var lst = calc_ls_lst(landsat);
-
-// var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-//   .map(maskL8sr)
-//   .filter(yearFilter)
-//   .filter(summerFilter)
-//   .filterBounds(geometry)
-//   .map(calc_ls_lst)
-  //.mean();
-  //.clip(geometry);
-  
-// print(test);
-  
-
 
 var max = ee.Number(lst.reduceRegion({
   reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
@@ -135,54 +106,26 @@ Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
 // #################################
 // ######## Define Functions #######
 // #################################
-    
-    
-function calc_ls_lst(landsat) {
-    // #################################
-    // # calculating LST from landsat ##
-    // #################################
-    // https://gis.stackexchange.com/questions/314374/calculating-lst-from-landsat-8-in-google-earth-engine
-    // ndvi    
-    var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
 
-    //select thermal band 10(with brightness tempereature), no calculation 
-    var thermal= landsat.select('B10').multiply(0.1);
-    
-    // find the min and max of NDVI
-    var min_ndvi = ee.Number(ndvi.reduceRegion({
-      reducer: ee.Reducer.min(),
-      geometry: geometry,
-      scale: 30,
-      maxPixels: 1e9
-      }
-      ).values().get(0));
-    
-    var max_ndvi = ee.Number(ndvi.reduceRegion({
-      reducer: ee.Reducer.max(),
-      geometry: geometry,
-      scale: 30,
-      maxPixels: 1e9
-      }
-      ).values().get(0));
-    
-    // Fractional Vegetation
-    var fv = (ndvi.subtract(min_ndvi).divide(max_ndvi.subtract(min_ndvi)))
-      .pow(ee.Number(2))
-      .rename('FV'); 
-    
-    // Emissivity
-    var EM = fv.multiply(ee.Number(0.004)).add(ee.Number(0.986)).rename('EMM');
-    
-    // LST in Celsius Degree bring -273.15
-    var LST = thermal.expression(
-      '(Tb/(1 + (0.00115* (Tb / 1.438))*log(Ep)))-273.15', 
-      {
-        'Tb': thermal.select('B10'),
-        'Ep': EM.select('EMM')
-      }
-      ).rename('LST');
-    
-    return LST;
+function bitwiseExtract(value, fromBit, toBit) {
+  if (toBit === undefined) toBit = fromBit
+  var maskSize = ee.Number(1).add(toBit).subtract(fromBit)
+  var mask = ee.Number(1).leftShift(maskSize).subtract(1)
+  return value.rightShift(fromBit).bitwiseAnd(mask)
+}
+
+function maskClouds(image) {
+  // #################################
+  // ###  MODIS     cloud mask   #####
+  // #################################
+  var qa = image.select('StateQA')
+  var cloudState = bitwiseExtract(qa, 0, 1) 
+  var cloudShadowState = bitwiseExtract(qa, 2)
+  var cirrusState = bitwiseExtract(qa, 8, 9)
+  var mask = cloudState.eq(0) // Clear
+    .and(cloudShadowState.eq(0)) // No cloud shadow
+    .and(cirrusState.eq(0)) // No cirrus
+  return image.updateMask(mask)
 }
 
 function maskL8sr(col) {
