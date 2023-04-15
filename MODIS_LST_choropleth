@@ -1,0 +1,295 @@
+// released under MIT License Copyright © 2023 Ka Hei Chow
+
+// MODIS LST
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+
+// Define config for visualization
+// var palettes = require('users/gena/packages:palettes');
+// var palette = palettes.misc.tol_rainbow[7];
+var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
+//['#781C81', '#3F60AE', '#539EB6', '#6DB388', '#CAB843', '#E78532', '#D92120'];
+
+// area of interest
+var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+
+var abadis = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
+
+Map.centerObject(geometry, 12);
+
+// Check summer months based on geo-coordinates
+// https://gis.stackexchange.com/questions/318959/get-lon-lat-of-a-top-left-corner-for-geometry-in-google-earth-engine
+var centroid = geometry.first().geometry().centroid();
+
+var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+var yCoords = ee.List(listCoords).getInfo()[1];
+
+//var listCoords = ee.Array.cat(centroid.coordinates(), 1); 
+// var yCoords = listCoords.slice(1, 1, 2) // get the Y-coordinates
+
+// // reduce the arrays
+// var yMin = yCoords.reduce('min', [0]).get([0,0])
+// var yMax = yCoords.reduce('max', [0]).get([0,0])
+
+// var south = yMin.add(yMax).divide(2).lt(0);
+
+var south = ee.Number(yCoords).lt(0);
+var shift = south.multiply(6).getInfo();
+
+var start_year = ee.Date("2015-01-01");
+var end_year = ee.Date("2016-01-01");
+
+var yearFilter = ee.Filter.date(
+  start_year.advance(-1, "year"), 
+  end_year.advance(1, "year")
+  );
+
+var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+
+// Data Visualization
+
+// var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+//   .map(maskL8sr)
+//   .filterDate('2018-06-01', '2018-09-01')
+//   .mean()
+//   .clip(geometry);
+
+var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  .map(maskL8sr)
+  .filter(yearFilter)
+  .filter(summerFilter)
+  .mean()
+  .clip(geometry);
+
+var lst = calc_ls_lst(landsat);
+
+// var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+//   .map(maskL8sr)
+//   .filter(yearFilter)
+//   .filter(summerFilter)
+//   .filterBounds(geometry)
+//   .map(calc_ls_lst)
+  //.mean();
+  //.clip(geometry);
+  
+// print(test);
+  
+
+
+var max = ee.Number(lst.reduceRegion({
+  reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
+  geometry: geometry,
+  scale: 30,
+  maxPixels: 1e9
+  }
+  ).values().get(0));
+  
+var min = ee.Number(lst.reduceRegion({
+  reducer: ee.Reducer.percentile([5]), //ee.Reducer.min(),
+  geometry: geometry,
+  scale: 30,
+  maxPixels: 1e9
+  }
+  ).values().get(0));
+
+var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
+Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
+
+// print(lst); //band LST
+
+var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+.first()
+.clip(geometry);
+
+var urban_mask = lulc.eq(50);
+
+var lst_masked = lst.updateMask(urban_mask);
+
+var lst_mean = lst_masked.reduceRegions({
+  collection: geometry,
+  scale: 30,
+  reducer:  ee.Reducer.median()
+});
+
+// print(lst_mean);
+
+choropleth_map(
+  lst_mean, 
+  'median', 
+  palette,
+  1, 
+  0, 
+  7, 
+  "LST"
+  );
+
+var abadis_vis = {
+  color: '#217aff',
+  width: 1,
+  fillColor: '#66a3ff', 
+};
+
+Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
+
+
+// #################################
+// ######## Define Functions #######
+// #################################
+    
+    
+function calc_ls_lst(landsat) {
+    // #################################
+    // # calculating LST from landsat ##
+    // #################################
+    // https://gis.stackexchange.com/questions/314374/calculating-lst-from-landsat-8-in-google-earth-engine
+    // ndvi    
+    var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
+
+    //select thermal band 10(with brightness tempereature), no calculation 
+    var thermal= landsat.select('B10').multiply(0.1);
+    
+    // find the min and max of NDVI
+    var min_ndvi = ee.Number(ndvi.reduceRegion({
+      reducer: ee.Reducer.min(),
+      geometry: geometry,
+      scale: 30,
+      maxPixels: 1e9
+      }
+      ).values().get(0));
+    
+    var max_ndvi = ee.Number(ndvi.reduceRegion({
+      reducer: ee.Reducer.max(),
+      geometry: geometry,
+      scale: 30,
+      maxPixels: 1e9
+      }
+      ).values().get(0));
+    
+    // Fractional Vegetation
+    var fv = (ndvi.subtract(min_ndvi).divide(max_ndvi.subtract(min_ndvi)))
+      .pow(ee.Number(2))
+      .rename('FV'); 
+    
+    // Emissivity
+    var EM = fv.multiply(ee.Number(0.004)).add(ee.Number(0.986)).rename('EMM');
+    
+    // LST in Celsius Degree bring -273.15
+    var LST = thermal.expression(
+      '(Tb/(1 + (0.00115* (Tb / 1.438))*log(Ep)))-273.15', 
+      {
+        'Tb': thermal.select('B10'),
+        'Ep': EM.select('EMM')
+      }
+      ).rename('LST');
+    
+    return LST;
+}
+
+function maskL8sr(col) {
+  // #################################
+  // ###  Landsat 8 cloud mask   #####
+  // #################################
+  
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  
+  // Get the pixel QA band.
+  var qa = col.select('pixel_qa');
+  
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+                 .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return col.updateMask(mask);
+}
+
+
+function choropleth_map(
+  vector, 
+  attribute, 
+  palette,
+  opacity,
+  log, 
+  class_n,
+  title
+  ) {
+  
+  if (log === undefined || log === null){var log = 0};
+  if (class_n === undefined || class_n === null){var class_n = 7};
+  if (title === undefined || title === null){var title = attribute};
+  if (opacity === undefined || opacity === null){var opacity = 1};
+  if (palette === undefined || palette === null){var palette = palettes.cmocean.Balance[7]};
+  
+  var colors = ee.List(palette);
+  var zone = ee.FeatureCollection(vector);
+
+  var min_val = ee.Number(vector.aggregate_min(attribute).getInfo());
+  var max_val = ee.Number(vector.aggregate_max(attribute).getInfo());
+  
+  Map.centerObject(zone, 10);
+  Map.setOptions('HYBRID');
+  
+  function get_digit(number) {
+    return number.toString().length;
+  }
+  
+  var get_index = function(value) {
+    
+    var log_inv = ee.Number(log).eq(ee.Number(0)); // 1 if log = 0 and 0 if log = 1
+    
+    var scaled_linear = value.multiply(log_inv);
+    var scaled_log = value.log().multiply(log);
+    
+    var scaled_val = scaled_linear.add(scaled_log);
+    
+    var min_linear = min_val.multiply(log_inv);
+    var min_log = min_val.log().multiply(log);
+    var min = min_log.add(min_linear);
+    
+    var max_linear = max_val.multiply(log_inv);
+    var max_log = max_val.log().multiply(log);
+    var max = max_log.add(max_linear);
+    
+    var step = (max.subtract(min)).divide(class_n);
+    
+    var index = (scaled_val.subtract(min)).divide(step).round();
+    var index_clamp = index.clamp(0, ee.Number(class_n).subtract(1));
+
+    return index_clamp;
+  };
+  
+  zone = zone.map(function(f) {
+
+    var value = f.getNumber(attribute);
+    var index = get_index(value);
+    
+    var color = colors.get(index);
+    return f.set('style', {fillColor: color});
+    });
+  
+  var VisCustom = zone.style({
+    styleProperty: 'style',
+    width: 1
+  });
+
+  Map.addLayer(VisCustom, {'opacity': opacity}, title);
+  
+  var vis = {
+    min: vector.aggregate_min(attribute).getInfo(),
+    max: vector.aggregate_max(attribute).getInfo(),
+    palette: palette
+  };
+  
+  var log_hint = ee.Dictionary({
+    '1': "(log)",
+    '0': ""
+  });
+  
+  function toString(number) {
+    return ee.Number(number).format('%d')
+  }
+
+  var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
+  Map.add(legend);
+
+};
