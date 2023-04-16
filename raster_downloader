@@ -55,6 +55,9 @@ function export_urban_density(aoi) {
   return reduceNeighborhoodMasked;
 }
 
+// ################################################## //
+// ### Main Interface for Data Downloading Tool ##### //
+// ################################################## //
 
 function data_download_app(action_call, title_name) {
   
