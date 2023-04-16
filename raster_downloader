@@ -62,6 +62,18 @@ function data_download_app(action_call, title_name) {
   // define app name
   if (title_name === undefined || title_name === null){var title_name = "World Bank Urban Dataset Downloader"}
   
+  // draw boundary
+  function draw_bounds(geometry){
+    var empty = ee.Image().byte();
+    var outlines = empty.paint({
+      featureCollection: geometry,
+      color: 'red',
+      width: 2
+    });
+    var palette = ['FF0000', '00FF00', '0000FF'];
+    Map.addLayer(outlines, {palette: palette}, 'Boundary');  
+  }
+  
   // config base map
   function reset(){
     basemap.addCustomBasemap('MutedMonotone');
@@ -238,6 +250,7 @@ function data_download_app(action_call, title_name) {
     
     // Action 
     Map.centerObject(filtered)
+    draw_bounds(filtered);
     var output = action_call(filtered);
     
     if (typeof(output) !== 'undefined') {
