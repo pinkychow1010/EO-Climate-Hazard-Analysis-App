@@ -23,6 +23,17 @@ function export_summer_lst(aoi) {
   
   var bbox = aoi.geometry();
   
+  var centroid = bbox.centroid();
+
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  
+  var south = ee.Number(yCoords).lt(0);
+  var shift = south.multiply(6).getInfo();
+  
+  var start_year = ee.Date("2020-01-01");
+  var end_year = ee.Date("2021-01-01");
+
   var yearFilter = ee.Filter.date(
     start_year.advance(-1, "year"), 
     end_year.advance(1, "year")
