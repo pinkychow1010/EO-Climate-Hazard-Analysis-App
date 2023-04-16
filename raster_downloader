@@ -19,8 +19,11 @@ data_download_app(export_population);
 
 // define function for Population Count
 function export_population(aoi) {
+  
+  var bbox = aoi.geometry();
+  
   var dataset = ee.ImageCollection("CIESIN/GPWv411/GPW_Population_Count").first();
-  var pop = dataset.select('population_count');
+  var pop = dataset.select('population_count').clip(bbox);
   
   var vis = {
     "max": 1000.0,
