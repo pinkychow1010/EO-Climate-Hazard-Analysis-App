@@ -64,12 +64,6 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
 
 // Data Visualization
 
-// var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-//   .map(maskL8sr)
-//   .filterDate('2018-06-01', '2018-09-01')
-//   .mean()
-//   .clip(geometry);
-
 var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .map(maskL8sr)
   .filter(yearFilter)
@@ -78,19 +72,6 @@ var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .clip(geometry);
 
 var lst = calc_ls_lst(landsat);
-
-// var test = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-//   .map(maskL8sr)
-//   .filter(yearFilter)
-//   .filter(summerFilter)
-//   .filterBounds(geometry)
-//   .map(calc_ls_lst)
-  //.mean();
-  //.clip(geometry);
-  
-// print(test);
-  
-
 
 var max = ee.Number(lst.reduceRegion({
   reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
