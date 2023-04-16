@@ -11,30 +11,10 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 // var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
 // construct app
-aoi_analysis_app(extract_urban_centre)// intraUrban.app(extract_urban_centre);
-
-// download option
-
-// function downloadImg() {
-//   var img = lst.mask(lst.mask());
-//   var downloadArgs = {
-//     name: 'LandsatBasedUrbanHeat',
-//     scale: 30,
-//     region: geometry.geometry().dissolve().bounds() //aoi
-// };
-// var url = lst.getDownloadURL(downloadArgs);
-// urlLabel.setUrl(url);
-// urlLabel.style().set({shown: true});
-// }
-
-// // Add UI elements to the Map.
-// var downloadButton = ui.Button('Export Raster Data', downloadImg);
-// var urlLabel = ui.Label('Click to download', {shown: false});
-// var panel = ui.Panel([downloadButton, urlLabel]);
-// Map.add(panel);
+aoi_analysis_app(export_urban_density);
 
 // define function for extract dense urban areas
-function extract_urban_centre(aoi) {
+function export_urban_density(aoi) {
   
   var bbox = aoi.geometry();
   
@@ -237,7 +217,6 @@ function aoi_analysis_app(action_call, title_name) {
     
     if (typeof(output) !== 'undefined') {
       rasterLayer = output;
-      // resultPanel.add(output);
     }
     
   }
