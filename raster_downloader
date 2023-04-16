@@ -52,7 +52,7 @@ function export_summer_lst(aoi) {
     .clip(bbox);
     
   var vis = {
-    min: 0.0,
+    min: 20.0,
     max: 40.0,
     palette: ['white', 'red'],
   };
