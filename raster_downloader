@@ -63,9 +63,13 @@ function data_download_app(action_call, title_name) {
   if (title_name === undefined || title_name === null){var title_name = "World Bank Urban Dataset Downloader"}
   
   // config base map
-  basemap.addCustomBasemap('MutedMonotone');
-  Map.setControlVisibility({drawingToolsControl:false});
-
+  function reset(){
+    basemap.addCustomBasemap('MutedMonotone');
+    Map.setCenter(0, 20, 1.8);
+    Map.setControlVisibility({drawingToolsControl:false});
+  }
+  reset();
+  
   // Import geometry boundary data for user selection
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
@@ -139,7 +143,8 @@ function data_download_app(action_call, title_name) {
     
     resultPanel.clear()
     Map.clear()
-    basemap.addCustomBasemap('MutedMonotone');
+    // basemap.addCustomBasemap('MutedMonotone');
+    reset();
     
     admin1Select.items().reset()
     admin2Select.items().reset()
@@ -169,7 +174,8 @@ function data_download_app(action_call, title_name) {
   var admin1Selected = function(admin1Selection) {
     resultPanel.clear();
     Map.clear();
-    basemap.addCustomBasemap('MutedMonotone');
+    // basemap.addCustomBasemap('MutedMonotone');
+    reset();
     
     admin2Select.setPlaceholder('please wait..')
   
@@ -201,7 +207,8 @@ function data_download_app(action_call, title_name) {
     
     resultPanel.clear();
     Map.clear();
-    basemap.addCustomBasemap('MutedMonotone');
+    // basemap.addCustomBasemap('MutedMonotone');
+    reset();
     
     var admin0Value = admin0Select.getValue()
     var admin1Value = admin1Select.getValue()
