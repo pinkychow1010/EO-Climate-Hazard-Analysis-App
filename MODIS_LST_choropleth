@@ -41,7 +41,7 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
 
 var lst = ee.ImageCollection("MODIS/061/MOD11A2")//ee.ImageCollection("MODIS/061/MOD11A1")
   //.map(maskClouds)
-  .select("LST_Day_1km")
+  .select(["LST_Day_1km","LST_Night_1km"])
   .filter(yearFilter)
   .filter(summerFilter)
   .median()
@@ -237,4 +237,4 @@ function choropleth_map(
   var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
   Map.add(legend);
 
-};
+}
