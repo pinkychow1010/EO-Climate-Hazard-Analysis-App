@@ -1,9 +1,10 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
-// download raster
-  
-// extract urban centre
-// this script is used to extract urban areas (larger than 20%) and estimate urban density 
+// ################################################## //
+// ### World Bank Intra-Urban Data Explorer Tool #### //
+// ################################################## //
+
+// This script is used to download regional raster to facilitate EO-based intra-urban analysis
 
 // import module
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
@@ -13,6 +14,9 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 // construct app
 data_download_app(export_urban_density);
+
+// extract urban centre
+// this script is used to extract urban areas (larger than 20%) and estimate urban density 
 
 // define function for extract dense urban areas
 function export_urban_density(aoi) {
@@ -51,11 +55,6 @@ function export_urban_density(aoi) {
   return reduceNeighborhoodMasked;
 }
 
-// released under MIT License Copyright © 2023 Ka Hei Chow
-
-// ################################################## //
-// ### World Bank Intra-Urban Data Explorer Tool #### //
-// ################################################## //
 
 function data_download_app(action_call, title_name) {
   
