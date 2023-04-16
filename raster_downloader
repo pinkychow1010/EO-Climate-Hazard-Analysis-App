@@ -13,7 +13,8 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 // var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
 // construct app
-data_download_app(export_urban_density);
+data_download_app(export_landuse);
+// data_download_app(export_urban_density);
 
 // extract urban centre
 // this script is used to extract urban areas (larger than 20%) and estimate urban density 
