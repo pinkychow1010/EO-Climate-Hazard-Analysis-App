@@ -85,9 +85,9 @@ function aoi_analysis_app(action_call, title_name) {
   title.style().set({
     'position':  'top-center',
     'fontSize': '24px',
-    'color': 'white',//'#002244',
+    'color': 'white',
     'fontWeight': 'bold',
-    'fontFamily': 'monospace',
+    'fontFamily': 'serif',
     'backgroundColor': 'black'
     });
     
@@ -286,5 +286,9 @@ function aoi_analysis_app(action_call, title_name) {
   var downloadButton = ui.Button('Export Raster Data', downloadImg);
   var urlLabel = ui.Label('Click to download', {shown: false});
   var exportPanel = ui.Panel([downloadButton, urlLabel]);
+  
+  exportPanel.style().set({
+    'backgroundColor': 'black'
+    });
   mainPanel.add(exportPanel);
 }
