@@ -53,9 +53,9 @@ function export_urban_density(aoi) {
 
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
-// ############################################# //
-// ### World Bank Intra-Urban Analysis Tool #### //
-// ############################################# //
+// ################################################## //
+// ### World Bank Intra-Urban Data Explorer Tool #### //
+// ################################################## //
 
 function data_download_app(action_call, title_name) {
   
