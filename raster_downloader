@@ -12,7 +12,7 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 // var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
 // construct app
-aoi_analysis_app(export_urban_density);
+data_download_app(export_urban_density);
 
 // define function for extract dense urban areas
 function export_urban_density(aoi) {
@@ -57,14 +57,15 @@ function export_urban_density(aoi) {
 // ### World Bank Intra-Urban Analysis Tool #### //
 // ############################################# //
 
-function aoi_analysis_app(action_call, title_name) {
+function data_download_app(action_call, title_name) {
   
   // define app name
   if (title_name === undefined || title_name === null){var title_name = "World Bank Intra-Urban Analysis Tool"}
   
   // config base map
   basemap.addCustomBasemap('MutedMonotone');
-  
+  Map.setControlVisibility({drawingToolsControl:false});
+
   // Import geometry boundary data for user selection
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
