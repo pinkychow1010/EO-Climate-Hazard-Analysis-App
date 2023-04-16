@@ -165,8 +165,8 @@ function downloadImg() {
 }
 
 // Add UI elements to the Map.
-var downloadButton = ui.Button('Download viewport', downloadImg);
-var urlLabel = ui.Label('Download', {shown: false});
+var downloadButton = ui.Button('Export Raster Data', downloadImg);
+var urlLabel = ui.Label('Click to download', {shown: false});
 var panel = ui.Panel([downloadButton, urlLabel]);
 Map.add(panel);
 
