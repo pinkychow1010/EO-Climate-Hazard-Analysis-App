@@ -75,7 +75,7 @@ function aoi_analysis_app(action_call, title_name) {
   
   mainPanel.style().set({
     width: '240px',
-    backgroundColor: 'white'
+    backgroundColor: 'black'
   });
   
   ui.root.insert(0,mainPanel);
@@ -85,9 +85,10 @@ function aoi_analysis_app(action_call, title_name) {
   title.style().set({
     'position':  'top-center',
     'fontSize': '24px',
-    'color': '#002244',
+    'color': 'white',//'#002244',
     'fontWeight': 'bold',
-    'fontFamily': 'monospace'
+    'fontFamily': 'monospace',
+    'backgroundColor': 'black'
     });
     
   mainPanel.add(title);
@@ -97,6 +98,14 @@ function aoi_analysis_app(action_call, title_name) {
   
   // Create a panel to hold the result
   var resultPanel = ui.Panel();
+  
+  dropdownPanel.style().set({
+    'backgroundColor': 'black'
+    });
+    
+  resultPanel.style().set({
+    'backgroundColor': 'black'
+    });
   
   // Define 3 dropdowns for admin0, admin1 and admin2 names
   
