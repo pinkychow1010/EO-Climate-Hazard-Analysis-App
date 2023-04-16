@@ -303,6 +303,10 @@ function data_download_app(action_call, title_name) {
   var urlLabel = ui.Label('Click to download', {shown: false});
   var exportPanel = ui.Panel([downloadButton, urlLabel]);
   
+  urlLabel.style().set({
+    'backgroundColor': 'black'
+    });
+    
   exportPanel.style().set({
     'backgroundColor': 'black'
     });
