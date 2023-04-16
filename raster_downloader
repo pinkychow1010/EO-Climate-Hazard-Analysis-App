@@ -91,6 +91,7 @@ function aoi_analysis_app(action_call, title_name) {
   // ################################# //
   
   var mainPanel = ui.Panel();
+  var rasterLayer;
   
   mainPanel.style().set({
     width: '240px',
@@ -235,7 +236,7 @@ function aoi_analysis_app(action_call, title_name) {
     var output = action_call(filtered);
     
     if (typeof(output) !== 'undefined') {
-      var layer = output;
+      rasterLayer = output;
       // resultPanel.add(output);
     }
     
@@ -260,14 +261,36 @@ function aoi_analysis_app(action_call, title_name) {
   
   // Download Data
   function downloadImg() {
-    var layer = Map.layers().first();
-    var img = layer.mask(layer.mask());
+    var admin0Value = admin0Select.getValue()
+    var admin1Value = admin1Select.getValue()
+    var admin2Value = admin2Select.getValue()
+    
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
+    var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
+    
+    // Some regions do not have admin2 values
+    // We are on client-side, so using if/else is ok
+    if (admin2Value == 'No Admin2 Units') {
+        var result = admin1Value + ',' + admin0Value
+        var filtered = ADM1
+          .filter(ee.Filter.eq('shapeName', admin1Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+    }
+    else {
+        var result = admin2Value + ',' + admin1Value + ',' + admin0Value
+        var filtered = ADM2
+          .filter(ee.Filter.eq('shapeName', admin2Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+          .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
+  
+    }
+    var img = rasterLayer.mask(rasterLayer.mask());
     var downloadArgs = {
       name: 'Image',
-      scale: 30,
+      scale: 1000,
       region: filtered.geometry().dissolve().bounds()
    };
-   var url = lst.getDownloadURL(downloadArgs);
+   var url = img.getDownloadURL(downloadArgs);
    urlLabel.setUrl(url);
    urlLabel.style().set({shown: true});
   }
