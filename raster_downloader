@@ -139,6 +139,7 @@ function data_download_app(action_call, title_name) {
     
     resultPanel.clear()
     Map.clear()
+    basemap.addCustomBasemap('MutedMonotone');
     
     admin1Select.items().reset()
     admin2Select.items().reset()
@@ -166,8 +167,10 @@ function data_download_app(action_call, title_name) {
   
   // Define the onChange() function for admin1Select
   var admin1Selected = function(admin1Selection) {
-    resultPanel.clear()
-    Map.clear()
+    resultPanel.clear();
+    Map.clear();
+    basemap.addCustomBasemap('MutedMonotone');
+    
     admin2Select.setPlaceholder('please wait..')
   
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
@@ -196,8 +199,9 @@ function data_download_app(action_call, title_name) {
   // Define the onChange() function for admin2Select
   var admin2Selected = function(admin1Selection) {
     
-    resultPanel.clear()
-    Map.clear()
+    resultPanel.clear();
+    Map.clear();
+    basemap.addCustomBasemap('MutedMonotone');
     
     var admin0Value = admin0Select.getValue()
     var admin1Value = admin1Select.getValue()
