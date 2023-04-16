@@ -6,6 +6,7 @@
 // this script is used to extract urban areas (larger than 20%) and estimate urban density 
 
 // import module
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 // var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
@@ -60,6 +61,9 @@ function aoi_analysis_app(action_call, title_name) {
   
   // define app name
   if (title_name === undefined || title_name === null){var title_name = "World Bank Intra-Urban Analysis Tool"}
+  
+  // config base map
+  basemap.addCustomBasemap('MutedMonotone');
   
   // Import geometry boundary data for user selection
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
