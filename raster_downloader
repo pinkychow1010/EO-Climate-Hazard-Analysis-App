@@ -13,11 +13,38 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 // var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
 // construct app
-data_download_app(export_landuse);
+data_download_app(export_population);
+// data_download_app(export_landuse);
 // data_download_app(export_urban_density);
 
-// extract urban centre
-// this script is used to extract urban areas (larger than 20%) and estimate urban density 
+// define function for Population Count
+function export_population(aoi) {
+  var dataset = ee.ImageCollection("CIESIN/GPWv411/GPW_Population_Count").first();
+  var pop = dataset.select('population_count');
+  
+  var vis = {
+    "max": 1000.0,
+    "palette": [
+      "ffffe7",
+      "86a192",
+      "509791",
+      "307296",
+      "2c4484",
+      "000066"
+    ],
+    "min": 0.0
+  };
+  
+  // add layer for population
+  Map.addLayer(pop, vis, 'GPW Population');
+  Map.centerObject(bbox, 8);
+  
+  var legend = helper.add_colorbar(vis, "Population");
+  Map.add(legend);
+
+  return pop;
+}
+  
 
 // define function for ESA world cover 2020
 function export_landuse(aoi) {
@@ -35,6 +62,9 @@ function export_landuse(aoi) {
   
   return lulc;
 }
+
+// extract urban centre
+// this script is used to extract urban areas (larger than 20%) and estimate urban density 
 
 // define function for extract dense urban areas
 function export_urban_density(aoi) {
