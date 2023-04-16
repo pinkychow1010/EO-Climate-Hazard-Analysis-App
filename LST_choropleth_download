@@ -1,3 +1,18 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var aoi = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.89657226204044, 25.062244457616945],
+          [66.89657226204044, 24.7907546321477],
+          [67.33053222297794, 24.7907546321477],
+          [67.33053222297794, 25.062244457616945]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
 // LST with download option
@@ -132,6 +147,28 @@ var abadis_vis = {
 
 Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
 
+//
+
+// Define a function to generate a download URL of the image for the
+// viewport region. 
+
+function downloadImg() {
+  var img = lst.mask(lst.mask());
+  var downloadArgs = {
+    name: 'LandsatBasedUrbanHeat',
+    scale: 30,
+    region: geometry.geometry().dissolve().bounds() //aoi
+ };
+ var url = lst.getDownloadURL(downloadArgs);
+ urlLabel.setUrl(url);
+ urlLabel.style().set({shown: true});
+}
+
+// Add UI elements to the Map.
+var downloadButton = ui.Button('Download viewport', downloadImg);
+var urlLabel = ui.Label('Download', {shown: false});
+var panel = ui.Panel([downloadButton, urlLabel]);
+Map.add(panel);
 
 // #################################
 // ######## Define Functions #######
