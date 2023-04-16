@@ -205,5 +205,5 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     admin0Select.setPlaceholder('Select a country for analysis')
   
   })
-
+  return filtered
 }
