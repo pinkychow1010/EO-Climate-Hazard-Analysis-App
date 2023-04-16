@@ -39,12 +39,14 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
 
 // Data Visualization
 
-var lst = ee.ImageCollection("MODIS/061/MOD11A1")
+var lst = ee.ImageCollection("MODIS/061/MOD11A2")//ee.ImageCollection("MODIS/061/MOD11A1")
   //.map(maskClouds)
   .select("LST_Day_1km")
   .filter(yearFilter)
   .filter(summerFilter)
-  .mean()
+  .median()
+  .multiply(0.02)
+  .subtract(272.15)
   .clip(geometry);
 
 var max = ee.Number(lst.reduceRegion({
