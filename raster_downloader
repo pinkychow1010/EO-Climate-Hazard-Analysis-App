@@ -112,7 +112,7 @@ function export_urban_density(aoi) {
 function data_download_app(action_call, title_name) {
   
   // define app name
-  if (title_name === undefined || title_name === null){var title_name = "World Bank Urban Dataset Downloader"}
+  if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
   
   // draw boundary
   function draw_bounds(geometry){
