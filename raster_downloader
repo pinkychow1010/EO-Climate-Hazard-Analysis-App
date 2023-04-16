@@ -47,7 +47,6 @@ function export_urban_density(aoi) {
   // add layer for urban density
   Map.addLayer(reduceNeighborhoodMasked, vis, 'Urban Density');
   Map.centerObject(bbox, 8);
-  // Map.setOptions("HYBRID");
   
   var legend = helper.add_colorbar(vis, "Urban Density");
   Map.add(legend);
