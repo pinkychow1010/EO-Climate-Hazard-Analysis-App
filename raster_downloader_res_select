@@ -375,6 +375,19 @@ function data_download_app(action_call, reducer, title_name) {
   })
   
   // Download Data
+  
+  function resample(image, res, reducer) {
+    var proj = image.projection().getInfo();
+    var crs = proj['crs'];
+    
+    var resampled = image.reduceResolution({
+      'reducer':reducer,
+      'bestEffort':true
+    }).reproject({'crs':crs,'scale':res});
+    
+    return resampled;
+  }
+    
   function downloadImg() {
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
@@ -401,8 +414,13 @@ function data_download_app(action_call, reducer, title_name) {
   
     }
     
+    //############################################
+    // console.log(export_resolution)
+    // console.log(reducer)
+    // var resampledLayer = resample(rasterLayer, export_resolution, reducer);
+    // var img = resampledLayer.mask(resampledLayer.mask());
     var img = rasterLayer.mask(rasterLayer.mask());
-    
+    // console.log(rasterLayer)
     var downloadArgs = {
       name: 'Image',
       scale: export_resolution,
@@ -444,13 +462,8 @@ function data_download_app(action_call, reducer, title_name) {
   downloadButton.style().set('backgroundColor', 'black');
   downloadButton.style().set('color', '#919090');
   downloadButton.style().set('padding', '20px 4px 4px 4px');
+  urlLabel.style().set({'backgroundColor': 'black'});
+  exportPanel.style().set({'backgroundColor': 'black'});
   
-  urlLabel.style().set({
-    'backgroundColor': 'black'
-    });
-    
-  exportPanel.style().set({
-    'backgroundColor': 'black'
-    });
   mainPanel.add(exportPanel);
 }
