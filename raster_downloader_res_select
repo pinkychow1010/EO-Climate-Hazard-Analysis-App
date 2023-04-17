@@ -191,6 +191,7 @@ function data_download_app(action_call, title_name) {
   
   var mainPanel = ui.Panel();
   var rasterLayer;
+  var export_resolution;
   
   mainPanel.style().set({
     width: '240px',
@@ -374,9 +375,10 @@ function data_download_app(action_call, title_name) {
   
   // Download Data
   function downloadImg() {
-    var admin0Value = admin0Select.getValue()
-    var admin1Value = admin1Select.getValue()
-    var admin2Value = admin2Select.getValue()
+    var admin0Value = admin0Select.getValue();
+    var admin1Value = admin1Select.getValue();
+    var admin2Value = admin2Select.getValue();
+    var export_resolution = res_selector.getValue();
     
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
     var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
@@ -402,7 +404,7 @@ function data_download_app(action_call, title_name) {
     
     var downloadArgs = {
       name: 'Image',
-      scale: 1000,
+      scale: export_resolution,
       region: filtered.geometry().dissolve().bounds()
    };
   
@@ -410,10 +412,32 @@ function data_download_app(action_call, title_name) {
    urlLabel.setUrl(url);
    urlLabel.style().set({shown: true});
   }
-
+  
+  var selectorLabel = ui.Label('Choose export resolution in meters');
+  
+  selectorLabel.style().set('backgroundColor', 'black');
+  selectorLabel.style().set('color', 'white');
+  selectorLabel.style().set('fontSize', '12 px');
+  selectorLabel.style().set('padding', '4px 1px 4px 4px');
+  
+  var selector_style = {
+    width: '200px',
+    color: 'white',
+    fontWeight: 'bold',
+    backgroundColor: 'black'
+  };
+  
+  var res_selector = ui.Slider({
+    min: 10, 
+    max: 2000, 
+    value: 1000, 
+    step: 10,
+    style: selector_style
+  });
+  
   var downloadButton = ui.Button('Export Raster', downloadImg);
   var urlLabel = ui.Label('Click to download', {shown: false});
-  var exportPanel = ui.Panel([downloadButton, urlLabel]);
+  var exportPanel = ui.Panel([selectorLabel, res_selector, downloadButton, urlLabel]);
   
   downloadButton.style().set('width', '100px');
   downloadButton.style().set('backgroundColor', 'black');
