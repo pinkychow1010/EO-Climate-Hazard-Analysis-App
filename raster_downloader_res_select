@@ -15,9 +15,9 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 // var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
 // construct app
-data_download_app(export_summer_lst);
+// data_download_app(export_summer_lst);
 // data_download_app(export_population);
-// data_download_app(export_landuse, ee.Reducer.mode());
+data_download_app(export_landuse, ee.Reducer.mode());
 // data_download_app(export_urban_density);
 
 // define function for Summer Temperature
