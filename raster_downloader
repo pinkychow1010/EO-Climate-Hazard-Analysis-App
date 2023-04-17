@@ -403,13 +403,13 @@ function data_download_app(action_call, title_name) {
    urlLabel.style().set({shown: true});
   }
 
-  var downloadButton = ui.Button('Export Raster Data', downloadImg);
+  var downloadButton = ui.Button('Export Raster', downloadImg);
   var urlLabel = ui.Label('Click to download', {shown: false});
   var exportPanel = ui.Panel([downloadButton, urlLabel]);
   
-  downloadButton.style().set('width', '400px');
+  downloadButton.style().set('width', '90px');
   downloadButton.style().set('backgroundColor', 'black');
-  downloadButton.style().set('color', '#565656');
+  downloadButton.style().set('color', '#8B8B8B');
   urlLabel.style().set({
     'backgroundColor': 'black'
     });
