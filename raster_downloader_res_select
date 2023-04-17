@@ -1,0 +1,431 @@
+// released under MIT License Copyright © 2023 Ka Hei Chow
+
+// ################################################## //
+// ### World Bank Intra-Urban Data Explorer Tool #### //
+// ################################################## //
+
+// This script is used to download regional raster to facilitate EO-based intra-urban analysis
+
+// with resolution selection
+
+// import module
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
+// var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
+
+// construct app
+data_download_app(export_summer_lst);
+// data_download_app(export_population);
+// data_download_app(export_landuse);
+// data_download_app(export_urban_density);
+
+// define function for Summer Temperature
+function export_summer_lst(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  var centroid = bbox.centroid();
+
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  
+  var south = ee.Number(yCoords).lt(0);
+  var shift = south.multiply(6).getInfo();
+  
+  var start_year = ee.Date("2020-01-01");
+  var end_year = ee.Date("2021-01-01");
+
+  var yearFilter = ee.Filter.date(
+    start_year.advance(-1, "year"), 
+    end_year.advance(1, "year")
+    );
+  
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+
+  var lst = ee.ImageCollection("MODIS/061/MOD11A2")//ee.ImageCollection("MODIS/061/MOD11A1")
+    //.map(maskClouds)
+    .select("LST_Day_1km")
+    .filter(yearFilter)
+    .filter(summerFilter)
+    .median()
+    .multiply(0.02)
+    .subtract(272.15)
+    .clip(bbox);
+    
+  var vis = {
+    min: 20.0,
+    max: 40.0,
+    palette: ['blue', 'white', 'red'],
+  };
+  
+  // add layer for population
+  Map.addLayer(lst, vis, 'MODIS LST 2020');
+  Map.centerObject(bbox, 8);
+  
+  var legend = helper.add_colorbar(vis, "LST");
+  Map.add(legend);
+  
+  return lst;
+}
+
+// define function for Population Count
+function export_population(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  var dataset = ee.ImageCollection('JRC/GHSL/P2016/POP_GPW_GLOBE_V1')
+                  .filter(ee.Filter.date('2015-01-01', '2015-12-31')).first();
+  var pop = dataset.select('population_count').clip(bbox);
+  
+  var vis = {
+    min: 0.0,
+    max: 200.0,
+    palette: ['060606', '337663', '337663', 'ffffff'],
+  };
+  
+  // add layer for population
+  Map.addLayer(pop, vis, 'GSHL Population 2015');
+  Map.centerObject(bbox, 8);
+  
+  var legend = helper.add_colorbar(vis, "Population");
+  Map.add(legend);
+
+  return pop;
+}
+  
+
+// define function for ESA world cover 2020
+function export_landuse(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  // add layer for urban density
+  Map.addLayer(lulc, {}, 'Land Use Cover 2020');
+  Map.centerObject(bbox, 8);
+  
+  return lulc;
+}
+
+// extract urban centre
+// this script is used to extract urban areas (larger than 20%) and estimate urban density 
+
+// define function for extract dense urban areas
+function export_urban_density(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(50);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  // viz params
+  var palette = palettes.misc.tol_rainbow[7];
+  var vis = {min: 20, max: 80, palette: palette};
+  
+  // focus on dense areas
+  var urban_threshold = reduceNeighborhood.gt(20);
+  var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
+  
+  // add layer for urban density
+  Map.addLayer(reduceNeighborhoodMasked, vis, 'Urban Density');
+  Map.centerObject(bbox, 8);
+  
+  var legend = helper.add_colorbar(vis, "Urban Density");
+  Map.add(legend);
+  
+  return reduceNeighborhoodMasked;
+}
+
+// ################################################## //
+// ### Main Interface for Data Downloading Tool ##### //
+// ################################################## //
+
+function data_download_app(action_call, title_name) {
+  
+  // define app name
+  if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
+  
+  // draw boundary
+  function draw_bounds(geometry){
+    var empty = ee.Image().byte();
+    var outlines = empty.paint({
+      featureCollection: geometry,
+      color: 'red',
+      width: 2
+    });
+    var palette = ['FF0000', '00FF00', '0000FF'];
+    Map.addLayer(outlines, {palette: palette}, 'Boundary');  
+  }
+  
+  // config base map
+  function reset(){
+    basemap.addCustomBasemap('MutedMonotone');
+    Map.setCenter(0, 20, 1.8);
+    Map.setControlVisibility({drawingToolsControl:false});
+  }
+  reset();
+  
+  // Import geometry boundary data for user selection
+  var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
+  var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
+  var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
+  
+  // ################################# //
+  // ########### GUI APP ############# //
+  // ################################# //
+  
+  var mainPanel = ui.Panel();
+  var rasterLayer;
+  
+  mainPanel.style().set({
+    width: '240px',
+    backgroundColor: 'black'
+  });
+  
+  ui.root.insert(0,mainPanel);
+  
+  var title = ui.Label(title_name);
+  
+  title.style().set({
+    'position':  'top-center',
+    'fontSize': '24px',
+    'color': 'white',
+    'fontWeight': 'bold',
+    'fontFamily': 'serif',
+    'backgroundColor': 'black',
+    'padding': '10px 10px 4px 4px',
+    });
+    
+  mainPanel.add(title);
+  
+  // Create a panel to hold the drop-down boxes
+  var dropdownPanel = ui.Panel();
+  
+  // Create a panel to hold the result
+  var resultPanel = ui.Panel();
+  
+  dropdownPanel.style().set({
+    'backgroundColor': 'black'
+    });
+    
+  resultPanel.style().set({
+    'backgroundColor': 'black'
+    });
+  
+  // Define 3 dropdowns for admin0, admin1 and admin2 names
+  
+  // Keep them disbled. We will add items later
+  var admin0Select = ui.Select({
+      placeholder: 'please wait..',
+    }).setDisabled(true)
+    
+  var admin1Select = ui.Select({
+      placeholder: 'select a country first',
+    }).setDisabled(true)
+    
+  var admin2Select = ui.Select({
+    placeholder: 'select admin 1 unit first',
+  }).setDisabled(true)
+  
+  dropdownPanel.add(admin0Select)
+  dropdownPanel.add(admin1Select)
+  dropdownPanel.add(admin2Select)
+  
+  mainPanel.add(dropdownPanel)
+  mainPanel.add(resultPanel)
+  
+  // Define the onChange() function for admin0Select
+  var admin0Selected = function(admin0Selection) {
+    
+    resultPanel.clear();
+    Map.clear();
+    reset();
+    
+    admin1Select.items().reset()
+    admin2Select.items().reset()
+    admin1Select.setPlaceholder('please wait..')
+    admin2Select.setPlaceholder('Select a admin 1 unit first..')
+  
+    // Now we have admin0 values, fetch admin1 values for that country
+    
+    var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
+    var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
+  
+    var admin1Names = selectedAdmin1
+      .aggregate_array('shapeName')
+      .sort()
+  
+    // Use evaluate() to not block the UI
+    admin1Names.evaluate(function(items){
+      admin1Select.setPlaceholder('select admin1 unit')
+      admin1Select.items().reset(items)
+      // Now that we have items, enable the menu
+      admin1Select.setDisabled(false)
+    })
+  }
+  
+  // Define the onChange() function for admin1Select
+  var admin1Selected = function(admin1Selection) {
+    resultPanel.clear();
+    Map.clear();
+    reset();
+    
+    admin2Select.setPlaceholder('please wait..')
+  
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
+    
+    var shapeID = ee.Feature(selectedAdmin1.first()).get('shapeID');
+    var selectedAdmin2 = ADM2.filter(ee.Filter.eq('ADM1_shape', shapeID));
+  
+    var admin2Names = selectedAdmin2
+      .aggregate_array('shapeName')
+      .sort()
+  
+    
+    admin2Names.evaluate(function(items){
+      if (items.length == 0) {
+        items = ['No Admin2 Units']
+        admin2Select.items().reset(items)
+      }
+      else {
+        admin2Select.items().reset(items)  
+      }
+      admin2Select.setPlaceholder('select admin2 unit')
+      admin2Select.setDisabled(false)
+    })
+  }
+  
+  // Define the onChange() function for admin2Select
+  var admin2Selected = function(admin1Selection) {
+    
+    resultPanel.clear();
+    Map.clear();
+    reset();
+    
+    var admin0Value = admin0Select.getValue()
+    var admin1Value = admin1Select.getValue()
+    var admin2Value = admin2Select.getValue()
+    
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
+    var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
+    
+    // Some regions do not have admin2 values
+    // We are on client-side, so using if/else is ok
+    if (admin2Value == 'No Admin2 Units') {
+        var result = admin1Value + ',' + admin0Value
+        var filtered = ADM1
+          .filter(ee.Filter.eq('shapeName', admin1Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+    }
+    else {
+        var result = admin2Value + ',' + admin1Value + ',' + admin0Value
+        var filtered = ADM2
+          .filter(ee.Filter.eq('shapeName', admin2Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+          .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
+  
+    }
+    var label = ui.Label('You selected: ' + result)
+    resultPanel.add
+    
+    // Action 
+    Map.centerObject(filtered)
+    draw_bounds(filtered);
+    var output = action_call(filtered);
+    
+    if (typeof(output) !== 'undefined') {
+      rasterLayer = output;
+    }
+    
+  }
+  
+  // Register the callback functions
+  admin0Select.onChange(admin0Selected)
+  admin1Select.onChange(admin1Selected)
+  admin2Select.onChange(admin2Selected)
+  
+  // Get all country names and sort them
+  var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct()
+  // Fetch the value using evaluate() to not block the UI
+  admin0Names.evaluate(function(items){
+    admin0Select.items().reset(items)
+    // Now that we have items, enable the menu
+    admin0Select.setDisabled(false)
+    // Change placeholder
+    admin0Select.setPlaceholder('Select a country for analysis')
+  
+  })
+  
+  // Download Data
+  function downloadImg() {
+    var admin0Value = admin0Select.getValue()
+    var admin1Value = admin1Select.getValue()
+    var admin2Value = admin2Select.getValue()
+    
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
+    var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
+    
+    // Some regions do not have admin2 values
+    // We are on client-side, so using if/else is ok
+    if (admin2Value == 'No Admin2 Units') {
+        var result = admin1Value + ',' + admin0Value
+        var filtered = ADM1
+          .filter(ee.Filter.eq('shapeName', admin1Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+    }
+    else {
+        var result = admin2Value + ',' + admin1Value + ',' + admin0Value
+        var filtered = ADM2
+          .filter(ee.Filter.eq('shapeName', admin2Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+          .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
+  
+    }
+    
+    var img = rasterLayer.mask(rasterLayer.mask());
+    
+    var downloadArgs = {
+      name: 'Image',
+      scale: 1000,
+      region: filtered.geometry().dissolve().bounds()
+   };
+  
+   var url = img.getDownloadURL(downloadArgs);
+   urlLabel.setUrl(url);
+   urlLabel.style().set({shown: true});
+  }
+
+  var downloadButton = ui.Button('Export Raster', downloadImg);
+  var urlLabel = ui.Label('Click to download', {shown: false});
+  var exportPanel = ui.Panel([downloadButton, urlLabel]);
+  
+  downloadButton.style().set('width', '100px');
+  downloadButton.style().set('backgroundColor', 'black');
+  downloadButton.style().set('color', '#919090');
+  downloadButton.style().set('padding', '20px 4px 4px 4px');
+  
+  urlLabel.style().set({
+    'backgroundColor': 'black'
+    });
+    
+  exportPanel.style().set({
+    'backgroundColor': 'black'
+    });
+  mainPanel.add(exportPanel);
+}
