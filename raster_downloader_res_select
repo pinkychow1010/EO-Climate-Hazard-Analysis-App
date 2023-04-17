@@ -413,12 +413,12 @@ function data_download_app(action_call, title_name) {
    urlLabel.style().set({shown: true});
   }
   
-  var selectorLabel = ui.Label('Choose export resolution in meters');
+  var selectorLabel = ui.Label('Export resolution (meter)');
   
   selectorLabel.style().set('backgroundColor', 'black');
-  selectorLabel.style().set('color', 'white');
-  selectorLabel.style().set('fontSize', '12 px');
-  selectorLabel.style().set('padding', '4px 1px 4px 4px');
+  selectorLabel.style().set('color', 'red');
+  selectorLabel.style().set('fontSize', '11px');
+  selectorLabel.style().set('padding', '1px');
   
   var selector_style = {
     width: '200px',
