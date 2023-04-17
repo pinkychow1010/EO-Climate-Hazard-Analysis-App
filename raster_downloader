@@ -407,6 +407,9 @@ function data_download_app(action_call, title_name) {
   var urlLabel = ui.Label('Click to download', {shown: false});
   var exportPanel = ui.Panel([downloadButton, urlLabel]);
   
+  downloadButton.style().set('width', '400px');
+  downloadButton.style().set('backgroundColor', 'black');
+  downloadButton.style().set('color', '#565656');
   urlLabel.style().set({
     'backgroundColor': 'black'
     });
