@@ -66,7 +66,9 @@ function export_summer_lst(aoi) {
   var legend = helper.add_colorbar(vis, "LST");
   Map.add(legend);
   
-  return lst;
+  var ref = ee.ImageCollection("MODIS/061/MOD11A2").first().projection();
+  
+  return lst.setDefaultProjection(ref);
 }
 
 // define function for Population Count
@@ -414,13 +416,9 @@ function data_download_app(action_call, reducer, title_name) {
   
     }
     
-    //############################################
-    // console.log(export_resolution)
-    // console.log(reducer)
-    // var resampledLayer = resample(rasterLayer, export_resolution, reducer);
-    // var img = resampledLayer.mask(resampledLayer.mask());
-    var img = rasterLayer.mask(rasterLayer.mask());
-    // console.log(rasterLayer)
+    var resampledLayer = resample(rasterLayer, export_resolution, reducer);
+    var img = resampledLayer.mask(resampledLayer.mask());
+    // var img = rasterLayer.mask(rasterLayer.mask());
     var downloadArgs = {
       name: 'Image',
       scale: export_resolution,
