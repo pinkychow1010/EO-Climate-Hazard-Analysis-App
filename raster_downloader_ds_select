@@ -163,7 +163,7 @@ function data_download_app(action_call, reducer, title_name) {
   // define app name
   if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()}
   if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
-
+  
   // draw boundary
   function draw_bounds(geometry){
     var empty = ee.Image().byte();
@@ -184,6 +184,28 @@ function data_download_app(action_call, reducer, title_name) {
   }
   reset();
   
+  
+  //
+  var action_calls = {
+    'WorldCover': export_landuse,
+    'Population': export_population
+  };
+  
+  function changeLayers(layerKey) {
+    action_call = action_calls[layerKey];
+  }
+
+  var s = ui.Select({
+    placeholder: 'Select Layer',
+    items: [
+      {value: 'WorldCover', label: 'World Cover'}, 
+      {value: 'Population', label: 'Population Grid'}
+    ],
+    onChange: changeLayers
+  })
+  
+  Map.add(s)
+
   // Import geometry boundary data for user selection
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
@@ -352,6 +374,7 @@ function data_download_app(action_call, reducer, title_name) {
     // Action 
     Map.centerObject(filtered)
     draw_bounds(filtered);
+    
     var output = action_call(filtered);
     
     if (typeof(output) !== 'undefined') {
