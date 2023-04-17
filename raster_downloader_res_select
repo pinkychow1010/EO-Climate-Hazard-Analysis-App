@@ -155,11 +155,12 @@ function export_urban_density(aoi) {
 // ### Main Interface for Data Downloading Tool ##### //
 // ################################################## //
 
-function data_download_app(action_call, title_name) {
+function data_download_app(action_call, reducer, title_name) {
   
   // define app name
+  if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()}
   if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
-  
+
   // draw boundary
   function draw_bounds(geometry){
     var empty = ee.Image().byte();
