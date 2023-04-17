@@ -63,6 +63,8 @@ function export_summer_lst(aoi) {
   
   var legend = helper.add_colorbar(vis, "LST");
   Map.add(legend);
+  
+  return lst;
 }
 
 // define function for Population Count
