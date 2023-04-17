@@ -203,7 +203,8 @@ function data_download_app(action_call, title_name) {
     'color': 'white',
     'fontWeight': 'bold',
     'fontFamily': 'serif',
-    'backgroundColor': 'black'
+    'backgroundColor': 'black',
+    'padding': '10px 10px 4px 4px',
     });
     
   mainPanel.add(title);
@@ -407,10 +408,10 @@ function data_download_app(action_call, title_name) {
   var urlLabel = ui.Label('Click to download', {shown: false});
   var exportPanel = ui.Panel([downloadButton, urlLabel]);
   
-  downloadButton.style().set('width', '90px');
+  downloadButton.style().set('width', '100px');
   downloadButton.style().set('backgroundColor', 'black');
   downloadButton.style().set('color', '#919090');
-  downloadButton.style().set('padding', '20px');
+  downloadButton.style().set('padding', '20px 4px 4px 4px');
   urlLabel.style().set({
     'backgroundColor': 'black'
     });
