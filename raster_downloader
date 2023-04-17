@@ -395,12 +395,15 @@ function data_download_app(action_call, title_name) {
           .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
   
     }
+    
     var img = rasterLayer.mask(rasterLayer.mask());
+    
     var downloadArgs = {
       name: 'Image',
       scale: 1000,
       region: filtered.geometry().dissolve().bounds()
    };
+  
    var url = img.getDownloadURL(downloadArgs);
    urlLabel.setUrl(url);
    urlLabel.style().set({shown: true});
