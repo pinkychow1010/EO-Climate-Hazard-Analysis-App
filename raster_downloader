@@ -409,7 +409,8 @@ function data_download_app(action_call, title_name) {
   
   downloadButton.style().set('width', '90px');
   downloadButton.style().set('backgroundColor', 'black');
-  downloadButton.style().set('color', '#8B8B8B');
+  downloadButton.style().set('color', '#919090');
+  downloadButton.style().set('padding', '20px');
   urlLabel.style().set({
     'backgroundColor': 'black'
     });
