@@ -418,7 +418,6 @@ function data_download_app(action_call, reducer, title_name) {
     
     var resampledLayer = resample(rasterLayer, export_resolution, reducer);
     var img = resampledLayer.mask(resampledLayer.mask());
-    // var img = rasterLayer.mask(rasterLayer.mask());
     var downloadArgs = {
       name: 'Image',
       scale: export_resolution,
