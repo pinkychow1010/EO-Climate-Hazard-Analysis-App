@@ -205,6 +205,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     // resultPanel.clear();
     Map.clear(); reset();
     
+    // fetch location inputs from user
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
     var admin2Value = admin2Select.getValue();
@@ -215,14 +216,14 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     // Some regions do not have admin2 values
     // We are on client-side, so using if/else is ok
     if (admin2Value == 'No Admin2 Units') {
-        var result = admin1Value + ',' + admin0Value
+        var result = admin1Value + ',' + admin0Value;
         // var filtered = ADM1
         filtered = ADM1
           .filter(ee.Filter.eq('shapeName', admin1Value))
-          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup));
     }
     else {
-        var result = admin2Value + ',' + admin1Value + ',' + admin0Value
+        var result = admin2Value + ',' + admin1Value + ',' + admin0Value;
         // var filtered = ADM2
         filtered = ADM2
           .filter(ee.Filter.eq('shapeName', admin2Value))
@@ -230,7 +231,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
           .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
   
     }
-    var label = ui.Label('You selected: ' + result)
+    // var label = ui.Label('You selected: ' + result)
     // resultPanel.add
     
     // Action 
