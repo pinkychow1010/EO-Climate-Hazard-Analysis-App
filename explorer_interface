@@ -126,7 +126,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // Define 3 dropdowns for admin0, admin1 and admin2 names
   
-  // Keep them disbled. We will add items later
+  // set up location input session
+  // disable admin selections
   var admin0Select = ui.Select({
       placeholder: 'Please wait..',
     }).setDisabled(true);
@@ -139,7 +140,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     placeholder: 'Select admin 1 unit first',
   }).setDisabled(true);
   
-  // set up location input session
   dropdownPanel.add(admin0Select);
   dropdownPanel.add(admin1Select);
   dropdownPanel.add(admin2Select);
@@ -147,6 +147,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   mainPanel.add(dropdownPanel);
   // mainPanel.add(resultPanel);
   
+  // Update from Admin 0 selection
   // Define the onChange() function for admin0Select
   var admin0Selected = function(admin0Selection) {
     
@@ -158,21 +159,18 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     admin2Select.setPlaceholder('Select a admin 1 unit first..');
   
     // Now we have admin0 values, fetch admin1 values for that country
-    
     var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
     var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
-  
     var admin1Names = selectedAdmin1.aggregate_array('shapeName').sort();
   
     // Use evaluate() to not block the UI
     admin1Names.evaluate(function(items){
-      admin1Select.setPlaceholder('Select admin1 unit')
-      admin1Select.items().reset(items)
-      // Now that we have items, enable the menu
-      admin1Select.setDisabled(false)
-    })
-  }
+      admin1Select.setPlaceholder('Select admin1 unit');
+      admin1Select.items().reset(items);
+      admin1Select.setDisabled(false); // enable the menu
+    });
+  };
   
   // Define the onChange() function for admin1Select
   var admin1Selected = function(admin1Selection) {
