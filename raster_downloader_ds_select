@@ -121,12 +121,15 @@ function export_summer_lst(aoi) {
  */
 function export_population(aoi) {
   
+  // compute vector boundary
   var bbox = aoi.geometry();
   
+  // get population dataset (GHSL 2015)
   var dataset = ee.ImageCollection('JRC/GHSL/P2016/POP_GPW_GLOBE_V1')
                   .filter(ee.Filter.date('2015-01-01', '2015-12-31')).first();
-  var pop = dataset.select('population_count').clip(bbox);
+  var pop = dataset.select('population_count').clip(bbox); // limit bounds
   
+  // visualization format
   var vis = {
     min: 0.0,
     max: 200.0,
@@ -137,6 +140,7 @@ function export_population(aoi) {
   Map.addLayer(pop, vis, 'GSHL Population 2015');
   Map.centerObject(bbox, 8);
   
+  // add legend to raster layer
   var legend = helper.add_colorbar(vis, "Population");
   Map.add(legend);
 
