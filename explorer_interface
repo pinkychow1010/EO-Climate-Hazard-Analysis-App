@@ -99,10 +99,11 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   var mainPanel = ui.Panel(); // side bar
   // styling main panel
-  mainPanel.style().set({
-    width: '240px',
-    backgroundColor: 'black'
-  });
+  mainPanel.style().set(style.mainPanel);
+  // mainPanel.style().set({
+  //   width: '240px',
+  //   backgroundColor: 'black'
+  // });
   
   ui.root.insert(0,mainPanel);
   
