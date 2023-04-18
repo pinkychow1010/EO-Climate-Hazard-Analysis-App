@@ -281,7 +281,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
           .filter(ee.Filter.eq('shapeName', admin2Value))
           .filter(ee.Filter.eq('shapeGroup', shapeGroup))
           .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
-  
     }
     
     // resample raster
