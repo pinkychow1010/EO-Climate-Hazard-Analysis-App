@@ -179,8 +179,12 @@ exports.export_landuse = function export_landuse(aoi) {
   .first()
   .clip(bbox);
   
+  var visualization = {
+    bands: ['Map'],
+  };
+
   // add LULC raster layer on map
-  Map.addLayer(lulc, {}, 'Land Use Cover 2020');
+  Map.addLayer(lulc, visualization, 'Land Use Cover 2020');
   Map.centerObject(bbox, 8);
   
   return lulc;
