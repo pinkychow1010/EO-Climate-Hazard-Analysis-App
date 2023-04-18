@@ -118,7 +118,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   ui.root.insert(0,mainPanel);
   
   var title = ui.Label(title_name);
-  
   title.style().set({
     'position':  'top-center',
     'fontSize': '24px',
@@ -163,10 +162,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Define the onChange() function for admin0Select
   var admin0Selected = function(admin0Selection) {
     
-    resultPanel.clear();
-    Map.clear();
-    reset();
-    
+    resultPanel.clear(); Map.clear(); reset();
     admin1Select.items().reset();
     admin2Select.items().reset();
     admin1Select.setPlaceholder('Please wait..');
@@ -182,7 +178,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
     // Use evaluate() to not block the UI
     admin1Names.evaluate(function(items){
-      admin1Select.setPlaceholder('select admin1 unit')
+      admin1Select.setPlaceholder('Select admin1 unit')
       admin1Select.items().reset(items)
       // Now that we have items, enable the menu
       admin1Select.setDisabled(false)
@@ -191,11 +187,10 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // Define the onChange() function for admin1Select
   var admin1Selected = function(admin1Selection) {
-    resultPanel.clear();
-    Map.clear();
-    reset();
     
-    admin2Select.setPlaceholder('Please wait..')
+    resultPanel.clear(); Map.clear(); reset();
+    
+    admin2Select.setPlaceholder('Please wait..');
   
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
     var shapeID = ee.Feature(selectedAdmin1.first()).get('shapeID');
@@ -204,14 +199,14 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     
     admin2Names.evaluate(function(items){
       if (items.length == 0) {
-        items = ['No Admin2 Units']
-        admin2Select.items().reset(items)
+        items = ['No Admin2 Units'];
+        admin2Select.items().reset(items);
       }
       else {
-        admin2Select.items().reset(items)  
+        admin2Select.items().reset(items); 
       }
-      admin2Select.setPlaceholder('select admin2 unit')
-      admin2Select.setDisabled(false)
+      admin2Select.setPlaceholder('Select admin2 unit');
+      admin2Select.setDisabled(false);
     })
   }
   
