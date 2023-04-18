@@ -238,12 +238,21 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     var proj = image.projection().getInfo();
     var crs = proj.crs;
     
-    if (crs === undefined || crs === null){var crs = 'EPSG:4326'}
+    if (crs === undefined || crs === null){
+      var wkt = proj.wkt;
+      var resampled = image.reduceResolution({
+        'reducer':reducer,
+        'bestEffort':true
+      }).reproject({'crs':ee.Projection(wkt),'scale':res});
+    } else {
+      var resampled = image.reduceResolution({
+        'reducer':reducer,
+        'bestEffort':true
+      }).reproject({'crs':crs,'scale':res});
+    }
     
-    var resampled = image.reduceResolution({
-      'reducer':reducer,
-      'bestEffort':true
-    }).reproject({'crs':crs,'scale':res});
+
+    
     return resampled;
   }
   
