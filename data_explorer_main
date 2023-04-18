@@ -1,4 +1,4 @@
 var utils = require('users/pinkychow1010/WB_IntraUrban:explorer_utils');
 var app = require('users/pinkychow1010/WB_IntraUrban:explorer_interface');
 
-app.data_explorer(utils.export_population);
+app.data_explorer();
