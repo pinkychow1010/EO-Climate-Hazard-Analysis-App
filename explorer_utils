@@ -194,7 +194,7 @@ exports.export_landuse = function export_landuse(aoi) {
   // Create the panel for the legend items.
   var legend = ui.Panel({
     style: {
-      position: 'bottom-left',
+      position: 'bottom-right',
       padding: '8px 15px'
     }
   });
