@@ -178,9 +178,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
   
-    var admin1Names = selectedAdmin1
-      .aggregate_array('shapeName')
-      .sort()
+    var admin1Names = selectedAdmin1.aggregate_array('shapeName').sort()
   
     // Use evaluate() to not block the UI
     admin1Names.evaluate(function(items){
