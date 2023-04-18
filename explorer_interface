@@ -42,13 +42,20 @@ var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // funct
  */
 exports.data_explorer = function data_download_app(reducer, title_name) {
   
-  // define app name
+  // default values for variables
   if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()}
   if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
   
+  // main dict to define action selection
+  var action_calls = {
+    'WorldCover': data.export_landuse,
+    'Population': data.export_population
+  };
+  
+  // assign action to be fired
   var action_call;
   
-  // draw boundary
+  // draw admin boundary selected by user
   function draw_bounds(geometry){
     var empty = ee.Image().byte();
     var outlines = empty.paint({
@@ -60,20 +67,13 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     Map.addLayer(outlines, {palette: palette}, 'Boundary');  
   }
   
-  // config base map
+  // config base map on reset
   function reset(){
     basemap.addCustomBasemap('MutedMonotone');
     Map.setCenter(0, 20, 1.8);
     Map.setControlVisibility({drawingToolsControl:false});
   }
-  reset();
-  
-  
-  //
-  var action_calls = {
-    'WorldCover': data.export_landuse,
-    'Population': data.export_population
-  };
+  reset(); // reset app display
   
   function changeLayers(layerKey) {
     action_call = action_calls[layerKey];
