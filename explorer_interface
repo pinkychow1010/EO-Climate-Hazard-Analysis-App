@@ -10,6 +10,34 @@ var palettes = require('users/gena/packages:palettes'); // color palettes for co
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils functions
 var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // functions for implementation of data layers in app
 
+
+/**
+ * Data explorer: an interactive dashboard to display spatial data layers for downloads.
+ * 
+ * This function is used to construct an app for data visualization and exports for a single admin region
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @see  helper.add_colormap
+ * @link 'users/pinkychow1010/GEE:WorldBank/helper'
+ * @global
+ * 
+ * @see  basemap.addCustomBasemap
+ * @link 'users/pinkychow1010/WB_IntraUrban:basemap_resources'
+ * @global
+ * 
+ * @see  data.export_urban_density data.export_summer_lst data.export_population data.export_landuse
+ * @link 'users/pinkychow1010/WB_IntraUrban:explorer_utils'
+ * @global
+ *
+ * @fires   add urban density raster layer
+ * @listens select area of interest
+ *
+ * @param {ee.Geometry.Polygon}   vector        A vector layer which consists of a single polygon (admin boundary).
+ * 
+ * @return {ee.Image} Single urban density data layer bounds by selected admin 2 boundary.
+ *
+ */
 exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // define app name
