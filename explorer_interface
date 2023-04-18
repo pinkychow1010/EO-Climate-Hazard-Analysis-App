@@ -49,6 +49,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     action_call = action_calls[layerKey];
 
     if (typeof(filtered) !== 'undefined') {
+      Map.clear();
       rasterLayer = action_call(filtered);
     }
   }
