@@ -9,6 +9,7 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); //
 var palettes = require('users/gena/packages:palettes'); // color palettes for color bar
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils functions
 var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // functions for implementation of data layers in app
+var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict for explorer styling
 
 /**
  * Data explorer: an interactive dashboard to display spatial data layers for downloads.
