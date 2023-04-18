@@ -4,10 +4,8 @@
 // ### World Bank Intra-Urban Data Explorer Tool #### //
 // ################################################## //
 
-// This script is used to download regional raster to facilitate EO-based intra-urban analysis
-
-// with resolution selection
-// multiple datasets
+// This script is used to download multiple regional rasters in customised resolution
+// to facilitate EO-based intra-urban analysis
 
 // import module
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
@@ -22,6 +20,26 @@ data_download_app(export_landuse, ee.Reducer.mode());
 // data_download_app(export_urban_density);
 
 // define function for Summer Temperature
+
+/**
+ * Calculate summer land surface temperature: export summer average temperature to interactive dashboard.
+ * 
+ * This function is used to construct a MODIS-based LST gridded dataset based on location inputs from users.
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @see  helper.add_colormap
+ * @link 'users/pinkychow1010/GEE:WorldBank/helper'
+ * @global
+ *
+ * @fires   add LST raster layer
+ * @listens select area of interest
+ *
+ * @param {ee.Geometry.Polygon}   vector        A vector layer which consists of a single polygon (admin boundary).
+ * 
+ * @return {ee.Image} Single LST data layer bounds by selected admin 2 boundary.
+ *
+ */
 function export_summer_lst(aoi) {
   
   var bbox = aoi.geometry();
@@ -44,7 +62,7 @@ function export_summer_lst(aoi) {
   
   var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
 
-  var lst = ee.ImageCollection("MODIS/061/MOD11A2")//ee.ImageCollection("MODIS/061/MOD11A1")
+  var lst = ee.ImageCollection("MODIS/061/MOD11A2")
     //.map(maskClouds)
     .select("LST_Day_1km")
     .filter(yearFilter)
