@@ -11,7 +11,6 @@
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
-// var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
 // construct app
 // data_download_app(export_summer_lst);
@@ -42,49 +41,58 @@ data_download_app(export_landuse, ee.Reducer.mode());
  */
 function export_summer_lst(aoi) {
   
+  // calculate geometry of vector layer
   var bbox = aoi.geometry();
   
+  // determine location in south / north hemisphere (different summer months)
   var centroid = bbox.centroid();
-
   var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
   var yCoords = ee.List(listCoords).getInfo()[1];
   
+  // south/ north
   var south = ee.Number(yCoords).lt(0);
   var shift = south.multiply(6).getInfo();
   
+  // evaluation year
   var start_year = ee.Date("2020-01-01");
   var end_year = ee.Date("2021-01-01");
-
+  
+  // filter dataset to evaluation year
   var yearFilter = ee.Filter.date(
     start_year.advance(-1, "year"), 
     end_year.advance(1, "year")
     );
   
+  // get summer months depends on location
   var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
 
   var lst = ee.ImageCollection("MODIS/061/MOD11A2")
-    //.map(maskClouds)
-    .select("LST_Day_1km")
-    .filter(yearFilter)
-    .filter(summerFilter)
-    .median()
-    .multiply(0.02)
-    .subtract(272.15)
-    .clip(bbox);
-    
+    //.map(maskClouds) // to be done: add MODIS cloud masking 
+    .select("LST_Day_1km") // day time temperature
+    .filter(yearFilter) // filter year
+    .filter(summerFilter) // filter season
+    .median() // get median
+    .multiply(0.02) // apply scale factor
+    .subtract(272.15) // apply offset
+    .clip(bbox); // limit bounds
+  
+  // visualization format
   var vis = {
     min: 20.0,
     max: 40.0,
     palette: ['blue', 'white', 'red'],
   };
   
-  // add layer for population
+  // add layer for land surface temperature
   Map.addLayer(lst, vis, 'MODIS LST 2020');
   Map.centerObject(bbox, 8);
   
+  // add legend to raster layer
   var legend = helper.add_colorbar(vis, "LST");
   Map.add(legend);
   
+  // for some reason, the original projection altered after temporal filtering
+  // this line is necessary to set back valid projection for the output layer
   var ref = ee.ImageCollection("MODIS/061/MOD11A2").first().projection();
   
   return lst.setDefaultProjection(ref);
