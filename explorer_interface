@@ -207,8 +207,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
       }
       admin2Select.setPlaceholder('Select admin2 unit');
       admin2Select.setDisabled(false);
-    })
-  }
+    });
+  };
   
   // Define the onChange() function for admin2Select
   var admin2Selected = function(admin1Selection) {
