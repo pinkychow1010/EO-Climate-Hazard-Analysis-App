@@ -55,17 +55,17 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // assign action to be fired
   var action_call;
   
-  // draw admin boundary selected by user
-  function draw_bounds(geometry){
-    var empty = ee.Image().byte();
-    var outlines = empty.paint({
-      featureCollection: geometry,
-      color: 'red',
-      width: 2
-    });
-    var palette = ['FF0000', '00FF00', '0000FF'];
-    Map.addLayer(outlines, {palette: palette}, 'Boundary');  
-  }
+  // // draw admin boundary selected by user
+  // function draw_bounds(geometry){
+  //   var empty = ee.Image().byte();
+  //   var outlines = empty.paint({
+  //     featureCollection: geometry,
+  //     color: 'red',
+  //     width: 2
+  //   });
+  //   var palette = ['FF0000', '00FF00', '0000FF'];
+  //   Map.addLayer(outlines, {palette: palette}, 'Boundary');  
+  // }
   
   // config base map on reset
   function reset(){
@@ -381,4 +381,17 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   exportPanel.style().set({'backgroundColor': 'black'});
   
   mainPanel.add(exportPanel);
+};
+
+
+// draw admin boundary selected by user
+function draw_bounds(geometry){
+  var empty = ee.Image().byte();
+  var outlines = empty.paint({
+    featureCollection: geometry,
+    color: 'red',
+    width: 2
+  });
+  var palette = ['FF0000', '00FF00', '0000FF'];
+  Map.addLayer(outlines, {palette: palette}, 'Boundary');  
 }
