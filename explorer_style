@@ -32,6 +32,12 @@ exports.res_slider = {
     backgroundColor: 'black'
   };
 
+exports.download_button = {
+    'width': '100px',
+    'backgroundColor': 'black',
+    'color': '#919090',
+    'padding': '20px 4px 4px 4px'
+  };
 // exports.bg_color = '#002244';
 
 // exports.description = {
