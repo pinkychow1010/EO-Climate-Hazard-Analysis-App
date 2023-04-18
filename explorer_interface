@@ -185,6 +185,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     var selectedAdmin2 = ADM2.filter(ee.Filter.eq('ADM1_shape', shapeID));
     var admin2Names = selectedAdmin2.aggregate_array('shapeName').sort();
     
+    // enable admin 2 selection
     admin2Names.evaluate(function(items){
       if (items.length === 0) {
         items = ['No Admin2 Units'];
@@ -202,8 +203,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   var admin2Selected = function(admin1Selection) {
     
     // resultPanel.clear();
-    Map.clear();
-    reset();
+    Map.clear(); reset();
     
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
