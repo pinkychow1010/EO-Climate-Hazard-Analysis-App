@@ -324,11 +324,11 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // set up url label
   var urlLabel = ui.Label('Click to download', {shown: false});
-  urlLabel.style().set({'backgroundColor': 'black'});
+  urlLabel.style().set(style.dark_theme);
   
   // combine components to export panel and add it to side bar
   var exportPanel = ui.Panel([selectorLabel, res_selector, downloadButton, urlLabel]);
-  exportPanel.style().set({'backgroundColor': 'black'});
+  exportPanel.style().set(style.dark_theme);
   mainPanel.add(exportPanel);
 };
 
