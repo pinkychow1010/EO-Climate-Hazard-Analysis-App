@@ -45,6 +45,12 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()}
   if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
   
+  // ################################# //
+  // ########### GUI APP ############# //
+  // ################################# //
+  
+  // :::::: DATASET ::::::::
+  
   // main dict to define action selection
   var action_calls = {
     'WorldCover': data.export_landuse,
@@ -53,6 +59,9 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // assign action to be fired
   var action_call;
+  var rasterLayer; // layer for export
+  var export_resolution; // resolution
+  var filtered; // aoi
   
   reset(); // reset app display
   
@@ -79,21 +88,15 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     ],
     onChange: changeLayers
   });
-
+  
+  // :::::: LOCATION ::::::::
+    
   // import geometry boundary data for user selection
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
   var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
   
-  // ################################# //
-  // ########### GUI APP ############# //
-  // ################################# //
-  
   var mainPanel = ui.Panel(); // side bar
-  var rasterLayer; // layer for export
-  var export_resolution; // resolution
-  var filtered; // aoi
-  
   // styling main panel
   mainPanel.style().set({
     width: '240px',
