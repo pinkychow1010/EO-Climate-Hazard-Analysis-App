@@ -122,7 +122,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   mainPanel.add(ds_selector);
   
   var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
-
   dropdownPanel.style().set({'backgroundColor': 'black'});
   
   // set up location input session (dropdowns for admin0, admin1 and admin2 names)
@@ -142,7 +141,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   dropdownPanel.add(admin0Select);
   dropdownPanel.add(admin1Select);
   dropdownPanel.add(admin2Select);
-  
   mainPanel.add(dropdownPanel);
   
   // Update from Admin 0 selection
