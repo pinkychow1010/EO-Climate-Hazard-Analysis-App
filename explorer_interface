@@ -54,7 +54,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   }
 
   var ds_selector = ui.Select({
-    placeholder: 'Select Layer',
+    placeholder: 'Select a data layer',
     items: [
       {value: 'WorldCover', label: 'World Cover'}, 
       {value: 'Population', label: 'Population Grid'}
@@ -97,14 +97,14 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     
   mainPanel.add(title);
   
-  var dsLabel = ui.Label('Select a data layer');
+  // var dsLabel = ui.Label('Select a data layer');
   
-  dsLabel.style().set('backgroundColor', 'black');
-  dsLabel.style().set('color', 'red');
-  dsLabel.style().set('fontSize', '11px');
-  dsLabel.style().set('padding', '1px');
+  // dsLabel.style().set('backgroundColor', 'black');
+  // dsLabel.style().set('color', 'red');
+  // dsLabel.style().set('fontSize', '11px');
+  // dsLabel.style().set('padding', '1px');
   
-  mainPanel.add(dsLabel);
+  // mainPanel.add(dsLabel);
   mainPanel.add(ds_selector);
   
   // Create a panel to hold the drop-down boxes
