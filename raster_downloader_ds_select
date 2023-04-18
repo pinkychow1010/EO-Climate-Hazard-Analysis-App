@@ -151,7 +151,7 @@ function export_population(aoi) {
 // define function for ESA world cover 2020
 
 /**
- * World Population: export population density layer to interactive dashboard.
+ * Land Use Cover 2020: export land use cover layer to interactive dashboard.
  * 
  * This function is used to construct a population count gridded dataset based on location inputs from users.
  * 
