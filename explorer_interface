@@ -234,10 +234,11 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     // var label = ui.Label('You selected: ' + result)
     // resultPanel.add
     
-    // Action 
+    // zoom to selected aoi and highlight polygon
     Map.centerObject(filtered);
     draw_bounds(filtered);
     
+    // call main action
     var output = action_call(filtered);
     if (typeof(output) !== 'undefined') {rasterLayer = output;}
     
@@ -259,7 +260,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     admin0Select.setPlaceholder('Select a country for analysis');
   });
   
-  // Resample Data
+  // Resample Data to resolution defined by user
   function resample(image, res, reducer) {
     var proj = image.projection().getInfo();
     var crs = proj.crs;
@@ -274,6 +275,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // Download Data
   function downloadImg() {
+    
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
     var admin2Value = admin2Select.getValue();
