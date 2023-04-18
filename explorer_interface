@@ -111,7 +111,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   mainPanel.add(ds_selector);
   
   var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
-  dropdownPanel.style().set({'backgroundColor': 'black'});
+  dropdownPanel.style().set(style.dark_theme);
   
   // set up location input session (dropdowns for admin0, admin1 and admin2 names)
   // disable admin selections
@@ -291,12 +291,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // label export resolution
   var selectorLabel = ui.Label('Export resolution (meter)');
-  selectorLabel.style().set({
-    'backgroundColor': 'black',
-    'color': 'red',
-    'fontSize': '11px',
-    'padding': '1px'
-  });
+  selectorLabel.style().set(style.selectorLabel);
   // selectorLabel.style().set('backgroundColor', 'black');
   // selectorLabel.style().set('color', 'red');
   // selectorLabel.style().set('fontSize', '11px');
