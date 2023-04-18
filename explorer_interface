@@ -273,9 +273,10 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     return resampled;
   }
   
-  // Download Data
+  // Export Selected Raster Data
   function downloadImg() {
     
+    // fetch aoi
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
     var admin2Value = admin2Select.getValue();
@@ -301,21 +302,25 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
     }
     
+    // resample raster
     var resampledLayer = resample(rasterLayer, export_resolution, reducer);
     var img = resampledLayer.mask(resampledLayer.mask());
+    
+    // export format
     var downloadArgs = {
       name: 'Image',
       scale: export_resolution,
       region: filtered.geometry().dissolve().bounds()
    };
   
+   // get url link for user to download raster
    var url = img.getDownloadURL(downloadArgs);
    urlLabel.setUrl(url);
-   urlLabel.style().set({shown: true});
+   urlLabel.style().set({shown: true}); // display link
   }
   
+  // label export resolution
   var selectorLabel = ui.Label('Export resolution (meter)');
-  
   selectorLabel.style().set('backgroundColor', 'black');
   selectorLabel.style().set('color', 'red');
   selectorLabel.style().set('fontSize', '11px');
@@ -328,6 +333,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     backgroundColor: 'black'
   };
   
+  // data slider for resolution input
   var res_selector = ui.Slider({
     min: 10, 
     max: 2000, 
@@ -337,14 +343,16 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   });
   
   var downloadButton = ui.Button('Export Raster', downloadImg);
-  var urlLabel = ui.Label('Click to download', {shown: false});
-  var exportPanel = ui.Panel([selectorLabel, res_selector, downloadButton, urlLabel]);
-  
   downloadButton.style().set('width', '100px');
   downloadButton.style().set('backgroundColor', 'black');
   downloadButton.style().set('color', '#919090');
   downloadButton.style().set('padding', '20px 4px 4px 4px');
+  
+  var urlLabel = ui.Label('Click to download', {shown: false});
   urlLabel.style().set({'backgroundColor': 'black'});
+  
+  // combine components to export panel
+  var exportPanel = ui.Panel([selectorLabel, res_selector, downloadButton, urlLabel]);
   exportPanel.style().set({'backgroundColor': 'black'});
   
   mainPanel.add(exportPanel);
