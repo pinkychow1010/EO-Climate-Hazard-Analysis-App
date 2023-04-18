@@ -250,9 +250,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
         'bestEffort':true
       }).reproject({'crs':crs,'scale':res});
     }
-    
-
-    
     return resampled;
   }
   
