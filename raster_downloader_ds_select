@@ -99,6 +99,26 @@ function export_summer_lst(aoi) {
 }
 
 // define function for Population Count
+
+/**
+ * World Population: export population density layer to interactive dashboard.
+ * 
+ * This function is used to construct a population count gridded dataset based on location inputs from users.
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @see  helper.add_colormap
+ * @link 'users/pinkychow1010/GEE:WorldBank/helper'
+ * @global
+ *
+ * @fires   add LST raster layer
+ * @listens select area of interest
+ *
+ * @param {ee.Geometry.Polygon}   vector        A vector layer which consists of a single polygon (admin boundary).
+ * 
+ * @return {ee.Image} Single population count data layer bounds by selected admin 2 boundary.
+ *
+ */
 function export_population(aoi) {
   
   var bbox = aoi.geometry();
