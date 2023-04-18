@@ -5,9 +5,16 @@
 
 // import module
 
+// customized basemap to enhance visuals 
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
+
+// color palettes for color bar
 var palettes = require('users/gena/packages:palettes');
+
+// utils functions
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
+
+// functions for implementation of data layers in app
 var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils');
 
 exports.data_explorer = function data_download_app(reducer, title_name) {
