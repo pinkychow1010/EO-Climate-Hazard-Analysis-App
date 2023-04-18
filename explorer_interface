@@ -342,6 +342,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     style: selector_style
   });
   
+  // button to export, will fire download url when clicked
   var downloadButton = ui.Button('Export Raster', downloadImg);
   downloadButton.style().set('width', '100px');
   downloadButton.style().set('backgroundColor', 'black');
