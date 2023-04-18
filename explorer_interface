@@ -98,12 +98,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
   
   var mainPanel = ui.Panel(); // side bar
-  // styling main panel
-  mainPanel.style().set(style.mainPanel);
-  // mainPanel.style().set({
-  //   width: '240px',
-  //   backgroundColor: 'black'
-  // });
+  mainPanel.style().set(style.mainPanel); // styling main panel
   
   ui.root.insert(0,mainPanel);
   
