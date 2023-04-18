@@ -48,16 +48,14 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     action_call = action_calls[layerKey];
   }
 
-  var s = ui.Select({
+  var ds_selector = ui.Select({
     placeholder: 'Select Layer',
     items: [
       {value: 'WorldCover', label: 'World Cover'}, 
       {value: 'Population', label: 'Population Grid'}
     ],
     onChange: changeLayers
-  })
-  
-  Map.add(s)
+  });
 
   // Import geometry boundary data for user selection
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
@@ -92,6 +90,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     });
     
   mainPanel.add(title);
+  mainPanel.add(ds_selector);
   
   // Create a panel to hold the drop-down boxes
   var dropdownPanel = ui.Panel();
