@@ -6,6 +6,16 @@ exports.mainPanel = {
     backgroundColor: 'black'
   };
 
+exports.title = {
+    'position':  'top-center',
+    'fontSize': '24px',
+    'color': 'white',
+    'fontWeight': 'bold',
+    'fontFamily': 'serif',
+    'backgroundColor': 'black',
+    'padding': '10px 10px 4px 4px',
+    };
+    
 // exports.bg_color = '#002244';
 
 // exports.description = {
