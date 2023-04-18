@@ -50,6 +50,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
 
     if (typeof(filtered) !== 'undefined') {
       Map.clear();
+      basemap.addCustomBasemap('MutedMonotone');
       rasterLayer = action_call(filtered);
     }
   }
