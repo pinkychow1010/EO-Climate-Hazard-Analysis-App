@@ -75,6 +75,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   var mainPanel = ui.Panel();
   var rasterLayer;
   var export_resolution;
+  var filtered;
   
   mainPanel.style().set({
     width: '240px',
@@ -214,13 +215,15 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     // We are on client-side, so using if/else is ok
     if (admin2Value == 'No Admin2 Units') {
         var result = admin1Value + ',' + admin0Value
-        var filtered = ADM1
+        // var filtered = ADM1
+        filtered = ADM1
           .filter(ee.Filter.eq('shapeName', admin1Value))
           .filter(ee.Filter.eq('shapeGroup', shapeGroup))
     }
     else {
         var result = admin2Value + ',' + admin1Value + ',' + admin0Value
-        var filtered = ADM2
+        // var filtered = ADM2
+        filtered = ADM2
           .filter(ee.Filter.eq('shapeName', admin2Value))
           .filter(ee.Filter.eq('shapeGroup', shapeGroup))
           .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
