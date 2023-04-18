@@ -292,18 +292,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // label export resolution
   var selectorLabel = ui.Label('Export resolution (meter)');
   selectorLabel.style().set(style.selectorLabel);
-  // selectorLabel.style().set('backgroundColor', 'black');
-  // selectorLabel.style().set('color', 'red');
-  // selectorLabel.style().set('fontSize', '11px');
-  // selectorLabel.style().set('padding', '1px');
-  
-  // // styling
-  // var selector_style = {
-  //   width: '200px',
-  //   color: 'white',
-  //   fontWeight: 'bold',
-  //   backgroundColor: 'black'
-  // };
   
   // data slider for resolution input
   var res_selector = ui.Slider({
@@ -317,10 +305,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // button to export, will fire download url when clicked
   var downloadButton = ui.Button('Export Raster', downloadImg);
   downloadButton.style().set(style.download_button);
-  // downloadButton.style().set('width', '100px');
-  // downloadButton.style().set('backgroundColor', 'black');
-  // downloadButton.style().set('color', '#919090');
-  // downloadButton.style().set('padding', '20px 4px 4px 4px');
   
   // set up url label
   var urlLabel = ui.Label('Click to download', {shown: false});
