@@ -275,8 +275,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     admin0Select.setPlaceholder('Select a country for analysis');
   });
   
-  // Download Data
-  
+  // Resample Data
   function resample(image, res, reducer) {
     var proj = image.projection().getInfo();
     var crs = proj['crs'];
@@ -288,7 +287,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     
     return resampled;
   }
-    
+  
+  // Download Data
   function downloadImg() {
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
