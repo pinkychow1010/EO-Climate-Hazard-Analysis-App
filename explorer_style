@@ -17,6 +17,13 @@ exports.title = {
     };
 
 exports.dark_theme = {'backgroundColor': 'black'};
+
+exports.selectorLabel = {
+    'backgroundColor': 'black',
+    'color': 'red',
+    'fontSize': '11px',
+    'padding': '1px'
+  };
 // exports.bg_color = '#002244';
 
 // exports.description = {
