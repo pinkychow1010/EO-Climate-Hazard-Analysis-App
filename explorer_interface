@@ -236,20 +236,25 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Resample Data to resolution defined by user
   function resample(image, res, reducer) {
     var proj = image.projection().getInfo();
-    var crs = proj.crs;
+    // var crs = proj.crs;
     
-    if (crs === undefined || crs === null){
-      var wkt = proj.wkt;
-      var resampled = image.reduceResolution({
+    var resampled = image.reduceResolution({
         'reducer':reducer,
         'bestEffort':true
-      }).reproject({'crs':ee.Projection(wkt),'scale':res});
-    } else {
-      var resampled = image.reduceResolution({
-        'reducer':reducer,
-        'bestEffort':true
-      }).reproject({'crs':crs,'scale':res});
-    }
+      }).reproject({'crs':'EPSG: 4326','scale':res});
+    
+    // if (crs === undefined || crs === null){
+    //   var wkt = proj.wkt;
+    //   var resampled = image.reduceResolution({
+    //     'reducer':reducer,
+    //     'bestEffort':true
+    //   }).reproject({'crs':ee.Projection(wkt),'scale':res});
+    // } else {
+    //   var resampled = image.reduceResolution({
+    //     'reducer':reducer,
+    //     'bestEffort':true
+    //   }).reproject({'crs':crs,'scale':res});
+    // }
     return resampled;
   }
   
