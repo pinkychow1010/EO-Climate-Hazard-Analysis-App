@@ -278,7 +278,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Resample Data
   function resample(image, res, reducer) {
     var proj = image.projection().getInfo();
-    var crs = proj['crs'];
+    var crs = proj.crs;
     
     var resampled = image.reduceResolution({
       'reducer':reducer,
