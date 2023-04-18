@@ -119,10 +119,10 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   mainPanel.add(ds_selector);
   
   var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
-  var resultPanel = ui.Panel(); // panel to hold the result
+  // var resultPanel = ui.Panel(); // panel to hold the result
   
   dropdownPanel.style().set({'backgroundColor': 'black'});
-  resultPanel.style().set({'backgroundColor': 'black'});
+  // resultPanel.style().set({'backgroundColor': 'black'});
   
   // Define 3 dropdowns for admin0, admin1 and admin2 names
   
@@ -145,12 +145,13 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   dropdownPanel.add(admin2Select);
   
   mainPanel.add(dropdownPanel);
-  mainPanel.add(resultPanel);
+  // mainPanel.add(resultPanel);
   
   // Define the onChange() function for admin0Select
   var admin0Selected = function(admin0Selection) {
     
-    resultPanel.clear(); Map.clear(); reset();
+    // resultPanel.clear(); 
+    Map.clear(); reset();
     admin1Select.items().reset();
     admin2Select.items().reset();
     admin1Select.setPlaceholder('Please wait..');
@@ -176,7 +177,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Define the onChange() function for admin1Select
   var admin1Selected = function(admin1Selection) {
     
-    resultPanel.clear(); Map.clear(); reset();
+    // resultPanel.clear(); 
+    Map.clear(); reset();
     
     admin2Select.setPlaceholder('Please wait..');
   
@@ -201,7 +203,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Define the onChange() function for admin2Select
   var admin2Selected = function(admin1Selection) {
     
-    resultPanel.clear();
+    // resultPanel.clear();
     Map.clear();
     reset();
     
@@ -231,7 +233,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
     }
     var label = ui.Label('You selected: ' + result)
-    resultPanel.add
+    // resultPanel.add
     
     // Action 
     Map.centerObject(filtered);
