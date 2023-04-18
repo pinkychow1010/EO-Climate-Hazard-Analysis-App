@@ -153,7 +153,7 @@ function export_population(aoi) {
 /**
  * Land Use Cover 2020: export land use cover layer to interactive dashboard.
  * 
- * This function is used to construct a population count gridded dataset based on location inputs from users.
+ * This function is used to construct a land use cover gridded dataset based on location inputs from users.
  * 
  * @author Ka Hei Chow.
  *
@@ -166,19 +166,20 @@ function export_population(aoi) {
  *
  * @param {ee.Geometry.Polygon}   vector        A vector layer which consists of a single polygon (admin boundary).
  * 
- * @return {ee.Image} Single population count data layer bounds by selected admin 2 boundary.
+ * @return {ee.Image} Single land use data layer bounds by selected admin 2 boundary.
  *
  */
 function export_landuse(aoi) {
   
+  // calculate boundary
   var bbox = aoi.geometry();
   
-  // get urban areas
+  // get land use cover dataset for boundary
   var lulc = ee.ImageCollection('ESA/WorldCover/v200')
   .first()
   .clip(bbox);
   
-  // add layer for urban density
+  // add LULC raster layer on map
   Map.addLayer(lulc, {}, 'Land Use Cover 2020');
   Map.centerObject(bbox, 8);
   
