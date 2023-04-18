@@ -308,6 +308,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   selectorLabel.style().set('fontSize', '11px');
   selectorLabel.style().set('padding', '1px');
   
+  // styling
   var selector_style = {
     width: '200px',
     color: 'white',
@@ -331,13 +332,13 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   downloadButton.style().set('color', '#919090');
   downloadButton.style().set('padding', '20px 4px 4px 4px');
   
+  // set up url label
   var urlLabel = ui.Label('Click to download', {shown: false});
   urlLabel.style().set({'backgroundColor': 'black'});
   
-  // combine components to export panel
+  // combine components to export panel and add it to side bar
   var exportPanel = ui.Panel([selectorLabel, res_selector, downloadButton, urlLabel]);
   exportPanel.style().set({'backgroundColor': 'black'});
-  
   mainPanel.add(exportPanel);
 };
 
