@@ -178,13 +178,9 @@ exports.export_landuse = function export_landuse(aoi) {
   var lulc = ee.ImageCollection('ESA/WorldCover/v200')
   .first()
   .clip(bbox);
-  
-  var visualization = {
-    bands: ['Map'],
-  };
 
   // add LULC raster layer on map
-  Map.addLayer(lulc, visualization, 'Land Use Cover 2020');
+  Map.addLayer(lulc, {}, 'Land Use Cover 2020');
   Map.centerObject(bbox, 8);
 
   var names = ee.List(lulc.get('Map_class_names'));
@@ -242,7 +238,6 @@ exports.export_landuse = function export_landuse(aoi) {
   for (var i = 0; i < 11; i++) {
       legend.add(makeRow(landcoverPalette.get(i), newNames[i]));
   }
-  
   Map.add(legend);
   
   return lulc;
