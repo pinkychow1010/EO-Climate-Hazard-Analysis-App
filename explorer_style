@@ -1,36 +1,41 @@
 
 // This script stores the style settings for the data explorer/ downloader interface
 
-exports.bg_color = '#002244';
+exports.mainPanel = {
+    width: '240px',
+    backgroundColor: 'black'
+  };
 
-exports.description = {
-      color: '#FFFFFF', 
-      fontWeight: 'normal', 
-      fontSize: '12px', 
-      padding: '1px 25px 25px 25px', 
-      fontFamily: 'monospace'
-    };
+// exports.bg_color = '#002244';
+
+// exports.description = {
+//       color: '#FFFFFF', 
+//       fontWeight: 'normal', 
+//       fontSize: '12px', 
+//       padding: '1px 25px 25px 25px', 
+//       fontFamily: 'monospace'
+//     };
     
-exports.title = {
-      color: '#FFFFFF', 
-      fontWeight: 'bold', 
-      fontSize: '22px', 
-      whiteSpace: 'pre', 
-      textAlign: 'left', 
-      padding: '25px 1px 25px 25px'
-    };
+// exports.title = {
+//       color: '#FFFFFF', 
+//       fontWeight: 'bold', 
+//       fontSize: '22px', 
+//       whiteSpace: 'pre', 
+//       textAlign: 'left', 
+//       padding: '25px 1px 25px 25px'
+//     };
 
-exports.selection = {padding: '1px 25px 25px 25px'};
+// exports.selection = {padding: '1px 25px 25px 25px'};
 
-exports.headings = {
-      color: '#FFFFFF', 
-      fontWeight: 'normal', 
-      fontSize: '15px', 
-      whiteSpace: 'pre', 
-      textAlign: 'left', 
-      padding: '1px 25px 25px 25px'
-    };
+// exports.headings = {
+//       color: '#FFFFFF', 
+//       fontWeight: 'normal', 
+//       fontSize: '15px', 
+//       whiteSpace: 'pre', 
+//       textAlign: 'left', 
+//       padding: '1px 25px 25px 25px'
+//     };
 
-exports.start_button = {width: '80px'};
+// exports.start_button = {width: '80px'};
 
-exports.app_panel = {width: '500px'};
+// exports.app_panel = {width: '500px'};
