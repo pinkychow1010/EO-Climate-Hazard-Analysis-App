@@ -9,11 +9,13 @@ var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils');
 
-exports.data_explorer = function data_download_app(action_call, reducer, title_name) {
+exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // define app name
   if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()}
   if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
+  
+  var action_call;
   
   // draw boundary
   function draw_bounds(geometry){
