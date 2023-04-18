@@ -155,7 +155,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     
     admin1Select.items().reset()
     admin2Select.items().reset()
-    admin1Select.setPlaceholder('please wait..')
+    admin1Select.setPlaceholder('Please wait..')
     admin2Select.setPlaceholder('Select a admin 1 unit first..')
   
     // Now we have admin0 values, fetch admin1 values for that country
@@ -183,7 +183,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     Map.clear();
     reset();
     
-    admin2Select.setPlaceholder('please wait..')
+    admin2Select.setPlaceholder('Please wait..')
   
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
     
