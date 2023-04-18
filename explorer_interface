@@ -251,33 +251,29 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     resultPanel.add
     
     // Action 
-    Map.centerObject(filtered)
+    Map.centerObject(filtered);
     draw_bounds(filtered);
     
     var output = action_call(filtered);
+    if (typeof(output) !== 'undefined') {rasterLayer = output;}
     
-    if (typeof(output) !== 'undefined') {
-      rasterLayer = output;
-    }
-    
-  }
+  };
   
   // Register the callback functions
-  admin0Select.onChange(admin0Selected)
-  admin1Select.onChange(admin1Selected)
-  admin2Select.onChange(admin2Selected)
+  admin0Select.onChange(admin0Selected);
+  admin1Select.onChange(admin1Selected);
+  admin2Select.onChange(admin2Selected);
   
   // Get all country names and sort them
-  var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct()
+  var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
   // Fetch the value using evaluate() to not block the UI
   admin0Names.evaluate(function(items){
-    admin0Select.items().reset(items)
+    admin0Select.items().reset(items);
     // Now that we have items, enable the menu
-    admin0Select.setDisabled(false)
+    admin0Select.setDisabled(false);
     // Change placeholder
-    admin0Select.setPlaceholder('Select a country for analysis')
-  
-  })
+    admin0Select.setPlaceholder('Select a country for analysis');
+  });
   
   // Download Data
   
