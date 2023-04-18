@@ -119,14 +119,10 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   mainPanel.add(ds_selector);
   
   var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
-  // var resultPanel = ui.Panel(); // panel to hold the result
-  
+
   dropdownPanel.style().set({'backgroundColor': 'black'});
-  // resultPanel.style().set({'backgroundColor': 'black'});
   
-  // Define 3 dropdowns for admin0, admin1 and admin2 names
-  
-  // set up location input session
+  // set up location input session (dropdowns for admin0, admin1 and admin2 names)
   // disable admin selections
   var admin0Select = ui.Select({
       placeholder: 'Please wait..',
@@ -145,20 +141,17 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   dropdownPanel.add(admin2Select);
   
   mainPanel.add(dropdownPanel);
-  // mainPanel.add(resultPanel);
   
   // Update from Admin 0 selection
   // Define the onChange() function for admin0Select
   var admin0Selected = function(admin0Selection) {
-    
-    // resultPanel.clear(); 
     Map.clear(); reset();
     admin1Select.items().reset();
     admin2Select.items().reset();
     admin1Select.setPlaceholder('Please wait..');
     admin2Select.setPlaceholder('Select a admin 1 unit first..');
   
-    // Now we have admin0 values, fetch admin1 values for that country
+    // given admin0 values, fetch admin1 values for that country
     var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
     var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
@@ -174,8 +167,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // Define the onChange() function for admin1Select
   var admin1Selected = function(admin1Selection) {
-    
-    // resultPanel.clear(); 
     Map.clear(); reset();
     
     // Update admin 2 menu from admin 1 selection
@@ -201,8 +192,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // Define the onChange() function for admin2Select
   var admin2Selected = function(admin1Selection) {
-    
-    // resultPanel.clear();
     Map.clear(); reset();
     
     // fetch location inputs from user
@@ -229,10 +218,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
           .filter(ee.Filter.eq('shapeName', admin2Value))
           .filter(ee.Filter.eq('shapeGroup', shapeGroup))
           .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
-  
     }
-    // var label = ui.Label('You selected: ' + result)
-    // resultPanel.add
     
     // zoom to selected aoi and highlight polygon
     Map.centerObject(filtered);
@@ -241,7 +227,6 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     // call main action
     var output = action_call(filtered);
     if (typeof(output) !== 'undefined') {rasterLayer = output;}
-    
   };
   
   // Register the callback functions
@@ -254,10 +239,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Fetch the value using evaluate() to not block the UI
   admin0Names.evaluate(function(items){
     admin0Select.items().reset(items);
-    // Now that we have items, enable the menu
-    admin0Select.setDisabled(false);
-    // Change placeholder
-    admin0Select.setPlaceholder('Select a country for analysis');
+    admin0Select.setDisabled(false); // enable menu
+    admin0Select.setPlaceholder('Select a country for analysis'); // Change placeholder
   });
   
   // Resample Data to resolution defined by user
@@ -269,13 +252,11 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
       'reducer':reducer,
       'bestEffort':true
     }).reproject({'crs':crs,'scale':res});
-    
     return resampled;
   }
   
   // Export Selected Raster Data
   function downloadImg() {
-    
     // fetch aoi
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
