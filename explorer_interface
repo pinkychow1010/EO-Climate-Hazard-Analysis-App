@@ -104,15 +104,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // set up title
   var title = ui.Label(title_name);
-  title.style().set({
-    'position':  'top-center',
-    'fontSize': '24px',
-    'color': 'white',
-    'fontWeight': 'bold',
-    'fontFamily': 'serif',
-    'backgroundColor': 'black',
-    'padding': '10px 10px 4px 4px',
-    });
+  title.style().set(style.title);
   
   // content for main panel
   mainPanel.add(title);
