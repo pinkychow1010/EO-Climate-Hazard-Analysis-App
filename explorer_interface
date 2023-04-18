@@ -46,9 +46,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   function changeLayers(layerKey) {
     action_call = action_calls[layerKey];
-    
-    console.log(filtered);
-    
+
     if (typeof(filtered) !== 'undefined') {
       rasterLayer = action_call(filtered);
     }
