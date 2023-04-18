@@ -125,15 +125,15 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // Keep them disbled. We will add items later
   var admin0Select = ui.Select({
-      placeholder: 'please wait..',
+      placeholder: 'Please wait..',
     }).setDisabled(true)
     
   var admin1Select = ui.Select({
-      placeholder: 'select a country first',
+      placeholder: 'Select a country first',
     }).setDisabled(true)
     
   var admin2Select = ui.Select({
-    placeholder: 'select admin 1 unit first',
+    placeholder: 'Select admin 1 unit first',
   }).setDisabled(true)
   
   dropdownPanel.add(admin0Select)
