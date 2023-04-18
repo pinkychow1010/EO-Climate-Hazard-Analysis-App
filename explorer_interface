@@ -58,17 +58,19 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // action on changing data layers by user from the drop-down menu
   function changeLayers(layerKey) {
-    action_call = action_calls[layerKey];
-
+    action_call = action_calls[layerKey]; // change action from dict
+    
+    // in case of already selected aoi, clean map and call action directly
     if (typeof(filtered) !== 'undefined') {
-      Map.clear();
+      Map.clear(); // reset
       Map.setControlVisibility({drawingToolsControl:false});
       basemap.addCustomBasemap('MutedMonotone');
       draw_bounds(filtered);
-      rasterLayer = action_call(filtered);
+      rasterLayer = action_call(filtered); // update rasterLayer for export
     }
   }
-
+  
+  // drop-down menu to select data layer
   var ds_selector = ui.Select({
     placeholder: 'Select a data layer',
     items: [
@@ -78,7 +80,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     onChange: changeLayers
   });
 
-  // Import geometry boundary data for user selection
+  // import geometry boundary data for user selection
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
   var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
@@ -87,11 +89,12 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // ########### GUI APP ############# //
   // ################################# //
   
-  var mainPanel = ui.Panel();
-  var rasterLayer;
-  var export_resolution;
-  var filtered;
+  var mainPanel = ui.Panel(); // side bar
+  var rasterLayer; // layer for export
+  var export_resolution; // resolution
+  var filtered; // aoi
   
+  // styling main panel
   mainPanel.style().set({
     width: '240px',
     backgroundColor: 'black'
@@ -99,6 +102,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   ui.root.insert(0,mainPanel);
   
+  // set up title
   var title = ui.Label(title_name);
   title.style().set({
     'position':  'top-center',
@@ -109,7 +113,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     'backgroundColor': 'black',
     'padding': '10px 10px 4px 4px',
     });
-    
+  
+  // content for main panel
   mainPanel.add(title);
   mainPanel.add(ds_selector);
   
@@ -124,16 +129,17 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Keep them disbled. We will add items later
   var admin0Select = ui.Select({
       placeholder: 'Please wait..',
-    }).setDisabled(true)
+    }).setDisabled(true);
     
   var admin1Select = ui.Select({
       placeholder: 'Select a country first',
-    }).setDisabled(true)
+    }).setDisabled(true);
     
   var admin2Select = ui.Select({
     placeholder: 'Select admin 1 unit first',
-  }).setDisabled(true)
+  }).setDisabled(true);
   
+  // set up location input session
   dropdownPanel.add(admin0Select);
   dropdownPanel.add(admin1Select);
   dropdownPanel.add(admin2Select);
