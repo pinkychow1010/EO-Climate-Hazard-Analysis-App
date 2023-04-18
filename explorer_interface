@@ -178,15 +178,15 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     // resultPanel.clear(); 
     Map.clear(); reset();
     
+    // Update admin 2 menu from admin 1 selection
     admin2Select.setPlaceholder('Please wait..');
-  
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
     var shapeID = ee.Feature(selectedAdmin1.first()).get('shapeID');
     var selectedAdmin2 = ADM2.filter(ee.Filter.eq('ADM1_shape', shapeID));
     var admin2Names = selectedAdmin2.aggregate_array('shapeName').sort();
     
     admin2Names.evaluate(function(items){
-      if (items.length == 0) {
+      if (items.length === 0) {
         items = ['No Admin2 Units'];
         admin2Select.items().reset(items);
       }
