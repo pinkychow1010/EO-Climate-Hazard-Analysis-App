@@ -30,12 +30,14 @@ var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // funct
  * @link 'users/pinkychow1010/WB_IntraUrban:explorer_utils'
  * @global
  *
- * @fires   add urban density raster layer
+ * @fires   call actions according to dict
  * @listens select area of interest
+ * @listens select dataset
  *
- * @param {ee.Geometry.Polygon}   vector        A vector layer which consists of a single polygon (admin boundary).
+ * @param {ee.Reducer} a reducer method     Resampling method for data export.
+ * @param {str} name     App title to display.
  * 
- * @return {ee.Image} Single urban density data layer bounds by selected admin 2 boundary.
+ * @return Actions depends on functions from explorer_utils
  *
  */
 exports.data_explorer = function data_download_app(reducer, title_name) {
