@@ -211,33 +211,36 @@ function export_landuse(aoi) {
  */
 function export_urban_density(aoi) {
   
+  // compute boundary
   var bbox = aoi.geometry();
   
-  // get urban areas
+  // get land use cover
   var lulc = ee.ImageCollection('ESA/WorldCover/v200')
   .first()
   .clip(bbox);
   
+  // extract urban land use
   var urban_mask = lulc.eq(50);
   
-  // calculate urban density
+  // calculate urban density within 5km radius (circle)
   var reduceNeighborhood = urban_mask.reduceNeighborhood(
     ee.Reducer.mean(), 
     ee.Kernel.circle(5000, 'meters')
   ).multiply(100).toByte();
   
-  // viz params
+  // visualization params
   var palette = palettes.misc.tol_rainbow[7];
   var vis = {min: 20, max: 80, palette: palette};
   
-  // focus on dense areas
+  // focus on dense areas, masked rural areas (< 20%)
   var urban_threshold = reduceNeighborhood.gt(20);
   var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
   
-  // add layer for urban density
+  // add urban density layer to map
   Map.addLayer(reduceNeighborhoodMasked, vis, 'Urban Density');
   Map.centerObject(bbox, 8);
   
+  // add legend
   var legend = helper.add_colorbar(vis, "Urban Density");
   Map.add(legend);
   
