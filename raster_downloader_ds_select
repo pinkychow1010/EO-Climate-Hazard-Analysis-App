@@ -206,7 +206,7 @@ function export_landuse(aoi) {
  *
  * @param {ee.Geometry.Polygon}   vector        A vector layer which consists of a single polygon (admin boundary).
  * 
- * @return {ee.Image} Single land use data layer bounds by selected admin 2 boundary.
+ * @return {ee.Image} Single urban density data layer bounds by selected admin 2 boundary.
  *
  */
 function export_urban_density(aoi) {
