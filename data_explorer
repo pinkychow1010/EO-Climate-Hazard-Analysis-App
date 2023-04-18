@@ -7,6 +7,7 @@
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
+var data = require('users/pinkychow1010/WB_IntraUrban:app_export_func');
 
 exports.data_explorer = function data_download_app(action_call, reducer, title_name) {
   
@@ -37,8 +38,8 @@ exports.data_explorer = function data_download_app(action_call, reducer, title_n
   
   //
   var action_calls = {
-    'WorldCover': export_landuse,
-    'Population': export_population
+    'WorldCover': data.export_landuse,
+    'Population': data.export_population
   };
   
   function changeLayers(layerKey) {
