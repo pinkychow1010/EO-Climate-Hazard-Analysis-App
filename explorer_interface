@@ -54,26 +54,9 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // assign action to be fired
   var action_call;
   
-  // // draw admin boundary selected by user
-  // function draw_bounds(geometry){
-  //   var empty = ee.Image().byte();
-  //   var outlines = empty.paint({
-  //     featureCollection: geometry,
-  //     color: 'red',
-  //     width: 2
-  //   });
-  //   var palette = ['FF0000', '00FF00', '0000FF'];
-  //   Map.addLayer(outlines, {palette: palette}, 'Boundary');  
-  // }
-  
-  // // config base map on reset
-  // function reset(){
-  //   basemap.addCustomBasemap('MutedMonotone');
-  //   Map.setCenter(0, 20, 1.8);
-  //   Map.setControlVisibility({drawingToolsControl:false});
-  // }
   reset(); // reset app display
   
+  // action on changing data layers by user from the drop-down menu
   function changeLayers(layerKey) {
     action_call = action_calls[layerKey];
 
