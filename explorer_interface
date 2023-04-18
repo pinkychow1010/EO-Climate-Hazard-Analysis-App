@@ -236,7 +236,9 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // Resample Data to resolution defined by user
   function resample(image, res, reducer) {
     var proj = image.projection().getInfo();
-    var crs = proj['crs'];
+    var crs = proj.crs;
+    
+    if (crs === undefined || crs === null){var crs = 'EPSG:4326'}
     
     var resampled = image.reduceResolution({
       'reducer':reducer,
