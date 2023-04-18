@@ -7,7 +7,7 @@
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
-var data = require('users/pinkychow1010/WB_IntraUrban:export_utils');
+var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils');
 
 exports.data_explorer = function data_download_app(action_call, reducer, title_name) {
   
