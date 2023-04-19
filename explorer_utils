@@ -182,10 +182,16 @@ exports.export_landuse = function export_landuse(aoi) {
   // add LULC raster layer on map
   Map.addLayer(lulc, {}, 'Land Use Cover 2020');
   Map.centerObject(bbox, 8);
+  
+  var landcoverPalette = ee.List(['006400','ffbb22','ffff4c','f096ff','fa0000','b4b4b4','f0f0f0','0064c8','0096a0','00cf75','fae6a0']);
 
-  var names = ee.List(lulc.get('Map_class_names'));
-  var landcoverPalette = ee.List(lulc.get('Map_class_palette'));
-  var landcoverVisualization= ee.Dictionary({palette: landcoverPalette, min: 0, max: 44, format: 'png'});
+  var newNames = ['Tree cover','Shrubland','Grassland','Cropland',
+  'Built-up','Bare / sparse vegetation','Snow and ice','Permanent water bodies',
+  'Herbaceous wetland','Mangroves','Moss and lichen'];
+  
+  // var names = ee.List(lulc.get('Map_class_names'));
+  // var landcoverPalette = ee.List(lulc.get('Map_class_palette'));
+  // var landcoverVisualization= ee.Dictionary({palette: landcoverPalette, min: 0, max: 44, format: 'png'});
   
   // Create the panel for the legend items.
   var legend = ui.Panel({
@@ -232,8 +238,8 @@ exports.export_landuse = function export_landuse(aoi) {
     });
   };
   
-  // use getInfo to make the names client-side
-  var newNames = names.getInfo();
+  // // use getInfo to make the names client-side
+  // var newNames = names.getInfo();
   
   for (var i = 0; i < 11; i++) {
       legend.add(makeRow(landcoverPalette.get(i), newNames[i]));
