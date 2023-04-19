@@ -54,8 +54,9 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // main dict to define action selection
   var action_calls = {
-    'WorldCover': data.export_landuse,
-    'Population': data.export_population
+    'World Cover': data.export_landuse,
+    'Population': data.export_population,
+    'Urban Density': data.export_urban_density
   };
   
   // assign action to be fired
