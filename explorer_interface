@@ -11,6 +11,14 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils funct
 var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // functions for implementation of data layers in app
 var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict for explorer styling
 
+// main dict to define action selection
+var action_calls = {
+  'World Cover': data.export_landuse,
+  'Population': data.export_population,
+  'Urban Density': data.export_urban_density,
+  'Summer Temperature': data.export_summer_lst
+};
+
 /**
  * Data explorer: an interactive dashboard to display spatial data layers for downloads.
  * 
@@ -52,13 +60,13 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // :::::: DATASET ::::::::
   
-  // main dict to define action selection
-  var action_calls = {
-    'World Cover': data.export_landuse,
-    'Population': data.export_population,
-    'Urban Density': data.export_urban_density,
-    'Summer Temperature': data.export_summer_lst
-  };
+  // // main dict to define action selection
+  // var action_calls = {
+  //   'World Cover': data.export_landuse,
+  //   'Population': data.export_population,
+  //   'Urban Density': data.export_urban_density,
+  //   'Summer Temperature': data.export_summer_lst
+  // };
   
   // assign action to be fired
   var action_call;
