@@ -194,7 +194,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     
     // Some regions do not have admin2 values
     // We are on client-side, so using if/else is ok
-    if (admin2Value == 'No Admin2 Units') {
+    // if (admin2Value == 'No Admin2 Units') {
+    if (admin2Select.items() == ['No Admin2 Units']) {
         var result = admin1Value + ',' + admin0Value;
         // var filtered = ADM1
         filtered = ADM1
