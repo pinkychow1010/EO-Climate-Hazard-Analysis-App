@@ -85,8 +85,10 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   var ds_selector = ui.Select({
     placeholder: 'Select a data layer',
     items: [
-      {value: 'WorldCover', label: 'World Cover'}, 
-      {value: 'Population', label: 'Population Grid'}
+      'WorldCover','UrbanDensity','Population'
+      // {value: 'WorldCover', label: 'World Cover'}, 
+      // {value: 'Population', label: 'Population Grid'},
+      // {value: 'UrbanDensity', label: 'Urban Density'}
     ],
     onChange: changeLayers
   });
