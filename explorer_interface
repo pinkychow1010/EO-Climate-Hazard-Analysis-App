@@ -19,6 +19,9 @@ var action_calls = {
   'Summer Temperature': data.export_summer_lst
 };
 
+
+
+
 /**
  * Data explorer: an interactive dashboard to display spatial data layers for downloads.
  * 
