@@ -54,9 +54,9 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // main dict to define action selection
   var action_calls = {
-    'WorldCover': data.export_landuse,
+    'World Cover': data.export_landuse,
     'Population': data.export_population,
-    'UrbanDensity': data.export_urban_density
+    'Urban Density': data.export_urban_density
   };
   
   // assign action to be fired
@@ -85,10 +85,7 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   var ds_selector = ui.Select({
     placeholder: 'Select a data layer',
     items: [
-      'WorldCover','UrbanDensity','Population'
-      // {value: 'WorldCover', label: 'World Cover'}, 
-      // {value: 'Population', label: 'Population Grid'},
-      // {value: 'UrbanDensity', label: 'Urban Density'}
+      'World Cover','Urban Density','Population'
     ],
     onChange: changeLayers
   });
