@@ -11,8 +11,20 @@ intraUrban.app(fvc_lst_impact);
 
 function fvc_lst_impact(aoi){
   
+  function rollingMean(collection) {
+    function doIt(idx) {
+      var d1 = date0.advance(ee.Number(idx).add(2), "year");  // last year will be excluded
+      var d0 = d1.advance(-3, "year");
+      return collection.filterDate(d0, d1)
+      .reduce(ee.Reducer.median())
+      .set("system:time_start", d0.advance(1, "year"));
+    }
+    return doIt;
+  }
+  
   // check location
-  var centroid = aoi.centroid({'maxError': 1});
+  var bbox = aoi.geometry();
+  var centroid = bbox.centroid({'maxError': 1});
   var listCoords = ee.Array.cat(centroid.coordinates(), 0);
   var yCoords = ee.List(listCoords).getInfo()[1];
   
@@ -220,18 +232,3 @@ function fvc_lst_impact(aoi){
     fvcChart2, dayChart2, nightChart2,
     ];
 };
-
-//################################//
-//########### FUNCTION ###########//
-//################################//
-
-function rollingMean(collection) {
-  function doIt(idx) {
-    var d1 = date0.advance(ee.Number(idx).add(2), "year");  // last year will be excluded
-    var d0 = d1.advance(-3, "year");
-    return collection.filterDate(d0, d1)
-    .reduce(ee.Reducer.median())
-    .set("system:time_start", d0.advance(1, "year"));
-  }
-  return doIt;
-}
