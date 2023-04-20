@@ -12,13 +12,14 @@ var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // funct
 var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict for explorer styling
 
 // main dict to define action selection
-var action_calls = {
-  'World Cover': data.export_landuse,
-  'Population': data.export_population,
-  'Urban Density': data.export_urban_density,
-  'Summer Day Temperature': data.export_summer_lst,
-  'Summer Night Temperature': data.export_summer_lst_night
-};
+var action_calls = data.layer_dict;
+// {
+//   'World Cover': data.export_landuse,
+//   'Population': data.export_population,
+//   'Urban Density': data.export_urban_density,
+//   'Summer Day Temperature': data.export_summer_lst,
+//   'Summer Night Temperature': data.export_summer_lst_night
+// };
 
 
 
