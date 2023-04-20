@@ -1,3 +1,18 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var bbox = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.86151594292187, 25.11239369665993],
+          [66.86151594292187, 24.723813539332333],
+          [67.33942121635937, 24.723813539332333],
+          [67.33942121635937, 25.11239369665993]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
 // Define config for visualization
@@ -44,7 +59,7 @@ Map.centerObject(bbox, 9);
 
 var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .map(maskL8sr)
-  .filterDate('2018-06-01', '2018-09-01')
+  .filterDate('2020-06-01', '2020-09-01')
   .mean()
   .clip(bbox);
 
@@ -53,7 +68,7 @@ var lst = calc_ls_lst(landsat);
 var vis = {min: 29, max:36, palette: palette};
 Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
 
-var chart = reduce_by_lulc(lst, bbox, "LST by LULC");
+var chart = reduce_by_lulc(lst, bbox, "Land Surface Temperature by Land Use Class (2020)");
 print(chart);
 
 
