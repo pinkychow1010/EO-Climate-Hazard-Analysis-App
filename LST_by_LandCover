@@ -59,7 +59,7 @@ Map.centerObject(bbox, 9);
 
 var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .map(maskL8sr)
-  .filterDate('2020-06-01', '2020-09-01')
+  .filterDate('2021-06-01', '2021-09-01')
   .mean()
   .clip(bbox);
 
@@ -69,7 +69,7 @@ var vis = {min: 29, max:36, palette: palette};
 Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
 
 var chart = reduce_by_lulc(lst, bbox, "Land Surface Temperature by Land Use Class (2020)");
-Map.add(chart);
+print(chart);
 
 
 // #################################
@@ -206,7 +206,7 @@ function reduce_by_lulc(image, bbox, title) {
       });
     
     var chartStyle = {
-      colors: ['red']
+      colors: ['#8B0000']
     };
     
     return landcover_summary_chart.setOptions(chartStyle);
