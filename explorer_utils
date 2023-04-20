@@ -14,6 +14,66 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 // define function for Summer Temperature
 
+
+exports.export_summer_lst_night = function export_summer_lst_night(aoi) {
+  
+  // calculate geometry of vector layer
+  var bbox = aoi.geometry();
+  
+  // determine location in south / north hemisphere (different summer months)
+  var centroid = bbox.centroid();
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  
+  // south/ north
+  var south = ee.Number(yCoords).lt(0);
+  var shift = south.multiply(6).getInfo();
+  
+  // evaluation year
+  var start_year = ee.Date("2020-01-01");
+  var end_year = ee.Date("2021-01-01");
+  
+  // filter dataset to evaluation year
+  var yearFilter = ee.Filter.date(
+    start_year.advance(-1, "year"), 
+    end_year.advance(1, "year")
+    );
+  
+  // get summer months depends on location
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+
+  var lst = ee.ImageCollection("MODIS/061/MOD11A2")
+    //.map(maskClouds) // to be done: add MODIS cloud masking 
+    .select("LST_Night_1km") // day time temperature
+    .filter(yearFilter) // filter year
+    .filter(summerFilter) // filter season
+    .median() // get median
+    .multiply(0.02) // apply scale factor
+    .subtract(272.15) // apply offset
+    .clip(bbox); // limit bounds
+  
+  // visualization format
+  var vis = {
+    min: 20.0,
+    max: 40.0,
+    palette: ['blue', 'white', 'red'],
+  };
+  
+  // add layer for land surface temperature
+  Map.addLayer(lst, vis, 'MODIS LST Night 2020');
+  Map.centerObject(bbox, 8);
+  
+  // add legend to raster layer
+  var legend = helper.add_colorbar(vis, "LST Night");
+  Map.add(legend);
+  
+  // for some reason, the original projection altered after temporal filtering
+  // this line is necessary to set back valid projection for the output layer
+  var ref = ee.ImageCollection("MODIS/061/MOD11A2").first().projection();
+  
+  return lst.setDefaultProjection(ref);
+}
+
 /**
  * Calculate summer land surface temperature: export summer average temperature to interactive dashboard.
  * 
@@ -78,11 +138,11 @@ exports.export_summer_lst = function export_summer_lst(aoi) {
   };
   
   // add layer for land surface temperature
-  Map.addLayer(lst, vis, 'MODIS LST 2020');
+  Map.addLayer(lst, vis, 'MODIS LST Day 2020');
   Map.centerObject(bbox, 8);
   
   // add legend to raster layer
-  var legend = helper.add_colorbar(vis, "LST");
+  var legend = helper.add_colorbar(vis, "LST Day");
   Map.add(legend);
   
   // for some reason, the original projection altered after temporal filtering
