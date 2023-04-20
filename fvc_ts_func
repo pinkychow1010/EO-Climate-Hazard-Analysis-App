@@ -72,15 +72,28 @@ function fvc_lst_impact(aoi){
   var before = fvc.filter(ee.Filter.date('2001-01-01', '2001-12-01')).median().clip(aoi);
   var after = fvc.filter(ee.Filter.date('2020-01-01', '2020-12-01')).median().clip(aoi);
   
-  // Map.addLayer(before, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2001");
-  // Map.addLayer(after, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2020");
-  Map.addLayer(after.subtract(before), {min: -10, max: 10, palette: ['red', 'white', 'green']}, "FVC Difference");
-  
+
   // ################################################ //
   // ########## VEGETATION LOSS GROUP ############### //
   // ################################################ //
   
-  var threshold = (after.subtract(before)).lt(-20);
+   // get urban areas
+  var urban_mask = ee.ImageCollection('ESA/WorldCover/v200').first().clip(bbox).eq(50);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+
+  // focus on dense areas
+  var urban_threshold = reduceNeighborhood.gt(2);
+  
+  // Map.addLayer(before, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2001");
+  // Map.addLayer(after, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2020");
+  Map.addLayer(after.subtract(before).updateMask(urban_threshold), {min: -10, max: 10, palette: ['red', 'white', 'green']}, "FVC Difference");
+  
+  var threshold = (after.subtract(before)).lt(-20).and(urban_threshold);
   
   // FVC at different temporal aggregations (create sequence)
   var date0 = start_year.advance(1, "year");
@@ -113,7 +126,7 @@ function fvc_lst_impact(aoi){
       }),
       region: aoi,
       reducer: ee.Reducer.mean(),
-      scale: 100
+      scale: 500
     }).setOptions(fvcStyle);
   
   // DAY TEMP
@@ -134,7 +147,7 @@ function fvc_lst_impact(aoi){
       }),
       region: aoi,
       reducer: ee.Reducer.median(),
-      scale: 100
+      scale: 500
     }).setOptions(dayStyle);
   
   // NIGHT TEMP
@@ -155,14 +168,14 @@ function fvc_lst_impact(aoi){
       }),
       region: aoi,
       reducer: ee.Reducer.median(),
-      scale: 100
+      scale: 500
     }).setOptions(nightStyle);
   
   // ################################################ //
   // ########## VEGETATION GAIN GROUP ############### //
   // ################################################ //
   
-  var threshold = (after.subtract(before)).gt(20);
+  var threshold = (after.subtract(before)).gt(20).and(urban_threshold);
   
   // VEGETATION FRACTIONAL COVER
   var fvcStyle = {
@@ -182,7 +195,7 @@ function fvc_lst_impact(aoi){
       }),
       region: aoi,
       reducer: ee.Reducer.mean(),
-      scale: 100
+      scale: 500
     }).setOptions(fvcStyle);
   
   // DAY TEMP
@@ -203,7 +216,7 @@ function fvc_lst_impact(aoi){
       }),
       region: aoi,
       reducer: ee.Reducer.median(),
-      scale: 100
+      scale: 500
     }).setOptions(dayStyle);
   
   // NIGHT TEMP
@@ -224,7 +237,7 @@ function fvc_lst_impact(aoi){
       }),
       region: aoi,
       reducer: ee.Reducer.median(),
-      scale: 100
+      scale: 500
     }).setOptions(nightStyle);
     
   return [
