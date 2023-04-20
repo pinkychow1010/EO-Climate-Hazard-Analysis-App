@@ -12,9 +12,16 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
+// dict
+exports.layer_dict = {
+  'World Cover': data.export_landuse,
+  'Population': data.export_population,
+  'Urban Density': data.export_urban_density,
+  'Summer Day Temperature': data.export_summer_lst,
+  'Summer Night Temperature': data.export_summer_lst_night
+};
+
 // define function for Summer Temperature
-
-
 exports.export_summer_lst_night = function export_summer_lst_night(aoi) {
   
   // calculate geometry of vector layer
