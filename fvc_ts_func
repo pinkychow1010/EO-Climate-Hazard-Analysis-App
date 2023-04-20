@@ -5,6 +5,10 @@
 // for areas of vegetation gain and loss. Long-term satellite images are used to extract the time series and comparisons
 // are performed between vegetation gain and loss groups.
 
+var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
+
+intraUrban.app(fvc_lst_impact);
+
 function fvc_lst_impact(aoi){
   
   // check location
