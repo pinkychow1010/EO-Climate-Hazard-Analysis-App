@@ -1,0 +1,237 @@
+// LST Impacts from Vegetation Changes
+// 
+// This script is used to analyse the impacts of changing vegetation on land surface temperature under global warming
+// as vegetation can effectively mitigate urban heat island effect, it is assumed that temperature differences might be imposed
+// for areas of vegetation gain and loss. Long-term satellite images are used to extract the time series and comparisons
+// are performed between vegetation gain and loss groups.
+
+// check location
+var centroid = aoi.centroid({'maxError': 1});
+var listCoords = ee.Array.cat(centroid.coordinates(), 0);
+var yCoords = ee.List(listCoords).getInfo()[1];
+
+// south/ north
+var south = ee.Number(yCoords).lt(0);
+var shift = south.multiply(6).getInfo();
+
+// evaluation year
+var start_year = ee.Date("2000-01-01");
+var end_year = ee.Date("2021-01-01");
+
+// filter dataset to evaluation year
+var yearFilter = ee.Filter.date(
+  start_year.advance(-1, "year"), 
+  end_year.advance(1, "year")
+  );
+
+// get summer months depends on location
+var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+
+// modis land surface temperature (day and night)
+var modisLST = ee.ImageCollection("MODIS/061/MOD11A1")
+  .filter(summerFilter).filter(yearFilter) // filter images
+  .map(function(img) {
+    return img.multiply(0.02).subtract(273.15) // apply scale factor and offset
+    .copyProperties(img, ["system:time_start"]);
+});
+
+// extract Landsat time series and merge to single collection
+var ndviLandsat5 = ee.ImageCollection("LANDSAT/LT05/C01/T1_32DAY_NDVI").filter(yearFilter);
+var ndviLandsat7 = ee.ImageCollection("LANDSAT/LE07/C01/T1_32DAY_NDVI").filter(yearFilter);
+var ndviLandsat8 = ee.ImageCollection("LANDSAT/LC08/C01/T1_32DAY_NDVI").filter(yearFilter);
+var ndvi = ndviLandsat5.merge(ndviLandsat7.merge(ndviLandsat8)).filterBounds(aoi);
+
+var fvc = ndvi.map(function(img) {
+  var f = ee.Image(
+    (img.subtract(0.1))
+    .divide(ee.Number(0.5).subtract(ee.Number(0.1)))
+    )
+    .multiply(100);
+  return f.where(f.gt(100), 100).where(f.lt(0), 0).copyProperties(img, ["system:time_start"]);
+});
+
+// check out images with before and after scanerios
+var before = fvc.filter(ee.Filter.date('2001-01-01', '2001-12-01')).median().clip(aoi);
+var after = fvc.filter(ee.Filter.date('2020-01-01', '2020-12-01')).median().clip(aoi);
+
+Map.addLayer(before, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2001");
+Map.addLayer(after, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2020");
+Map.addLayer(after.subtract(before), {min: -10, max: 10, palette: ['red', 'white', 'green']}, "FVC Difference");
+
+// ################################################ //
+// ########## VEGETATION LOSS GROUP ############### //
+// ################################################ //
+
+var threshold = (after.subtract(before)).lt(-20);
+
+// FVC at different temporal aggregations (create sequence)
+var date0 = start_year.advance(1, "year");
+var n_years = end_year.difference(date0, "year").toInt().subtract(2);
+var idxs = ee.List.sequence(0, n_years);
+
+// Fractional Vegetation Cover, LST Day Time, LST Night Time
+// create smoothed temperol sequence
+var lstDay = ee.ImageCollection.fromImages(idxs.map(rollingMean(modisLST.select("LST_Day_1km"))));
+var lstNight = ee.ImageCollection.fromImages(idxs.map(rollingMean(modisLST.select("LST_Night_1km"))));
+var fvc_ds = ee.ImageCollection.fromImages(idxs.map(rollingMean(fvc)));
+
+// generate line chart for visualization
+
+// FRACTIONAL VEGETATION CHANGE 
+var fvcStyle = {
+  title: 'Fractional Vegetation Cover Time Series (Vegetation Loss)',
+          hAxis: {title: 'Year', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'FVC',
+            titleTextStyle: {italic: false, bold: true}
+          },
+          lineWidth: 2,
+          colors: ['green']
+};
+
+var fvcChart = ui.Chart.image.series({
+    imageCollection: fvc_ds.map(function (image) {
+      return image.updateMask(threshold)
+    }),
+    region: aoi,
+    reducer: ee.Reducer.mean(),
+    scale: 100
+  }).setOptions(fvcStyle);
+
+print(fvcChart);
+
+// DAY TEMP
+var dayStyle = {
+          title: 'MODIS Day LST Time Series (Vegetation Loss)',
+          hAxis: {title: 'Year', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Day Time Temp',
+            titleTextStyle: {italic: false, bold: true}
+          },
+          lineWidth: 2,
+          colors: ['red']
+        };
+
+var dayChart = ui.Chart.image.series({
+    imageCollection: lstDay.map(function (image) {
+      return image.updateMask(threshold)
+    }),
+    region: aoi,
+    reducer: ee.Reducer.median(),
+    scale: 100
+  }).setOptions(dayStyle);
+
+print(dayChart);
+
+// NIGHT TEMP
+var nightStyle = {
+  title: 'MODIS Night LST Time Series (Vegetation Loss)',
+          hAxis: {title: 'Year', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Night Time Temp',
+            titleTextStyle: {italic: false, bold: true}
+          },
+          lineWidth: 2,
+          colors: ['blue']
+};
+
+var nightChart = ui.Chart.image.series({
+    imageCollection: lstNight.map(function (image) {
+      return image.updateMask(threshold)
+    }),
+    region: aoi,
+    reducer: ee.Reducer.median(),
+    scale: 100
+  }).setOptions(nightStyle);
+
+print(nightChart);
+
+// ################################################ //
+// ########## VEGETATION GAIN GROUP ############### //
+// ################################################ //
+
+var threshold = (after.subtract(before)).gt(20);
+
+// VEGETATION FRACTIONAL COVER
+var fvcStyle = {
+  title: 'Fractional Vegetation Cover Time Series (Vegetation Gain)',
+          hAxis: {title: 'Year', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'FVC',
+            titleTextStyle: {italic: false, bold: true}
+          },
+          lineWidth: 2,
+          colors: ['green']
+};
+
+var fvcChart = ui.Chart.image.series({
+    imageCollection: fvc_ds.map(function (image) {
+      return image.updateMask(threshold)
+    }),
+    region: aoi,
+    reducer: ee.Reducer.mean(),
+    scale: 100
+  }).setOptions(fvcStyle);
+
+print(fvcChart);
+
+// DAY TEMP
+var dayStyle = {
+          title: 'MODIS Day LST Time Series (Vegetation Gain)',
+          hAxis: {title: 'Year', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Day Time Temp',
+            titleTextStyle: {italic: false, bold: true}
+          },
+          lineWidth: 2,
+          colors: ['red']
+        };
+
+var dayChart = ui.Chart.image.series({
+    imageCollection: lstDay.map(function (image) {
+      return image.updateMask(threshold)
+    }),
+    region: aoi,
+    reducer: ee.Reducer.median(),
+    scale: 100
+  }).setOptions(dayStyle);
+
+print(dayChart);
+
+// NIGHT TEMP
+var nightStyle = {
+  title: 'MODIS Night LST Time Series (Vegetation Gain)',
+          hAxis: {title: 'Year', titleTextStyle: {italic: false, bold: true}},
+          vAxis: {
+            title: 'Night Time Temp',
+            titleTextStyle: {italic: false, bold: true}
+          },
+          lineWidth: 2,
+          colors: ['blue']
+};
+
+var nightChart = ui.Chart.image.series({
+    imageCollection: lstNight.map(function (image) {
+      return image.updateMask(threshold)
+    }),
+    region: aoi,
+    reducer: ee.Reducer.median(),
+    scale: 100
+  }).setOptions(nightStyle);
+
+print(nightChart);
+
+//################################//
+//########### FUNCTION ###########//
+//################################//
+
+function rollingMean(collection) {
+  function doIt(idx) {
+    var d1 = date0.advance(ee.Number(idx).add(2), "year");  // last year will be excluded
+    var d0 = d1.advance(-3, "year");
+    return collection.filterDate(d0, d1)
+    .reduce(ee.Reducer.median())
+    .set("system:time_start", d0.advance(1, "year"));
+  }
+  return doIt;
+}
