@@ -72,8 +72,8 @@ function fvc_lst_impact(aoi){
   var before = fvc.filter(ee.Filter.date('2001-01-01', '2001-12-01')).median().clip(aoi);
   var after = fvc.filter(ee.Filter.date('2020-01-01', '2020-12-01')).median().clip(aoi);
   
-  Map.addLayer(before, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2001");
-  Map.addLayer(after, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2020");
+  // Map.addLayer(before, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2001");
+  // Map.addLayer(after, {min: 0, max: 20, palette: ['white', 'green']}, "FVC 2020");
   Map.addLayer(after.subtract(before), {min: -10, max: 10, palette: ['red', 'white', 'green']}, "FVC Difference");
   
   // ################################################ //
