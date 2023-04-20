@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var bbox = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[74.13995832573437, 31.701935681472573],
-          [74.13995832573437, 31.355449781965195],
-          [74.52173322807812, 31.355449781965195],
-          [74.52173322807812, 31.701935681472573]]], null, false);
+        [[[66.64453596245312, 25.44519155751865],
+          [66.64453596245312, 24.76123013512878],
+          [67.46027082573437, 24.76123013512878],
+          [67.46027082573437, 25.44519155751865]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
