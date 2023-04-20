@@ -12,7 +12,7 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
-// dict
+// dictionary for action labels and corresponding functions
 exports.layer_dict = {
   'World Cover': export_landuse,
   'Population': export_population,
