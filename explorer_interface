@@ -16,7 +16,8 @@ var action_calls = {
   'World Cover': data.export_landuse,
   'Population': data.export_population,
   'Urban Density': data.export_urban_density,
-  'Summer Temperature': data.export_summer_lst
+  'Summer Day Temperature': data.export_summer_lst,
+  'Summer Night Temperature': data.export_summer_lst_night
 };
 
 
