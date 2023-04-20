@@ -14,15 +14,16 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 // dict
 exports.layer_dict = {
-  'World Cover': data.export_landuse,
-  'Population': data.export_population,
-  'Urban Density': data.export_urban_density,
-  'Summer Day Temperature': data.export_summer_lst,
-  'Summer Night Temperature': data.export_summer_lst_night
+  'World Cover': export_landuse,
+  'Population': export_population,
+  'Urban Density': export_urban_density,
+  'Summer Day Temperature': export_summer_lst,
+  'Summer Night Temperature': export_summer_lst_night
 };
 
 // define function for Summer Temperature
-exports.export_summer_lst_night = function export_summer_lst_night(aoi) {
+// exports.export_summer_lst_night = 
+function export_summer_lst_night(aoi) {
   
   // calculate geometry of vector layer
   var bbox = aoi.geometry();
@@ -100,7 +101,8 @@ exports.export_summer_lst_night = function export_summer_lst_night(aoi) {
  * @return {ee.Image} Single LST data layer bounds by selected admin 2 boundary.
  *
  */
-exports.export_summer_lst = function export_summer_lst(aoi) {
+// exports.export_summer_lst = 
+function export_summer_lst(aoi) {
   
   // calculate geometry of vector layer
   var bbox = aoi.geometry();
@@ -180,7 +182,8 @@ exports.export_summer_lst = function export_summer_lst(aoi) {
  * @return {ee.Image} Single population count data layer bounds by selected admin 2 boundary.
  *
  */
-exports.export_population = function export_population(aoi) {
+// exports.export_population = 
+function export_population(aoi) {
   
   // compute vector boundary
   var bbox = aoi.geometry();
@@ -230,7 +233,8 @@ exports.export_population = function export_population(aoi) {
  * @return {ee.Image} Single land use data layer bounds by selected admin 2 boundary.
  *
  */
-exports.export_landuse = function export_landuse(aoi) {
+// exports.export_landuse = 
+function export_landuse(aoi) {
   
   // calculate boundary
   var bbox = aoi.geometry();
@@ -333,7 +337,8 @@ exports.export_landuse = function export_landuse(aoi) {
  * @return {ee.Image} Single urban density data layer bounds by selected admin 2 boundary.
  *
  */
-exports.export_urban_density = function export_urban_density(aoi) {
+// exports.export_urban_density = 
+function export_urban_density(aoi) {
   
   // compute boundary
   var bbox = aoi.geometry();
