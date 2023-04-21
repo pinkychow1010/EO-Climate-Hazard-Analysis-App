@@ -28,7 +28,7 @@ exports.fvc_lst_app = function fvc_lst_app() {
   intraUrban.app(fvc_lst_impact, "Land Surface Temperature based on Vegetation Change");
 };
 
-exports.fvc_lst_app = function fvc_lst_app() {
+exports.landuse_ratio_app = function landuse_ratio_app() {
   intraUrban.app(calculate_landuse_ratio, "Land Use Cover Ratio (2020 ESA World Cover)");
 };
 
