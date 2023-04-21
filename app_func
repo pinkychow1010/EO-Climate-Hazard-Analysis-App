@@ -6,6 +6,7 @@ var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
+var intraUrban = require('users/pinkychow1010/WB_IntraUrban:app_interface');
 // var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
 // app functions
@@ -26,7 +27,7 @@ exports.pop_count = function pop_app() {
 };
 
 exports.fvc_lst_impact = function fvc_lst_impact() {
-  aoi_analysis_app(fvc_lst_impact);
+  intraUrban.app(fvc_lst_impact);
 };
 
 function fvc_lst_impact(aoi){
