@@ -19,7 +19,7 @@ var app_action_dict = {
   'Urban heat analysis': app.pop_count,
   'Recent urbanization': app.pop_count,
   'Population density': app.pop_count,
-  'Vegetation cover changes': app.fvc_lst_impact,
+  'Vegetation cover changes': app.fvc_lst_app,
   'Urban heat by land use': app.pop_count
 };
 
