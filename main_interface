@@ -13,13 +13,13 @@ var app = require('users/pinkychow1010/WB_IntraUrban:app_func');
 
 app.set_up(); // map initial set up
 
-// Switch for changing apps
+// Function to switch from main page to app page
 function changeApp(value) {
-  var selected_app = selection.getValue();
-  main_page.clear();
+  var selected_app = selection.getValue(); // get user selection
+  main_page.clear(); // remove main page
   
-  Map.add(ui.Label({value: selected_app}));
-  app.pop_count();
+  Map.add(ui.Label({value: selected_app})); // add app title in app page
+  app.pop_count(); // action
 }
 
 // Initial description (empty)
