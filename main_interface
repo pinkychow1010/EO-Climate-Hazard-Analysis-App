@@ -18,7 +18,6 @@ function changeApp(value) {
   var selected_app = selection.getValue();
   main_page.clear();
   
-  // var app_label = ui.Label({value: selected_app});
   Map.add(ui.Label({value: selected_app}));
   app.pop_count();
 }
