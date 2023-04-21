@@ -18,18 +18,13 @@ function changeApp(value) {
   var selected_app = selection.getValue();
   main_page.clear();
   
-  var app_label = ui.Label({value: selected_app});
-  // var app_label = ui.Label({value: message_dict[selected_app]});
-  Map.add(app_label);
-  
+  // var app_label = ui.Label({value: selected_app});
+  Map.add(ui.Label({value: selected_app}));
   app.pop_count();
 }
 
 // Initial description (empty)
-var desciption_label = ui.Label({
-    value: "",
-    style: style.description
-  });
+var desciption_label = ui.Label({value: "", style: style.description});
 
 // Change decription based on the app user selects
 function changeDescription(value) {
@@ -37,15 +32,7 @@ function changeDescription(value) {
   return(value);
 }
 
-// var app_dict = {
-//   'land_use_cover_ratio': txt.land_use_cover_ratio,
-//   'urban_heat': txt.urban_heat,
-//   'recent_urbanization': txt.recent_urbanization,
-//   'population_density': txt.population_density,
-//   'veg_cover_changes': txt.veg_cover_changes,
-//   'heat_by_lulc': txt.heat_by_lulc
-// };
-
+// dict for app analysis description
 var app_dict = {
   'Land use cover ratio': txt.land_use_cover_ratio,
   'Urban heat analysis': txt.urban_heat,
@@ -55,35 +42,10 @@ var app_dict = {
   'Urban heat by land use': txt.heat_by_lulc
 };
 
-// var message_dict = {
-//   'land_use_cover_ratio': "Land Use Cover Proportion Analysis",
-//   'urban_heat': "Urban Heat Island Effect Analysis",
-//   'recent_urbanization': "Urbanization Trend Analysis",
-//   'population_density': "Urban Population Analysis",
-//   'veg_cover_changes': "Vegetation Cover Change Analysis",
-//   'heat_by_lulc': "Land Use Impact on Urban Heat Analysis"
-// };
-
 // Drop-down menu for app selection
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
-  
   items: Object.keys(app_dict),
-  // items: [
-  //   'Land use cover ratio', 
-  //   'Urban heat analysis',
-  //   'Recent urbanization',
-  //   'Population density',
-  //   'Vegetation cover changes',
-  //   'Urban heat by land use'
-  //   // {value: 'land_use_cover_ratio', label: 'Land use cover ratio'}, 
-  //   // {value: 'urban_heat', label: 'Urban Heat Analysis'},
-  //   // {value: 'recent_urbanization', label: 'Recent Urbanization'},
-  //   // {value: 'population_density', label: 'Population Density'},
-  //   // {value: 'veg_cover_changes', label: 'Vegetation Cover Changes'},
-  //   // {value: 'heat_by_lulc', label: 'Urban Heat by Land Use'}
-  // ],
-  
   style: style.selection,
   onChange: changeDescription
 });
@@ -130,13 +92,10 @@ function createPanel(selection, description_label) {
   var content = ui.Panel([
     title, description, app, description_label
     ], null, {stretch:'vertical'});
-  
+    
   content.style().set('backgroundColor', style.bg_color);
   
-  var page = ui.Panel([
-    content
-  ]);
-  
+  var page = ui.Panel([content]);
   page.style().set('backgroundColor', style.bg_color);
   return page;
 }
