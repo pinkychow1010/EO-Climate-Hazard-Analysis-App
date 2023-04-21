@@ -68,20 +68,21 @@ var app_dict = {
 var selection = ui.Select({
   placeholder: 'Select analysis to begin with...',
   
-  items: [
-    'Land use cover ratio', 
-    'Urban heat analysis',
-    'Recent urbanization',
-    'Population density',
-    'Vegetation cover changes',
-    'Urban heat by land use'
-    // {value: 'land_use_cover_ratio', label: 'Land use cover ratio'}, 
-    // {value: 'urban_heat', label: 'Urban Heat Analysis'},
-    // {value: 'recent_urbanization', label: 'Recent Urbanization'},
-    // {value: 'population_density', label: 'Population Density'},
-    // {value: 'veg_cover_changes', label: 'Vegetation Cover Changes'},
-    // {value: 'heat_by_lulc', label: 'Urban Heat by Land Use'}
-  ],
+  items: Object.keys(app_dict),
+  // items: [
+  //   'Land use cover ratio', 
+  //   'Urban heat analysis',
+  //   'Recent urbanization',
+  //   'Population density',
+  //   'Vegetation cover changes',
+  //   'Urban heat by land use'
+  //   // {value: 'land_use_cover_ratio', label: 'Land use cover ratio'}, 
+  //   // {value: 'urban_heat', label: 'Urban Heat Analysis'},
+  //   // {value: 'recent_urbanization', label: 'Recent Urbanization'},
+  //   // {value: 'population_density', label: 'Population Density'},
+  //   // {value: 'veg_cover_changes', label: 'Vegetation Cover Changes'},
+  //   // {value: 'heat_by_lulc', label: 'Urban Heat by Land Use'}
+  // ],
   
   style: style.selection,
   onChange: changeDescription
