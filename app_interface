@@ -183,11 +183,17 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     Map.centerObject(filtered)
     var output = action_call(filtered);
     
+    var n = 0;
     if (typeof(output) !== 'undefined') {
-      resultPanel.add(output);
+      if (output.length > 1) {
+        while (n < output.length) {
+          resultPanel.add(output[n]);
+          n++;
+        }
+      } else {
+        resultPanel.add(output);
+      }
     }
-    
-  }
   
   // Register the callback functions
   admin0Select.onChange(admin0Selected)
