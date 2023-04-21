@@ -185,6 +185,7 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     if (typeof(output) !== 'undefined') {
       resultPanel.add(output);
     };
+  
     // var n = 0;
     // if (typeof(output) !== 'undefined') {
     //   if (output.length > 1) {
@@ -196,6 +197,7 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     //     resultPanel.add(output);
     //   }
     // }
+  };
   
   // Register the callback functions
   admin0Select.onChange(admin0Selected)
@@ -213,4 +215,4 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     admin0Select.setPlaceholder('Select a country for analysis')
   })
 
-}}
+}
