@@ -25,6 +25,10 @@
 //   return undefined;
 // }
 
+var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict for explorer styling
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); // customized basemap to enhance visuals 
+
+
 exports.app = function aoi_analysis_app(action_call, title_name) {
   
   // define app name
@@ -39,65 +43,57 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
   // ########### GUI APP ############# //
   // ################################# //
   
+  reset();
   var mainPanel = ui.Panel();
-  
-  mainPanel.style().set({
-    width: '240px',
-    backgroundColor: 'white'
-  });
+  mainPanel.style().set(style.mainPanel); // styling
   
   ui.root.insert(0,mainPanel);
   
   var title = ui.Label(title_name);
-  
-  title.style().set({
-    'position':  'top-center',
-    'fontSize': '24px',
-    'color': '#002244',
-    'fontWeight': 'bold',
-    'fontFamily': 'monospace'
-    });
+  title.style().set(style.title);
     
   mainPanel.add(title);
   
   // Create a panel to hold the drop-down boxes
   var dropdownPanel = ui.Panel();
+  dropdownPanel.style().set(style.dark_theme);
   
   // Create a panel to hold the result
   var resultPanel = ui.Panel();
+  resultPanel.style().set(style.dark_theme);
   
   // Define 3 dropdowns for admin0, admin1 and admin2 names
   
   // Keep them disbled. We will add items later
   var admin0Select = ui.Select({
-      placeholder: 'please wait..',
+      placeholder: 'Please wait..',
     }).setDisabled(true)
     
   var admin1Select = ui.Select({
-      placeholder: 'select a country first',
+      placeholder: 'Select a country first',
     }).setDisabled(true)
     
   var admin2Select = ui.Select({
-    placeholder: 'select admin 1 unit first',
-  }).setDisabled(true)
+    placeholder: 'Select admin 1 unit first',
+  }).setDisabled(true);
   
-  dropdownPanel.add(admin0Select)
-  dropdownPanel.add(admin1Select)
-  dropdownPanel.add(admin2Select)
+  dropdownPanel.add(admin0Select);
+  dropdownPanel.add(admin1Select);
+  dropdownPanel.add(admin2Select);
   
-  mainPanel.add(dropdownPanel)
-  mainPanel.add(resultPanel)
+  mainPanel.add(dropdownPanel);
+  mainPanel.add(resultPanel);
   
   // Define the onChange() function for admin0Select
   var admin0Selected = function(admin0Selection) {
     
-    resultPanel.clear()
-    Map.clear()
+    resultPanel.clear();
+    Map.clear(); reset();
     
-    admin1Select.items().reset()
-    admin2Select.items().reset()
-    admin1Select.setPlaceholder('please wait..')
-    admin2Select.setPlaceholder('Select a admin 1 unit first..')
+    admin1Select.items().reset();
+    admin2Select.items().reset();
+    admin1Select.setPlaceholder('Please wait..');
+    admin2Select.setPlaceholder('Select a admin 1 unit first..');
   
     // Now we have admin0 values, fetch admin1 values for that country
     
@@ -111,7 +107,7 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
   
     // Use evaluate() to not block the UI
     admin1Names.evaluate(function(items){
-      admin1Select.setPlaceholder('select admin1 unit')
+      admin1Select.setPlaceholder('Select admin1 unit')
       admin1Select.items().reset(items)
       // Now that we have items, enable the menu
       admin1Select.setDisabled(false)
@@ -122,7 +118,7 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
   var admin1Selected = function(admin1Selection) {
     resultPanel.clear()
     Map.clear()
-    admin2Select.setPlaceholder('please wait..')
+    admin2Select.setPlaceholder('Please wait..')
   
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
     
@@ -136,13 +132,13 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     
     admin2Names.evaluate(function(items){
       if (items.length == 0) {
-        items = ['No Admin2 Units']
+        items = ['Entire Admin1 Unit']
         admin2Select.items().reset(items)
       }
       else {
         admin2Select.items().reset(items)  
       }
-      admin2Select.setPlaceholder('select admin2 unit')
+      admin2Select.setPlaceholder('Select admin2 unit')
       admin2Select.setDisabled(false)
     })
   }
@@ -162,7 +158,7 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     
     // Some regions do not have admin2 values
     // We are on client-side, so using if/else is ok
-    if (admin2Value == 'No Admin2 Units') {
+    if (admin2Value == 'Entire Admin1 Unit') {
         var result = admin1Value + ',' + admin0Value
         var filtered = ADM1
           .filter(ee.Filter.eq('shapeName', admin1Value))
@@ -176,11 +172,11 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
           .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
   
     }
-    var label = ui.Label('You selected: ' + result)
-    resultPanel.add
     
     // Action 
     Map.centerObject(filtered)
+    draw_bounds(filtered);
+    
     var output = action_call(filtered);
     // if (typeof(output) !== 'undefined') {
     //   resultPanel.add(output);
@@ -213,6 +209,216 @@ exports.app = function aoi_analysis_app(action_call, title_name) {
     admin0Select.setDisabled(false)
     // Change placeholder
     admin0Select.setPlaceholder('Select a country for analysis')
-  })
+  });
+};
 
+// draw admin boundary selected by user
+function draw_bounds(geometry){
+  var empty = ee.Image().byte();
+  var outlines = empty.paint({
+    featureCollection: geometry,
+    color: 'red',
+    width: 2
+  });
+  var palette = ['FF0000', '00FF00', '0000FF'];
+  Map.addLayer(outlines, {palette: palette}, 'Boundary');  
 }
+
+// config base map on reset
+function reset(){
+  basemap.addCustomBasemap('MutedMonotone');
+  Map.setCenter(0, 20, 1.8);
+  Map.setControlVisibility({drawingToolsControl:false});
+}
+
+// exports.app = function aoi_analysis_app(action_call, title_name) {
+  
+//   // define app name
+//   if (title_name === undefined || title_name === null){var title_name = "World Bank Intra-Urban Analysis Tool"}
+  
+//   // Import geometry boundary data for user selection
+//   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
+//   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
+//   var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
+  
+//   // ################################# //
+//   // ########### GUI APP ############# //
+//   // ################################# //
+  
+//   var mainPanel = ui.Panel();
+  
+//   mainPanel.style().set({
+//     width: '240px',
+//     backgroundColor: 'white'
+//   });
+  
+//   ui.root.insert(0,mainPanel);
+  
+//   var title = ui.Label(title_name);
+  
+//   title.style().set({
+//     'position':  'top-center',
+//     'fontSize': '24px',
+//     'color': '#002244',
+//     'fontWeight': 'bold',
+//     'fontFamily': 'monospace'
+//     });
+    
+//   mainPanel.add(title);
+  
+//   // Create a panel to hold the drop-down boxes
+//   var dropdownPanel = ui.Panel();
+  
+//   // Create a panel to hold the result
+//   var resultPanel = ui.Panel();
+  
+//   // Define 3 dropdowns for admin0, admin1 and admin2 names
+  
+//   // Keep them disbled. We will add items later
+//   var admin0Select = ui.Select({
+//       placeholder: 'please wait..',
+//     }).setDisabled(true)
+    
+//   var admin1Select = ui.Select({
+//       placeholder: 'select a country first',
+//     }).setDisabled(true)
+    
+//   var admin2Select = ui.Select({
+//     placeholder: 'select admin 1 unit first',
+//   }).setDisabled(true)
+  
+//   dropdownPanel.add(admin0Select)
+//   dropdownPanel.add(admin1Select)
+//   dropdownPanel.add(admin2Select)
+  
+//   mainPanel.add(dropdownPanel)
+//   mainPanel.add(resultPanel)
+  
+//   // Define the onChange() function for admin0Select
+//   var admin0Selected = function(admin0Selection) {
+    
+//     resultPanel.clear()
+//     Map.clear()
+    
+//     admin1Select.items().reset()
+//     admin2Select.items().reset()
+//     admin1Select.setPlaceholder('please wait..')
+//     admin2Select.setPlaceholder('Select a admin 1 unit first..')
+  
+//     // Now we have admin0 values, fetch admin1 values for that country
+    
+//     var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
+//     var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
+//     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
+  
+//     var admin1Names = selectedAdmin1
+//       .aggregate_array('shapeName')
+//       .sort()
+  
+//     // Use evaluate() to not block the UI
+//     admin1Names.evaluate(function(items){
+//       admin1Select.setPlaceholder('select admin1 unit')
+//       admin1Select.items().reset(items)
+//       // Now that we have items, enable the menu
+//       admin1Select.setDisabled(false)
+//     })
+//   }
+  
+//   // Define the onChange() function for admin1Select
+//   var admin1Selected = function(admin1Selection) {
+//     resultPanel.clear()
+//     Map.clear()
+//     admin2Select.setPlaceholder('please wait..')
+  
+//     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
+    
+//     var shapeID = ee.Feature(selectedAdmin1.first()).get('shapeID');
+//     var selectedAdmin2 = ADM2.filter(ee.Filter.eq('ADM1_shape', shapeID));
+  
+//     var admin2Names = selectedAdmin2
+//       .aggregate_array('shapeName')
+//       .sort()
+  
+    
+//     admin2Names.evaluate(function(items){
+//       if (items.length == 0) {
+//         items = ['No Admin2 Units']
+//         admin2Select.items().reset(items)
+//       }
+//       else {
+//         admin2Select.items().reset(items)  
+//       }
+//       admin2Select.setPlaceholder('select admin2 unit')
+//       admin2Select.setDisabled(false)
+//     })
+//   }
+  
+//   // Define the onChange() function for admin2Select
+//   var admin2Selected = function(admin1Selection) {
+    
+//     resultPanel.clear()
+//     Map.clear()
+    
+//     var admin0Value = admin0Select.getValue()
+//     var admin1Value = admin1Select.getValue()
+//     var admin2Value = admin2Select.getValue()
+    
+//     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
+//     var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
+    
+//     // Some regions do not have admin2 values
+//     // We are on client-side, so using if/else is ok
+//     if (admin2Value == 'No Admin2 Units') {
+//         var result = admin1Value + ',' + admin0Value
+//         var filtered = ADM1
+//           .filter(ee.Filter.eq('shapeName', admin1Value))
+//           .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+//     }
+//     else {
+//         var result = admin2Value + ',' + admin1Value + ',' + admin0Value
+//         var filtered = ADM2
+//           .filter(ee.Filter.eq('shapeName', admin2Value))
+//           .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+//           .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
+  
+//     }
+//     var label = ui.Label('You selected: ' + result)
+//     resultPanel.add
+    
+//     // Action 
+//     Map.centerObject(filtered)
+//     var output = action_call(filtered);
+//     // if (typeof(output) !== 'undefined') {
+//     //   resultPanel.add(output);
+//     // };
+  
+//     var n = 0;
+//     if (typeof(output) !== 'undefined') {
+//       if (output.length > 1) {
+//         while (n < output.length) {
+//           resultPanel.add(output[n]);
+//           n++;
+//         }
+//       } else {
+//         resultPanel.add(output);
+//       }
+//     }
+//   };
+  
+//   // Register the callback functions
+//   admin0Select.onChange(admin0Selected)
+//   admin1Select.onChange(admin1Selected)
+//   admin2Select.onChange(admin2Selected)
+  
+//   // Get all country names and sort them
+//   var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct()
+//   // Fetch the value using evaluate() to not block the UI
+//   admin0Names.evaluate(function(items){
+//     admin0Select.items().reset(items)
+//     // Now that we have items, enable the menu
+//     admin0Select.setDisabled(false)
+//     // Change placeholder
+//     admin0Select.setPlaceholder('Select a country for analysis')
+//   })
+
+// }
