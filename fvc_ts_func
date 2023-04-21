@@ -7,11 +7,11 @@
 
 var intraUrban = require('users/pinkychow1010/GEE:WorldBank/app_interface');
 
-exports.fvc_lst_impact = function fvc_lst_impact() {
-  intraUrban.app(fvc_lst_impact);
-};
+// exports.fvc_lst_impact = function fvc_lst_impact() {
+//   intraUrban.app(fvc_lst_impact);
+// };
 
-// intraUrban.app(fvc_lst_impact);
+intraUrban.app(fvc_lst_impact);
 
 function fvc_lst_impact(aoi){
   
