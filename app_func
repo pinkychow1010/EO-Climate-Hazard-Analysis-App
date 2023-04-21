@@ -25,7 +25,8 @@ exports.pop_count = function pop_app() {
 };
 
 exports.fvc_lst_app = function fvc_lst_app() {
-  aoi_analysis_app(fvc_lst_impact);
+  intraUrban.app(fvc_lst_impact);
+  // aoi_analysis_app(fvc_lst_impact);
 };
 
 function fvc_lst_impact(aoi){
