@@ -19,4 +19,6 @@ print(ds);
 var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry);
 //print(max)
 
-Map.addLayer(max.multiply(0.1), {min: 30, max: 45}, "P90 Max Temp")
+Map.addLayer(max.multiply(0.1), {
+  min: 30, max: 45, palette: ['blue','white','yellow','red']
+}, "P90 Max Temp");
