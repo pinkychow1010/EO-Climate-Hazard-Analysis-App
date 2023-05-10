@@ -8,10 +8,10 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[64.64550699799618, 28.36694826871085],
-          [64.64550699799618, 23.467985886215647],
-          [70.09472574799618, 23.467985886215647],
-          [70.09472574799618, 28.36694826871085]]], null, false);
+        [[[60.646483560496186, 30.850083332190422],
+          [60.646483560496186, 23.467985886215647],
+          [71.28124918549618, 23.467985886215647],
+          [71.28124918549618, 30.850083332190422]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
 print(ds);
@@ -20,5 +20,5 @@ var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geomet
 //print(max)
 
 Map.addLayer(max.multiply(0.1), {
-  min: 30, max: 45, palette: ['blue','white','yellow','red']
+  min: 30, max: 45, palette: ['navy','blue','yellow','red']
 }, "P90 Max Temp");
