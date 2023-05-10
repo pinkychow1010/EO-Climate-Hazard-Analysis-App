@@ -20,9 +20,13 @@ var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex').sum();
 var pop = ds.select('population');
 
 var risk = ds.expression(
-                      '(total)', {
+                      '(total-M80-M75-M70-M65-M60)/total*0.2 + (M60/total)*0.4 + (M65/total)*0.6', {
                         'total' : ds.select('population'),
-                        'M0' : ds.select('M_0')
+                        'M60' : ds.select('M_60'),
+                        'M65' : ds.select('M_65'),
+                        'M70' : ds.select('M_70'),
+                        'M75' : ds.select('M_75'),
+                        'M80' : ds.select('M_80')
                       })
                       .rename('risk');
 
