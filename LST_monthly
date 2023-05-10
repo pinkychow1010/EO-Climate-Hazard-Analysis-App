@@ -16,7 +16,7 @@ var geometry =
 // https://gis.stackexchange.com/questions/279622/writing-code-for-monthly-ndvi-medians-in-google-earth-engine
 
 var lst = ee.ImageCollection('MODIS/061/MOD11A1')
-.filterDate(ee.Date('2010-01-01'), ee.Date('2020-12-31')).select('LST_Day_1km');
+.filterDate(ee.Date('2018-01-01'), ee.Date('2020-12-31')).select('LST_Day_1km');
 
 var months = ee.List.sequence(1, 12);
 
@@ -45,7 +45,7 @@ title: 'Monthly average LST',
 var chart = ui.Chart.image.seriesByRegion({
   imageCollection: composites,
   regions: geometry,
-  reducer: ee.Reducer.mean(),
+  reducer: ee.Reducer.median(),
   scale: 500,
   xProperty: 'system:index',
 });
