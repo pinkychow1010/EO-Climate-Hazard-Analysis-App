@@ -1,0 +1,71 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.23723549112263, 25.74970249785835],
+          [66.23723549112263, 24.4764201092893],
+          [67.73137611612263, 24.4764201092893],
+          [67.73137611612263, 25.74970249785835]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// https://gis.stackexchange.com/questions/279622/writing-code-for-monthly-ndvi-medians-in-google-earth-engine
+
+var lst = ee.ImageCollection('NASA/OCEANDATA/MODIS-Aqua/L3SMI')
+ .select('sst')
+ .filterDate(ee.Date('2010-01-01'), ee.Date('2020-12-31'))
+
+var months = ee.List.sequence(1, 12);
+
+var composites = ee.ImageCollection.fromImages(months.map(function(m) {
+  var filtered = lst.filter(ee.Filter.calendarRange({
+    start: m,
+    field: 'month'
+  }));
+  var composite = filtered.mean();
+  return composite.rename('lst').set('month', m);
+}));
+
+print(composites);
+
+var img = ee.Image(composites.first());
+Map.addLayer(img, {min: 0, max: 20}, 'LST');
+
+// var months = ee.List.sequence(1, 12);
+// var years = ee.List.sequence(2013, 2017);
+
+// var byMonthYear = ee.ImageCollection.fromImages(
+//   years.map(function(y) {
+//     return months.map(function (m) {
+//     return sst
+//       .filter(ee.Filter.calendarRange(y, y, 'year'))
+//       .filter(ee.Filter.calendarRange(m, m, 'month'))
+//       .mean()
+//       .set('month', m).set('year', y);
+//     });
+// }).flatten());
+ 
+// print(byMonthYear);
+
+// //Define chart parameters
+// var chartParam = {
+// title: 'Monthly average NDVI',
+//   hAxis: {title: 'Time'},
+//   vAxis: {title: 'Average NDVI'},
+// };
+
+// //Plot the chart
+// var chart = ui.Chart.image.seriesByRegion({
+//   imageCollection: byMonthYear,
+//   regions: geometry,
+//   reducer: ee.Reducer.mean(),
+//   scale: 500,
+//   xProperty: 'system:index',
+// });
+
+// //Print chart to console
+// print(chart.setOptions(chartParam));
