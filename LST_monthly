@@ -59,7 +59,7 @@ title: 'Monthly average LST',
 
 //Plot the chart
 var chart = ui.Chart.image.seriesByRegion({
-  imageCollection: byMonthYear,
+  imageCollection: composites,
   regions: geometry,
   reducer: ee.Reducer.mean(),
   scale: 500,
