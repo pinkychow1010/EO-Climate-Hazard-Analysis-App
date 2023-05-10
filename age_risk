@@ -16,7 +16,7 @@ var aoi =
 // age group statistics for heat wave risk factor
 
 var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex');
-print(ds.flatten())
+print(ds);
 
 // var pop = ds.select('population');
 // Map.addLayer(pop)
@@ -29,16 +29,9 @@ print(ds.flatten())
 //                       })
 //                       .rename('risk');
 
-// A Landsat 8 L2 surface reflectance image.
-var img = ee.Image('LANDSAT/LC08/C02/T1_L2/LC08_044034_20210508');
-
-
-print(img)
-
-
 // Expression using image band indices.
 var bandIndexExp = '(b(1) - b(2))';
-var bandIndexImg = img.expression(bandIndexExp).rename('Risk');
+var bandIndexImg = ds.expression(bandIndexExp).rename('Risk');
 
 Map.addLayer(bandIndexImg, {}, 'Risk');
 
