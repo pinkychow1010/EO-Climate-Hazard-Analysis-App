@@ -15,19 +15,10 @@ var aoi =
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // age group statistics for heat wave risk factor
 
-var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex');
-print(ds);
+var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex').sum();
 
-// var pop = ds.select('population');
-// Map.addLayer(pop)
-
-// var risk = ds.expression(
-//                       'total', {
-//                         'total' : ds.select('population'),
-//                         'M0' : ds.select('M_0'),
-//                         'M1' : ds.select('M_1')
-//                       })
-//                       .rename('risk');
+var pop = ds.select('population');
+Map.addLayer(pop)
 
 // Expression using image band indices.
 var bandIndexExp = '(b(1) - b(2))';
