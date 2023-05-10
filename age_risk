@@ -1,0 +1,46 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var aoi = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.81383496093748, 25.08694754579853],
+          [66.81383496093748, 24.753172208743685],
+          [67.31920605468748, 24.753172208743685],
+          [67.31920605468748, 25.08694754579853]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// age group statistics for heat wave risk factor
+
+var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex');
+print(ds.flatten())
+
+// var pop = ds.select('population');
+// Map.addLayer(pop)
+
+// var risk = ds.expression(
+//                       'total', {
+//                         'total' : ds.select('population'),
+//                         'M0' : ds.select('M_0'),
+//                         'M1' : ds.select('M_1')
+//                       })
+//                       .rename('risk');
+
+// A Landsat 8 L2 surface reflectance image.
+var img = ee.Image('LANDSAT/LC08/C02/T1_L2/LC08_044034_20210508');
+
+
+print(img)
+
+
+// Expression using image band indices.
+var bandIndexExp = '(b(1) - b(2))';
+var bandIndexImg = img.expression(bandIndexExp).rename('Risk');
+
+Map.addLayer(bandIndexImg, {}, 'Risk');
+
+Map.setCenter(67.083, 24.965, 11);
+Map.centerObject(bandIndexImg);
