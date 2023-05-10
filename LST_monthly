@@ -47,7 +47,8 @@ Map.addLayer(img.clip(geometry), {min: 0, max: 40, palette: ['blue','white','yel
 
 //Define chart parameters
 var chartParam = {
-title: 'Monthly average LST',
+  title: 'Monthly average LST',
+  lineWidth: 1,
   hAxis: {title: 'Time'},
   vAxis: {title: 'Average LST'},
 };
@@ -62,4 +63,4 @@ var chart = ui.Chart.image.seriesByRegion({
 });
 
 //Print chart to console
-print(chart.setOptions(chartParam));
+print(chart.setChartType('LineChart').setOptions(chartParam).setChartType('AreaChart'));
