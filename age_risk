@@ -33,7 +33,7 @@ var risk = ds.expression(
                       })
                       .rename('risk');
 
-var mask = ds.select('population').eq(0);
+var mask = ds.select('population').gt(0);
 
 Map.addLayer(risk.updateMask(mask), {min:0.1, max:0.3, palette:['blue','white','red']}, 'Risk');
 
