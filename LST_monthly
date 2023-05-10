@@ -20,9 +20,9 @@ var lst = ee.ImageCollection('MODIS/061/MOD11A1')
 
 var months = ee.List.sequence(1, 12);
 
-var composites = ee.ImageCollection.fromImages(months.map(function(m) {
+var composites = ee.ImageCollection.fromImages(months.map(function(month) {
   var filtered = lst.filter(ee.Filter.calendarRange({
-    start: m,
+    start: month,
     field: 'month'
   }));
   var composite = filtered.mean();
