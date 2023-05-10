@@ -18,13 +18,15 @@ var aoi =
 var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex').sum();
 
 var pop = ds.select('population');
-Map.addLayer(pop)
 
-// Expression using image band indices.
-var bandIndexExp = '(b(1) - b(2))';
-var bandIndexImg = ds.expression(bandIndexExp).rename('Risk');
+var risk = ds.expression(
+                      '(M0)/(total)', {
+                        'total' : ds.select('population'),
+                        'M0' : ds.select('M_0')
+                      })
+                      .rename('risk');
 
-Map.addLayer(bandIndexImg, {}, 'Risk');
+Map.addLayer(risk, {}, 'Risk');
 
 Map.setCenter(67.083, 24.965, 11);
 Map.centerObject(bandIndexImg);
