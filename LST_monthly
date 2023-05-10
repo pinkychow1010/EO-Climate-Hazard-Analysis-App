@@ -49,8 +49,8 @@ Map.addLayer(img.clip(geometry), {min: 0, max: 40, palette: ['blue','white','yel
 var chartParam = {
   title: 'Monthly average LST',
   lineWidth: 4,
-  hAxis: {title: 'Time'},
-  vAxis: {title: 'Average LST'},
+  hAxis: {title: 'Time',titleTextStyle: {italic: false, bold: true}},
+  vAxis: {title: 'Average LST',titleTextStyle: {italic: false, bold: true}},
 };
 
 //Plot the chart
@@ -59,9 +59,11 @@ var chart = ui.Chart.image.seriesByRegion({
   regions: geometry,
   reducer: ee.Reducer.median(),
   scale: 500,
-  xProperty: 'system:index',
-  seriesProperty: 'Month'//ee.String('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
+  xProperty: 'month',
+  seriesProperty: ee.String('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 });
 
 //Print chart to console
-print(chart.setChartType('AreaChart').setOptions(chartParam));
+print(chart
+.setChartType('AreaChart')
+.setOptions(chartParam));
