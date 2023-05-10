@@ -24,4 +24,4 @@ Map.addLayer(max.multiply(0.1), {
 }, "P90 Max Temp");
 
 Map.setOptions('HYBRID');
-Map.centerObject(geometry, 15)
+Map.centerObject(geometry, 6)
