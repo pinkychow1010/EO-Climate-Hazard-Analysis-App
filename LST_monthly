@@ -27,7 +27,7 @@ var geometry =
 // https://gis.stackexchange.com/questions/279622/writing-code-for-monthly-ndvi-medians-in-google-earth-engine
 
 var lst = ee.ImageCollection('MODIS/061/MOD11A1')
-.filterDate(ee.Date('2018-01-01'), ee.Date('2022-12-31')).select('LST_Night_1km');
+.filterDate(ee.Date('2010-01-01'), ee.Date('2020-12-31')).select('LST_Night_1km');
 
 var months = ee.List.sequence(1, 12);
 
@@ -47,7 +47,7 @@ Map.addLayer(img.clip(geometry), {min: 0, max: 40, palette: ['blue','white','yel
 
 //Define chart parameters
 var chartParam = {
-  title: 'MODIS Monthly Median LST (°C)',
+  title: 'MODIS Monthly Median LST (2010-2020)',
   pointSize: 2,
   lineWidth: 1.5,
   curveType: 'function',
@@ -58,7 +58,7 @@ var chartParam = {
     ticks: [1,2,3,4,5,6,7,8,9,10,11,12]
   },
   vAxis: {
-    title: 'Land surface Temperature',
+    title: 'Land surface Temperature (°C)',
     titleTextStyle: {italic: false, bold: true},
     gridlines: {color: '#7E3517',opacity: 0.5}
   },
