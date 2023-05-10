@@ -26,13 +26,13 @@ var composites = ee.ImageCollection.fromImages(months.map(function(m) {
     field: 'month'
   }));
   var composite = filtered.mean();
-  return composite.rename('lst').set('month', m);
+  return composite.rename('lst').set('month', m).multiply(0.02);
 }));
 
 print(composites);
 
-// var img = ee.Image(composites.first());
-// Map.addLayer(img, {min: 0, max: 20}, 'LST');
+var img = ee.Image(composites.first());
+Map.addLayer(img, {min: 0, max: 20}, 'LST');
 
 //Define chart parameters
 var chartParam = {
