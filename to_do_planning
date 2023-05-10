@@ -9,6 +9,10 @@ including to do list.
 
 - NDVI - LST comparison
 
+- WorldPop age distribution / gender
+
+- use ERA5/TerraClimate threshold to calculate heatwave frequency
+
 - add a reset button to map for switching between analysis tasks, 
 at the moment user needs to manually reload the page to perform another task
 
