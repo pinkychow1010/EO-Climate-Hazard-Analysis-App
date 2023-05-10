@@ -1,0 +1,22 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[64.64550699799618, 28.36694826871085],
+          [64.64550699799618, 23.467985886215647],
+          [70.09472574799618, 23.467985886215647],
+          [70.09472574799618, 28.36694826871085]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
+print(ds);
+
+var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry);
+//print(max)
+
+Map.addLayer(max.multiply(0.1), {min: 30, max: 45}, "P90 Max Temp")
