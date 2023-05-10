@@ -17,6 +17,7 @@ var aoi =
 
 var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex').sum();
 
+Map.addLayer(ds)
 var pop = ds.select('population');
 
 var risk = ds.expression(
