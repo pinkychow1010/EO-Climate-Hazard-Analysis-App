@@ -47,7 +47,7 @@ Map.addLayer(img.clip(geometry), {min: 0, max: 40, palette: ['blue','white','yel
 
 //Define chart parameters
 var chartParam = {
-  title: 'MODIS Monthly Median LST',
+  title: 'MODIS Monthly Median LST (°C)',
   pointSize: 2,
   lineWidth: 1.5,
   curveType: 'function',
