@@ -50,21 +50,21 @@ Map.addLayer(img, {min: 0, max: 20}, 'LST');
  
 // print(byMonthYear);
 
-// //Define chart parameters
-// var chartParam = {
-// title: 'Monthly average NDVI',
-//   hAxis: {title: 'Time'},
-//   vAxis: {title: 'Average NDVI'},
-// };
+//Define chart parameters
+var chartParam = {
+title: 'Monthly average LST',
+  hAxis: {title: 'Time'},
+  vAxis: {title: 'Average LST'},
+};
 
-// //Plot the chart
-// var chart = ui.Chart.image.seriesByRegion({
-//   imageCollection: byMonthYear,
-//   regions: geometry,
-//   reducer: ee.Reducer.mean(),
-//   scale: 500,
-//   xProperty: 'system:index',
-// });
+//Plot the chart
+var chart = ui.Chart.image.seriesByRegion({
+  imageCollection: byMonthYear,
+  regions: geometry,
+  reducer: ee.Reducer.mean(),
+  scale: 500,
+  xProperty: 'system:index',
+});
 
-// //Print chart to console
-// print(chart.setOptions(chartParam));
+//Print chart to console
+print(chart.setOptions(chartParam));
