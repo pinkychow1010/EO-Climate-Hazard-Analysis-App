@@ -5,6 +5,7 @@
 This page is solely a board to describe furture development plan, 
 including to do list.
 
+(planned)
 - add a reset button to map for switching between analysis tasks, 
 at the moment user needs to manually reload the page to perform another task
 
@@ -30,5 +31,7 @@ User can check the right panel for information such as: how the indices are calc
 what data sources are used? and so on.
 
 - documentation for different analysis tasks
+
+(completed)
 
 */
