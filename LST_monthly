@@ -60,7 +60,7 @@ var chartParam = {
   vAxis: {
     title: 'Average LST',
     titleTextStyle: {italic: false, bold: true},
-    gridlines: {color: '#7E3517'}
+    gridlines: {color: '#7E3517',opacity: 0.5}
   },
   chartArea: {backgroundColor: 'EBEBEB'}
 };
