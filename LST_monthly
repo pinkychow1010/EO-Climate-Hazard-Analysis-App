@@ -15,12 +15,12 @@ var geometry =
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 var t1 = ee.ImageCollection('MODIS/061/MOD11A1')
-.filterDate(ee.Date('2022-03-01'), ee.Date('2022-03-31')).select('LST_Night_1km');
+.filterDate(ee.Date('2022-03-01'), ee.Date('2022-03-31')).select('LST_Day_1km');
 
 Map.addLayer(t1.mean().multiply(0.02).subtract(273.15),{min: 0, max: 40, palette: ['blue','white','yellow','red']})
 
 var t2 = ee.ImageCollection('MODIS/061/MOD11A1')
-.filterDate(ee.Date('2022-07-01'), ee.Date('2022-07-31')).select('LST_Night_1km');
+.filterDate(ee.Date('2022-07-01'), ee.Date('2022-07-31')).select('LST_Day_1km');
 
 Map.addLayer(t2.mean().multiply(0.02).subtract(273.15),{min: 0, max: 40, palette: ['blue','white','yellow','red']})
 
