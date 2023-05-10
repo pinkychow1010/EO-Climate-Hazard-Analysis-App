@@ -25,8 +25,8 @@ var composites = ee.ImageCollection.fromImages(months.map(function(month) {
     start: month,
     field: 'month'
   }));
-  var composite = filtered.mean();
-  return composite.rename('lst').set('month', m).multiply(0.02).subtract(273.15);
+  var composite = filtered.mean().multiply(0.02).subtract(273.15);
+  return composite.rename('lst').set('month', month);
 }));
 
 print(composites);
