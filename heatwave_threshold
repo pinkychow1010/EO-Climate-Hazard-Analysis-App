@@ -22,3 +22,5 @@ var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geomet
 Map.addLayer(max.multiply(0.1), {
   min: 30, max: 45, palette: ['navy','blue','yellow','red']
 }, "P90 Max Temp");
+
+Map.setOptions('HYBRID');
