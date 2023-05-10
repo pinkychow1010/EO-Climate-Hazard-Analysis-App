@@ -31,8 +31,8 @@ var composites = ee.ImageCollection.fromImages(months.map(function(m) {
 
 print(composites);
 
-var img = ee.Image(composites.first());
-Map.addLayer(img, {min: 0, max: 20}, 'LST');
+// var img = ee.Image(composites.first());
+// Map.addLayer(img, {min: 0, max: 20}, 'LST');
 
 //Define chart parameters
 var chartParam = {
