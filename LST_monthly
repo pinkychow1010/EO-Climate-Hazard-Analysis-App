@@ -12,6 +12,17 @@ var geometry =
           [67.28642982706013, 24.77603177887949],
           [67.28642982706013, 25.119692980119417]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+var t1 = ee.ImageCollection('MODIS/061/MOD11A1')
+.filterDate(ee.Date('2022-03-01'), ee.Date('2022-03-31')).select('LST_Night_1km');
+
+Map.addLayer(t1)
+
+var t2 = ee.ImageCollection('MODIS/061/MOD11A1')
+.filterDate(ee.Date('2018-07-01'), ee.Date('2022-07-31')).select('LST_Night_1km');
+
+Map.addLayer(t2)
+
 // https://gis.stackexchange.com/questions/279622/writing-code-for-monthly-ndvi-medians-in-google-earth-engine
 
 var lst = ee.ImageCollection('MODIS/061/MOD11A1')
