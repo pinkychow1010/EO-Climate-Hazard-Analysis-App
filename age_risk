@@ -20,12 +20,12 @@ var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex').sum();
 var pop = ds.select('population');
 
 var risk = ds.expression(
-                      '(M0)/(total)', {
+                      '(total)', {
                         'total' : ds.select('population'),
                         'M0' : ds.select('M_0')
                       })
                       .rename('risk');
 
-Map.addLayer(risk, {}, 'Risk');
+Map.addLayer(risk, {min:0, max:60, palette:['blue','white','red']}, 'Risk');
 
 Map.setCenter(67.083, 24.965, 11);
