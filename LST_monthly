@@ -60,7 +60,7 @@ var chart = ui.Chart.image.seriesByRegion({
   reducer: ee.Reducer.median(),
   scale: 500,
   xProperty: 'system:index',
-  seriesProperty: ee.String('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
+  seriesProperty: 'Month'//ee.String('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
 });
 
 //Print chart to console
