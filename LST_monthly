@@ -34,22 +34,6 @@ print(composites);
 var img = ee.Image(composites.first());
 Map.addLayer(img, {min: 0, max: 20}, 'LST');
 
-// var months = ee.List.sequence(1, 12);
-// var years = ee.List.sequence(2013, 2017);
-
-// var byMonthYear = ee.ImageCollection.fromImages(
-//   years.map(function(y) {
-//     return months.map(function (m) {
-//     return sst
-//       .filter(ee.Filter.calendarRange(y, y, 'year'))
-//       .filter(ee.Filter.calendarRange(m, m, 'month'))
-//       .mean()
-//       .set('month', m).set('year', y);
-//     });
-// }).flatten());
- 
-// print(byMonthYear);
-
 //Define chart parameters
 var chartParam = {
 title: 'Monthly average LST',
