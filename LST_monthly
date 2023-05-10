@@ -63,4 +63,4 @@ var chart = ui.Chart.image.seriesByRegion({
 });
 
 //Print chart to console
-print(chart.setChartType('LineChart').setOptions(chartParam).setChartType('AreaChart'));
+print(chart.setChartType('LineChart')).setOptions(chartParam));
