@@ -41,6 +41,8 @@ what data sources are used? and so on.
 
 - Future: air pollution S5, flooding S1 ...
 
+- Heat Wave Magnitude Index daily: is defined as the maximum magnitude of the heat waves in a year, where heat wave is the period ≥ 3 consecutive days with maximum temperature above the daily threshold for the reference period 1981–2010. The threshold is defined as the 90th percentile of daily maxima, centered on a 31 day window. 
+
 (completed)
 
 */
