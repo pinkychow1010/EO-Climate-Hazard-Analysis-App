@@ -29,4 +29,3 @@ var risk = ds.expression(
 Map.addLayer(risk, {}, 'Risk');
 
 Map.setCenter(67.083, 24.965, 11);
-Map.centerObject(bandIndexImg);
