@@ -6,6 +6,9 @@ This page is solely a board to describe furture development plan,
 including to do list.
 
 (planned)
+
+- NDVI - LST comparison
+
 - add a reset button to map for switching between analysis tasks, 
 at the moment user needs to manually reload the page to perform another task
 
