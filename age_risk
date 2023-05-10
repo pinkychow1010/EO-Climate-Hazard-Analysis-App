@@ -35,6 +35,6 @@ var risk = ds.expression(
                       })
                       .rename('risk');
 
-Map.addLayer(risk, {min:0, max:0.3, palette:['blue','white','red']}, 'Risk');
+Map.addLayer(risk, {min:0.1, max:0.3, palette:['blue','white','red']}, 'Risk');
 
 Map.setCenter(67.083, 24.965, 11);
