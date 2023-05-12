@@ -44,7 +44,7 @@ var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
 
 var rural_heat = max.updateMask(urban_threshold.eq(0));
 
-Map.addLayer(rural_heat);
+// Map.addLayer(rural_heat);
 
 // Combine mean and standard deviation reducers for efficiency.
 var combinedReducer = ee.Reducer.mean().combine({
