@@ -8,18 +8,18 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[65.21679606049618, 28.560114280990398],
-          [65.21679606049618, 24.63174153593192],
-          [68.64453043549618, 24.63174153593192],
-          [68.64453043549618, 28.560114280990398]]], null, false);
+        [[[66.82079996674618, 25.30897477459744],
+          [66.82079996674618, 24.63174153593192],
+          [67.65576090424618, 24.63174153593192],
+          [67.65576090424618, 25.30897477459744]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
 print(ds);
 
-var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry);
+var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry).multiply(0.1);
 //print(max)
 
-Map.addLayer(max.multiply(0.1), {
+Map.addLayer(max, {
   min: 30, max: 45, palette: ['navy','blue','yellow','red']
 }, "P90 Max Temp");
 
@@ -40,4 +40,30 @@ var reduceNeighborhood = urban_mask.reduceNeighborhood(
 var urban_threshold = reduceNeighborhood.gt(20);
 var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
 
-Map.addLayer(reduceNeighborhoodMasked);
+// Map.addLayer(reduceNeighborhoodMasked);
+
+var rural_heat = max.updateMask(urban_threshold.eq(0));
+
+Map.addLayer(rural_heat);
+
+// Combine mean and standard deviation reducers for efficiency.
+var combinedReducer = ee.Reducer.mean().combine({
+  reducer2: ee.Reducer.stdDev(),
+  sharedInputs: true});
+
+var rural_heat_sample = rural_heat.sample(
+  {region: geometry, scale: 25000, numPixels: 50, geometries: true});
+  
+// Estimate global mean and standard deviation from the points.
+var stats = rural_heat_sample.reduceColumns({
+  reducer: combinedReducer,
+  selectors: ['tmmx_p90']});
+  
+var interpolated = rural_heat_sample.inverseDistance({
+  range: 7e4,
+  propertyName: 'tmmx_p90',
+  mean: stats.get('mean'),
+  stdDev: stats.get('stdDev'),
+  gamma: 0.3});
+  
+Map.addLayer(interpolated);
