@@ -8,10 +8,10 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[60.646483560496186, 30.850083332190422],
-          [60.646483560496186, 23.467985886215647],
-          [71.28124918549618, 23.467985886215647],
-          [71.28124918549618, 30.850083332190422]]], null, false);
+        [[[65.21679606049618, 28.560114280990398],
+          [65.21679606049618, 24.63174153593192],
+          [68.64453043549618, 24.63174153593192],
+          [68.64453043549618, 28.560114280990398]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
 print(ds);
@@ -25,3 +25,19 @@ Map.addLayer(max.multiply(0.1), {
 
 Map.setOptions('HYBRID');
 Map.centerObject(geometry, 6)
+
+var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+.first().clip(geometry);
+
+var urban_mask = lulc.eq(50);
+
+// calculate urban density
+var reduceNeighborhood = urban_mask.reduceNeighborhood(
+  ee.Reducer.mean(), 
+  ee.Kernel.circle(5000, 'meters')
+).multiply(100).toByte();
+
+var urban_threshold = reduceNeighborhood.gt(20);
+var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
+
+Map.addLayer(reduceNeighborhoodMasked);
