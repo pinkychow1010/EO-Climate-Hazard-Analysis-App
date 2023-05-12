@@ -42,9 +42,9 @@ var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
 
 // Map.addLayer(reduceNeighborhoodMasked);
 
-var rural_heat = max.updateMask(urban_threshold.eq(0));
+var rural_heat = max.updateMask(urban_threshold.eq(0)).updateMask(lulc.neq(50));
 
-// Map.addLayer(rural_heat);
+Map.addLayer(rural_heat, {}, "Rural Heat");
 
 // Combine mean and standard deviation reducers for efficiency.
 var combinedReducer = ee.Reducer.mean().combine({
@@ -63,7 +63,9 @@ var interpolated = rural_heat_sample.inverseDistance({
   range: 7e4,
   propertyName: 'tmmx_p90',
   mean: stats.get('mean'),
-  stdDev: stats.get('stdDev'),
-  gamma: 0.3});
+  stdDev: stats.get('stdDev')});
+
+Map.addLayer(interpolated, {min: 33, max: 37}, "Interpolated");
   
-Map.addLayer(interpolated);
+Map.addLayer(max.subtract(interpolated), {min: -5, max: 5}, "UHI");
+
