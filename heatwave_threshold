@@ -83,7 +83,7 @@ var stats = rural_heat_sample.reduceColumns({
   selectors: ['LST_Day_1km']});
   
 var interpolated = rural_heat_sample.inverseDistance({
-  range: 7e4,
+  range: 4e4,
   propertyName: 'LST_Day_1km',
   mean: stats.get('mean'),
   stdDev: stats.get('stdDev')});
