@@ -108,5 +108,5 @@ var min = urban.reduceRegion(ee.Reducer.min(), geometry, 1000).getNumber('LST_Da
 var uhi = urban.unitScale(min,max.multiply(0.9))
 Map.addLayer(uhi, {min: 0, max: 1, palette: ['aqua','blue','yellow','orange','red']}, "UHI");
 
-var styling = {color: 'red', fillColor: '00000000'};
+var styling = {color: 'black', fillColor: '00000000'};
 Map.addLayer(table.style(styling))
