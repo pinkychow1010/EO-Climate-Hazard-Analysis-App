@@ -44,7 +44,7 @@ Map.addLayer(max, {
 // }, "P90 Max Temp");
 
 Map.setOptions('HYBRID');
-Map.centerObject(geometry, 6)
+Map.centerObject(geometry, 10)
 
 var lulc = ee.ImageCollection('ESA/WorldCover/v200')
 .first().clip(geometry);
@@ -72,7 +72,7 @@ var combinedReducer = ee.Reducer.mean().combine({
   sharedInputs: true});
 
 var rural_heat_sample = rural_heat.sample(
-  {region: geometry, scale: 25000, numPixels: 50, geometries: true});
+  {region: geometry, scale: 25000, numPixels: 2000, geometries: true});
   
 // Estimate global mean and standard deviation from the points.
 
@@ -82,13 +82,24 @@ var stats = rural_heat_sample.reduceColumns({
   reducer: combinedReducer,
   selectors: ['LST_Day_1km']});
   
-var interpolated = rural_heat_sample.inverseDistance({
-  range: 4e4,
+// var interpolated = rural_heat_sample.inverseDistance({
+//   range: 4e4,
+//   propertyName: 'LST_Day_1km',
+//   mean: stats.get('mean'),
+//   stdDev: stats.get('stdDev')});
+
+var interpolated = rural_heat_sample.kriging({
   propertyName: 'LST_Day_1km',
-  mean: stats.get('mean'),
-  stdDev: stats.get('stdDev')});
+  shape: 'gaussian',
+  range: 4.8e4,
+  sill: 164,
+  nugget: 0.05,
+  maxDistance: 3.8e4,
+  reducer: ee.Reducer.mean()
+});
+
 
 Map.addLayer(interpolated, {min: 33, max: 37}, "Interpolated");
   
-Map.addLayer(max.subtract(interpolated), {min: -5, max: 5}, "UHI");
+Map.addLayer(max.subtract(interpolated), {min: -5, max: 5, palette: ['blue','white','red']}, "UHI");
 
