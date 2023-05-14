@@ -13,15 +13,35 @@ var geometry =
           [67.65576090424618, 24.63174153593192],
           [67.65576090424618, 25.30897477459744]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
-print(ds);
+// var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
+// print(ds);
 
-var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry).multiply(0.1);
-//print(max)
+// var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry).multiply(0.1);
+// //print(max)
+
+var start_year = ee.Date("2020-01-01");
+var end_year = ee.Date("2021-01-01");
+
+var yearFilter = ee.Filter.date(
+  start_year.advance(-1, "year"), 
+  end_year.advance(1, "year")
+  );
+  
+var max = ee.ImageCollection("MODIS/061/MOD11A2")
+  .select("LST_Day_1km")
+  .filter(yearFilter)
+  .median()
+  .multiply(0.02)
+  .subtract(272.15)
+  .clip(geometry);
 
 Map.addLayer(max, {
   min: 30, max: 45, palette: ['navy','blue','yellow','red']
-}, "P90 Max Temp");
+}, "MODIS LST");
+
+// Map.addLayer(max, {
+//   min: 30, max: 45, palette: ['navy','blue','yellow','red']
+// }, "P90 Max Temp");
 
 Map.setOptions('HYBRID');
 Map.centerObject(geometry, 6)
@@ -55,13 +75,16 @@ var rural_heat_sample = rural_heat.sample(
   {region: geometry, scale: 25000, numPixels: 50, geometries: true});
   
 // Estimate global mean and standard deviation from the points.
+
+print(rural_heat_sample);
+
 var stats = rural_heat_sample.reduceColumns({
   reducer: combinedReducer,
-  selectors: ['tmmx_p90']});
+  selectors: ['LST_Day_1km']});
   
 var interpolated = rural_heat_sample.inverseDistance({
   range: 7e4,
-  propertyName: 'tmmx_p90',
+  propertyName: 'LST_Day_1km',
   mean: stats.get('mean'),
   stdDev: stats.get('stdDev')});
 
