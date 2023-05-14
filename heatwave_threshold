@@ -100,5 +100,5 @@ var interpolated = rural_heat_sample.kriging({
 
 // Map.addLayer(interpolated, {min: 33, max: 37}, "Interpolated");
   
-Map.addLayer(max.subtract(interpolated), {min: -5, max: 5, palette: ['blue','white','red']}, "UHI");
+Map.addLayer(max.subtract(interpolated).updateMask(urban_threshold), {min: -5, max: 5, palette: ['blue','white','red']}, "UHI");
 
