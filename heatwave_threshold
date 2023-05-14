@@ -101,8 +101,9 @@ var interpolated = rural_heat_sample.kriging({
 
 // Map.addLayer(interpolated, {min: 33, max: 37}, "Interpolated");
 var urban = (max.subtract(interpolated).updateMask(lulc.eq(50)))
-var max = urban.reduceRegion(ee.Reducer.max(), geometry);
-var min = urban.reduceRegion(ee.Reducer.min(), geometry);
-var uhi = urban.unitScale(min,max)
+// var max = urban.reduceRegion(ee.Reducer.max(), geometry);
+// var min = urban.reduceRegion(ee.Reducer.min(), geometry);
+
+var uhi = urban.unitScale(-2,2)
 Map.addLayer(uhi, {min: 0, max: 1, palette: ['white','red']}, "UHI");
 
