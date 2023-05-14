@@ -36,3 +36,34 @@ Map.addLayer(max, {
 Map.setOptions('HYBRID');
 Map.centerObject(geometry, 10)
 
+
+var startDate = ee.Date.fromYMD(2010, 1, 1)
+var endDate = ee.Date.fromYMD(2013, 1, 1) // Exclusive
+var aoi = Map.getBounds(true) // Replace this with your area
+
+var collection = ee.ImageCollection('MODIS/006/MOD11A1')
+  .filterBounds(aoi)
+
+var numberOfMonths = endDate.difference(startDate, 'months').floor()
+var daysBelow0Collection = ee.ImageCollection(
+  ee.List.sequence(0, numberOfMonths.subtract(1))
+    .map(daysBelow0)
+)
+
+print(daysBelow0Collection)
+Map.addLayer(daysBelow0Collection.first(), {min: 0, max: 20, palette: 'red,orange,yellow,green,blue,white'}, 'First image')
+
+function daysBelow0(monthOffset) {
+  var date = startDate.advance(monthOffset, 'months')
+  return collection
+    .select('LST_Day_1km')
+    .filterDate(date, date.advance(1, 'months'))
+    .map(function (image) {
+      var below0 = image.multiply(0.02).subtract(273.15).lte(0)
+      return image.updateMask(below0)
+    })
+    .count()
+    .unmask(0)
+    .clip(aoi)
+    .set('date', date.format('yyyy-MM-dd'))
+}
