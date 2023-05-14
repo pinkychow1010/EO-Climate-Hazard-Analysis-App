@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.82079996674618, 25.30897477459744],
-          [66.82079996674618, 24.63174153593192],
-          [67.65576090424618, 24.63174153593192],
-          [67.65576090424618, 25.30897477459744]]], null, false);
+        [[[66.82079996674618, 25.077840588506227],
+          [66.82079996674618, 24.68416034437003],
+          [67.22729410737118, 24.68416034437003],
+          [67.22729410737118, 25.077840588506227]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
 // print(ds);
