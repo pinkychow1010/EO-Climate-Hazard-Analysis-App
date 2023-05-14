@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -99,6 +100,7 @@ var interpolated = rural_heat_sample.kriging({
 
 
 // Map.addLayer(interpolated, {min: 33, max: 37}, "Interpolated");
-  
-Map.addLayer(max.subtract(interpolated).updateMask(urban_threshold), {min: -5, max: 5, palette: ['blue','white','red']}, "UHI");
+
+var uhi = max.subtract(interpolated).updateMask(lulc.eq(50)).unitScale(0,1)
+Map.addLayer(uhi, {min: -3, max: 3, palette: ['white','red']}, "UHI");
 
