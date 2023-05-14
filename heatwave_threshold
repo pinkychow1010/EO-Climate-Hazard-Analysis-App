@@ -36,7 +36,7 @@ var max = ee.ImageCollection("MODIS/061/MOD11A2")
   .clip(geometry);
 
 Map.addLayer(max, {
-  min: 30, max: 45, palette: ['navy','blue','yellow','red']
+  min: 30, max: 45, palette: ['blue','white','red']
 }, "MODIS LST");
 
 // Map.addLayer(max, {
