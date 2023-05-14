@@ -104,6 +104,6 @@ var urban = (max.subtract(interpolated).updateMask(lulc.eq(50)))
 var max = urban.reduceRegion(ee.Reducer.max(), geometry, 1000).getNumber('LST_Day_1km');
 var min = urban.reduceRegion(ee.Reducer.min(), geometry, 1000).getNumber('LST_Day_1km');
 
-var uhi = urban.unitScale(min,max)
+var uhi = urban.unitScale(min,max.multiply(0.9))
 Map.addLayer(uhi, {min: 0, max: 1, palette: ['blue','white','yellow','orange','red']}, "UHI");
 
