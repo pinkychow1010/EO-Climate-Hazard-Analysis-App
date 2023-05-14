@@ -27,86 +27,12 @@ var yearFilter = ee.Filter.date(
   start_year.advance(-1, "year"), 
   end_year.advance(1, "year")
   );
-  
-var max = ee.ImageCollection("MODIS/061/MOD11A2")
-  .select("LST_Day_1km")
-  .filter(yearFilter)
-  .median()
-  .multiply(0.02)
-  .subtract(272.15)
-  .clip(geometry);
+
 
 Map.addLayer(max, {
-  min: 30, max: 42, palette: ['blue','white','red']
-}, "MODIS LST");
-
-// Map.addLayer(max, {
-//   min: 30, max: 45, palette: ['navy','blue','yellow','red']
-// }, "P90 Max Temp");
+  min: 30, max: 35, palette: ['navy','blue','yellow','red']
+}, "P90 Max Temp");
 
 Map.setOptions('HYBRID');
 Map.centerObject(geometry, 10)
 
-var lulc = ee.ImageCollection('ESA/WorldCover/v200')
-.first().clip(geometry);
-
-var urban_mask = lulc.eq(50);
-
-// calculate urban density
-var reduceNeighborhood = urban_mask.reduceNeighborhood(
-  ee.Reducer.mean(), 
-  ee.Kernel.circle(5000, 'meters')
-).multiply(100).toByte();
-
-var urban_threshold = reduceNeighborhood.gt(20);
-var reduceNeighborhoodMasked = reduceNeighborhood.updateMask(urban_threshold);
-
-// Map.addLayer(reduceNeighborhoodMasked);
-
-var rural_heat = max.updateMask(urban_threshold.eq(0)).updateMask(lulc.neq(50));
-
-// Map.addLayer(rural_heat, {}, "Rural Heat");
-
-// Combine mean and standard deviation reducers for efficiency.
-var combinedReducer = ee.Reducer.mean().combine({
-  reducer2: ee.Reducer.stdDev(),
-  sharedInputs: true});
-
-var rural_heat_sample = rural_heat.sample(
-  {region: geometry, scale: 25000, numPixels: 2000, geometries: true});
-  
-// Estimate global mean and standard deviation from the points.
-
-print(rural_heat_sample);
-
-var stats = rural_heat_sample.reduceColumns({
-  reducer: combinedReducer,
-  selectors: ['LST_Day_1km']});
-  
-// var interpolated = rural_heat_sample.inverseDistance({
-//   range: 4e4,
-//   propertyName: 'LST_Day_1km',
-//   mean: stats.get('mean'),
-//   stdDev: stats.get('stdDev')});
-
-var interpolated = rural_heat_sample.kriging({
-  propertyName: 'LST_Day_1km',
-  shape: 'gaussian',
-  range: 4.8e4,
-  sill: 164,
-  nugget: 0.05,
-  maxDistance: 3.8e4,
-  reducer: ee.Reducer.mean()
-});
-
-
-// Map.addLayer(interpolated, {min: 33, max: 37}, "Interpolated");
-var urban = (max.subtract(interpolated).updateMask(lulc.eq(50)))
-var max = urban.reduceRegion(ee.Reducer.max(), geometry, 1000).getNumber('LST_Day_1km');
-var min = urban.reduceRegion(ee.Reducer.min(), geometry, 1000).getNumber('LST_Day_1km');
-
-var uhi = urban.unitScale(min,max.multiply(0.9))
-Map.addLayer(uhi, {min: 0, max: 1, palette: ['aqua','blue','yellow','orange','red']}, "UHI");
-
-var styling = {color: 'black', fillColor: '00000000'};
-Map.addLayer(table.style(styling))
