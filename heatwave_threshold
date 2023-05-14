@@ -11,7 +11,8 @@ var geometry =
         [[[66.82079996674618, 25.077840588506227],
           [66.82079996674618, 24.68416034437003],
           [67.22729410737118, 24.68416034437003],
-          [67.22729410737118, 25.077840588506227]]], null, false);
+          [67.22729410737118, 25.077840588506227]]], null, false),
+    table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
 // print(ds);
@@ -105,5 +106,7 @@ var max = urban.reduceRegion(ee.Reducer.max(), geometry, 1000).getNumber('LST_Da
 var min = urban.reduceRegion(ee.Reducer.min(), geometry, 1000).getNumber('LST_Day_1km');
 
 var uhi = urban.unitScale(min,max.multiply(0.9))
-Map.addLayer(uhi, {min: 0, max: 1, palette: ['blue','white','yellow','orange','red']}, "UHI");
+Map.addLayer(uhi, {min: 0, max: 1, palette: ['aqua','blue','yellow','orange','red']}, "UHI");
 
+var styling = {color: 'red', fillColor: '00000000'};
+Map.addLayer(table.style(styling))
