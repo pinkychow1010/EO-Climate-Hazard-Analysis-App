@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[113.40283121674618, 23.061743147273372],
-          [113.40283121674618, 21.85609765946257],
-          [114.85165323823055, 21.85609765946257],
-          [114.85165323823055, 23.061743147273372]]], null, false),
+        [[[113.06225504487118, 23.27385040280792],
+          [113.06225504487118, 23.03394235161987],
+          [113.46737589448055, 23.03394235161987],
+          [113.46737589448055, 23.27385040280792]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
@@ -69,9 +68,10 @@ function veryHotDays(offset) {
   var date = startDate.advance(offset, 'months');
   return collection
     .select('LST_Day_1km')
-    .filterDate(date, date.advance(1, 'months'))
+    .filterDate(date, date.advance(3, 'months'))
     .map(function (image) {
-      var veryHot = image.multiply(0.02).subtract(273.15).gte(20)
+      var degree = image.multiply(0.02).subtract(273.15)
+      var veryHot = degree.gte(30)
       return image.updateMask(veryHot)
     })
     .count()
