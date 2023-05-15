@@ -52,3 +52,18 @@ var smoothed_deg = smoothed.map(function(image) {
 
 Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
 
+print(smoothed_deg)
+
+var chart = ui.Chart.image.series({
+  imageCollection: smoothed_deg.select('LST_Day_1km_1'),
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: 'LST Time Series',
+      interpolateNulls: true,
+      vAxis: {title: 'Temperature'},
+      hAxis: {title: 'Time', format: 'YYYY-MMM'}
+    })
+print(chart);
