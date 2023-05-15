@@ -73,7 +73,7 @@ function veryHotDays(offset) {
     .select('LST_Day_1km')
     .filterDate(date, date.advance(1, 'months'))
     .map(function (image) {
-      var veryHot = image.multiply(0.02).subtract(273.15).gte(35)
+      var veryHot = image.multiply(0.02).subtract(273.15).gte(38)
       return image.updateMask(veryHot)
     })
     .count()
