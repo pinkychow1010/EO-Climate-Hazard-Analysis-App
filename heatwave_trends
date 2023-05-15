@@ -1,16 +1,17 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[113.06225504487118, 23.27385040280792],
-          [113.06225504487118, 23.03394235161987],
-          [113.46737589448055, 23.03394235161987],
-          [113.46737589448055, 23.27385040280792]]], null, false),
+        [[[66.61205973237118, 25.73281279908653],
+          [66.61205973237118, 24.881157282486484],
+          [67.45663370698055, 24.881157282486484],
+          [67.45663370698055, 25.73281279908653]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
