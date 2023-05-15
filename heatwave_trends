@@ -37,7 +37,7 @@ Map.centerObject(geometry, 10)
 
 
 var startDate = ee.Date.fromYMD(2001, 1, 1)
-var endDate = ee.Date.fromYMD(2022, 1, 1)
+var endDate = ee.Date.fromYMD(2023, 1, 1)
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .filterBounds(geometry)
@@ -62,8 +62,6 @@ var count = daysAboveThres.size();
 var listOfImages = daysAboveThres.toList(count);
 var veryHotDays_list = listOfImages.map(getMean);
 
-
-
 function veryHotDays(offset) {
   var date = startDate.advance(offset, 'months');
   return collection
@@ -71,7 +69,7 @@ function veryHotDays(offset) {
     .filterDate(date, date.advance(3, 'months'))
     .map(function (image) {
       var degree = image.multiply(0.02).subtract(273.15)
-      var veryHot = degree.gte(35)
+      var veryHot = degree.gte(40)
       return image.updateMask(veryHot)
     })
     .count()
@@ -92,7 +90,7 @@ var chart = ui.Chart.array.values(
                   },
                   vAxis: {
                     title: 'Day Count',
-                    viewWindow: {min: 0, max: 90},
+                    viewWindow: {min: 0, max: 30},
                     titleTextStyle: {italic: false, bold: true}
                   },
                   colors: ['red'],
@@ -100,4 +98,5 @@ var chart = ui.Chart.array.values(
                   pointSize: 0,
                   legend: {position: 'none'}
                 });
+                
 print(chart);
