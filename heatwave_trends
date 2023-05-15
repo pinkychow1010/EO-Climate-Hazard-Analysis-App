@@ -71,7 +71,7 @@ function veryHotDays(offset) {
     .filterDate(date, date.advance(3, 'months'))
     .map(function (image) {
       var degree = image.multiply(0.02).subtract(273.15)
-      var veryHot = degree.gte(40)
+      var veryHot = degree.gte(35)
       return image.updateMask(veryHot)
     })
     .count()
