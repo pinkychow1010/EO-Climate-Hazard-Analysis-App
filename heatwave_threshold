@@ -37,7 +37,7 @@ Map.setOptions('HYBRID');
 Map.centerObject(geometry, 10)
 
 
-var startDate = ee.Date.fromYMD(2020, 1, 1)
+var startDate = ee.Date.fromYMD(2015, 1, 1)
 var endDate = ee.Date.fromYMD(2022, 1, 1)
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
