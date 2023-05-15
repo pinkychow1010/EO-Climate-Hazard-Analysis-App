@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -36,7 +37,7 @@ Map.setOptions('HYBRID');
 Map.centerObject(geometry, 10)
 
 
-var startDate = ee.Date.fromYMD(2015, 1, 1)
+var startDate = ee.Date.fromYMD(2000, 1, 1)
 var endDate = ee.Date.fromYMD(2022, 1, 1)
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
@@ -93,7 +94,7 @@ var chart = ui.Chart.array.values(
                   },
                   vAxis: {
                     title: 'Number of Very Hot Days',
-                    viewWindow: {min: 0, max: 20},
+                    viewWindow: {min: 0, max: 30},
                     titleTextStyle: {italic: false, bold: true}
                   },
                   colors: ['red'],
