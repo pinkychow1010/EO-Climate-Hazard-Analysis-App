@@ -8,10 +8,10 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.95263590424618, 25.020610830425262],
-          [66.95263590424618, 24.808878287942257],
-          [67.21493448823055, 24.808878287942257],
-          [67.21493448823055, 25.020610830425262]]], null, false),
+        [[[66.73290934174618, 25.385921850163157],
+          [66.73290934174618, 24.68166470996233],
+          [67.47860636323055, 24.68166470996233],
+          [67.47860636323055, 25.385921850163157]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
@@ -30,14 +30,14 @@ var yearFilter = ee.Filter.date(
 
 
 Map.addLayer(max, {
-  min: 30, max: 35, palette: ['navy','blue','yellow','red']
+  min: 30, max: 45, palette: ['navy','blue','yellow','red']
 }, "P90 Max Temp");
 
 Map.setOptions('HYBRID');
 Map.centerObject(geometry, 10)
 
 
-var startDate = ee.Date.fromYMD(2010, 1, 1)
+var startDate = ee.Date.fromYMD(2001, 1, 1)
 var endDate = ee.Date.fromYMD(2022, 1, 1)
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
@@ -50,8 +50,6 @@ var daysAboveThres = ee.ImageCollection(
 )
 
 print("numberOfMonths: ",numberOfMonths);
-
-//receiving the values at pt for each image
 
 var getMean = function(image) {
   // Reducing region and getting value
@@ -73,7 +71,7 @@ function veryHotDays(offset) {
     .select('LST_Day_1km')
     .filterDate(date, date.advance(1, 'months'))
     .map(function (image) {
-      var veryHot = image.multiply(0.02).subtract(273.15).gte(38)
+      var veryHot = image.multiply(0.02).subtract(273.15).gte(34.75)
       return image.updateMask(veryHot)
     })
     .count()
