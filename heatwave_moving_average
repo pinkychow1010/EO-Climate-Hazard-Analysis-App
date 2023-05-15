@@ -8,10 +8,10 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[74.19380474901611, 31.67129215987573],
-          [74.19380474901611, 31.334076848686284],
-          [74.50142193651611, 31.334076848686284],
-          [74.50142193651611, 31.67129215987573]]], null, false);
+        [[[66.81099224901611, 25.119577245105067],
+          [66.81099224901611, 24.745986882248864],
+          [67.34382916307861, 24.745986882248864],
+          [67.34382916307861, 25.119577245105067]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 var startdate = ee.Date.fromYMD(2015,1,1);
@@ -73,7 +73,7 @@ var chart = ui.Chart.image.series({
       lineWidth: 1,
       title: 'LST Time Series',
       interpolateNulls: true,
-      vAxis: {title: 'Temperature'},
+      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
       hAxis: {title: 'Time', format: 'YYYY-MMM'},
       explorer: {}
     })
