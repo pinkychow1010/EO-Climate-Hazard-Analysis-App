@@ -53,7 +53,7 @@ var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
 var smoothed_deg = smoothed.map(function(image) {
   return image.multiply(0.02).subtract(273.15)
   .copyProperties({
-        source: collection,
+        source: image,
         properties: ['system:time_start']
       });
 }) 
