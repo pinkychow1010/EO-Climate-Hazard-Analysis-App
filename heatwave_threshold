@@ -54,10 +54,10 @@ print(daysAboveThres)
 Map.addLayer(daysAboveThres.first(), {min: 0, max: 20, palette: 'red,orange,yellow,green,blue,white'}, 'First image')
 
 function veryHotDays(offset) {
-  var date = startDate.advance(offset, 'days');
+  var date = startDate.advance(offset, 'months');
   return collection
     .select('LST_Day_1km')
-    .filterDate(date, date.advance(1, 'days'))
+    .filterDate(date, date.advance(1, 'months'))
     .map(function (image) {
       var veryHot = image.multiply(0.02).subtract(273.15).gte(35)
       return image.updateMask(veryHot)
