@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.61205973237118, 25.73281279908653],
-          [66.61205973237118, 24.881157282486484],
-          [67.45663370698055, 24.881157282486484],
-          [67.45663370698055, 25.73281279908653]]], null, false),
+        [[[66.98559488862118, 24.93845195500201],
+          [66.98559488862118, 24.858730389002545],
+          [67.0583793124493, 24.858730389002545],
+          [67.0583793124493, 24.93845195500201]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
@@ -93,7 +92,7 @@ var chart = ui.Chart.array.values(
                   },
                   vAxis: {
                     title: 'Day Count',
-                    viewWindow: {min: 0, max: 80},
+                    viewWindow: {min: 0, max: 90},
                     titleTextStyle: {italic: false, bold: true}
                   },
                   colors: ['red'],
