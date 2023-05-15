@@ -50,7 +50,6 @@ var daysAboveThres = ee.ImageCollection(
 
 
 print(daysAboveThres.first());
-print("numberOfWeeks: ",numberOfWeeks);
 
 // print("numberOfMonths: ",numberOfMonths);
 
