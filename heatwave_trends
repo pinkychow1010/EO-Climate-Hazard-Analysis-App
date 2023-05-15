@@ -37,7 +37,7 @@ Map.setOptions('HYBRID');
 Map.centerObject(geometry, 10)
 
 
-var startDate = ee.Date.fromYMD(2000, 1, 1)
+var startDate = ee.Date.fromYMD(2010, 1, 1)
 var endDate = ee.Date.fromYMD(2022, 1, 1)
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
@@ -87,13 +87,13 @@ var chart = ui.Chart.array.values(
   {array: veryHotDays_list, axis: 0, xLabels: daysAboveThres.aggregate_array('date')}
   )
                 .setOptions({
-                  title: 'Very Hot Days',
+                  title: 'Trends of Very Hot Days',
                   hAxis: {
                     title: 'Month',
                     titleTextStyle: {italic: false, bold: true}
                   },
                   vAxis: {
-                    title: 'Number of Very Hot Days',
+                    title: 'Day Count',
                     viewWindow: {min: 0, max: 30},
                     titleTextStyle: {italic: false, bold: true}
                   },
