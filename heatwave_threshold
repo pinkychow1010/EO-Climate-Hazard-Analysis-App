@@ -38,8 +38,7 @@ Map.centerObject(geometry, 10)
 
 
 var startDate = ee.Date.fromYMD(2020, 1, 1)
-var endDate = ee.Date.fromYMD(2022, 1, 1) // Exclusive
-// var aoi = Map.getBounds(true) // Replace this with your area
+var endDate = ee.Date.fromYMD(2022, 1, 1)
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .filterBounds(geometry)
@@ -50,9 +49,7 @@ var daysAboveThres = ee.ImageCollection(
     .map(veryHotDays)
 )
 
-// print(daysAboveThres.map(getMean))
-// Map.addLayer(daysAboveThres.first(), {min: 0, max: 20, palette: 'red,orange,yellow,green,blue,white'}, 'First image')
-
+print("numberOfMonths: ",numberOfMonths);
 
 //receiving the values at pt for each image
 
@@ -65,6 +62,7 @@ var getMean = function(image) {
 };
 
 var count = daysAboveThres.size();
+print("count: ", count);
 
 var listOfImages = daysAboveThres.toList(count);
 
