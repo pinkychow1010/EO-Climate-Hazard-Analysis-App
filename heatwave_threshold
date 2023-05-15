@@ -64,11 +64,13 @@ var getMean = function(image) {
   return value;
 };
 
-var count = myB8.size();
+var count = daysAboveThres.size();
 
-var listOfImages = l8.toList(count);
+var listOfImages = daysAboveThres.toList(count);
 
-var B8_list = listOfImages.map(getB8);
+var veryHotDays_list = listOfImages.map(getMean);
+
+
 
 function veryHotDays(offset) {
   var date = startDate.advance(offset, 'months');
