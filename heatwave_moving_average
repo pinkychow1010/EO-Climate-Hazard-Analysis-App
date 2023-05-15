@@ -43,12 +43,12 @@ var threeNeighborJoin = join.apply({
 
 var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
   var collection = ee.ImageCollection.fromImages(image.get('images'));
-  return ee.Image(image).addBands(collection.max());
+  return ee.Image(image).addBands(collection.min());
 }));
 
 var smoothed_deg = smoothed.map(function(image) {
   return image.multiply(0.02).subtract(273.15)
 }) 
 
-Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'original');
+Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
 
