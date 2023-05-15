@@ -93,7 +93,7 @@ var chart = ui.Chart.array.values(
                   },
                   vAxis: {
                     title: 'Day Count',
-                    viewWindow: {min: 0, max: 30},
+                    viewWindow: {min: 0, max: 80},
                     titleTextStyle: {italic: false, bold: true}
                   },
                   colors: ['red'],
