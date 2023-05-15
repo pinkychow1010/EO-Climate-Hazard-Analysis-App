@@ -74,6 +74,7 @@ var chart = ui.Chart.image.series({
       title: 'LST Time Series',
       interpolateNulls: true,
       vAxis: {title: 'Temperature'},
-      hAxis: {title: 'Time', format: 'YYYY-MMM'}
+      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      explorer: {}
     })
 print(chart);
