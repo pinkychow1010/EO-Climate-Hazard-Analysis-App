@@ -56,19 +56,15 @@ print("numberOfMonths: ",numberOfMonths);
 var getMean = function(image) {
   // Reducing region and getting value
   var value = ee.Image(image)
-    .reduceRegion(ee.Reducer.mean(), geometry, 1000)
+    .reduceRegion(ee.Reducer.median(), geometry, 1000)
     .get('LST_Day_1km');
   return value;
 };
 
 var count = daysAboveThres.size();
-print("count: ", count);
-
 var listOfImages = daysAboveThres.toList(count);
-
 var veryHotDays_list = listOfImages.map(getMean);
 
-print(veryHotDays_list);
 
 
 function veryHotDays(offset) {
