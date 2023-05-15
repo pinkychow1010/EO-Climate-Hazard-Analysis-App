@@ -39,19 +39,27 @@ var threeNeighborJoin = join.apply({
   primary: collection, 
   secondary: collection, 
   condition: diffFilter
-});
+})
 
 var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
   var collection = ee.ImageCollection.fromImages(image.get('images'));
-  return ee.Image(image).addBands(collection.min());
+  return ee.Image(image).addBands(collection.min()).copyProperties({
+        source: collection,
+        properties: ['system:time_start']
+      });
 }));
 
 var smoothed_deg = smoothed.map(function(image) {
-  return image.multiply(0.02).subtract(273.15)
+  return image.multiply(0.02).subtract(273.15).copyProperties({
+        source: collection,
+        properties: ['system:time_start']
+      });
 }) 
+
 
 Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
 
+print(collection)
 print(smoothed_deg)
 
 var chart = ui.Chart.image.series({
