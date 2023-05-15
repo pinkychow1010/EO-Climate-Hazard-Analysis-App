@@ -50,8 +50,25 @@ var daysAboveThres = ee.ImageCollection(
     .map(veryHotDays)
 )
 
-print(daysAboveThres)
-Map.addLayer(daysAboveThres.first(), {min: 0, max: 20, palette: 'red,orange,yellow,green,blue,white'}, 'First image')
+// print(daysAboveThres.map(getMean))
+// Map.addLayer(daysAboveThres.first(), {min: 0, max: 20, palette: 'red,orange,yellow,green,blue,white'}, 'First image')
+
+
+//receiving the values at pt for each image
+
+var getMean = function(image) {
+  // Reducing region and getting value
+  var value = ee.Image(image)
+    .reduceRegion(ee.Reducer.mean(), geometry)
+    .get('LST_Day_1km');
+  return value;
+};
+
+var count = myB8.size();
+
+var listOfImages = l8.toList(count);
+
+var B8_list = listOfImages.map(getB8);
 
 function veryHotDays(offset) {
   var date = startDate.advance(offset, 'months');
