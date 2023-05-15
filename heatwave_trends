@@ -19,7 +19,7 @@ print(ds);
 var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry).multiply(0.1);
 //print(max)
 
-var start_year = ee.Date("2020-01-01");
+var start_year = ee.Date("2015-01-01");
 var end_year = ee.Date("2021-01-01");
 
 var yearFilter = ee.Filter.date(
@@ -42,13 +42,19 @@ var endDate = ee.Date.fromYMD(2023, 1, 1)
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .filterBounds(geometry)
 
-var numberOfMonths = endDate.difference(startDate, 'months').floor()
+// var numberOfMonths = endDate.difference(startDate, 'months').floor()
+// var daysAboveThres = ee.ImageCollection(
+//   ee.List.sequence(0, numberOfMonths.subtract(1))
+//     .map(veryHotDays)
+// )
+
+var numberOfWeeks = endDate.difference(startDate, 'weeks').floor()
 var daysAboveThres = ee.ImageCollection(
-  ee.List.sequence(0, numberOfMonths.subtract(1))
+  ee.List.sequence(0, numberOfWeeks.subtract(1))
     .map(veryHotDays)
 )
 
-print("numberOfMonths: ",numberOfMonths);
+// print("numberOfMonths: ",numberOfMonths);
 
 var getMean = function(image) {
   // Reducing region and getting value
@@ -63,10 +69,10 @@ var listOfImages = daysAboveThres.toList(count);
 var veryHotDays_list = listOfImages.map(getMean);
 
 function veryHotDays(offset) {
-  var date = startDate.advance(offset, 'months');
+  var date = startDate.advance(offset, 'weeks');
   return collection
     .select('LST_Day_1km')
-    .filterDate(date, date.advance(3, 'months'))
+    .filterDate(date, date.advance(1, 'weeks'))
     .map(function (image) {
       var degree = image.multiply(0.02).subtract(273.15)
       var veryHot = degree.gte(40)
@@ -77,6 +83,22 @@ function veryHotDays(offset) {
     .clip(geometry)
     .set('date', date.format('yyyy-MM-dd'))
 }
+
+// function veryHotDays(offset) {
+//   var date = startDate.advance(offset, 'months');
+//   return collection
+//     .select('LST_Day_1km')
+//     .filterDate(date, date.advance(3, 'months'))
+//     .map(function (image) {
+//       var degree = image.multiply(0.02).subtract(273.15)
+//       var veryHot = degree.gte(40)
+//       return image.updateMask(veryHot)
+//     })
+//     .count()
+//     .unmask(0)
+//     .clip(geometry)
+//     .set('date', date.format('yyyy-MM-dd'))
+// }
 
 
 var chart = ui.Chart.array.values(
