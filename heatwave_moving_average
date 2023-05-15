@@ -43,14 +43,16 @@ var threeNeighborJoin = join.apply({
 
 var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
   var collection = ee.ImageCollection.fromImages(image.get('images'));
-  return ee.Image(image).addBands(collection.min()).copyProperties({
-        source: collection,
+  return ee.Image(image).addBands(collection.min())
+  .copyProperties({
+        source: image,
         properties: ['system:time_start']
       });
 }));
 
 var smoothed_deg = smoothed.map(function(image) {
-  return image.multiply(0.02).subtract(273.15).copyProperties({
+  return image.multiply(0.02).subtract(273.15)
+  .copyProperties({
         source: collection,
         properties: ['system:time_start']
       });
