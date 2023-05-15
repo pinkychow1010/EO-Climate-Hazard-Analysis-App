@@ -14,8 +14,8 @@ var geometry =
           [74.50142193651611, 31.67129215987573]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
-var startdate = ee.Date.fromYMD(2018,1,1);
-var enddate = ee.Date.fromYMD(2020,12,31);
+var startdate = ee.Date.fromYMD(2015,1,1);
+var enddate = ee.Date.fromYMD(2022,12,31);
 
 // Filter data
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
