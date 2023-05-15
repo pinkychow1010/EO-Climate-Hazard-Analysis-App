@@ -1,0 +1,48 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[74.19380474901611, 31.67129215987573],
+          [74.19380474901611, 31.334076848686284],
+          [74.50142193651611, 31.334076848686284],
+          [74.50142193651611, 31.67129215987573]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+var startdate = ee.Date.fromYMD(2018,1,1);
+var enddate = ee.Date.fromYMD(2020,12,31);
+
+// Filter data
+var collection = ee.ImageCollection('MODIS/006/MOD11A1')
+  .filterBounds(geometry)
+  .filterDate(startdate, enddate);
+  
+var join = ee.Join.saveAll({
+  matchesKey: 'images'
+});
+
+var timeField = 'system:time_start';
+
+var diffFilter = ee.Filter.maxDifference({
+  difference: 1000 * 60 * 60 * 24 * 17,
+  leftField: timeField, 
+  rightField: timeField
+});
+
+var threeNeighborJoin = join.apply({
+  primary: collection, 
+  secondary: collection, 
+  condition: diffFilter
+});
+
+var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
+  var collection = ee.ImageCollection.fromImages(image.get('images'));
+  return ee.Image(image).addBands(collection.mean());
+}));
+
+Map.addLayer(smoothed, {}, 'original');
+
