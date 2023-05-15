@@ -91,18 +91,18 @@ var chart = ui.Chart.array.values(
   {array: veryHotDays_list, axis: 0, xLabels: daysAboveThres.aggregate_array('date')}
   )
                 .setOptions({
-                  title: 'Elevation Profile Across Longitude',
+                  title: 'Very Hot Days',
                   hAxis: {
-                    title: 'Longitude',
-                    viewWindow: {min: -124.50, max: -122.8},
+                    title: 'Month',
                     titleTextStyle: {italic: false, bold: true}
                   },
                   vAxis: {
-                    title: 'Elevation (m)',
+                    title: 'Number of Very Hot Days',
+                    viewWindow: {min: 0, max: 20},
                     titleTextStyle: {italic: false, bold: true}
                   },
-                  colors: ['1d6b99'],
-                  lineSize: 5,
+                  colors: ['red'],
+                  lineSize: 2,
                   pointSize: 0,
                   legend: {position: 'none'}
                 });
