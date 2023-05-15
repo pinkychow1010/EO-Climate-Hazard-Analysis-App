@@ -85,3 +85,25 @@ function veryHotDays(offset) {
     .clip(geometry)
     .set('date', date.format('yyyy-MM-dd'))
 }
+
+
+var chart = ui.Chart.array.values(
+  {array: veryHotDays_list, axis: 0, xLabels: daysAboveThres.aggregate_array('date')}
+  )
+                .setOptions({
+                  title: 'Elevation Profile Across Longitude',
+                  hAxis: {
+                    title: 'Longitude',
+                    viewWindow: {min: -124.50, max: -122.8},
+                    titleTextStyle: {italic: false, bold: true}
+                  },
+                  vAxis: {
+                    title: 'Elevation (m)',
+                    titleTextStyle: {italic: false, bold: true}
+                  },
+                  colors: ['1d6b99'],
+                  lineSize: 5,
+                  pointSize: 0,
+                  legend: {position: 'none'}
+                });
+print(chart);
