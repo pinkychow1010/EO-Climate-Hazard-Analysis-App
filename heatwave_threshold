@@ -59,7 +59,7 @@ var daysAboveThres = ee.ImageCollection(
 var getMean = function(image) {
   // Reducing region and getting value
   var value = ee.Image(image)
-    .reduceRegion(ee.Reducer.mean(), geometry)
+    .reduceRegion(ee.Reducer.mean(), geometry, 1000)
     .get('LST_Day_1km');
   return value;
 };
@@ -70,6 +70,7 @@ var listOfImages = daysAboveThres.toList(count);
 
 var veryHotDays_list = listOfImages.map(getMean);
 
+print(veryHotDays_list);
 
 
 function veryHotDays(offset) {
