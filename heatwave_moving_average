@@ -78,3 +78,39 @@ var chart = ui.Chart.image.series({
       explorer: {}
     })
 print(chart);
+
+
+// return the list of coordinates
+var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
+
+// get the Y-coordinates
+var yCoords = listCoords.slice(1, 1, 2)
+
+// reduce the arrays
+var yMin = yCoords.reduce('min', [0]).get([0,0])
+var yMax = yCoords.reduce('max', [0]).get([0,0])
+
+var south = yMin.add(yMax).divide(2).lt(0);
+var shift = south.multiply(6).getInfo();
+
+var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+                  
+var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE');
+print(ds);
+
+var max = ds.select('tmmx')
+.filter(summerFilter)
+.reduce(ee.Reducer.percentile([90]), 300)
+.clip(geometry)
+.multiply(0.1)
+.reduceRegion({
+  reducer: ee.Reducer.median(),
+  geometry: geometry,
+  scale: 1000
+})
+.get('tmmx_p90');
+
+print(max)
+Map.addLayer(max, {
+  min: 30, max: 45, palette: ['navy','blue','yellow','red']
+}, "P90 Max Temp");
