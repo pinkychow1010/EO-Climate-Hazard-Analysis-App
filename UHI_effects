@@ -108,8 +108,8 @@ var urban = (max.subtract(interpolated).updateMask(lulc.eq(50)))
 var max = urban.reduceRegion(ee.Reducer.max(), geometry, 1000).getNumber(LST_band);
 var min = urban.reduceRegion(ee.Reducer.min(), geometry, 1000).getNumber(LST_band);
 
-var uhi = urban.unitScale(min,max.multiply(0.9))
-Map.addLayer(uhi, {min: 0, max: 1, palette: ['aqua','blue','yellow','orange','red']}, "UHI");
+var uhi = urban.unitScale(min,max.multiply(0.8))
+Map.addLayer(uhi, {min: 0, max: 1, palette: ['aqua','blue','yellow','orange','red','#8B0000']}, "UHI");
 
 var styling = {color: 'black', fillColor: '00000000'};
 Map.addLayer(table.style(styling))
