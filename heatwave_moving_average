@@ -109,8 +109,3 @@ var max = ds.select('tmmx')
   scale: 1000
 })
 .get('tmmx_p90');
-
-print(max)
-Map.addLayer(max, {
-  min: 30, max: 45, palette: ['navy','blue','yellow','red']
-}, "P90 Max Temp");
