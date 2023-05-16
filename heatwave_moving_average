@@ -14,7 +14,7 @@ var geometry =
           [67.34382916307861, 25.119577245105067]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
-var startdate = ee.Date.fromYMD(2015,1,1);
+var startdate = ee.Date.fromYMD(2000,1,1);
 var enddate = ee.Date.fromYMD(2022,12,31);
 
 // Filter data
@@ -83,7 +83,7 @@ print(ds);
 
 var max = ds.select('tmmx')
 .filter(summerFilter)
-.reduce(ee.Reducer.percentile([90]), 300)
+.reduce(ee.Reducer.percentile([95]), 300)
 .clip(geometry)
 .multiply(0.1)
 .reduceRegion({
@@ -91,9 +91,9 @@ var max = ds.select('tmmx')
   geometry: geometry,
   scale: 1000
 })
-.get('tmmx_p90');
+.get('tmmx_p95');
 
-var threshold = ee.Image.constant(max).rename('p90').double();
+var threshold = ee.Image.constant(max).rename('p95').double();
 smoothed_deg = smoothed_deg.map(function(image) {
   return image.addBands(threshold);
 });
@@ -101,7 +101,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
 print(smoothed_deg);
 
 var chart = ui.Chart.image.series({
-  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p90']),
+  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000
