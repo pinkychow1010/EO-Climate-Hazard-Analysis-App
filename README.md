@@ -6,7 +6,7 @@
 
 ## **Introduction**
 
-Intraurban analysis toolbox is an interactive API for on-the-fly analysis with Google Earth Engine (GEE), which is a cloud computing platform with a [multi-petabyte catalogue](https://developers.google.com/earth-engine/datasets) of geospatial datasets and satellite imagery.  In the recent years, earth observation imagery has become very popular in the global communities to empower diverse environmental applications, including in the domain of climate risk. Due to the vast potential, many individuals are keen to extract insights into social and economic factors, such as heat wave exposure or relative wealth. [This toolbox](https://sites.google.com/view/intraurban/home) serves as the bridge in between to provide users with derived information without the need for preprocessing, modelling, and big data storage. It is intended for scholars worldwide, who would like to explore climate hazards in the urban environment. It is also designed for individuals planning to perform further analysis and visualization of the geospatial datasets.
+**Intraurban analysis toolbox** is an interactive API for on-the-fly analysis with Google Earth Engine (GEE), which is a cloud computing platform with a [multi-petabyte catalogue](https://developers.google.com/earth-engine/datasets) of geospatial datasets and satellite imagery. In the recent years, earth observation imagery has become very popular in the global communities to empower diverse environmental applications, including in the domain of **climate risk**. Due to the vast potential, many individuals are keen to extract insights into social and economic factors, such as heat wave exposure or relative wealth. [This toolbox](https://sites.google.com/view/intraurban/home) serves as the bridge in between to provide users with derived information about climate hazards **without the need for preprocessing, modelling, and big data storage**. It is intended for scholars worldwide, who would like to explore climate hazards in the urban environment. It is also designed for individuals planning to perform **further analysis and visualization** of the geospatial datasets.
 
 ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/analysis.gif)
 
@@ -43,6 +43,71 @@ Where do the majority of the population live in the city?
 
 <br>
 
+## **Code Catalog**
+
+Below are lists of Javascript code for multiple climate risk analysis. Users can import functions in Google Earth Engine and perform analysis directly using the [API](https://sites.google.com/view/intraurban/home).
+
+<details>
+  <summary>Urban Heat 🥵🏙️</summary>
+  
+  ### Urban Heat Island Analysis
+  1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_choropleth)
+  2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_monthly)
+  3. [LST statitics for land use covers](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_by_LandCover)
+  4. [Diurnal LST temperature variation in summers based on Landsat](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_summer)
+  5. [UHI Effects Intensity](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/UHI_effects)
+  6. [Counting very hot days based on MODIS](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/heatwave_trends)
+  7. [Heatwave events time series](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/heatwave_trends)
+</details>
+
+<details>
+  <summary>Urbanization 👥🏙️</summary>
+  
+  ### Population Changes and Urban Development
+  1. ..
+</details>
+
+<details>
+  <summary>Land Surface Dynamics 🌳🌾</summary>
+  
+  ### Land Use Changes and Vegetation Dynamics
+  1. ..
+</details>
+
+<details>
+  <summary>Air Pollution 👥🏭</summary>
+  
+  ### Air Pollutants and Public Health
+  1. ..
+</details>
+
+<details>
+  <summary>Flooding 🌊🏙️</summary>
+  
+  ### Flooding History
+  1. ..
+</details>
+
+<details>
+  <summary>Helper 📦</summary>
+  
+  ### General geospatial functions to aid analysis
+  1. ..
+</details>
+
+<details>
+  <summary>Interface 💻🖱️</summary>
+  
+  ### Air Pollutants and Public Health
+  1. ..
+</details>
+
+
+
+
+
+<br>
+
 ## **Features**
 
 Below is a partial list of features available for the toolbox. This toolbox is currently under development and more features will be available soon.
@@ -60,3 +125,4 @@ Below is a partial list of features available for the toolbox. This toolbox is c
 Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., & Moore, R. (2017). Google Earth Engine: Planetary-scale geospatial analysis for everyone.
 
 World Bank Group. 2022. Pakistan Country Climate and Development Report. CCDR Series;. © World Bank, Washington, DC. http://hdl.handle.net/10986/38277 License: CC BY-NC-ND.
+
