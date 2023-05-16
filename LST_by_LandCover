@@ -1,12 +1,5 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var bbox = 
-    /* color: #d63000 */
-    /* displayProperties: [
-      {
-        "type": "rectangle"
-      }
-    ] */
-    ee.Geometry.Polygon(
+var bbox = /* color: #d63000 */ee.Geometry.Polygon(
         [[[66.64453596245312, 25.44519155751865],
           [66.64453596245312, 24.76123013512878],
           [67.46027082573437, 24.76123013512878],
@@ -208,6 +201,7 @@ function reduce_by_lulc(image, bbox, title) {
       });
     
     var chartStyle = {
+      title: title,
       colors: ['#8B0000']
     };
     
