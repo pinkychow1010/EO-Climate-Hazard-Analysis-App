@@ -101,7 +101,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
 print(smoothed_deg);
 
 var chart = ui.Chart.image.series({
-  imageCollection: smoothed_deg.select('LST_Day_1km_1'),
+  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p90']),
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000
