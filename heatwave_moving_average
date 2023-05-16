@@ -94,7 +94,9 @@ var max = ds.select('tmmx')
 .get('tmmx_p90');
 
 var threshold = ee.Image.constant(max).rename('p90').double();
-smoothed_deg = smoothed_deg.addBands(threshold);
+smoothed_deg = smoothed_deg.map(function(image) {
+  return image.addBands(threshold);
+});
 
 print(smoothed_deg);
 
