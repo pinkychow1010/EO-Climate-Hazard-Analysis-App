@@ -20,6 +20,8 @@ The toolbox allow users to easily download analysis-ready data layers, such as u
 
 [![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/explore.gif)](https://sites.google.com/view/intraurban/home)
 
+<br>
+
 * **Heatwave Tracking**
 
 How did historical heatwaves spatial distributed? What are the long term trends in their frequency, intensity and duration?
