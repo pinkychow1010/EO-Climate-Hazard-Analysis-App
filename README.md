@@ -55,7 +55,9 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
 <details>
   <summary>Urban Heat 🥵🏙️</summary>
   
-  https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst.gif
+  <br>
+  
+  ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst.gif)
   
   ### Urban Heat Island Analysis
   1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_choropleth)
@@ -70,7 +72,9 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
 <details>
   <summary>Urbanization 👥🏙️</summary>
   
-  https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/density.gif
+  <br>
+  
+  ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/density.gif)
   
   ### Population Changes and Urban Development
   1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/age_risk)
@@ -82,6 +86,8 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
 
 <details>
   <summary>Land Surface Dynamics 🌳🌾</summary>
+  
+  <br>
   
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst_lulc.gif)
   
