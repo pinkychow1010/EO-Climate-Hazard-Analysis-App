@@ -64,7 +64,11 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Urbanization 👥🏙️</summary>
   
   ### Population Changes and Urban Development
-  1. ..
+  1. (Age-based Risk Factor)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/age_risk]
+  2. (Analysing Dense Urban Regions)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urban_centre]
+  3. (Analysing Urbanization Changes)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urbanization_trend]
+  4. (Population Count Choropleth)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_count_choropleth]
+  5. (Population Density Choropleth)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_density_choropleth]
 </details>
 
 <details>
@@ -92,14 +96,16 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Helper 📦</summary>
   
   ### General geospatial functions to aid analysis
-  1. ..
+  1. (Helper)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper]
 </details>
 
 <details>
   <summary>Interface 💻🖱️</summary>
   
-  ### Air Pollutants and Public Health
-  1. ..
+  ### Component to construct API
+  1. (App for small raster download)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader]
+  2. (Dataset selection)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_ds_select]
+  3. (Resample output)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_res_select]
 </details>
 
 
