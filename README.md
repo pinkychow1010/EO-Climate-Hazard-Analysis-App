@@ -55,6 +55,8 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
 <details>
   <summary>Urban Heat 🥵🏙️</summary>
   
+  https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst.gif
+  
   ### Urban Heat Island Analysis
   1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_choropleth)
   2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_monthly)
@@ -68,6 +70,8 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
 <details>
   <summary>Urbanization 👥🏙️</summary>
   
+  https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/density.gif
+  
   ### Population Changes and Urban Development
   1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/age_risk)
   2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urban_centre)
@@ -78,6 +82,8 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
 
 <details>
   <summary>Land Surface Dynamics 🌳🌾</summary>
+  
+  ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst_lulc.gif)
   
   ### Land Use Changes and Vegetation Dynamics
   1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/calculate_landuse_ratio)
