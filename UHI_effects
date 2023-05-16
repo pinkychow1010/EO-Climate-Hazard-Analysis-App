@@ -27,7 +27,8 @@ var yearFilter = ee.Filter.date(
   start_year.advance(-1, "year"), 
   end_year.advance(1, "year")
   );
-  
+
+// UHI effect might be more prominent at nights from research
 var max = ee.ImageCollection("MODIS/061/MOD11A2")
   .select("LST_Day_1km")
   .filter(yearFilter)
