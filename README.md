@@ -10,7 +10,7 @@
 
 [This toolbox](https://sites.google.com/view/intraurban/home) serves as the bridge in between to provide users with derived information about climate hazards **without the need for preprocessing, modelling, and big data storage**. It is intended for scholars worldwide, who would like to explore climate hazards in the urban environment. It is also designed for individuals planning to perform **further analysis and visualization** of the geospatial datasets.
 
-![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/analysis.gif)
+[![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/analysis.gif)](https://sites.google.com/view/intraurban/home)
 
 <br>
 
@@ -18,6 +18,7 @@
 
 The toolbox allow users to easily download analysis-ready data layers, such as urban heat intensity and urbanisation trends within political-administrative boundaries worldwide. Users can download the results in CSV or GeoTIFF format for further GIS analysis.
 
+[![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/explore.gif)](https://sites.google.com/view/intraurban/home)
 
 * **Heatwave Tracking**
 
