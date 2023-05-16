@@ -6,7 +6,9 @@
 
 ## **Introduction**
 
-**Intraurban analysis toolbox** is an interactive API for on-the-fly analysis with Google Earth Engine (GEE), which is a cloud computing platform with a [multi-petabyte catalogue](https://developers.google.com/earth-engine/datasets) of geospatial datasets and satellite imagery. In the recent years, earth observation imagery has become very popular in the global communities to empower diverse environmental applications, including in the domain of **climate risk**. Due to the vast potential, many individuals are keen to extract insights into social and economic factors, such as heat wave exposure or relative wealth. [This toolbox](https://sites.google.com/view/intraurban/home) serves as the bridge in between to provide users with derived information about climate hazards **without the need for preprocessing, modelling, and big data storage**. It is intended for scholars worldwide, who would like to explore climate hazards in the urban environment. It is also designed for individuals planning to perform **further analysis and visualization** of the geospatial datasets.
+**Intraurban analysis toolbox** is an interactive API for on-the-fly analysis with Google Earth Engine (GEE), which is a cloud computing platform with a [multi-petabyte catalogue](https://developers.google.com/earth-engine/datasets) of geospatial datasets and satellite imagery. In the recent years, earth observation imagery has become very popular in the global communities to empower diverse environmental applications, including in the domain of **climate risk**. Due to the vast potential, many individuals are keen to extract insights into social and economic factors, such as heat wave exposure or relative wealth. 
+
+[This toolbox](https://sites.google.com/view/intraurban/home) serves as the bridge in between to provide users with derived information about climate hazards **without the need for preprocessing, modelling, and big data storage**. It is intended for scholars worldwide, who would like to explore climate hazards in the urban environment. It is also designed for individuals planning to perform **further analysis and visualization** of the geospatial datasets.
 
 ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/analysis.gif)
 
@@ -64,18 +66,19 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Urbanization 👥🏙️</summary>
   
   ### Population Changes and Urban Development
-  1. (Age-based Risk Factor)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/age_risk]
-  2. (Analysing Dense Urban Regions)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urban_centre]
-  3. (Analysing Urbanization Changes)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urbanization_trend]
-  4. (Population Count Choropleth)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_count_choropleth]
-  5. (Population Density Choropleth)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_density_choropleth]
+  1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/age_risk)
+  2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urban_centre)
+  3. [Analysing Urbanization Changes](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urbanization_trend)
+  4. [Population Count Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_count_choropleth)
+  5. [Population Density Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_density_choropleth)
 </details>
 
 <details>
   <summary>Land Surface Dynamics 🌳🌾</summary>
   
   ### Land Use Changes and Vegetation Dynamics
-  1. ..
+  1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/calculate_landuse_ratio)
+  2. [Evaluating impacts of vegetation changes on LST](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/fvc_ts_func)
 </details>
 
 <details>
@@ -96,16 +99,27 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Helper 📦</summary>
   
   ### General geospatial functions to aid analysis
-  1. (Helper)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper]
+  1. [Helper](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper)
+  2. [Customized Basemap](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/basemap_resources)
+  3. [Choropleth Map](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/analysis_utils)
 </details>
 
 <details>
   <summary>Interface 💻🖱️</summary>
   
   ### Component to construct API
-  1. (App for small raster download)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader]
-  2. (Dataset selection)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_ds_select]
-  3. (Resample output)[https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_res_select]
+  1. [App for small raster download](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader)
+  2. [Dataset selection](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_ds_select)
+  3. [Resample output](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_res_select)
+  4. [Explorer Main Script](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/data_explorer_main)
+  5. [Dashboard Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_func)
+  6. [Admin-boundary-based Analysis Framework](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_interface)
+  7. [Data Explorer App](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_interface)
+  8. [Data Explorer Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_utils)
+  9. [Data Explorer Dashboard Styling](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_style)
+  10. [Analysis Tool App](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_interface)
+  11. [Analysis Tool Message](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_text)
+  12. [Analysis Tool Styling](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_style)
 </details>
 
 
