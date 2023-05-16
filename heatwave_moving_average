@@ -14,7 +14,7 @@ var geometry =
           [67.34382916307861, 25.119577245105067]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
-var startdate = ee.Date.fromYMD(2000,1,1);
+var startdate = ee.Date.fromYMD(2010,1,1);
 var enddate = ee.Date.fromYMD(2022,12,31);
 
 // Filter data
