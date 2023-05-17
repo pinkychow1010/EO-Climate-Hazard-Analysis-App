@@ -1,5 +1,8 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var bbox = /* color: #d63000 */ee.Geometry.Polygon(
+var bbox = 
+    /* color: #d63000 */
+    /* shown: false */
+    ee.Geometry.Polygon(
         [[[66.64453596245312, 25.44519155751865],
           [66.64453596245312, 24.76123013512878],
           [67.46027082573437, 24.76123013512878],
@@ -7,6 +10,17 @@ var bbox = /* color: #d63000 */ee.Geometry.Polygon(
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######    LST differences  ###### //
+// ######     by Land Cover   ###### //
+// ################################# //
+
+/**
+ * This is a test function where user can explore LST by Land Use Class.
+ * The output will be a bar chart, where mean temperature will be computed for 
+ * different land use cover, illustrating the impact of landuse on urban heat.
+ */
+ 
 // Define config for visualization
 var palettes = require('users/gena/packages:palettes');
 var palette = palettes.misc.tol_rainbow[7];
@@ -49,12 +63,14 @@ Map.centerObject(bbox, 9);
 // Map.addLayer(nightTemp, {min: 20, max: 23, palette: palette}, 'MODIS 1km night temperature');
 // Map.addLayer(tempDiff, {min: 8, max: 18, palette: palette}, 'MODIS 1km temperature difference');
 
+// filter landsat data for 2021 summer
 var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .map(maskL8sr)
   .filterDate('2021-06-01', '2021-09-01')
   .mean()
   .clip(bbox);
 
+// derive land surface temperature from landsat surface reflectance
 var lst = calc_ls_lst(landsat);
 
 var vis = {min: 29, max:36, palette: palette};
@@ -63,6 +79,7 @@ Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
 // var chart = reduce_by_lulc(lst, bbox, "Land Surface Temperature by Land Use Class (2020)");
 // print(chart);
 
+// generate bar chart
 var chart = reduce_by_lulc(nightTemp, bbox, "Land Surface Temperature by Land Use Class (2020)");
 print(chart);
 
