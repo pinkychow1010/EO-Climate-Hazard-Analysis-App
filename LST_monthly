@@ -13,37 +13,56 @@ var geometry =
           [67.28642982706013, 24.77603177887949],
           [67.28642982706013, 25.119692980119417]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// released under MIT License Copyright © 2023 Ka Hei Chow
 
-// var t1 = ee.ImageCollection('MODIS/061/MOD11A1')
-// .filterDate(ee.Date('2022-03-01'), ee.Date('2022-03-31')).select('LST_Day_1km');
+// ################################### //
+// ######    MODIS-based        ###### //
+// ###### Long-term Temperature ###### //
+// ######   Average by Months   ###### //
+// ################################### //
 
-// Map.addLayer(t1.mean().multiply(0.02).subtract(273.15),{min: 0, max: 40, palette: ['blue','white','yellow','red']})
+/**
+ * This is a function where user can visualize long-term temperature average by month 
+ * in a linechart for a local region.
+ */
 
-// var t2 = ee.ImageCollection('MODIS/061/MOD11A1')
-// .filterDate(ee.Date('2022-07-01'), ee.Date('2022-07-31')).select('LST_Day_1km');
-
-// Map.addLayer(t2.mean().multiply(0.02).subtract(273.15),{min: 0, max: 40, palette: ['blue','white','yellow','red']})
-
-// https://gis.stackexchange.com/questions/279622/writing-code-for-monthly-ndvi-medians-in-google-earth-engine
-
+// get MODIS dataset (Night Time Temperature)
 var lst = ee.ImageCollection('MODIS/061/MOD11A1')
-.filterDate(ee.Date('2010-01-01'), ee.Date('2020-12-31')).select('LST_Night_1km');
+.filterDate(ee.Date('2010-01-01'), ee.Date('2020-12-31'))
+.select('LST_Night_1km');
 
+// get month sequence
 var months = ee.List.sequence(1, 12);
 
-var composites = ee.ImageCollection.fromImages(months.map(function(month) {
+// function for extract monthly temperature
+var get_monthly_lst = function(month) {
+  
+  // temperal filtering
   var filtered = lst.filter(ee.Filter.calendarRange({
     start: month,
     field: 'month'
   }));
+  // convert to celsius
   var composite = filtered.mean().multiply(0.02).subtract(273.15);
-  return composite.rename('lst').set('month', month);
-}));
+  // format output
+  var monthly_lst = composite.rename('lst').set('month', month);
+  
+  return monthly_lst;
+};
+
+// compute month temperature for the whole time series
+var composites = ee.ImageCollection.fromImages(
+  months.map(get_monthly_lst)
+  );
 
 print(composites);
 
+// visualize spatial distribution (for Jan)
 var img = ee.Image(composites.first());
-Map.addLayer(img.clip(geometry), {min: 0, max: 40, palette: ['blue','white','yellow','red']}, 'LST');
+var viz = {min: 0, max: 40, palette: ['blue','white','yellow','red']};
+
+// display layer
+Map.addLayer(img.clip(geometry), viz, 'LST');
 
 //Define chart parameters
 var chartParam = {
@@ -72,10 +91,25 @@ var chart = ui.Chart.image.seriesByRegion({
   reducer: ee.Reducer.median(),
   scale: 500,
   xProperty: 'month',
-  seriesProperty: ee.String('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec')
+  seriesProperty: ee.String(
+    'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
+    )
 });
 
 //Print chart to console
 print(chart
 .setChartType('AreaChart')
 .setOptions(chartParam));
+
+
+// var t1 = ee.ImageCollection('MODIS/061/MOD11A1')
+// .filterDate(ee.Date('2022-03-01'), ee.Date('2022-03-31')).select('LST_Day_1km');
+
+// Map.addLayer(t1.mean().multiply(0.02).subtract(273.15),{min: 0, max: 40, palette: ['blue','white','yellow','red']})
+
+// var t2 = ee.ImageCollection('MODIS/061/MOD11A1')
+// .filterDate(ee.Date('2022-07-01'), ee.Date('2022-07-31')).select('LST_Day_1km');
+
+// Map.addLayer(t2.mean().multiply(0.02).subtract(273.15),{min: 0, max: 40, palette: ['blue','white','yellow','red']})
+
+// https://gis.stackexchange.com/questions/279622/writing-code-for-monthly-ndvi-medians-in-google-earth-engine
