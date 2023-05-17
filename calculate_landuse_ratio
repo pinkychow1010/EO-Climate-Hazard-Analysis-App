@@ -1,5 +1,15 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######    Land Use Ratio   ###### //
+// ######       Explorer      ###### //
+// ################################# //
+
+/**
+ * This is an interface to compute land use ratio for local region (admin 2 boundary)
+ * The results are displayed in a pie chart.
+ */
+
 var intraUrban = require('users/pinkychow1010/WB_IntraUrban:app_interface');
 
 intraUrban.app(calculate_landuse_ratio);
