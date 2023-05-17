@@ -1,5 +1,15 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######    Asset Input      ###### //
+// ######    Panel            ###### //
+// ################################# //
+
+/**
+ * This is a test script to create a panel where users can upload their 
+ * own earth engine assets to perform geospatial analysis
+ */
+
 var location_input = ui.Textbox({
   value: "",//"projects/ee-pinkychow1010/assets/WB_GEE/lahore_katchi_abadis",
   placeholder: 'Enter location asset here...',
