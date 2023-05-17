@@ -9,9 +9,9 @@ including to do list.
 
 - NDVI - LST comparison
 
-- WorldPop age distribution / gender
+- <del> WorldPop age distribution / gender </del>
 
-- use ERA5/TerraClimate threshold to calculate heatwave frequency
+- <del> use ERA5/TerraClimate threshold to calculate heatwave frequency </del>
 
 - include Oxford/MAP/friction_surface_2019 into data downloader
 
@@ -39,7 +39,7 @@ is displayed in the right. Default should be showing left panel only.
 User can check the right panel for information such as: how the indices are calculated?
 what data sources are used? and so on.
 
-- documentation for different analysis tasks
+- documentation for different analysis tasks (in progress)
 
 - Future: air pollution S5, flooding S1 ...
 
