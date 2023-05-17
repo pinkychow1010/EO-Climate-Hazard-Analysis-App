@@ -78,12 +78,14 @@ var shift = south.multiply(6).getInfo();
 
 var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
                   
-var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE');
+var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+.filter(ee.Filter.date('1980-01-01', '2011-01-01'));
+
 print(ds);
 
 var max = ds.select('tmmx')
 .filter(summerFilter)
-.reduce(ee.Reducer.percentile([95]), 300)
+.reduce(ee.Reducer.percentile([90]), 300)
 .clip(geometry)
 .multiply(0.1)
 .reduceRegion({
