@@ -1,5 +1,15 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######    Urban Heat       ###### //
+// ###### Choropleth Function ###### //
+// ################################# //
+
+/**
+ * This is a function where user can derive land surface temperature as raster 
+ * and visualize results in a choropleth map.
+ */
+
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
