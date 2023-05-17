@@ -1,5 +1,16 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######    Urban Heat       ###### //
+// ######       Explorer      ###### //
+// ################################# //
+
+/**
+ * This is a test dashboard where user can input customized shapefile for urban heat exploration.
+ * The output will be a choropleth map, where polygons in the vector layer 
+ * will be colored according to the attribute values and defined color scale.
+ */
+ 
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
