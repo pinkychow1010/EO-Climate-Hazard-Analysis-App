@@ -86,6 +86,7 @@ function urban_lst_choropleth(geometry) {
   var south = ee.Number(yCoords).lt(0);
   var shift = south.multiply(6).getInfo();
   
+  // filter certain year
   var start_year = ee.Date("2021-01-01");
   var end_year = ee.Date("2022-01-01");
   
@@ -94,6 +95,7 @@ function urban_lst_choropleth(geometry) {
     end_year.advance(1, "year")
     );
   
+  // filter summer time only
   var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
   
   var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
@@ -103,8 +105,10 @@ function urban_lst_choropleth(geometry) {
     .mean()
     .clip(geometry);
   
+  // derive LST from Landsat
   var lst = calc_ls_lst(landsat);
   
+  // compute min and max for legend scaling
   var max = ee.Number(lst.reduceRegion({
     reducer: ee.Reducer.percentile([95]), //ee.Reducer.max(),
     geometry: geometry,
@@ -121,21 +125,26 @@ function urban_lst_choropleth(geometry) {
     }
     ).values().get(0));
   
+  // visualization parameters
   var vis = {min:min.getInfo(), max:max.getInfo(), palette: palette};
-
+  
+  // get land cover dataset
   var lulc = ee.ImageCollection('ESA/WorldCover/v200')
   .first()
   .clip(geometry);
   
+  // get dense urban area only
   var urban_mask = lulc.eq(50);
   var lst_masked = lst.updateMask(urban_mask);
   
+  // get trend using median reducer
   var lst_mean = lst_masked.reduceRegions({
     collection: geometry,
     scale: 30,
     reducer:  ee.Reducer.median()
   });
   
+  // get choropleth with zonal statistics
   analysis.choropleth_map(
     lst_mean, 
     'median', 
