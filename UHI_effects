@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[72.07226481049618, 33.019905398001136],
-          [72.07226481049618, 31.087942584442043],
-          [75.24731363862118, 31.087942584442043],
-          [75.24731363862118, 33.019905398001136]]], null, false),
+        [[[73.85204996674618, 32.000811887117585],
+          [73.85204996674618, 31.294702223958737],
+          [74.65405191987118, 31.294702223958737],
+          [74.65405191987118, 32.000811887117585]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
