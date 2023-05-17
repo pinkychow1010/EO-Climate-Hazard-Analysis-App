@@ -12,7 +12,12 @@ var bbox =
           [9.5363245487213, 42.524506076446826],
           [9.5363245487213, 43.01645732006388]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// released under MIT License Copyright © 2023 Ka Hei Chow
 
+/*
+ * Debugging downloader spatial interpolation issues
+*/
+ 
 // var dataset = ee.ImageCollection('MODIS/061/MOD11A1')
 //                   .filter(ee.Filter.date('2018-01-01', '2018-05-01')).first();
 // var image = dataset.select('LST_Day_1km').clip(bbox); // limit bounds
