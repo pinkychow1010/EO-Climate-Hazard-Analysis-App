@@ -13,10 +13,23 @@ var aoi =
           [67.31920605468748, 24.753172208743685],
           [67.31920605468748, 25.08694754579853]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// age group statistics for heat wave risk factor
+// released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################### //
+// ###### Age group statistics  ###### //
+// ###### heat wave risk factor ###### //
+// ################################### //
+
+/**
+ * Compared to younger generation, senior population faces higher risk 
+ * in case of heatwave. This is a test script for displaying spatial 
+ * distribution of age-based risk factor.
+ */
+
+// collect worldpop data
 var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex').sum();
 
+// compute risk factor based on demographics
 var risk = ds.expression(
                       '(total-M80-M75-M70-M65-M60-F80-F75-F70-F65-F60)/total*0.2 + ((M60+F60)/total)*0.4 + ((M65+F65)/total)*0.6 + ((M70+F70)/total)*0.8 + (M75+M80+F75+F80)/total', {
                         'total' : ds.select('population'),
@@ -33,8 +46,10 @@ var risk = ds.expression(
                       })
                       .rename('risk');
 
+// mask out invalid pixels
 var mask = ds.select('population').gt(0);
 
+// display layer
 Map.addLayer(risk.updateMask(mask), {min:0.2, max:0.3, palette:['blue','white','red']}, 'Risk');
 
 Map.setCenter(67.083, 24.965, 11);
