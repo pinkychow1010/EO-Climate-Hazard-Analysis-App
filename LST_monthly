@@ -64,27 +64,30 @@ var viz = {min: 0, max: 40, palette: ['blue','white','yellow','red']};
 // display layer
 Map.addLayer(img.clip(geometry), viz, 'LST');
 
-//Define chart parameters
+// define parameters for monthly linechart
 var chartParam = {
   title: 'MODIS Monthly Median LST (2010-2020)',
   pointSize: 2,
   lineWidth: 1.5,
-  curveType: 'function',
-  explorer: {},
+  //curveType: 'function',
+  series: {
+    0: {curveType: 'function'},  // apply smoothing function to 1st line series
+    },
+  explorer: {}, // allow panning and zooming
   dataOpacity: 0.85,
   hAxis: {title: 'Months',
     titleTextStyle: {italic: false, bold: true},
     ticks: [1,2,3,4,5,6,7,8,9,10,11,12]
   },
   vAxis: {
-    title: 'Land surface Temperature (°C)',
+    title: 'Land surface Temperature (°C)', // y label
     titleTextStyle: {italic: false, bold: true},
     gridlines: {color: '#7E3517',opacity: 0.5}
   },
   chartArea: {backgroundColor: 'EBEBEB'}
 };
 
-//Plot the chart
+// set up input data and linechart
 var chart = ui.Chart.image.seriesByRegion({
   imageCollection: composites,
   regions: geometry,
@@ -96,10 +99,9 @@ var chart = ui.Chart.image.seriesByRegion({
     )
 });
 
-//Print chart to console
-print(chart
-.setChartType('AreaChart')
-.setOptions(chartParam));
+// format linechart and display
+var formatted = chart.setChartType('AreaChart').setOptions(chartParam)
+print(formatted);
 
 
 // var t1 = ee.ImageCollection('MODIS/061/MOD11A1')
