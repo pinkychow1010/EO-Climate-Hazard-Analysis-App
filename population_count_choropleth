@@ -3,7 +3,16 @@ var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karach
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
-// GPWv411: Population Count (Gridded Population of the World Version 4.11)
+// ################################# //
+// ######    Population       ###### //
+// ######       Count         ###### //
+// ################################# //
+
+/**
+ * This is a test function for visualizing population count
+ * using GPWv411: Population Count (Gridded Population of the World Version 4.11)
+ */
+
 
 // import module
 var palettes = require('users/gena/packages:palettes');
