@@ -136,32 +136,40 @@ choropleth_map(
   "LST"
   );
 
+// visualization parameters for informal settlements
 var abadis_vis = {
   color: '#217aff',
   width: 1,
   fillColor: '#66a3ff', 
 };
 
+// display map layer
 Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
 
-//
+// experiment on setting up a download option so that user can obtain raster
+// for local computations and visualizations
 
 // Define a function to generate a download URL of the image for the
-// viewport region. 
+// viewport region.
 
 function downloadImg() {
+  // set up data layer
   var img = lst.mask(lst.mask());
+  
+  // set export arguments
   var downloadArgs = {
     name: 'LandsatBasedUrbanHeat',
     scale: 30,
     region: geometry.geometry().dissolve().bounds() //aoi
  };
+ 
+ // get url for user download
  var url = lst.getDownloadURL(downloadArgs);
  urlLabel.setUrl(url);
  urlLabel.style().set({shown: true});
 }
 
-// Add UI elements to the Map.
+// create a botton for user download
 var downloadButton = ui.Button('Export Raster Data', downloadImg);
 var urlLabel = ui.Label('Click to download', {shown: false});
 var panel = ui.Panel([downloadButton, urlLabel]);
