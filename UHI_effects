@@ -1,16 +1,17 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[73.85204996674618, 32.000811887117585],
-          [73.85204996674618, 31.294702223958737],
-          [74.65405191987118, 31.294702223958737],
-          [74.65405191987118, 32.000811887117585]]], null, false),
+        [[[74.08001627533993, 31.7489122969712],
+          [74.08001627533993, 31.266534338612384],
+          [74.59362711518368, 31.266534338612384],
+          [74.59362711518368, 31.7489122969712]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
@@ -116,7 +117,7 @@ var urban = (max.subtract(interpolated).updateMask(lulc.eq(50)))
 var max = urban.reduceRegion(ee.Reducer.max(), geometry, 1000).getNumber(LST_band);
 var min = urban.reduceRegion(ee.Reducer.min(), geometry, 1000).getNumber(LST_band);
 
-var uhi = urban.unitScale(min,max.multiply(0.8))
+var uhi = urban.unitScale(min,max)
 Map.addLayer(uhi, {min: 0, max: 1, palette: ['aqua','blue','yellow','orange','red','#8B0000']}, "UHI");
 
 var styling = {color: 'black', fillColor: '00000000'};
