@@ -1,5 +1,15 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######    Urban Centre     ###### //
+// ######       Extraction    ###### //
+// ################################# //
+
+/**
+ * This is a function for extracting dense urban regions from local regions
+ */
+
+
 var bbox = 
     /* color: #d63000 */
     /* shown: false */
