@@ -1,0 +1,72 @@
+// Hex Grid Example
+
+/**
+ * Generates a hex grid with a unique ID in each grid cell.
+ * 
+ * Args:
+ *    proj: Projection to use
+ *    diameter: size of each hexagon from edge to edge in projection units.
+ * Returns an image containing unqiue IDs in a hexagonal grid pattern.
+ * 
+ * Based on http://playtechs.blogspot.com/2007/04/hex-grids.html
+ */
+var hexGrid = function(proj, diameter) {
+  var size = ee.Number(diameter).divide(Math.sqrt(3)) // Distance from center to vertex
+  
+  var coords = ee.Image.pixelCoordinates(proj)
+  var vals = {
+    // Switch x and y here to get flat top instead of pointy top hexagons.
+    x: coords.select("x"),
+    u: coords.select("x").divide(diameter),  // term 1
+    v: coords.select("y").divide(size),      // term 2
+    r: ee.Number(diameter).divide(2),
+  }
+  var i = ee.Image().expression("floor((floor(u - v) + floor(x / r))/3)", vals)
+  var j = ee.Image().expression("floor((floor(u + v) + floor(v - u))/3)", vals)
+  
+  // Turn the hex coordinates into a single "ID" number.
+  var cells = i.long().leftShift(32).add(j.long()).rename("hexgrid")
+  return cells
+}
+
+// Define a region for masking hexagons.
+var region = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017')
+    .filter("country_na == 'United States'")
+    .union().first().geometry()
+
+// Generate a hex grid and mask off cells that don't touch the region.
+var grid = hexGrid(ee.Projection('EPSG:5070'), 70000)
+var regionImg = ee.Image(0).byte().paint(region, 1)
+var mask = grid.addBands(regionImg)
+    .reduceConnectedComponents(ee.Reducer.max(), "hexgrid", 256)
+grid = grid.updateMask(mask)
+
+// Import MODIS veg. indices; calculate mean NDVI for April, 2020. 
+var ndvi = ee.ImageCollection('MODIS/006/MOD13A2')
+  .filterDate('2020-04-01', '2020-05-01').mean().select('NDVI')
+  .addBands(grid);
+
+// Calculate mean NDVI per hexagon.
+var meanNdvi = ndvi.reduceConnectedComponents(ee.Reducer.mean(), "hexgrid", 256)
+
+// Define visualization properties.
+var vis = {
+  min: 0,
+  max: 9000,
+  palette: [
+    'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
+    '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
+    '012E01', '011D01', '011301'
+  ]
+};
+
+// Make a visualization composite.
+var background = ee.Image(0).visualize({palette: '000000'})
+var ndvi = ndvi.select('NDVI').visualize({
+  palette: vis.palette, min: vis.min, max: vis.max, opacity: 0.6
+})
+var composite = background.blend(ndvi).blend(meanNdvi.visualize(vis))
+
+// Display the results to the map.
+Map.addLayer(composite)
+Map.setLocked(false, 3, 7)
