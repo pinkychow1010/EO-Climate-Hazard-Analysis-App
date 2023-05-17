@@ -1,10 +1,16 @@
-
+// released under MIT License Copyright © 2023 Ka Hei Chow
+ 
 // ################################################## //
 // ### Main Interface for Data Downloading Tool ##### //
 // ################################################## //
 
-// import module
+/**
+ * This is the module for constructing the data explorer/ downloader 
+ * interface, where users can download a selected layer by
+ * choosing an individual admin 2 boundary polygon
+ */
 
+// import module
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); // customized basemap to enhance visuals 
 var palettes = require('users/gena/packages:palettes'); // color palettes for color bar
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils functions
