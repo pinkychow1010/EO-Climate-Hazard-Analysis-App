@@ -1,5 +1,14 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######  MODIS-based Urban  ###### //
+// ######   Heat Choropleth   ###### //
+// ################################# //
+
+/**
+ * This is a test function where user can visualize modis-based urban heat in a choropleth map
+ */
+
 // MODIS LST
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
