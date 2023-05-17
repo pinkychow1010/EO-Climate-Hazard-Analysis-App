@@ -8,17 +8,26 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.82079996674618, 25.077840588506227],
-          [66.82079996674618, 24.68416034437003],
-          [67.22729410737118, 24.68416034437003],
-          [67.22729410737118, 25.077840588506227]]], null, false),
+        [[[72.07226481049618, 33.019905398001136],
+          [72.07226481049618, 31.087942584442043],
+          [75.24731363862118, 31.087942584442043],
+          [75.24731363862118, 33.019905398001136]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')//.sum();
-// print(ds);
+// released under MIT License Copyright © 2023 Ka Hei Chow
 
-// var max = ds.select('tmmx').reduce(ee.Reducer.percentile([90]), 300).clip(geometry).multiply(0.1);
-// //print(max)
+// ################################# //
+// ######    Urban Heat       ###### //
+// ###### Island Intensity    ###### //
+// ################################# //
+
+/**
+ * Compared to land surface temperature, urban heat island (UHI) effects focus on the temperature differences between 
+ * urban and rural areas, rather than the absolute temperature. It might better represents the urban heat problems
+ * the population encounters. This is a experimental function deriving this MODIS-based LST differences.
+ * Landsat is not used as it is also impacted by small-scale factors such as building structure. The UHI intensity
+ * is normalized to index ranging between 0 and 1 for the same region. 
+ */
 
 var start_year = ee.Date("2020-01-01");
 var end_year = ee.Date("2021-01-01");
