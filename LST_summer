@@ -1,4 +1,29 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var bbox = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.90069213508731, 24.920347285153472],
+          [66.90069213508731, 24.7583352731244],
+          [67.16985717414981, 24.7583352731244],
+          [67.16985717414981, 24.920347285153472]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 // released under MIT License Copyright © 2023 Ka Hei Chow
+
+// ################################# //
+// ######    Urban Heat       ###### //
+// ######     by Landuse      ###### //
+// ################################# //
+
+/**
+ * This is a test function to display LST by landuse.
+ */
+
 
 // Define config for visualization
 var palettes = require('users/gena/packages:palettes');
