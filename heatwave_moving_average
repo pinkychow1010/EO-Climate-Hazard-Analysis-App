@@ -13,6 +13,17 @@ var geometry =
           [67.34382916307861, 24.745986882248864],
           [67.34382916307861, 25.119577245105067]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// released under MIT License Copyright © 2023 Ka Hei Chow
+
+// ##################################### //
+// ######    Historical Heatwaves ###### //
+// ######       Detection         ###### //
+// ##################################### //
+
+/**
+ * Using 5 day moving window to detect abnormal heat anomaly (heatwave)
+ * using MODIS compared to long-term average (90th percentile)
+ */
 
 var startdate = ee.Date.fromYMD(2010,1,1);
 var enddate = ee.Date.fromYMD(2022,12,31);
