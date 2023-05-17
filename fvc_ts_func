@@ -1,5 +1,10 @@
-// LST Impacts from Vegetation Changes
-// 
+// released under MIT License Copyright © 2023 Ka Hei Chow
+
+// ################################# //
+// ######    LST Impacts from ###### //
+// ###### Vegetation Changes  ###### //
+// ################################# //
+
 // This script is used to analyse the impacts of changing vegetation on land surface temperature under global warming
 // as vegetation can effectively mitigate urban heat island effect, it is assumed that temperature differences might be imposed
 // for areas of vegetation gain and loss. Long-term satellite images are used to extract the time series and comparisons
