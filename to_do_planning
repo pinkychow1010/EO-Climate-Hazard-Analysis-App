@@ -13,6 +13,8 @@ including to do list.
 
 - use ERA5/TerraClimate threshold to calculate heatwave frequency
 
+- include Oxford/MAP/friction_surface_2019 into data downloader
+
 - add a reset button to map for switching between analysis tasks, 
 at the moment user needs to manually reload the page to perform another task
 
