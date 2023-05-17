@@ -1,5 +1,15 @@
 // released under MIT License Copyright © 2023 Ka Hei Chow
 
+// ################################# //
+// ######    Population       ###### //
+// ######   Choropleth       ###### //
+// ################################# //
+
+/**
+ * This is a test function for visualizing population density
+ * in a choropleth map
+ */
+
 var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
  
