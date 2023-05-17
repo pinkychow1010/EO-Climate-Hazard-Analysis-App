@@ -10,10 +10,13 @@
  * The results are displayed in a pie chart.
  */
 
+// import module
 var intraUrban = require('users/pinkychow1010/WB_IntraUrban:app_interface');
 
+// call interface
 intraUrban.app(calculate_landuse_ratio);
 
+// create land use calculation function
 function calculate_landuse_ratio(aoi) {
   
   var bbox = aoi.geometry();
