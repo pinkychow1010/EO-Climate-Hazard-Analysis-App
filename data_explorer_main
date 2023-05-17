@@ -1,3 +1,15 @@
+// released under MIT License Copyright © 2023 Ka Hei Chow
+
+// ################################# //
+// ######    Data Explorer     ###### //
+// ######       Main Script    ###### //
+// ################################# //
+
+/**
+ * This is an interface for the construction of data explorer 
+ * (raster layer download tool)
+ */
+
 var utils = require('users/pinkychow1010/WB_IntraUrban:explorer_utils');
 var app = require('users/pinkychow1010/WB_IntraUrban:explorer_interface');
 
