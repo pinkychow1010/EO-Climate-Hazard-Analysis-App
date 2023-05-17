@@ -173,6 +173,8 @@ function downloadImg() {
 var downloadButton = ui.Button('Export Raster Data', downloadImg);
 var urlLabel = ui.Label('Click to download', {shown: false});
 var panel = ui.Panel([downloadButton, urlLabel]);
+
+// display download button
 Map.add(panel);
 
 // #################################
