@@ -80,7 +80,7 @@ function calculate_landuse_lst(aoi) {
   // var lst = calc_ls_lst(landsat, bbox);
   
   var vis = {min: 20, max:40, palette: ['blue','white','yellow','orange','red']};
-  Map.addLayer(dayTemp, vis, "Landsat-based Land Surface Temperature");
+  Map.addLayer(dayTemp, vis, "MODIS-based Land Surface Temperature");
   
   var chart = reduce_by_lulc(dayTemp, bbox, "LST by LULC");
   
