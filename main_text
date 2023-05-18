@@ -9,4 +9,4 @@ exports.population_density = "👉 Analysing urban population density in global 
 exports.veg_cover_changes = "👉 Viewing the changes of vegetation cover over the last decade";
 exports.heat_by_lulc = "👉 Exploring the temperature differences between land uses in urban metropolis";
 
-exports.headings = '👋 Welcome to our data analysis tool! \n\nTimely satellite data is a powerful way to derive key information for urban planning \nand disaster management. Our tool allows you to evaluate climate hazards worldwide with insights from space.';
+exports.headings = '👋 Welcome to our data analysis tool! \n\nTimely satellite data is a powerful way to derive key information for urban planning \nand disaster management. Our tool allows you to evaluate climate hazards \nworldwide with insights from space.';
