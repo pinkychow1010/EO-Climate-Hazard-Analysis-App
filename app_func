@@ -42,9 +42,29 @@ function calculate_landuse_lst(aoi) {
   
   var bbox = aoi.geometry();
 
+  // Check summer months based on geo-coordinates
+  var centroid = geometry.first().geometry().centroid();
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  var south = ee.Number(yCoords).lt(0);
+  var shift = south.multiply(6).getInfo();
+  
+  // filter certain year
+  var start_year = ee.Date("2021-01-01");
+  var end_year = ee.Date("2022-01-01");
+  
+  var yearFilter = ee.Filter.date(
+    start_year.advance(-1, "year"), 
+    end_year.advance(1, "year")
+    );
+  
+  // filter summer time only
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+  
   var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     .map(maskL8sr)
-    .filterDate('2018-06-01', '2018-09-01')
+    .filter(yearFilter)
+    .filter(summerFilter)
     .mean()
     .clip(bbox);
     
