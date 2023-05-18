@@ -50,7 +50,10 @@ function calculate_landuse_lst(aoi) {
     
   var lst = calc_ls_lst(landsat, bbox);
   
-  var vis = {min: 29, max:36, palette: ['blue','white','red']};
+  var max = lst.reduceRegion(ee.Reducer.max(), bbox);
+  var min = lst.reduceRegion(ee.Reducer.max(), bbox);
+
+  var vis = {min: min, max:max, palette: ['blue','white','red']};
   Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
   
   var chart = reduce_by_lulc(lst, bbox, "LST by LULC");
