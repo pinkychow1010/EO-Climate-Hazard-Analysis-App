@@ -16,8 +16,8 @@ app.set_up(); // map initial set up
 // app with corresponding functions (not called)
 var app_action_dict = {
   'Land use cover ratio': app.landuse_ratio_app,
-  'Urban heat analysis': app.pop_count,
-  'Recent urbanization': app.pop_count,
+  'Urban heat analysis': app.landuse_lst_app,
+  // 'Recent urbanization': app.pop_count,
   'Population density': app.pop_count,
   'Vegetation cover changes': app.fvc_lst_app,
   'Urban heat by land use': app.landuse_lst_app
