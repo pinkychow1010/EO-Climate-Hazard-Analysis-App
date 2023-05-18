@@ -124,6 +124,13 @@ function calculate_landuse_lst(aoi) {
   
   var chart = reduce_by_lulc(dayTemp, bbox, "LST by LULC");
   
+  var lulc = ee.ImageCollection('ESA/WorldCover/v100').first().clip(bbox);
+  
+  var visualization = {
+    bands: ['Map'],
+  };
+  
+  Map.addLayer(dataset, visualization, 'ESA Landcover (2020)');
   return chart;
 }
 
