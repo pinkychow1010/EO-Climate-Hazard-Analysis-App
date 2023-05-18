@@ -2,8 +2,8 @@
 // This script stores the displayed text for the main explorer interface
 
 // Labels to be displayed for each app
-exports.urban_heat = "👉 Urban heat is a significant hazard for public health. \nCheck out the spatial distribution of urban heat in 2022 summer!";
-exports.land_use_cover_ratio = "👉 Vegetation provides important ecoservice for the population. \nCheck out how land cover distributed in cities!";
+exports.urban_heat = "👉 Urban heat is a significant hazard for public health. \n\nCheck out the spatial distribution of urban heat in 2022 summer!";
+exports.land_use_cover_ratio = "👉 Vegetation provides important ecoservice for the population. \n\nCheck out how land cover distributed in cities!";
 exports.recent_urbanization = "👉 Have a glimpse of the regions where intense urbanization took place (2000-2020)";
 exports.population_density = "👉 Analysing urban population density in global cities";
 exports.veg_cover_changes = "👉 Viewing the changes of vegetation cover over the last decade";
