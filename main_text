@@ -7,6 +7,6 @@ exports.land_use_cover_ratio = "👉 Exploring the proportion of different land 
 exports.recent_urbanization = "👉 Have a glimpse of the regions where intense urbanization took place (2000-2020)";
 exports.population_density = "👉 Analysing urban population density in global cities";
 exports.veg_cover_changes = "👉 Viewing the changes of vegetation cover over the last decade";
-exports.heat_by_lulc = "👉 Exploring the temperature differences between land uses in urban metropolis";
+exports.heat_by_lulc = "👉 <p>Exploring the temperature differences between land uses in urban metropolis</p>";
 
-exports.headings = 'Welcome to the explorer!🔎 \n\nSatellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ';
+exports.headings = '👋 Welcome to our data analysis tool!🔎 \n\nSatellite data is a powerful mean to collect data timely, \nderiving information useful for urban planning and disaster management.\nThis tool allow you to perform multiple EO-based analysis in the urban regions in the globe,\nincluding urban heat and land use cover change analysis. ';
