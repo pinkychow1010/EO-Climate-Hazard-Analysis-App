@@ -62,19 +62,27 @@ function calculate_landuse_lst(aoi) {
   // get summer months depends on location
   var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
   
-  var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-    .map(maskL8sr)
-    .filter(yearFilter)
-    .filter(summerFilter)
-    .mean()
-    .clip(bbox);
+  var dataset = ee.ImageCollection('MODIS/061/MOD11A1')
+                  .filter(yearFilter)
+                  .filter(summerFilter)
+                  .mean().multiply(0.02).add(-273.15)
+                  .clip(bbox);
+  
+  var dayTemp = dataset.select('LST_Day_1km');
+  
+  // var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  //   .map(maskL8sr)
+  //   .filter(yearFilter)
+  //   .filter(summerFilter)
+  //   .mean()
+  //   .clip(bbox);
     
-  var lst = calc_ls_lst(landsat, bbox);
+  // var lst = calc_ls_lst(landsat, bbox);
   
   var vis = {min: 20, max:40, palette: ['blue','white','yellow','orange','red']};
-  Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
+  Map.addLayer(dayTemp, vis, "Landsat-based Land Surface Temperature");
   
-  var chart = reduce_by_lulc(lst, bbox, "LST by LULC");
+  var chart = reduce_by_lulc(dayTemp, bbox, "LST by LULC");
   
   return chart;
 }
