@@ -43,7 +43,7 @@ function calculate_landuse_lst(aoi) {
   var bbox = aoi.geometry();
 
   // Check summer months based on geo-coordinates
-  var centroid = bbox.first().geometry().centroid();
+  var centroid = bbox.centroid();
   var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
   var yCoords = ee.List(listCoords).getInfo()[1];
   var south = ee.Number(yCoords).lt(0);
