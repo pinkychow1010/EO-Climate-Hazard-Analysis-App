@@ -83,7 +83,7 @@ function createPanel(selection, description_label) {
   
   // jump to analysis interface
   var start_button = ui.Button({
-    label: "Let's go!",
+    label: "Get started",
     style: style.start_button,
     onClick: changeApp
   });
