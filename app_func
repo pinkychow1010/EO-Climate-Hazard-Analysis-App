@@ -42,15 +42,15 @@ function calculate_landuse_lst(aoi) {
   
   var bbox = aoi.geometry();
 
-  var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  .map(maskL8sr)
-  .filterDate('2022-06-01', '2022-09-01')
-  .mean()
-  .clip(bbox);
-
-  var lst = calc_ls_lst(landsat);
+  var landsat = ee.ImageCollection('LANDSAT/LC08/C02/T1_L2')
+    .map(maskL8sr)
+    .filterDate('2018-06-01', '2018-09-01')
+    .mean()
+    .clip(bbox);
+    
+  var lst = calc_ls_lst(landsat, bbox);
   
-  var vis = {min: 29, max:36, palette: palette};
+  var vis = {min: 29, max:36, palette: ['blue','white','red']};
   Map.addLayer(lst, vis, "Landsat-based Land Surface Temperature");
   
   var chart = reduce_by_lulc(lst, bbox, "LST by LULC");
@@ -58,7 +58,10 @@ function calculate_landuse_lst(aoi) {
   return chart;
 }
 
-function calc_ls_lst(landsat) {
+
+   
+    
+function calc_ls_lst(landsat, bbox) {
     // #################################
     // # calculating LST from landsat ##
     // #################################
@@ -207,6 +210,7 @@ function maskL8sr(col) {
                  .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
   return col.updateMask(mask);
 }
+
 
 //##
 
