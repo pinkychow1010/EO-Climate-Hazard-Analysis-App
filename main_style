@@ -26,7 +26,7 @@ exports.headings = {
       color: '#FFFFFF', 
       fontWeight: 'normal', 
       fontSize: '15px', 
-      whiteSpace: 'normal',//'pre', 
+      whiteSpace: 'pre', 
       textAlign: 'left', 
       padding: '1px 25px 25px 25px'
     };
