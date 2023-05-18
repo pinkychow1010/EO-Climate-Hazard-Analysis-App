@@ -104,6 +104,7 @@ function createPanel(selection, description_label) {
     ], null, {stretch:'vertical'});
     
   content.style().set('backgroundColor', style.bg_color);
+  content.style().set('whiteSpace', 'pre');
   
   var page = ui.Panel([content]);
   page.style().set('backgroundColor', style.bg_color);
