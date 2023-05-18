@@ -70,15 +70,6 @@ function calculate_landuse_lst(aoi) {
   
   var dayTemp = dataset.select('LST_Day_1km');
   
-  // var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  //   .map(maskL8sr)
-  //   .filter(yearFilter)
-  //   .filter(summerFilter)
-  //   .mean()
-  //   .clip(bbox);
-    
-  // var lst = calc_ls_lst(landsat, bbox);
-  
   var vis = {min: 20, max:40, palette: ['blue','white','yellow','orange','red']};
   Map.addLayer(dayTemp, vis, "MODIS-based Land Surface Temperature");
   
