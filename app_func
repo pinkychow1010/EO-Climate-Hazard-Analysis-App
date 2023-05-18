@@ -213,6 +213,7 @@ function reduce_by_lulc(image, bbox, title) {
       })
       .setChartType('BarChart')
       .setOptions({
+        hAxis: {viewWindow: {min: 10, max: 50}},
         title: title,
         slices: createChartSliceDictionary(by_lulc),
         sliceVisibilityThreshold: 0 // Don't group small slices.
