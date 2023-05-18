@@ -50,7 +50,7 @@ function calculate_landuse_lst(aoi) {
   var shift = south.multiply(6).getInfo();
   
   // evaluation year
-  var start_year = ee.Date("2021-01-01");
+  var start_year = ee.Date("2022-01-01");
   var end_year = ee.Date("2022-01-01");
   
   // filter dataset to evaluation year
