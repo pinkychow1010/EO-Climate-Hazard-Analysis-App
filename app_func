@@ -131,6 +131,7 @@ function calculate_landuse_lst(aoi) {
   };
   
   Map.addLayer(dataset, visualization, 'ESA Landcover (2020)');
+  
   return chart;
 }
 
