@@ -20,7 +20,7 @@ var app_action_dict = {
   'Recent urbanization': app.pop_count,
   'Population density': app.pop_count,
   'Vegetation cover changes': app.fvc_lst_app,
-  'Urban heat by land use': app.pop_count
+  'Urban heat by land use': app.landuse_lst_app
 };
 
 // Function to switch from main page to app page
