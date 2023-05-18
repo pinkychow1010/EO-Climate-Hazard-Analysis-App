@@ -42,7 +42,7 @@ function calculate_landuse_lst(aoi) {
   
   var bbox = aoi.geometry();
 
-  var landsat = ee.ImageCollection('LANDSAT/LC08/C02/T1_L2')
+  var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     .map(maskL8sr)
     .filterDate('2018-06-01', '2018-09-01')
     .mean()
