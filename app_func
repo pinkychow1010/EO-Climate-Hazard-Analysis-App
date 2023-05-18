@@ -34,6 +34,55 @@ exports.landuse_ratio_app = function landuse_ratio_app() {
 
 //##
 
+exports.map_lst_app = function landuse_lst_app() {
+  intraUrban.app(map_lst, "Land surface Temperature (2022 Summer MODIS-based)");
+};
+
+function map_lst(aoi) {
+  
+  var bbox = aoi.geometry();
+  var centroid = bbox.centroid({'maxError': 1});
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0);
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  
+  // south/ north
+  var south = ee.Number(yCoords).lt(0);
+  var shift = south.multiply(6).getInfo();
+  
+  // evaluation year
+  var start_year = ee.Date("2022-01-01");
+  var end_year = ee.Date("2022-01-01");
+  
+  // filter dataset to evaluation year
+  var yearFilter = ee.Filter.date(
+    start_year.advance(-1, "year"), 
+    end_year.advance(1, "year")
+    );
+  
+  // get summer months depends on location
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9-shift, "month");
+  
+  var dataset = ee.ImageCollection('MODIS/061/MOD11A1')
+                  .filter(yearFilter)
+                  .filter(summerFilter)
+                  .mean().multiply(0.02).add(-273.15)
+                  .clip(bbox);
+  
+  var dayTemp = dataset.select('LST_Day_1km');
+  var nightTemp = dataset.select('LST_Night_1km');
+  var tempDiff = dayTemp.subtract(nightTemp);
+  
+  var palette = ['blue','white','yellow','orange','red'];
+  var vis = {min: 20, max:40, palette: palette};
+  Map.addLayer(dayTemp, vis, "Day Time Temperature");
+  Map.addLayer(nightTemp, {min: 10, max:30, palette: palette}, "Night Time Temperature");
+  Map.addLayer(tempDiff, {min: 0, max:15, palette: palette}, "Daily Temperature Difference");
+  
+}
+
+
+//##
+
 exports.landuse_lst_app = function landuse_lst_app() {
   intraUrban.app(calculate_landuse_lst, "Temperature by Land Use Cover (2022 Summer)");
 };
