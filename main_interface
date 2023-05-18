@@ -13,6 +13,7 @@ var app = require('users/pinkychow1010/WB_IntraUrban:app_func');
 
 app.set_up(); // map initial set up
 
+// Important: change together with app_info_dict
 // app with corresponding functions (not called)
 var app_action_dict = {
   'Land use cover ratio': app.landuse_ratio_app,
@@ -45,7 +46,7 @@ function changeDescription(value) {
 var app_info_dict = {
   'Land use cover ratio': txt.land_use_cover_ratio,
   'Urban heat analysis': txt.urban_heat,
-  'Recent urbanization': txt.recent_urbanization,
+  // 'Recent urbanization': txt.recent_urbanization,
   'Population density': txt.population_density,
   'Vegetation cover changes': txt.veg_cover_changes,
   'Urban heat by land use': txt.heat_by_lulc
