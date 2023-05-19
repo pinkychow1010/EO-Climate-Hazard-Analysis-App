@@ -88,7 +88,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
       reducer = ee.Reducer.mean();
     }
     
-    // check resample algorithms. if unprovided, take mean.
+    // get file name. if unprovided, take "Image".
     try {
       fname = fname_dict[layerKey]; 
     } catch(e) {
