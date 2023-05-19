@@ -28,6 +28,7 @@ var instructionMessage = ui.Label(
     textAlign: 'center', 
     padding: '0px 50px 50px 50px',
     width: '400px',
+    color: 'grey'
     //height: '95%'
   });
   
@@ -52,7 +53,7 @@ function ok() {
 
 var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
 
-instructionPanel.style().set({fontWeight:'bold'});
+heading.style().set({fontWeight:'bold'});
 Map.add(instructionPanel);
 
 var panel = ui.Panel({
