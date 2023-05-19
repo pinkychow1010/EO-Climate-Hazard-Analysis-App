@@ -7,6 +7,12 @@
 This page is solely a board to describe furture development plan, 
 including to do list.
 
+(known bugs)
+
+- For data downloader, land use download resampled to another resolution do not retain original class (expected same class from majority interpolation)
+
+- After downloaded, when data layer changed, raster download link does not change accordingly
+
 (planned)
 
 - NDVI - LST comparison
