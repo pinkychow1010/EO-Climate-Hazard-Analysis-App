@@ -20,16 +20,22 @@ function downloadDoc() {
 }
 
 var instructionPanel = ui.Label(
-  'Welcome to the portal! \
-  \nTo start analysis, select your area of interest.'
-  , {whiteSpace: 'pre'});
+  '\n\n\n\n\n\n👋 Welcome to the portal! \
+  \nTo start analysis, select your area of interest.\n\n\n\n\n'
+  , {
+    whiteSpace: 'pre', 
+    textAlign: 'center', 
+    padding: '50px',
+    width: '400px',
+    height: '400px'
+  });
 
 instructionPanel.style().set({fontWeight:'bold'});
 Map.add(instructionPanel);
 
 var panel = ui.Panel({
   layout: ui.Panel.Layout.flow('horizontal'),
-  style: {width: '300px', position: 'bottom-left'}
+  style: {width: '300px'}
 });
 
 panel.add(docPanel);
