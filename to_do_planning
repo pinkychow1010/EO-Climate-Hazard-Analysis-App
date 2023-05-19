@@ -9,9 +9,11 @@ including to do list.
 
 (known bugs)
 
-- For data downloader, land use download resampled to another resolution do not retain original class (expected same class from majority interpolation)
+(fixed bugs)
 
-- After downloaded, when data layer changed, raster download link does not change accordingly
+- <del> For data downloader, land use download resampled to another resolution do not retain original class (expected same class from majority interpolation) </del>
+
+- <del> After downloaded, when data layer changed, raster download link does not change accordingly </del>
 
 (planned)
 
