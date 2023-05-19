@@ -18,3 +18,11 @@ function downloadDoc() {
  urlLabel.setUrl(url);
  urlLabel.style().set({shown: true}); // display link
 }
+
+var instructionPanel = ui.Label(
+  'Welcome to the portal! \
+  \nTo start analysis, select your area of interest.'
+  , {whiteSpace: 'pre'});
+
+instructionPanel.style().set({fontWeight:'bold'});
+Map.add(instructionPanel);
