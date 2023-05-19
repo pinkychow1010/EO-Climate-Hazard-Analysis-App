@@ -17,6 +17,8 @@ including to do list.
 
 (planned)
 
+- add cloud masking steps for MODIS LST analysis 
+
 - NDVI - LST comparison
 
 - include Oxford/MAP/friction_surface_2019 into data downloader
