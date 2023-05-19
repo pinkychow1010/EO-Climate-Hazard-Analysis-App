@@ -124,15 +124,6 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   var mainPanel = ui.Panel(); // side bar
   mainPanel.style().set(style.mainPanel); // styling main panel
   
-  // ##### testing #####
-  
-  var panel2 = ui.Panel([ui.Label("This is panel 2")]);
-  panel2.style().set(style.mainPanel);
-  
-  var split = ui.SplitPanel(mainPanel, panel2, "horizontal");
-  ui.root.insert(0, split);
-  
-  // ###################
   
   // ui.root.insert(0,mainPanel);
   
