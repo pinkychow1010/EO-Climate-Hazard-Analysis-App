@@ -56,7 +56,7 @@ var reducer_opt = data.reducer_dict;
 exports.data_explorer = function data_download_app(title_name) { //(reducer, title_name) {
   
   // default values for variables
-  if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()} // method to resample raster output
+  // if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()} // method to resample raster output
   if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"} // headings
   
   // ################################# //
@@ -70,13 +70,20 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   var rasterLayer; // layer for export
   var export_resolution; // resolution
   var filtered; // aoi
-  // var reducer; // resampling algorithms for raster layers
+  var reducer; // resampling algorithms for raster layers
   
   reset(); // reset app display
   
   // action on changing data layers by user from the drop-down menu
   function changeLayers(layerKey) {
-    reducer = reducer_opt[layerKey]; 
+    
+    // check resample algorithms. if unprovided, take mean.
+    try {
+      reducer = reducer_opt[layerKey]; 
+    } catch(e) {
+      reducer = ee.Reducer.mean();
+    }
+    
     action_call = action_calls[layerKey]; // change action from dict
     
     // in case of already selected aoi, clean map and call action directly
