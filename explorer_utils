@@ -257,6 +257,7 @@ function export_landuse(aoi) {
   Map.addLayer(lulc, {}, 'Land Use Cover 2020');
   Map.centerObject(bbox, 8);
   
+  // hard code class and color code for world cover dataset
   var landcoverPalette = ee.List(['006400','ffbb22','ffff4c','f096ff','fa0000','b4b4b4','f0f0f0','0064c8','0096a0','00cf75','fae6a0']);
 
   var newNames = ['Tree cover','Shrubland','Grassland','Cropland',
@@ -315,6 +316,7 @@ function export_landuse(aoi) {
   // // use getInfo to make the names client-side
   // var newNames = names.getInfo();
   
+  // add legend row by row
   for (var i = 0; i < 11; i++) {
       legend.add(makeRow(landcoverPalette.get(i), newNames[i]));
   }
