@@ -2,7 +2,7 @@
 var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/intraurban_layer_documentation");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // button to export, will fire download url when clicked
-var docButton = ui.Button('Dataset Documentation', downloadDoc);
+var docButton = ui.Button('Documentation ⬇️ ', downloadDoc);
 
 // set up url label
 var urlLabel = ui.Label('Click to download', {shown: false});
