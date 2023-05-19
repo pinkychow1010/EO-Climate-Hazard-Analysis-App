@@ -14,11 +14,11 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 // dictionary for resampling algorithms
 exports.reducer_dict = {
-  'World Cover': ee.Reducer.mode(),
-  'Population': ee.Reducer.sum(),
-  'Urban Density': ee.Reducer.mean(),
-  'Summer Day Temperature': ee.Reducer.median(),
-  'Summer Night Temperature': ee.Reducer.median()
+  'World Cover': ee.Reducer.mode(), // retain discrete class
+  'Population': ee.Reducer.sum(), // population count per pixel
+  'Urban Density': ee.Reducer.mean(), // ratio
+  'Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
+  'Summer Night Temperature': ee.Reducer.median() // median to prevent influence from outliners
 };
 
 // dictionary for action labels and corresponding functions
