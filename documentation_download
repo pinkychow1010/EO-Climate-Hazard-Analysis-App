@@ -1,67 +1,125 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/intraurban_layer_documentation");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// button to export, will fire download url when clicked
-var docButton = ui.Button('Documentation ⬇️ ', downloadDoc);
+// // button to export, will fire download url when clicked
+// var docButton = ui.Button('Documentation ⬇️ ', downloadDoc);
 
-// set up url label
-var urlLabel = ui.Label('Click to download', {shown: false});
+// // set up url label
+// var urlLabel = ui.Label('Click to download', {shown: false});
 
-// combine components to export panel and add it to side bar
-var docPanel = ui.Panel([docButton, urlLabel]);
+// // combine components to export panel and add it to side bar
+// var docPanel = ui.Panel([docButton, urlLabel]);
 
-//Map.add(docPanel);
+// //Map.add(docPanel);
 
-function downloadDoc() {
- // get url link for user to download
- var url = table.getDownloadURL();
- urlLabel.setUrl(url);
- urlLabel.style().set({shown: true}); // display link
-}
+// function downloadDoc() {
+// // get url link for user to download
+// var url = table.getDownloadURL();
+// urlLabel.setUrl(url);
+// urlLabel.style().set({shown: true}); // display link
+// }
 
-var instructionMessage = ui.Label(
+// var instructionMessage = ui.Label(
+//   'To start download, select the dataset \nand your area of interest.\
+//   \nYou can download the layer in desired resolution.\n \
+//   Download documentation for more information\n on the data source and methodology.'
+//   , {
+//     whiteSpace: 'pre', 
+//     textAlign: 'center', 
+//     padding: '0px 50px 50px 50px',
+//     width: '400px',
+//     color: 'grey',
+//     fontSize: '15px'
+//   });
+  
+// var heading = ui.Label(
+//   '\n\n\n👋 Welcome!'
+//   , {
+//     whiteSpace: 'pre', 
+//     textAlign: 'center', 
+//     padding: '50px 50px 0px 50px',
+//     width: '400px'
+//   });
+
+// heading.style().set({fontSize: '30px'});
+
+// var okButton = ui.Button('Get Started', ok);
+
+// okButton.style().set({
+//   padding:'0% 40% 20% 40%',
+// })
+
+// function ok() {
+// instructionPanel.style().set({shown: false});
+// }
+
+// var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
+// instructionPanel.style().set({border: '5px solid #F5F5DC'});
+
+// heading.style().set({fontWeight:'bold'});
+// Map.add(instructionPanel);
+
+// var panel = ui.Panel({
+//   layout: ui.Panel.Layout.flow('horizontal'),
+//   style: {width: '300px'}
+// });
+
+// panel.add(docPanel);
+// ui.root.add(panel);
+// Map.style().set('cursor', 'crosshair');
+
+
+var addWelcomePanel = function() {
+  var instructionMessage = ui.Label(
   'To start download, select the dataset \nand your area of interest.\
   \nYou can download the layer in desired resolution.\n \
-  Download documentation for layer details.'
+  Download documentation for more information\n on the data source and methodology.'
   , {
     whiteSpace: 'pre', 
     textAlign: 'center', 
     padding: '0px 50px 50px 50px',
     width: '400px',
-    color: 'grey'
-    //height: '95%'
+    color: 'grey',
+    fontSize: '15px'
+  });
+    
+  var heading = ui.Label(
+    '\n\n\n👋 Welcome!'
+    , {
+      whiteSpace: 'pre', 
+      textAlign: 'center', 
+      padding: '50px 50px 0px 50px',
+      width: '400px'
+    });
+  
+  heading.style().set({fontSize: '30px', fontWeight:'bold'});
+
+  var okButton = ui.Button('Get Started', ok);
+  
+  okButton.style().set({
+    padding:'0% 40% 20% 40%',
+    position: 'top-center'
   });
   
-var heading = ui.Label(
-  '\n\n\n👋 Welcome!'
-  , {
-    whiteSpace: 'pre', 
-    textAlign: 'center', 
-    padding: '50px 50px 0px 50px',
-    width: '400px'
-  });
+  function ok() {
+   instructionPanel.style().set({shown: false});
+  }
+  
+  var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
 
-heading.style().set({fontSize: '30px'});
+  instructionPanel.style().set({border: '5px solid #F5F5DC', position: 'top-center'});
+  
+  return instructionPanel;
+};
 
-var okButton = ui.Button('Okay ', ok);
 
-okButton.style().set({padding:'0% 40% 20% 40%'})
+var welcome = addWelcomePanel();
+//ui.root.add(welcome)
+Map.add(welcome)
 
-function ok() {
- instructionPanel.style().set({shown: false});
-}
 
-var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
 
-heading.style().set({fontWeight:'bold'});
-Map.add(instructionPanel);
 
-var panel = ui.Panel({
-  layout: ui.Panel.Layout.flow('horizontal'),
-  style: {width: '300px'}
-});
 
-panel.add(docPanel);
 
-ui.root.add(panel);
-Map.style().set('cursor', 'crosshair');
+
