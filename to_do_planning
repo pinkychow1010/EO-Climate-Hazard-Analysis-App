@@ -17,6 +17,8 @@ including to do list.
 
 (planned)
 
+- add checkbox in data layer to allow direct download using original resolution
+
 - add cloud masking steps for MODIS LST analysis 
 
 - NDVI - LST comparison
