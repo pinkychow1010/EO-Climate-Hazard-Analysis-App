@@ -8,9 +8,9 @@ var docButton = ui.Button('Dataset Documentation', downloadDoc);
 var urlLabel = ui.Label('Click to download', {shown: false});
 
 // combine components to export panel and add it to side bar
-var exportPanel = ui.Panel([docButton, urlLabel]);
+var docPanel = ui.Panel([docButton, urlLabel]);
 
-Map.add(exportPanel);
+Map.add(docPanel);
 
 function downloadDoc() {
  // get url link for user to download
