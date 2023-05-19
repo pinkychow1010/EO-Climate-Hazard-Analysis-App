@@ -10,7 +10,7 @@ var urlLabel = ui.Label('Click to download', {shown: false});
 // combine components to export panel and add it to side bar
 var docPanel = ui.Panel([docButton, urlLabel]);
 
-Map.add(docPanel);
+//Map.add(docPanel);
 
 function downloadDoc() {
  // get url link for user to download
@@ -26,3 +26,13 @@ var instructionPanel = ui.Label(
 
 instructionPanel.style().set({fontWeight:'bold'});
 Map.add(instructionPanel);
+
+var panel = ui.Panel({
+  layout: ui.Panel.Layout.flow('horizontal'),
+  style: {width: '300px', position: 'bottom-left'}
+});
+
+panel.add(docPanel);
+
+ui.root.add(panel);
+Map.style().set('cursor', 'crosshair');
