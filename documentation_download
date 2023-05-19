@@ -109,13 +109,15 @@ var addWelcomePanel = function() {
 
   instructionPanel.style().set({border: '5px solid #F5F5DC', position: 'top-center'});
   
-  return instructionPanel;
+  Map.add(instructionPanel)
+  // return instructionPanel;
 };
 
+addWelcomePanel();
 
-var welcome = addWelcomePanel();
-//ui.root.add(welcome)
-Map.add(welcome)
+// var welcome = addWelcomePanel();
+// //ui.root.add(welcome)
+// Map.add(welcome)
 
 
 
