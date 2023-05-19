@@ -4,7 +4,10 @@
 // ### World Bank Intra-Urban Data Explorer Tool #### //
 // ################################################## //
 
-// This script is used to download multiple regional rasters in customised resolution
+// This script provides export functions for all available layers,
+// summarized in layer_dict dict
+
+// It is used to download multiple regional rasters in customised resolution
 // to facilitate EO-based intra-urban analysis
 
 // import module
