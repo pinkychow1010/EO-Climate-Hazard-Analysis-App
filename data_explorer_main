@@ -15,7 +15,8 @@ var app = require('users/pinkychow1010/WB_IntraUrban:explorer_interface');
 
 app.data_explorer();
 
-//
+// add welcome panel with instructions
+addWelcomePanel();
 
 var addWelcomePanel = function() {
   var instructionMessage = ui.Label(
@@ -60,5 +61,3 @@ var addWelcomePanel = function() {
   Map.add(instructionPanel)
   // return instructionPanel;
 };
-
-addWelcomePanel();
