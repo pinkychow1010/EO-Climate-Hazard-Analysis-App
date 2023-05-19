@@ -124,8 +124,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   var mainPanel = ui.Panel(); // side bar
   mainPanel.style().set(style.mainPanel); // styling main panel
   
-  
-  // ui.root.insert(0,mainPanel);
+  ui.root.insert(0,mainPanel);
   
   // set up title
   var title = ui.Label(title_name);
