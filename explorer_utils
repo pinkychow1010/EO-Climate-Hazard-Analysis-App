@@ -21,7 +21,7 @@ exports.reducer_dict = {
   'Summer Night Temperature': ee.Reducer.median() // median to prevent influence from outliners
 };
 
-// dictionary for action labels and corresponding functions
+// dictionary for action labels and corresponding functions (call map layer display + return layer for export)
 exports.layer_dict = {
   'World Cover': export_landuse,
   'Population': export_population,
