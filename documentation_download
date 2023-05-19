@@ -1,0 +1,20 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/intraurban_layer_documentation");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// button to export, will fire download url when clicked
+var docButton = ui.Button('Dataset Documentation', downloadDoc);
+
+// set up url label
+var urlLabel = ui.Label('Click to download', {shown: false});
+
+// combine components to export panel and add it to side bar
+var exportPanel = ui.Panel([docButton, urlLabel]);
+
+Map.add(exportPanel);
+
+function downloadDoc() {
+ // get url link for user to download
+ var url = table.getDownloadURL();
+ urlLabel.setUrl(url);
+ urlLabel.style().set({shown: true}); // display link
+}
