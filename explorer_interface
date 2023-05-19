@@ -23,6 +23,9 @@ var action_calls = data.layer_dict;
 // reducer dict (resample method) adopted to data layers
 var reducer_opt = data.reducer_dict;
 
+// file name dict adopted to data layers
+var fname_dict = data.filename_dict;
+
 
 /**
  * Data explorer: an interactive dashboard to display spatial data layers for downloads.
@@ -71,6 +74,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   var export_resolution; // resolution
   var filtered; // aoi
   var reducer; // resampling algorithms for raster layers
+  var fname; // file name for export
   
   reset(); // reset app display
   
@@ -82,6 +86,13 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
       reducer = reducer_opt[layerKey]; 
     } catch(e) {
       reducer = ee.Reducer.mean();
+    }
+    
+    // check resample algorithms. if unprovided, take mean.
+    try {
+      fname = fname_dict[layerKey]; 
+    } catch(e) {
+      fname = "Image";
     }
     
     action_call = action_calls[layerKey]; // change action from dict
@@ -273,11 +284,11 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   
   // Export Selected Raster Data
   function downloadImg() {
-    // fetch aoi
+    // fetch aoi. extract user selected location.
     var admin0Value = admin0Select.getValue();
     var admin1Value = admin1Select.getValue();
     var admin2Value = admin2Select.getValue();
-    var export_resolution = res_selector.getValue();
+    var export_resolution = res_selector.getValue(); // extract user selected resolution
     
     var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
     var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
@@ -304,7 +315,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     
     // export format
     var downloadArgs = {
-      name: 'Image',
+      name: fname, //'Image',
       scale: export_resolution,
       region: filtered.geometry().dissolve().bounds()
    };
