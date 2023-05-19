@@ -58,6 +58,5 @@ var addWelcomePanel = function() {
 
   instructionPanel.style().set({border: '5px solid #c9c9c9', position: 'top-center'});
   
-  Map.add(instructionPanel)
-  // return instructionPanel;
+  Map.add(instructionPanel);
 };
