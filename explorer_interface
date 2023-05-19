@@ -62,8 +62,8 @@ var action_calls = data.layer_dict;
 exports.data_explorer = function data_download_app(reducer, title_name) {
   
   // default values for variables
-  if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()}
-  if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"}
+  if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()} // method to resample raster output
+  if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"} // headings
   
   // ################################# //
   // ########### GUI APP ############# //
@@ -94,9 +94,9 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
     // in case of already selected aoi, clean map and call action directly
     if (typeof(filtered) !== 'undefined') {
       Map.clear(); // reset
-      Map.setControlVisibility({drawingToolsControl:false});
-      basemap.addCustomBasemap('MutedMonotone');
-      draw_bounds(filtered);
+      Map.setControlVisibility({drawingToolsControl:false}); // disable drawing tool
+      basemap.addCustomBasemap('MutedMonotone'); // add custom basemap
+      draw_bounds(filtered); // draw polygon boundary
       rasterLayer = action_call(filtered); // update rasterLayer for export
     }
   }
@@ -104,8 +104,8 @@ exports.data_explorer = function data_download_app(reducer, title_name) {
   // drop-down menu to select data layer
   var ds_selector = ui.Select({
     placeholder: 'Select a data layer',
-    items: Object.keys(action_calls),
-    onChange: changeLayers
+    items: Object.keys(action_calls), // functions from explorer_utils
+    onChange: changeLayers // call export functions
   });
   
   // :::::: LOCATION ::::::::
