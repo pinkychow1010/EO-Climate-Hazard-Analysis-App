@@ -19,16 +19,38 @@ function downloadDoc() {
  urlLabel.style().set({shown: true}); // display link
 }
 
-var instructionPanel = ui.Label(
-  '\n\n\n\n\n\n👋 Welcome to the portal! \
-  \nTo start analysis, select your area of interest.\n\n\n\n\n'
+var instructionMessage = ui.Label(
+  'To start download, select the dataset \nand your area of interest.\
+  \nYou can download the layer in desired resolution.\n \
+  Download documentation for layer details.'
   , {
     whiteSpace: 'pre', 
     textAlign: 'center', 
-    padding: '50px',
+    padding: '0px 50px 50px 50px',
     width: '400px',
-    height: '400px'
+    //height: '95%'
   });
+  
+var heading = ui.Label(
+  '\n\n\n👋 Welcome!'
+  , {
+    whiteSpace: 'pre', 
+    textAlign: 'center', 
+    padding: '50px 50px 0px 50px',
+    width: '400px'
+  });
+
+heading.style().set({fontSize: '30px'});
+
+var okButton = ui.Button('Okay ', ok);
+
+okButton.style().set({padding:'0% 40% 20% 40%'})
+
+function ok() {
+ instructionPanel.style().set({shown: false});
+}
+
+var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
 
 instructionPanel.style().set({fontWeight:'bold'});
 Map.add(instructionPanel);
