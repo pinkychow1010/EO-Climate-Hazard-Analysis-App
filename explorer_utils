@@ -12,6 +12,15 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
+// dictionary for resampling algorithms
+exports.reducer_dict = {
+  'World Cover': ee.Reducer.mode(),
+  'Population': ee.Reducer.sum(),
+  'Urban Density': ee.Reducer.mean(),
+  'Summer Day Temperature': ee.Reducer.median(),
+  'Summer Night Temperature': ee.Reducer.median()
+};
+
 // dictionary for action labels and corresponding functions
 exports.layer_dict = {
   'World Cover': export_landuse,
