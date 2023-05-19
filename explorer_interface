@@ -19,15 +19,8 @@ var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict
 
 // main dict to define action selection
 var action_calls = data.layer_dict;
-// {
-//   'World Cover': data.export_landuse,
-//   'Population': data.export_population,
-//   'Urban Density': data.export_urban_density,
-//   'Summer Day Temperature': data.export_summer_lst,
-//   'Summer Night Temperature': data.export_summer_lst_night
-// };
 
-// reducer dict adopted to data layers
+// reducer dict (resample method) adopted to data layers
 var reducer_opt = data.reducer_dict;
 
 
