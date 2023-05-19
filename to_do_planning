@@ -19,6 +19,8 @@ including to do list.
 
 - add checkbox in data layer to allow direct download using original resolution
 
+- display default resolution for data layers
+
 - add cloud masking steps for MODIS LST analysis 
 
 - NDVI - LST comparison
