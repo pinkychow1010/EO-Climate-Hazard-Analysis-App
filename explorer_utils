@@ -430,9 +430,8 @@ exports.addWelcomePanel = function addWelcomePanel() {
   
   // Page 1
   var instructionMessage = ui.Label(
-  'To start download, select the dataset \nand your area of interest.\
-  \nYou can download the layer in desired resolution.\n \
-  Download documentation for more information\n on the data source and methodology.'
+  'To start download, select the dataset \nand your area of interest (ADMIN Level 2).\
+  \nYou can download the layer in desired resolution.'
   , msg_style);
     
   var heading = ui.Label('\n\n\n👋 Welcome!', hd_style);
@@ -454,7 +453,7 @@ exports.addWelcomePanel = function addWelcomePanel() {
   // Page 3
   var instructionMessage_p3 = ui.Label('You can download documentation below\n to view more layer details: ⬇️', msg_style);
     
-  instructionMessage_p3.style().set({fontSize: '13.5px',padding: '0px 50px 20px 50px'});
+  instructionMessage_p3.style().set({padding: '0px 50px 20px 50px'});
   
   var heading_p3 = ui.Label('\n\n👋 Welcome!', hd_style);
   
