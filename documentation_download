@@ -157,7 +157,7 @@ function addWelcomePanel() {
       padding: '0px 50px 50px 50px',
       width: '500px',
       color: 'grey',
-      fontSize: '13px'
+      fontSize: '14px'
     });
       
   var heading_p2 = ui.Label(
