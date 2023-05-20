@@ -393,3 +393,8 @@ function reset(){
   Map.setCenter(0, 20, 1.8);
   Map.setControlVisibility({drawingToolsControl:false});
 }
+
+var utils = require('users/pinkychow1010/WB_IntraUrban:explorer_utils');
+
+// set up app
+data_explorer("Geospatial Data Explorer");
