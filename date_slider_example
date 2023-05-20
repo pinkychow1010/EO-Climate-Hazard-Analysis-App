@@ -51,7 +51,7 @@ var end = ee.Date(now).format();
 var update = function(range) {
   range.evaluate(function(range) {
     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-    var start = range.dates[0];
+    var start = range['dates'][0];
     var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
