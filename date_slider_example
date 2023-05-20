@@ -74,13 +74,13 @@ var update = function(range) {
 // compute the date range and show the slider.
 var dateRange = ee.DateRange(start, end).evaluate(function(range) {
   var dateSlider = ui.DateSlider({
-    start: '2002-07-04',//range['dates'][0],
-    end: '2002-07-06',//range['dates'][1],
+    start: '2000-01-01',//range['dates'][0],
+    end: '2023-01-01',//range['dates'][1],
     value: null,
     period: 1,
     onChange: update
   });
   dateSlider.style().set({'width': '500px'});
-  Map.add(dateSlider.setValue(now));
+  Map.add(dateSlider.setValue('2023-01-01'));
 });
 
