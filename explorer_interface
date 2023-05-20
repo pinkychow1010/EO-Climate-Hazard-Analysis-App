@@ -60,7 +60,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   
   // default values for variables
   // if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()} // method to resample raster output
-  if (title_name === undefined || title_name === null){var title_name = "World Bank Data Explorer"} // headings
+  if (title_name === undefined || title_name === null){var title_name = "EO Data Explorer"} // headings
   
   // ################################# //
   // ########### GUI APP ############# //
