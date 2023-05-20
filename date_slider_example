@@ -44,8 +44,11 @@ var start = ee.ImageCollection("MODIS/061/MOD11A2")
   .get('year')
   .format();
 
-var now = Date.now();
-var end = ee.Date(now).format();
+// var now = Date.now();
+// var end = ee.Date(now).format();
+
+var start = ee.Date('2022-12-01');
+var end = ee.Date('2023-01-01');
 
 // Run this function on a change of the dateSlider.
 var update_start = function(range) {
