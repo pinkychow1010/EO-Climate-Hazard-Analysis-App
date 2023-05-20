@@ -1,0 +1,395 @@
+// released under MIT License Copyright © 2023 Ka Hei Chow
+ 
+// ################################################## //
+// ### Main Interface for Data Downloading Tool ##### //
+// ################################################## //
+
+// This is the working script for integration of date slider into 
+// the original downloader interface
+
+/**
+ * This is the module for constructing the data explorer/ downloader 
+ * interface, where users can download a selected layer by
+ * choosing an individual admin 2 boundary polygon
+ */
+
+// import module
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); // customized basemap to enhance visuals 
+var palettes = require('users/gena/packages:palettes'); // color palettes for color bar
+var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils functions
+var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // functions for implementation of data layers in app
+var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict for explorer styling
+
+// main dict to define action selection
+var action_calls = data.layer_dict;
+
+// reducer dict (resample method) adopted to data layers
+var reducer_opt = data.reducer_dict;
+
+// file name dict adopted to data layers
+var fname_dict = data.filename_dict;
+
+// file name dict adopted to data layers
+var res_dict = data.resolution_dict;
+
+/**
+ * Data explorer: an interactive dashboard to display spatial data layers for downloads.
+ * 
+ * This function is used to construct an app for data visualization and exports for a single admin region
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @see  helper.add_colormap
+ * @link 'users/pinkychow1010/GEE:WorldBank/helper'
+ * @global
+ * 
+ * @see  basemap.addCustomBasemap
+ * @link 'users/pinkychow1010/WB_IntraUrban:basemap_resources'
+ * @global
+ * 
+ * @see  data.export_urban_density data.export_summer_lst data.export_population data.export_landuse
+ * @link 'users/pinkychow1010/WB_IntraUrban:explorer_utils'
+ * @global
+ *
+ * @fires   call actions according to dict
+ * @listens select area of interest
+ * @listens select dataset
+ *
+ * @param {ee.Reducer} a reducer method     Resampling method for data export.
+ * @param {str} name     App title to display.
+ * 
+ * @return Actions depends on functions from explorer_utils
+ *
+ */
+exports.data_explorer = function data_download_app(title_name) { //(reducer, title_name) {
+  
+  // default values for variables
+  // if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()} // method to resample raster output
+  if (title_name === undefined || title_name === null){var title_name = "EO Data Explorer"} // headings
+  
+  // ################################# //
+  // ########### GUI APP ############# //
+  // ################################# //
+  
+  // :::::: DATASET ::::::::
+  
+  // assign action to be fired
+  var action_call;
+  var rasterLayer; // layer for export
+  var export_resolution; // resolution
+  var filtered; // aoi
+  var reducer; // resampling algorithms for raster layers
+  var fname; // file name for export
+  var default_res;
+  
+  reset(); // reset app display
+  
+  // action on changing data layers by user from the drop-down menu
+  function changeLayers(layerKey) {
+    
+    // check default resolution
+    default_res = res_dict[layerKey];
+    
+    // check resample algorithms. if unprovided, take mean.
+    try {
+      reducer = reducer_opt[layerKey]; 
+    } catch(e) {
+      reducer = ee.Reducer.mean();
+    }
+    
+    // get file name. if unprovided, take "Image".
+    try {
+      fname = fname_dict[layerKey]; 
+    } catch(e) {
+      fname = "Image";
+    }
+    
+    action_call = action_calls[layerKey]; // change action from dict
+    
+    // in case of already selected aoi, clean map and call action directly
+    if (typeof(filtered) !== 'undefined') {
+      Map.clear(); // reset
+      Map.setControlVisibility({drawingToolsControl:false}); // disable drawing tool
+      basemap.addCustomBasemap('MutedMonotone'); // add custom basemap
+      draw_bounds(filtered); // draw polygon boundary
+      rasterLayer = action_call(filtered); // update rasterLayer for export
+    }
+  }
+  
+  // drop-down menu to select data layer
+  var ds_selector = ui.Select({
+    placeholder: 'Select data layer',
+    items: Object.keys(action_calls), // functions from explorer_utils
+    onChange: changeLayers // call export functions
+  });
+  
+  // :::::: LOCATION ::::::::
+    
+  // import geometry boundary data for user selection
+  var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
+  var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
+  var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
+  
+  var mainPanel = ui.Panel(); // side bar
+  mainPanel.style().set(style.mainPanel); // styling main panel
+  
+  ui.root.insert(0,mainPanel);
+  
+  // set up title
+  var title = ui.Label(title_name);
+  title.style().set(style.title);
+  
+  // content for main panel
+  mainPanel.add(title);
+  mainPanel.add(ds_selector);
+  
+  var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
+  dropdownPanel.style().set(style.dark_theme);
+  
+  // set up location input session (dropdowns for admin0, admin1 and admin2 names)
+  // disable admin selections
+  var admin0Select = ui.Select({
+      placeholder: 'Please wait..',
+    }).setDisabled(true);
+    
+  var admin1Select = ui.Select({
+      placeholder: 'Select country first',
+    }).setDisabled(true);
+    
+  var admin2Select = ui.Select({
+    placeholder: 'Select admin 1 unit first',
+  }).setDisabled(true);
+  
+  dropdownPanel.add(admin0Select);
+  dropdownPanel.add(admin1Select);
+  dropdownPanel.add(admin2Select);
+  mainPanel.add(dropdownPanel);
+  
+  // Update from Admin 0 selection
+  // Define the onChange() function for admin0Select
+  var admin0Selected = function(admin0Selection) {
+    Map.clear(); reset();
+    admin1Select.items().reset();
+    admin2Select.items().reset();
+    admin1Select.setPlaceholder('Please wait..');
+    admin2Select.setPlaceholder('Select a admin 1 unit first..');
+  
+    // given admin0 values, fetch admin1 values for that country
+    var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
+    var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
+    var admin1Names = selectedAdmin1.aggregate_array('shapeName').sort();
+  
+    // Use evaluate() to not block the UI
+    admin1Names.evaluate(function(items){
+      admin1Select.setPlaceholder('Select admin1 unit');
+      admin1Select.items().reset(items);
+      admin1Select.setDisabled(false); // enable the menu
+    });
+  };
+  
+  // Define the onChange() function for admin1Select
+  var admin1Selected = function(admin1Selection) {
+    Map.clear(); reset();
+    
+    // Update admin 2 menu from admin 1 selection
+    admin2Select.setPlaceholder('Please wait..');
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Selection));
+    var shapeID = ee.Feature(selectedAdmin1.first()).get('shapeID');
+    var selectedAdmin2 = ADM2.filter(ee.Filter.eq('ADM1_shape', shapeID));
+    var admin2Names = selectedAdmin2.aggregate_array('shapeName').sort();
+    
+    // enable admin 2 selection
+    admin2Names.evaluate(function(items){
+      if (items.length === 0) {
+        items = ['Entire Admin1 Unit'];
+        admin2Select.items().reset(items);
+      }
+      else {
+        admin2Select.items().reset(items); 
+      }
+      admin2Select.setPlaceholder('Select admin2 unit');
+      admin2Select.setDisabled(false);
+    });
+  };
+  
+  // Define the onChange() function for admin2Select
+  var admin2Selected = function(admin1Selection) {
+    Map.clear(); reset();
+    
+    // fetch location inputs from user
+    var admin0Value = admin0Select.getValue();
+    var admin1Value = admin1Select.getValue();
+    var admin2Value = admin2Select.getValue();
+    
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
+    var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
+    
+    // Some regions do not have admin2 values
+    // We are on client-side, so using if/else is ok
+    if (admin2Value == 'Entire Admin1 Unit') {
+        var result = admin1Value + ',' + admin0Value;
+        // var filtered = ADM1
+        filtered = ADM1
+          .filter(ee.Filter.eq('shapeName', admin1Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup));
+    }
+    else {
+        var result = admin2Value + ',' + admin1Value + ',' + admin0Value;
+        // var filtered = ADM2
+        filtered = ADM2
+          .filter(ee.Filter.eq('shapeName', admin2Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+          .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
+    }
+    
+    // zoom to selected aoi and highlight polygon
+    Map.centerObject(filtered);
+    draw_bounds(filtered);
+    
+    // call main action
+    var output = action_call(filtered);
+    if (typeof(output) !== 'undefined') {rasterLayer = output;}
+  };
+  
+  // Register the callback functions
+  admin0Select.onChange(admin0Selected);
+  admin1Select.onChange(admin1Selected);
+  admin2Select.onChange(admin2Selected);
+  
+  // Get all country names and sort them
+  var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
+  // Fetch the value using evaluate() to not block the UI
+  admin0Names.evaluate(function(items){
+    admin0Select.items().reset(items);
+    admin0Select.setDisabled(false); // enable menu
+    admin0Select.setPlaceholder('Select country'); // Change placeholder
+  });
+  
+  // Resample Data to resolution defined by user
+  function resample(image, res, reducer) {
+    var proj = image.projection().getInfo();
+    // var crs = proj.crs;
+    
+    var resampled = image.reduceResolution({
+        'reducer':reducer,
+        'bestEffort':true
+      }).reproject({'crs':'EPSG: 4326','scale':res});
+    
+    // if (crs === undefined || crs === null){
+    //   var wkt = proj.wkt;
+    //   var resampled = image.reduceResolution({
+    //     'reducer':reducer,
+    //     'bestEffort':true
+    //   }).reproject({'crs':ee.Projection(wkt),'scale':res});
+    // } else {
+    //   var resampled = image.reduceResolution({
+    //     'reducer':reducer,
+    //     'bestEffort':true
+    //   }).reproject({'crs':crs,'scale':res});
+    // }
+    return resampled;
+  }
+  
+  // Export Selected Raster Data
+  function downloadImg() {
+    // fetch aoi. extract user selected location.
+    var admin0Value = admin0Select.getValue();
+    var admin1Value = admin1Select.getValue();
+    var admin2Value = admin2Select.getValue();
+    var export_resolution = res_selector.getValue(); // extract user selected resolution
+    
+    var selectedAdmin1 = ADM1.filter(ee.Filter.eq('shapeName', admin1Value));
+    var shapeGroup = ee.Feature(selectedAdmin1.first()).get('shapeGroup');
+    
+    // Some regions do not have admin2 values
+    // We are on client-side, so using if/else is ok
+    if (admin2Value == 'No Admin2 Units') {
+        var result = admin1Value + ',' + admin0Value;
+        var filtered = ADM1
+          .filter(ee.Filter.eq('shapeName', admin1Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup));
+    }
+    else {
+        var result = admin2Value + ',' + admin1Value + ',' + admin0Value
+        var filtered = ADM2
+          .filter(ee.Filter.eq('shapeName', admin2Value))
+          .filter(ee.Filter.eq('shapeGroup', shapeGroup))
+          .filter(ee.Filter.intersects('.geo', selectedAdmin1.geometry()));
+    }
+    
+    // resample raster
+    var resampledLayer = resample(rasterLayer, export_resolution, reducer);
+    var img = resampledLayer.mask(resampledLayer.mask());
+    
+    // export format
+    var downloadArgs = {
+      name: fname, //'Image',
+      scale: export_resolution,
+      region: filtered.geometry().dissolve().bounds()
+   };
+  
+   // get url link for user to download raster
+   var url = img.getDownloadURL(downloadArgs);
+   urlLabel.setUrl(url);
+   urlLabel.style().set({shown: true}); // display link
+  }
+  
+  // label export resolution
+  var selectorLabel = ui.Label('Export resolution (meter)');
+  selectorLabel.style().set(style.selectorLabel);
+  
+  // data slider for resolution input
+  var res_selector = ui.Slider({
+    min: 10, 
+    max: 2000, 
+    value: 1000, 
+    step: 10,
+    style: style.res_slider
+  });
+  
+  // depends on datasets, reset output resolution to default value
+  var res_button = ui.Button("Default resolution", get_default_res);
+  res_button.style().set({
+    'color': 'gray',
+    'border': '1.5px solid orange'
+  });
+  res_button.style().set(style.dark_theme);
+  
+  function get_default_res() {
+    res_selector.setValue(default_res);
+  }
+  
+  // button to export, will fire download url when clicked
+  var downloadButton = ui.Button('Export Raster', downloadImg);
+  downloadButton.style().set(style.download_button);
+  
+  // set up url label
+  var urlLabel = ui.Label('Click to download', {shown: false});
+  urlLabel.style().set(style.dark_theme);
+  
+  // combine components to export panel and add it to side bar
+  var exportPanel = ui.Panel([selectorLabel, res_selector, res_button, downloadButton, urlLabel]);
+  exportPanel.style().set(style.dark_theme);
+  mainPanel.add(exportPanel);
+};
+
+
+// draw admin boundary selected by user
+function draw_bounds(geometry){
+  var empty = ee.Image().byte();
+  var outlines = empty.paint({
+    featureCollection: geometry,
+    color: 'red',
+    width: 2
+  });
+  var palette = ['FF0000', '00FF00', '0000FF'];
+  Map.addLayer(outlines, {palette: palette}, 'Boundary');  
+}
+
+// config base map on reset
+function reset(){
+  basemap.addCustomBasemap('MutedMonotone');
+  Map.setCenter(0, 20, 1.8);
+  Map.setControlVisibility({drawingToolsControl:false});
+}
