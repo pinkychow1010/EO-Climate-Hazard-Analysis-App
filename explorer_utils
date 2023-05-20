@@ -15,6 +15,15 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
+// dictionary for default resolution
+exports.resolution_dict = {
+  'Land Use Cover': 10,
+  'Population Count': 38,
+  'Urban Density': 5000,
+  'Summer Day Temperature': 1000,
+  'Summer Night Temperature': 1000
+};
+
 // dictionary for filename definitions
 exports.filename_dict = {
   'Land Use Cover': 'ESA-WorldCover-2020',
