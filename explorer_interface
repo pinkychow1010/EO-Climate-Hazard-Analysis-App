@@ -345,6 +345,18 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     style: style.res_slider
   });
   
+  //###
+  
+  var res_button = ui.Button("Set to original resolution", get_default_res);
+  res_button.style().set({'border': '1px solid orange'});
+  res_button.style().set(style.darktheme);
+  
+  function get_default_res() {
+    res_selector.setValue(default_res);
+  }
+  
+  //###
+  
   // button to export, will fire download url when clicked
   var downloadButton = ui.Button('Export Raster', downloadImg);
   downloadButton.style().set(style.download_button);
@@ -354,7 +366,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   urlLabel.style().set(style.dark_theme);
   
   // combine components to export panel and add it to side bar
-  var exportPanel = ui.Panel([selectorLabel, res_selector, downloadButton, urlLabel]);
+  var exportPanel = ui.Panel([selectorLabel, res_selector, res_button, downloadButton, urlLabel]);
   exportPanel.style().set(style.dark_theme);
   mainPanel.add(exportPanel);
 };
