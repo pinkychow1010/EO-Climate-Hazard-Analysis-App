@@ -209,16 +209,16 @@ function addWelcomePanel() {
   
   // Documentation session
   // button to export, will fire download url when clicked
-  var docButton = ui.Button('Documentation ⬇️ ', downloadDoc);
+  var docButton = ui.Button('Documentation ⬇️,// downloadDoc);
   docButton.style().set(button_style);
   
   // set up url label
   var urlLabel = ui.Label('Click to download', 
-  {shown: false, position: 'top-center', height: '50px', width: '90%'});
+  {shown: false, position: 'top-center', height: '50px', width: '100px'});
   
   // combine components to export panel and add it to side bar
   var docPanel = ui.Panel([docButton, urlLabel], ui.Panel.Layout.flow('vertical'));
-  // docPanel.style().set({height: '40vh'});
+  docPanel.style().set({stretch: 'vertical'});
 
   function downloadDoc() {
     // get url link for user to download
