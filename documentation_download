@@ -173,7 +173,7 @@ function addWelcomePanel() {
   var heading_p2 = ui.Label('\n\n👋 Welcome!', hd_style);
   
   // Page 3
-  var instructionMessage_p3 = ui.Label('Download documentation for layer details:', msg_style);
+  var instructionMessage_p3 = ui.Label('You can download documentation below to view more layer details: ️️⬇', msg_style);
     
   instructionMessage_p3.style().set({fontSize: '13.5px'});
   
@@ -209,16 +209,21 @@ function addWelcomePanel() {
   
   // Documentation session
   // button to export, will fire download url when clicked
-  var docButton = ui.Button('Documentation ⬇️,// downloadDoc);
-  docButton.style().set(button_style);
+  var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/intraurban_layer_documentation");
+  var docButton = ui.Label({value: '📄️ Download Documentation', targetUrl: table.getDownloadURL()});
+  // downloadDoc);
+  docButton.style().set({
+    padding:'0% 25% 20% 25%',
+    position: 'top-center'
+  });
   
-  // set up url label
-  var urlLabel = ui.Label('Click to download', 
-  {shown: false, position: 'top-center', height: '50px', width: '100px'});
+  // // set up url label
+  // var urlLabel = ui.Label('Click to download', 
+  // {shown: false, position: 'top-center', height: '50px', width: '100px'});
   
-  // combine components to export panel and add it to side bar
-  var docPanel = ui.Panel([docButton, urlLabel], ui.Panel.Layout.flow('vertical'));
-  docPanel.style().set({stretch: 'vertical'});
+  // // combine components to export panel and add it to side bar
+  // var docPanel = ui.Panel([docButton, urlLabel], ui.Panel.Layout.flow('vertical'));
+  // docPanel.style().set({stretch: 'vertical'});
 
   function downloadDoc() {
     // get url link for user to download
@@ -230,7 +235,7 @@ function addWelcomePanel() {
   // construct pages
   var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
   var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, nextButton_p3]);
-  var instructionPanel_p3 = ui.Panel([heading_p3, instructionMessage_p3, docPanel, okButton]);
+  var instructionPanel_p3 = ui.Panel([heading_p3, instructionMessage_p3, docButton, okButton]);
 
   instructionPanel_p1.style().set(page_style);
   instructionPanel_p2.style().set(page_style);
