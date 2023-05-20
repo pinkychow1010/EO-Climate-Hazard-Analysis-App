@@ -173,9 +173,9 @@ function addWelcomePanel() {
   var heading_p2 = ui.Label('\n\n👋 Welcome!', hd_style);
   
   // Page 3
-  var instructionMessage_p3 = ui.Label('You can download documentation below to view more layer details: ⬇️', msg_style);
+  var instructionMessage_p3 = ui.Label('You can download documentation below\n to view more layer details: ⬇️', msg_style);
     
-  instructionMessage_p3.style().set({fontSize: '13.5px'});
+  instructionMessage_p3.style().set({fontSize: '13.5px',padding: '0px 50px 20px 50px'});
   
   var heading_p3 = ui.Label('\n\n👋 Welcome!', hd_style);
   
@@ -213,7 +213,7 @@ function addWelcomePanel() {
   var docButton = ui.Label({value: '📄️ Download Documentation', targetUrl: table.getDownloadURL()});
   // downloadDoc);
   docButton.style().set({
-    padding:'0% 25% 0% 25%',
+    padding:'0% 25% 15% 25%',
     position: 'top-center'
   });
   
