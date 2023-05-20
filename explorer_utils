@@ -401,58 +401,109 @@ function export_urban_density(aoi) {
 
 
 exports.addWelcomePanel = function addWelcomePanel() {
+  
+  // set style for elements
+  var msg_style = {
+    whiteSpace: 'pre', 
+    textAlign: 'center', 
+    padding: '0px 50px 50px 50px',
+    width: '500px',
+    color: 'grey',
+    fontSize: '15px'
+  };
+  
+  var hd_style = {
+      whiteSpace: 'pre', 
+      textAlign: 'center', 
+      padding: '50px 50px 0px 50px',
+      width: '500px',
+      fontSize: '26px', 
+      fontWeight:'bold'
+    };
+  
+  var button_style = {
+    padding:'0% 42.5% 20% 42.5%',
+    position: 'top-center'
+  };
+  
+  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  
+  // Page 1
   var instructionMessage = ui.Label(
   'To start download, select the dataset \nand your area of interest.\
   \nYou can download the layer in desired resolution.\n \
   Download documentation for more information\n on the data source and methodology.'
-  , {
-    whiteSpace: 'pre', 
-    textAlign: 'center', 
-    padding: '0px 50px 50px 50px',
-    width: '400px',
-    color: 'grey',
-    fontSize: '15px'
-  });
+  , msg_style);
     
-  var heading = ui.Label(
-    '\n\n\n👋 Welcome!'
-    , {
-      whiteSpace: 'pre', 
-      textAlign: 'center', 
-      padding: '50px 50px 0px 50px',
-      width: '400px'
-    });
+  var heading = ui.Label('\n\n\n👋 Welcome!', hd_style);
   
-  heading.style().set({fontSize: '26px', fontWeight:'bold'});
+  // Page 2
+  var instructionMessage_p2 = ui.Label(
+    'Check out all available datasets:\
+    \n\n🌾 Land Use Cover ➜ ESA World Cover 2020\
+    \n👥 Population Count ➜ Global Human Settlement Population Grid 2015\
+    \n🌃 Urban Density ➜ Urban ratio derived from World Cover\
+    \n🌞 Summer Day Temperature ➜ MODIS day Land Surface Temperature\
+    \n🌙 Summer Night Temperature ➜ MODIS night Land Surface Temperature'
+    , msg_style);
+    
+  instructionMessage_p2.style().set({fontSize: '13.5px'});
+  
+  var heading_p2 = ui.Label('\n\n👋 Welcome!', hd_style);
+  
+  // Page 3
+  var instructionMessage_p3 = ui.Label('You can download documentation below\n to view more layer details: ⬇️', msg_style);
+    
+  instructionMessage_p3.style().set({fontSize: '13.5px',padding: '0px 50px 20px 50px'});
+  
+  var heading_p3 = ui.Label('\n\n👋 Welcome!', hd_style);
   
   // Welcome panel first page
-  var nextButton = ui.Button('Next', next);
+  var nextButton = ui.Button('Next', p2);
+  nextButton.style().set(button_style);
   
-  nextButton.style().set({
-    padding:'0% 40% 20% 40%',
-    position: 'top-center'
-  });
-  
-  function next() {
-  instructionPanel_p1.style().set({shown: false});
+  function hide(widget) {
+    widget.style().set({shown: false});
   }
   
+  function p2() {
+    hide(instructionPanel_p1);
+    Map.add(instructionPanel_p2);
+  }
   
-  // Welcome panel end
+  // Welcome panel second page
+  var nextButton_p3 = ui.Button('Next', p3);
+  nextButton_p3.style().set(button_style);
+  
+  function p3() {
+    hide(instructionPanel_p2);
+    Map.add(instructionPanel_p3);
+  }
+  
+  // Welcome panel third page
   var okButton = ui.Button('Get Started', ok);
+  okButton.style().set(button_style);
   
-  okButton.style().set({
-    padding:'0% 40% 20% 40%',
+  function ok() {hide(instructionPanel_p3)}
+  
+  // Documentation session
+  // button to export, will fire download url when clicked
+  var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/intraurban_layer_documentation");
+  var docButton = ui.Label({value: '📄️ Download Documentation', targetUrl: table.getDownloadURL()});
+  // downloadDoc);
+  docButton.style().set({
+    padding:'0% 25% 15% 25%',
     position: 'top-center'
   });
-  
-  function ok() {
-   instructionPanel_p1.style().set({shown: false});
-  }
-  
-  var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
 
-  instructionPanel.style().set({border: '5px solid #c9c9c9', position: 'top-center'});
-  
-  Map.add(instructionPanel);
+  // construct pages
+  var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
+  var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, nextButton_p3]);
+  var instructionPanel_p3 = ui.Panel([heading_p3, instructionMessage_p3, docButton, okButton]);
+
+  instructionPanel_p1.style().set(page_style);
+  instructionPanel_p2.style().set(page_style);
+  instructionPanel_p3.style().set(page_style);
+
+  Map.add(instructionPanel_p1);
 };
