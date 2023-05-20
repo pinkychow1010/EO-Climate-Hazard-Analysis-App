@@ -45,29 +45,34 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
 
 var lst = ee.ImageCollection("MODIS/061/MOD11A2")
   .select("LST_Day_1km")
-  .filter(summerFilter);
+  // .filter(summerFilter);
   // .median()
   // .multiply(0.02)
   // .subtract(272.15)
   // .clip(geometry);
 
 // Use the start of the collection and now to bound the slider.
-var start = ee.ImageCollection("MODIS/061/MOD11A2")
-  .select("LST_Day_1km")
-  .first()
-  .date()
-  // .get('year')
-  .format();
+// var start = ee.ImageCollection("MODIS/061/MOD11A2")
+//   .select("LST_Day_1km")
+//   .first()
+//   .date()
+//   // .get('year')
+//   .format();
 
-var now = Date.now();
-var end = ee.Date(now).format();
+// var now = Date.now();
+// var end = ee.Date(now).format();
 
-print(start, end);
+// print(start, end);
+
+var start;
+var end;
 
 // Run this function on a change of the dateSlider.
 var update_start = function(date) {
-  console.log(date)
-  var start = date.getInfo().dates[0];
+
+  start = date.getInfo().dates[0];
+  console.log(start)
+  console.log(end)
   
   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
   var ds = lst.filterDate(start, end)
@@ -98,8 +103,12 @@ var update_start = function(date) {
 };
 
 var update_end = function(date) {
-  var end = date.getInfo().dates[0];
+  end = date.getInfo().dates[0];
   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+  
+  console.log(start)
+  console.log(end)
+  
   var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
@@ -135,27 +144,50 @@ var update_end = function(date) {
 // };
 
 // compute the date range and show the slider.
-var dateRange = ee.DateRange(start, end).evaluate(function(range) {
-  var dateSlider = ui.DateSlider({
-    start: '2000-01-01',//range['dates'][0],
-    end: '2023-01-01',//range['dates'][1],
-    value: null,
-    period: 1,
-    onChange: update_start
-  });
-  dateSlider.style().set({'width': '300px'});
-  Map.add(dateSlider.setValue('2022-12-01'));
-  
-  var dateSlider2 = ui.DateSlider({
-    start: '2000-01-01',//range['dates'][0],
-    end: '2023-01-01',//range['dates'][1],
-    value: null,
-    period: 1,
-    onChange: update_end
-  });
-  dateSlider.style().set({'width': '300px'});
-  Map.add(dateSlider2.setValue('2023-01-01'));
+
+var dateSlider = ui.DateSlider({
+  start: '2000-01-01',//range['dates'][0],
+  end: '2023-01-01',//range['dates'][1],
+  value: null,
+  period: 1,
+  onChange: update_start
 });
+
+dateSlider.style().set({'width': '300px'});
+Map.add(dateSlider.setValue('2022-12-01'));
+
+var dateSlider2 = ui.DateSlider({
+  start: '2000-01-01',//range['dates'][0],
+  end: '2023-01-01',//range['dates'][1],
+  value: null,
+  period: 1,
+  onChange: update_end
+});
+
+dateSlider.style().set({'width': '300px'});
+Map.add(dateSlider2.setValue('2023-01-01'));
+
+// var dateRange = ee.DateRange(start, end).evaluate(function(range) {
+//   var dateSlider = ui.DateSlider({
+//     start: '2000-01-01',//range['dates'][0],
+//     end: '2023-01-01',//range['dates'][1],
+//     value: null,
+//     period: 1,
+//     onChange: update_start
+//   });
+//   dateSlider.style().set({'width': '300px'});
+//   Map.add(dateSlider.setValue('2022-12-01'));
+  
+//   var dateSlider2 = ui.DateSlider({
+//     start: '2000-01-01',//range['dates'][0],
+//     end: '2023-01-01',//range['dates'][1],
+//     value: null,
+//     period: 1,
+//     onChange: update_end
+//   });
+//   dateSlider.style().set({'width': '300px'});
+//   Map.add(dateSlider2.setValue('2023-01-01'));
+// });
 
 Map.centerObject(geometry);
 
