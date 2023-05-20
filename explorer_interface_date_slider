@@ -61,8 +61,8 @@ var res_dict = data.resolution_dict;
  * @return Actions depends on functions from explorer_utils
  *
  */
-exports.data_explorer = function data_download_app(title_name) { //(reducer, title_name) {
-  
+// exports.data_explorer = function data_download_app(title_name) { //(reducer, title_name) {
+function data_download_app(title_name) {  
   // default values for variables
   // if (reducer === undefined || reducer === null){var reducer = ee.Reducer.mean()} // method to resample raster output
   if (title_name === undefined || title_name === null){var title_name = "EO Data Explorer"} // headings
@@ -397,4 +397,4 @@ function reset(){
 var utils = require('users/pinkychow1010/WB_IntraUrban:explorer_utils');
 
 // set up app
-data_explorer("Geospatial Data Explorer");
+data_download_app("Geospatial Data Explorer");
