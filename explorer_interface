@@ -150,7 +150,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     }).setDisabled(true);
     
   var admin1Select = ui.Select({
-      placeholder: 'Select a country first',
+      placeholder: 'Select country first',
     }).setDisabled(true);
     
   var admin2Select = ui.Select({
