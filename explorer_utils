@@ -17,29 +17,29 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 // dictionary for filename definitions
 exports.filename_dict = {
-  '🌾Land Use Cover': 'ESA-WorldCover-2020',
-  '👥Population Count': 'Population-GPW-2015',
-  '🌃Urban Density': 'ESA-WorldCover-derived-urban-density',
-  '🌞Summer Day Temperature': 'MODIS-LST-day',
-  '🌙Summer Night Temperature': 'MODIS-LST-night'
+  'Land Use Cover': 'ESA-WorldCover-2020',
+  'Population Count': 'Population-GPW-2015',
+  'Urban Density': 'ESA-WorldCover-derived-urban-density',
+  'Summer Day Temperature': 'MODIS-LST-day',
+  'Summer Night Temperature': 'MODIS-LST-night'
 };
 
 // dictionary for resampling algorithms
 exports.reducer_dict = {
-  '🌾Land Use Cover': ee.Reducer.mode(), // retain discrete class
-  '👥Population Count': ee.Reducer.sum(), // population count per pixel
-  '🌃Urban Density': ee.Reducer.mean(), // ratio
-  '🌞Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
-  '🌙Summer Night Temperature': ee.Reducer.median() // median to prevent influence from outliners
+  'Land Use Cover': ee.Reducer.mode(), // retain discrete class
+  'Population Count': ee.Reducer.sum(), // population count per pixel
+  'Urban Density': ee.Reducer.mean(), // ratio
+  'Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
+  'Summer Night Temperature': ee.Reducer.median() // median to prevent influence from outliners
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
 exports.layer_dict = {
-  '🌾Land Use Cover': export_landuse,
-  '👥Population Count': export_population,
-  '🌃Urban Density': export_urban_density,
-  '🌞Summer Day Temperature': export_summer_lst,
-  '🌙Summer Night Temperature': export_summer_lst_night
+  'Land Use Cover': export_landuse,
+  'Population Count': export_population,
+  'Urban Density': export_urban_density,
+  'Summer Day Temperature': export_summer_lst,
+  'Summer Night Temperature': export_summer_lst_night
 };
 
 // define function for Summer Temperature
@@ -424,7 +424,21 @@ exports.addWelcomePanel = function addWelcomePanel() {
     });
   
   heading.style().set({fontSize: '26px', fontWeight:'bold'});
-
+  
+  // Welcome panel first page
+  var nextButton = ui.Button('Next', next);
+  
+  nextButton.style().set({
+    padding:'0% 40% 20% 40%',
+    position: 'top-center'
+  });
+  
+  function next() {
+  instructionPanel_p1.style().set({shown: false});
+  }
+  
+  
+  // Welcome panel end
   var okButton = ui.Button('Get Started', ok);
   
   okButton.style().set({
@@ -433,7 +447,7 @@ exports.addWelcomePanel = function addWelcomePanel() {
   });
   
   function ok() {
-   instructionPanel.style().set({shown: false});
+   instructionPanel_p1.style().set({shown: false});
   }
   
   var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
