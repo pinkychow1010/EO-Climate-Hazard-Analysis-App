@@ -17,7 +17,7 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 // dictionary for filename definitions
 exports.filename_dict = {
-  'World Cover': 'ESA-WorldCover-2020',
+  'Land Use Cover': 'ESA-WorldCover-2020',
   'Population': 'Population-GPW-2015',
   'Urban Density': 'ESA-WorldCover-derived-urban-density',
   'Summer Day Temperature': 'MODIS-LST-day',
@@ -26,7 +26,7 @@ exports.filename_dict = {
 
 // dictionary for resampling algorithms
 exports.reducer_dict = {
-  'World Cover': ee.Reducer.mode(), // retain discrete class
+  'Land Use Cover': ee.Reducer.mode(), // retain discrete class
   'Population': ee.Reducer.sum(), // population count per pixel
   'Urban Density': ee.Reducer.mean(), // ratio
   'Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
@@ -35,7 +35,7 @@ exports.reducer_dict = {
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
 exports.layer_dict = {
-  'World Cover': export_landuse,
+  'Land Use Cover': export_landuse,
   'Population': export_population,
   'Urban Density': export_urban_density,
   'Summer Day Temperature': export_summer_lst,
