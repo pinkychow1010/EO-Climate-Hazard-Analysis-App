@@ -106,6 +106,6 @@ var dateRange = ee.DateRange(start, end).evaluate(function(range) {
     onChange: update_end
   });
   dateSlider.style().set({'width': '500px'});
-  Map.add(dateSlider.setValue('2023-01-01'));
+  Map.add(dateSlider2.setValue('2023-01-01'));
 });
 
