@@ -17,6 +17,14 @@ including to do list.
 
 (planned)
 
+- add relative wealth index to downloader
+
+- national zonal statistics with adm 2 polygons (building an interface)
+
+- area of agricultural lands (downloader)
+
+- area of built-up (downloader)
+
 - add cloud masking steps for MODIS LST analysis 
 
 - NDVI - LST comparison
