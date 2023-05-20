@@ -145,7 +145,7 @@ function addWelcomePanel() {
     });
     
   var instructionMessage_p2 = ui.Label(
-    'Check out the available data layers:\
+    'Check out all available datasets:\
     \n\n🌾 Land Use Cover ➜ ESA World Cover 2020\
     \n👥 Population Count ➜ Global Human Settlement Population Grid 2015\
     \n🌃 Urban Density ➜ Urban ratio derived from World Cover\
