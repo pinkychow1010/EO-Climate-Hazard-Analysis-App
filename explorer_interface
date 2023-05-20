@@ -26,6 +26,8 @@ var reducer_opt = data.reducer_dict;
 // file name dict adopted to data layers
 var fname_dict = data.filename_dict;
 
+// file name dict adopted to data layers
+var res_dict = data.resolution_dict;
 
 /**
  * Data explorer: an interactive dashboard to display spatial data layers for downloads.
@@ -75,11 +77,15 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   var filtered; // aoi
   var reducer; // resampling algorithms for raster layers
   var fname; // file name for export
+  var default_res;
   
   reset(); // reset app display
   
   // action on changing data layers by user from the drop-down menu
   function changeLayers(layerKey) {
+    
+    // check default resolution
+    default_res = res_dict[layerKey];
     
     // check resample algorithms. if unprovided, take mean.
     try {
