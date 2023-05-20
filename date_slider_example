@@ -39,8 +39,13 @@ var lst = ee.ImageCollection("MODIS/061/MOD11A2")//ee.ImageCollection("MODIS/061
   .clip(geometry);
 
 // Use the start of the collection and now to bound the slider.
-var start = ee.Image(ee.ImageCollection("MODIS/061/MOD11A2")
-  .select("LST_Day_1km").first()).date().get('year').format();
+var start = ee.ImageCollection("MODIS/061/MOD11A2")
+  .select("LST_Day_1km")
+  .first()
+  .date()
+  .get('year')
+  .format();
+
 var now = Date.now();
 var end = ee.Date(now).format();
 
