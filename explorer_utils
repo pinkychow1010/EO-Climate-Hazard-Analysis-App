@@ -431,7 +431,8 @@ exports.addWelcomePanel = function addWelcomePanel() {
   // Page 1
   var instructionMessage = ui.Label(
   'To start download, select the dataset \nand your area of interest (ADMIN Level 2).\
-  \nYou can download the layer in desired resolution.'
+  \nYou can download the layer in desired resolution. \n \
+  As data is computed on-the-fly, \nloading might take a while.'
   , msg_style);
     
   var heading = ui.Label('\n\n\n👋 Welcome!', hd_style);
