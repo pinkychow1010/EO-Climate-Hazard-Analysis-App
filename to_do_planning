@@ -17,7 +17,8 @@ including to do list.
 
 (planned)
 
-- <priority> integrate IDAHO_EPSCOR/TERRACLIMATE pdsi (average days / year in water stress) </priority>
+- <priority> integrate IDAHO_EPSCOR/TERRACLIMATE pdsi (average days / year in water stress) </priority> 
+https://climatedataguide.ucar.edu/climate-data/palmer-drought-severity-index-pdsi
 
 - <priority> add relative wealth index to downloader </priority>
 
