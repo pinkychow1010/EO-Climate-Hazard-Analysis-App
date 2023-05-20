@@ -173,14 +173,7 @@ function addWelcomePanel() {
   var heading_p2 = ui.Label('\n\n👋 Welcome!', hd_style);
   
   // Page 3
-  var instructionMessage_p3 = ui.Label(
-    'Check out all available datasets:\
-    \n\n🌾 Land Use Cover ➜ ESA World Cover 2020\
-    \n👥 Population Count ➜ Global Human Settlement Population Grid 2015\
-    \n🌃 Urban Density ➜ Urban ratio derived from World Cover\
-    \n🌞 Summer Day Temperature ➜ MODIS day Land Surface Temperature\
-    \n🌙 Summer Night Temperature ➜ MODIS night Land Surface Temperature'
-    , msg_style);
+  var instructionMessage_p3 = ui.Label('Download documentation for layer details:', msg_style);
     
   instructionMessage_p3.style().set({fontSize: '13.5px'});
   
@@ -214,9 +207,30 @@ function addWelcomePanel() {
   
   function ok() {hide(instructionPanel_p3)}
   
+  // Documentation session
+  // button to export, will fire download url when clicked
+  var docButton = ui.Button('Documentation ⬇️ ', downloadDoc);
+  docButton.style().set(button_style);
+  
+  // set up url label
+  var urlLabel = ui.Label('Click to download', 
+  {shown: false, position: 'top-center', height: '50px', width: '90%'});
+  
+  // combine components to export panel and add it to side bar
+  var docPanel = ui.Panel([docButton, urlLabel]);
+  docPanel.style().set({position: 'top-center', height: '100px'});
+
+  function downloadDoc() {
+    // get url link for user to download
+    var url = table.getDownloadURL();
+    urlLabel.setUrl(url);
+    urlLabel.style().set({shown: true}); // display link
+  }
+  
+  // construct pages
   var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
   var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, nextButton_p3]);
-  var instructionPanel_p3 = ui.Panel([heading_p3, instructionMessage_p3, okButton]);
+  var instructionPanel_p3 = ui.Panel([heading_p3, instructionMessage_p3, docPanel, okButton]);
 
   instructionPanel_p1.style().set(page_style);
   instructionPanel_p2.style().set(page_style);
@@ -226,4 +240,3 @@ function addWelcomePanel() {
 }
 
 addWelcomePanel();
-
