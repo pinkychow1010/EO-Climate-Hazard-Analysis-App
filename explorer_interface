@@ -345,17 +345,17 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     style: style.res_slider
   });
   
-  //###
-  
+  // depends on datasets, reset output resolution to default value
   var res_button = ui.Button("Default resolution", get_default_res);
-  res_button.style().set({'border': '2px solid orange'});
+  res_button.style().set({
+    'color': 'gray',
+    'border': '1.5px solid orange'
+  });
   res_button.style().set(style.dark_theme);
   
   function get_default_res() {
     res_selector.setValue(default_res);
   }
-  
-  //###
   
   // button to export, will fire download url when clicked
   var downloadButton = ui.Button('Export Raster', downloadImg);
