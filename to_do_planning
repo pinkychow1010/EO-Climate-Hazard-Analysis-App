@@ -17,10 +17,6 @@ including to do list.
 
 (planned)
 
-- add checkbox in data layer to allow direct download using original resolution
-
-- display default resolution for data layers
-
 - add cloud masking steps for MODIS LST analysis 
 
 - NDVI - LST comparison
@@ -56,6 +52,8 @@ what data sources are used? and so on.
 - Future: air pollution S5, flooding S1 ...
 
 (completed)
+
+- <del> display default resolution for data layers </del>
 
 - <del> Welcome panel for instruction and documentation download. </del>
 
