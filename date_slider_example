@@ -51,8 +51,8 @@ var end = ee.Date(now).format();
 var update_start = function(range) {
   range.evaluate(function(range) {
         
-    console.log(start)
-    console.log(end)
+    console.log(start.format(null, 'GMT'))
+    console.log(end.format(null, 'GMT'))
     
     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
     var start = range['dates'][0];
@@ -70,8 +70,8 @@ var update_start = function(range) {
 var update_end = function(range) {
   range.evaluate(function(range) {
     
-    console.log(start)
-    console.log(end)
+    console.log(start.format(null, 'GMT'))
+    console.log(end.format(null, 'GMT'))
     
     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
     var end = range['dates'][0];
