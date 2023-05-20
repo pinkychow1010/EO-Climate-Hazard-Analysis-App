@@ -95,8 +95,8 @@ var dateRange = ee.DateRange(start, end).evaluate(function(range) {
     period: 1,
     onChange: update_start
   });
-  dateSlider.style().set({'width': '500px'});
-  Map.add(dateSlider.setValue('2023-01-01'));
+  dateSlider.style().set({'width': '300px'});
+  Map.add(dateSlider.setValue('2022-12-01'));
   
   var dateSlider2 = ui.DateSlider({
     start: '2000-01-01',//range['dates'][0],
@@ -105,7 +105,9 @@ var dateRange = ee.DateRange(start, end).evaluate(function(range) {
     period: 1,
     onChange: update_end
   });
-  dateSlider.style().set({'width': '500px'});
+  dateSlider.style().set({'width': '300px'});
   Map.add(dateSlider2.setValue('2023-01-01'));
 });
+
+Map.centerObject(geometry);
 
