@@ -122,27 +122,37 @@ var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/intraurban_la
 
 
 function addWelcomePanel() {
-  var instructionMessage = ui.Label(
-  'To start download, select the dataset \nand your area of interest.\
-  \nYou can download the layer in desired resolution.\n \
-  Download documentation for more information\n on the data source and methodology.'
-  , {
+  
+  var msg_style = {
     whiteSpace: 'pre', 
     textAlign: 'center', 
     padding: '0px 50px 50px 50px',
     width: '500px',
     color: 'grey',
     fontSize: '15px'
-  });
-    
-  var heading = ui.Label(
-    '\n\n\n👋 Welcome!'
-    , {
+  };
+  
+  var hd_style = {
       whiteSpace: 'pre', 
       textAlign: 'center', 
       padding: '50px 50px 0px 50px',
-      width: '500px'
-    });
+      width: '500px',
+      fontSize: '26px', 
+      fontWeight:'bold'
+    };
+  
+  var button_style = {
+    padding:'0% 42.5% 20% 42.5%',
+    position: 'top-center'
+  };
+  
+  var instructionMessage = ui.Label(
+  'To start download, select the dataset \nand your area of interest.\
+  \nYou can download the layer in desired resolution.\n \
+  Download documentation for more information\n on the data source and methodology.'
+  , msg_style);
+    
+  var heading = ui.Label('\n\n\n👋 Welcome!', hd_style);
     
   var instructionMessage_p2 = ui.Label(
     'Check out all available datasets:\
@@ -151,48 +161,24 @@ function addWelcomePanel() {
     \n🌃 Urban Density ➜ Urban ratio derived from World Cover\
     \n🌞 Summer Day Temperature ➜ MODIS day Land Surface Temperature\
     \n🌙 Summer Night Temperature ➜ MODIS night Land Surface Temperature'
-    , {
-      whiteSpace: 'pre', 
-      textAlign: 'center', 
-      padding: '0px 50px 50px 50px',
-      width: '500px',
-      color: 'grey',
-      fontSize: '13.5px'
-    });
-      
-  var heading_p2 = ui.Label(
-    '\n\n👋 Welcome!'
-    , {
-      whiteSpace: 'pre', 
-      textAlign: 'center', 
-      padding: '50px 50px 0px 50px',
-      width: '500px'
-    });
+    , msg_style);
+    
+  instructionMessage_p2.style().set({fontSize: '13.5px'});
   
-  heading.style().set({fontSize: '26px', fontWeight:'bold'});
-  heading_p2.style().set({fontSize: '26px', fontWeight:'bold'});
+  var heading_p2 = ui.Label('\n\n👋 Welcome!', hd_style);
   
   // Welcome panel first page
   var nextButton = ui.Button('Next', next);
-  
-  nextButton.style().set({
-    padding:'0% 42.5% 20% 42.5%',
-    position: 'top-center'
-  });
+  nextButton.style().set(button_style);
   
   function next() {
     instructionPanel_p1.style().set({shown: false});
     Map.add(instructionPanel_p2);
   }
   
-  
   // Welcome panel end
   var okButton = ui.Button('Get Started', ok);
-  
-  okButton.style().set({
-    padding:'0% 42.5% 20% 42.5%',
-    position: 'top-center'
-  });
+  okButton.style().set(button_style);
   
   function ok() {
    instructionPanel_p2.style().set({shown: false});
