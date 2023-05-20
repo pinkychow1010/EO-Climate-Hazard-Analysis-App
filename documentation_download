@@ -123,6 +123,7 @@ var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/intraurban_la
 
 function addWelcomePanel() {
   
+  // set style for elements
   var msg_style = {
     whiteSpace: 'pre', 
     textAlign: 'center', 
@@ -148,6 +149,7 @@ function addWelcomePanel() {
   
   var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
   
+  // Page 1
   var instructionMessage = ui.Label(
   'To start download, select the dataset \nand your area of interest.\
   \nYou can download the layer in desired resolution.\n \
@@ -155,7 +157,8 @@ function addWelcomePanel() {
   , msg_style);
     
   var heading = ui.Label('\n\n\n👋 Welcome!', hd_style);
-    
+  
+  // Page 2
   var instructionMessage_p2 = ui.Label(
     'Check out all available datasets:\
     \n\n🌾 Land Use Cover ➜ ESA World Cover 2020\
@@ -169,27 +172,51 @@ function addWelcomePanel() {
   
   var heading_p2 = ui.Label('\n\n👋 Welcome!', hd_style);
   
+  // Page 3
+  var instructionMessage_p3 = ui.Label(
+    'Check out all available datasets:\
+    \n\n🌾 Land Use Cover ➜ ESA World Cover 2020\
+    \n👥 Population Count ➜ Global Human Settlement Population Grid 2015\
+    \n🌃 Urban Density ➜ Urban ratio derived from World Cover\
+    \n🌞 Summer Day Temperature ➜ MODIS day Land Surface Temperature\
+    \n🌙 Summer Night Temperature ➜ MODIS night Land Surface Temperature'
+    , msg_style);
+    
+  instructionMessage_p3.style().set({fontSize: '13.5px'});
+  
+  var heading_p3 = ui.Label('\n\n👋 Welcome!', hd_style);
+  
   // Welcome panel first page
-  var nextButton = ui.Button('Next', next);
+  var nextButton = ui.Button('Next', p2);
   nextButton.style().set(button_style);
   
   function hide(widget) {
     widget.style().set({shown: false});
   }
   
-  function next() {
+  function p2() {
     hide(instructionPanel_p1);
     Map.add(instructionPanel_p2);
   }
   
-  // Welcome panel end
+  // Welcome panel second page
+  var nextButton_p3 = ui.Button('Next', p3);
+  nextButton_p3.style().set(button_style);
+  
+  function p3() {
+    hide(instructionPanel_p2);
+    Map.add(instructionPanel_p3);
+  }
+  
+  // Welcome panel third page
   var okButton = ui.Button('Get Started', ok);
   okButton.style().set(button_style);
   
   function ok() {hide(instructionPanel_p2)}
   
   var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
-  var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, okButton]);
+  var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, nextButton_p3]);
+  var instructionPanel_p3  ui.Panel([heading_p3, instructionMessage_p3, okButton]);
 
   instructionPanel_p1.style().set(page_style);
   instructionPanel_p2.style().set(page_style);
