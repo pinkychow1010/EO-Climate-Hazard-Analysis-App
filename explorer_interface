@@ -349,7 +349,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   
   var res_button = ui.Button("Set to original resolution", get_default_res);
   res_button.style().set({'border': '1px solid orange'});
-  res_button.style().set(style.darktheme);
+  res_button.style().set(style.dark_theme);
   
   function get_default_res() {
     res_selector.setValue(default_res);
