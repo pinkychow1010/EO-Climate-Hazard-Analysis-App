@@ -260,7 +260,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   admin0Names.evaluate(function(items){
     admin0Select.items().reset(items);
     admin0Select.setDisabled(false); // enable menu
-    admin0Select.setPlaceholder('Select a country for analysis'); // Change placeholder
+    admin0Select.setPlaceholder('Select country'); // Change placeholder
   });
   
   // Resample Data to resolution defined by user
