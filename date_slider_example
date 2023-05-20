@@ -41,24 +41,24 @@ var start = ee.ImageCollection("MODIS/061/MOD11A2")
   .select("LST_Day_1km")
   .first()
   .date()
-  .get('year')
+  // .get('year')
   .format();
 
-// var now = Date.now();
-// var end = ee.Date(now).format();
+var now = Date.now();
+var end = ee.Date(now).format();
 
-var start = ee.Date('2022-12-01');
-var end = ee.Date('2023-01-01');
+// var start = ee.Date('2022-12-01');
+// var end = ee.Date('2023-01-01');
 
 // Run this function on a change of the dateSlider.
 var update_start = function(range) {
   range.evaluate(function(range) {
         
-    console.log(start.format(null, 'GMT'))
-    console.log(end.format(null, 'GMT'))
+    console.log(start)
+    console.log(end)
     
     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-    var start = range['dates'][0];
+    start = range['dates'][0];
     var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
@@ -73,11 +73,11 @@ var update_start = function(range) {
 var update_end = function(range) {
   range.evaluate(function(range) {
     
-    console.log(start.format(null, 'GMT'))
-    console.log(end.format(null, 'GMT'))
+    console.log(start)
+    console.log(end)
     
     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-    var end = range['dates'][0];
+    end = range['dates'][0];
     var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
