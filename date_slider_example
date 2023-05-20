@@ -69,12 +69,14 @@ var end;
 
 // Run this function on a change of the dateSlider.
 var update_start = function(date) {
-
+  // end = dateSlider2.getValue();
   start = date.getInfo().dates[0];
   console.log(start)
   console.log(end)
   
   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+  
+  console.log(lst.filterDate(start, end))
   var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
@@ -103,6 +105,7 @@ var update_start = function(date) {
 };
 
 var update_end = function(date) {
+  // start = dateSlider.getValue().dates[0];
   end = date.getInfo().dates[0];
   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
   
