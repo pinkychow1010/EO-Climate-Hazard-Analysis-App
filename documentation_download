@@ -146,6 +146,8 @@ function addWelcomePanel() {
     position: 'top-center'
   };
   
+  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  
   var instructionMessage = ui.Label(
   'To start download, select the dataset \nand your area of interest.\
   \nYou can download the layer in desired resolution.\n \
@@ -185,11 +187,10 @@ function addWelcomePanel() {
   }
   
   var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
-  
   var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, okButton]);
 
-  instructionPanel_p1.style().set({border: '5px solid #c9c9c9', position: 'top-center'});
-  instructionPanel_p2.style().set({border: '5px solid #c9c9c9', position: 'top-center'});
+  instructionPanel_p1.style().set(page_style);
+  instructionPanel_p2.style().set(page_style);
 
   Map.add(instructionPanel_p1);
 }
