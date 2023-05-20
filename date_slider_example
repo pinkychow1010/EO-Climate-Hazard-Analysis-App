@@ -28,10 +28,8 @@ var shift = south.multiply(6).getInfo();
 
 var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
 
-var lst = ee.ImageCollection("MODIS/061/MOD11A2")//ee.ImageCollection("MODIS/061/MOD11A1")
-  //.map(maskClouds)
+var lst = ee.ImageCollection("MODIS/061/MOD11A2")
   .select("LST_Day_1km")
-  // .filter(yearFilter)
   .filter(summerFilter)
   .median()
   .multiply(0.02)
