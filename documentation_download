@@ -216,22 +216,7 @@ function addWelcomePanel() {
     padding:'0% 25% 15% 25%',
     position: 'top-center'
   });
-  
-  // // set up url label
-  // var urlLabel = ui.Label('Click to download', 
-  // {shown: false, position: 'top-center', height: '50px', width: '100px'});
-  
-  // // combine components to export panel and add it to side bar
-  // var docPanel = ui.Panel([docButton, urlLabel], ui.Panel.Layout.flow('vertical'));
-  // docPanel.style().set({stretch: 'vertical'});
 
-  function downloadDoc() {
-    // get url link for user to download
-    var url = table.getDownloadURL();
-    urlLabel.setUrl(url);
-    urlLabel.style().set({shown: true}); // display link
-  }
-  
   // construct pages
   var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
   var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, nextButton_p3]);
