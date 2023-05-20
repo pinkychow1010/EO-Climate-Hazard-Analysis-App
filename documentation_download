@@ -146,18 +146,18 @@ function addWelcomePanel() {
     
   var instructionMessage_p2 = ui.Label(
     'Check out the available data layers:\
-    \n\n🌾 Land Use Cover: ESA World Cover 2020\
-    \n👥 Population Count: Global Human Settlement Population Grid 2015\
-    \n🌃 Urban Density: Urban ratio derived from World Cover\
-    \n🌞 Summer Day Temperature: MODIS day Land Surface Temperature\
-    \n🌙 Summer Night Temperature: MODIS night Land Surface Temperature'
+    \n\n🌾 Land Use Cover ➜ ESA World Cover 2020\
+    \n👥 Population Count ➜ Global Human Settlement Population Grid 2015\
+    \n🌃 Urban Density ➜ Urban ratio derived from World Cover\
+    \n🌞 Summer Day Temperature ➜ MODIS day Land Surface Temperature\
+    \n🌙 Summer Night Temperature ➜ MODIS night Land Surface Temperature'
     , {
       whiteSpace: 'pre', 
       textAlign: 'center', 
       padding: '0px 50px 50px 50px',
       width: '500px',
       color: 'grey',
-      fontSize: '14px'
+      fontSize: '13.5px'
     });
       
   var heading_p2 = ui.Label(
