@@ -26,6 +26,8 @@ https://climatedataguide.ucar.edu/climate-data/palmer-drought-severity-index-pds
 
 - <priority> historical heatwave events / agricultural stress </priority>
 
+- <priority> date slider for (summer) average temperature </priority>
+
 - area of agricultural lands (downloader)
 
 - area of built-up (downloader)
