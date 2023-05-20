@@ -19,7 +19,7 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 exports.resolution_dict = {
   'Land Use Cover': 10,
   'Population Count': 38,
-  'Urban Density': 5000,
+  'Urban Density': 2000,
   'Summer Day Temperature': 1000,
   'Summer Night Temperature': 1000
 };
