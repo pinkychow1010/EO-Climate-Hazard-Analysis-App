@@ -217,8 +217,8 @@ function addWelcomePanel() {
   {shown: false, position: 'top-center', height: '50px', width: '90%'});
   
   // combine components to export panel and add it to side bar
-  var docPanel = ui.Panel([docButton, urlLabel]);
-  docPanel.style().set({position: 'top-center', height: '100px'});
+  var docPanel = ui.Panel([docButton, urlLabel], ui.Panel.Layout.flow('vertical'));
+  // docPanel.style().set({height: '40vh'});
 
   function downloadDoc() {
     // get url link for user to download
