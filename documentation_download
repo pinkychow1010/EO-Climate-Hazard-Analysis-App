@@ -173,8 +173,12 @@ function addWelcomePanel() {
   var nextButton = ui.Button('Next', next);
   nextButton.style().set(button_style);
   
+  function hide(widget) {
+    widget.style().set({shown: false});
+  }
+  
   function next() {
-    instructionPanel_p1.style().set({shown: false});
+    hide(instructionPanel_p1);
     Map.add(instructionPanel_p2);
   }
   
@@ -182,9 +186,7 @@ function addWelcomePanel() {
   var okButton = ui.Button('Get Started', ok);
   okButton.style().set(button_style);
   
-  function ok() {
-   instructionPanel_p2.style().set({shown: false});
-  }
+  function ok() {hide(instructionPanel_p2)}
   
   var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
   var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, okButton]);
