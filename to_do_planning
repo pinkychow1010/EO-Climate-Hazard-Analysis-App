@@ -17,17 +17,19 @@ including to do list.
 
 (planned)
 
-- add relative wealth index to downloader
+- <priority> integrate IDAHO_EPSCOR/TERRACLIMATE pdsi (average days / year in water stress) </priority>
 
-- national zonal statistics with adm 2 polygons (building an interface) (different layer overlay?)
+- <priority> add relative wealth index to downloader </priority>
+
+- <priority> national zonal statistics with adm 2 polygons (building an interface) (different layer overlay?) </priority>
+
+- <priority> historical heatwave events / agricultural stress </priority>
 
 - area of agricultural lands (downloader)
 
 - area of built-up (downloader)
 
 - var : var scatter plot?
-
-- historical heatwave events / agricultural stress
 
 - add cloud masking steps for MODIS LST analysis 
 
