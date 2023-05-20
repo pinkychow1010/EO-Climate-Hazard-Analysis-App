@@ -1,0 +1,68 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.60664062499998, 25.745178320542273],
+          [66.60664062499998, 24.151463374228385],
+          [68.36445312499998, 24.151463374228385],
+          [68.36445312499998, 25.745178320542273]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// return the list of coordinates
+var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
+
+// get the Y-coordinates
+var yCoords = listCoords.slice(1, 1, 2)
+
+// reduce the arrays
+var yMin = yCoords.reduce('min', [0]).get([0,0])
+var yMax = yCoords.reduce('max', [0]).get([0,0])
+
+var south = yMin.add(yMax).divide(2).lt(0);
+var shift = south.multiply(6).getInfo();
+
+var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+
+var lst = ee.ImageCollection("MODIS/061/MOD11A2")//ee.ImageCollection("MODIS/061/MOD11A1")
+  //.map(maskClouds)
+  .select("LST_Day_1km")
+  // .filter(yearFilter)
+  .filter(summerFilter)
+  .median()
+  .multiply(0.02)
+  .subtract(272.15)
+  .clip(geometry);
+
+// Use the start of the collection and now to bound the slider.
+var start = ee.Image(ee.ImageCollection("MODIS/061/MOD11A2")
+  .select("LST_Day_1km").first()).date().get('year').format();
+var now = Date.now();
+var end = ee.Date(now).format();
+
+// Run this function on a change of the dateSlider.
+var update = function(range) {
+  range.start().get('year').evaluate(function(name) {
+    var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+    var layer = ui.Map.Layer(lst, visParams, name + ' LST');
+    Map.layers().set(0, layer);
+  });
+};
+
+// compute the date range and show the slider.
+var dateRange = ee.DateRange(start, end).evaluate(function(range) {
+  var dateSlider = ui.DateSlider({
+    start: range['dates'][0],
+    end: range['dates'][1],
+    value: null,
+    period: 365,
+    onChange: update
+  });
+  dateSlider.style().set({'width': '500px'});
+  Map.add(dateSlider.setValue(now));
+});
+
