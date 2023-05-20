@@ -115,7 +115,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
   
   // drop-down menu to select data layer
   var ds_selector = ui.Select({
-    placeholder: 'Select a data layer',
+    placeholder: 'Select data layer',
     items: Object.keys(action_calls), // functions from explorer_utils
     onChange: changeLayers // call export functions
   });
