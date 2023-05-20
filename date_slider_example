@@ -65,15 +65,12 @@ var end = ee.Date(now).format();
 print(start, end);
 
 // Run this function on a change of the dateSlider.
-var update_start = function(range) {
-  range.evaluate(function(range) {
-    var start = range['dates'][0];
-    console.log(start)
-    console.log(end)
-    
-    var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-    // var start = range['dates'][0];
-    var ds = lst.filterDate(start, end)
+var update_start = function(date) {
+  console.log(date)
+  var start = date.getInfo().dates[0];
+  
+  var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+  var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
     .subtract(272.15)
@@ -81,26 +78,52 @@ var update_start = function(range) {
     
     var layer = ui.Map.Layer(ds, visParams, 'LST');
     Map.layers().set(0, layer);
-  });
+  
+  // range.evaluate(function(range) {
+  //   var start = range['dates'][0];
+  //   console.log(start)
+  //   console.log(end)
+    
+  //   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+  //   // var start = range['dates'][0];
+  //   var ds = lst.filterDate(start, end)
+  //   .median()
+  //   .multiply(0.02)
+  //   .subtract(272.15)
+  //   .clip(geometry);
+    
+  //   var layer = ui.Map.Layer(ds, visParams, 'LST');
+  //   Map.layers().set(0, layer);
+  // });
 };
 
-var update_end = function(range) {
-  range.evaluate(function(range) {
-    var end = range['dates'][0];
-    console.log(start)
-    console.log(end)
-    
-    var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-    // var end = range['dates'][0];
-    var ds = lst.filterDate(start, end)
+var update_end = function(date) {
+  var end = date.getInfo().dates[0];
+  var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+  var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
     .subtract(272.15)
     .clip(geometry);
     
-    var layer = ui.Map.Layer(ds, visParams, 'LST');
-    Map.layers().set(0, layer);
-  });
+  var layer = ui.Map.Layer(ds, visParams, 'LST');
+  Map.layers().set(0, layer);
+  // range.evaluate(function(range) {
+  //   var end = range['dates'][0];
+  //   console.log(start)
+  //   console.log(end)
+    
+  //   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+  //   // var end = range['dates'][0];
+  //   var ds = lst.filterDate(start, end)
+  //   .median()
+  //   .multiply(0.02)
+  //   .subtract(272.15)
+  //   .clip(geometry);
+    
+  //   var layer = ui.Map.Layer(ds, visParams, 'LST');
+  //   Map.layers().set(0, layer);
+  // });
 };
 
 // var update = function(range) {
