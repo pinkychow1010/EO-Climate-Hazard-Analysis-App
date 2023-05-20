@@ -53,7 +53,8 @@ var end = ee.Date(now).format();
 // Run this function on a change of the dateSlider.
 var update_start = function(range) {
   range.evaluate(function(range) {
-        
+    
+    console.log("update_start")
     console.log(start)
     console.log(end)
     
@@ -73,11 +74,13 @@ var update_start = function(range) {
 var update_end = function(range) {
   range.evaluate(function(range) {
     
+    end = range['dates'][0];
+    
+    console.log("update_end")
     console.log(start)
     console.log(end)
     
     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-    end = range['dates'][0];
     var ds = lst.filterDate(start, end)
     .median()
     .multiply(0.02)
