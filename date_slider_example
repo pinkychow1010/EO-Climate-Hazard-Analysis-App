@@ -30,11 +30,11 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
 
 var lst = ee.ImageCollection("MODIS/061/MOD11A2")
   .select("LST_Day_1km")
-  .filter(summerFilter)
-  .median()
-  .multiply(0.02)
-  .subtract(272.15)
-  .clip(geometry);
+  .filter(summerFilter);
+  // .median()
+  // .multiply(0.02)
+  // .subtract(272.15)
+  // .clip(geometry);
 
 // Use the start of the collection and now to bound the slider.
 var start = ee.ImageCollection("MODIS/061/MOD11A2")
@@ -49,12 +49,27 @@ var end = ee.Date(now).format();
 
 // Run this function on a change of the dateSlider.
 var update = function(range) {
-  range.start().get('year').evaluate(function(name) {
+  range.evaluate(function(range) {
     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-    var layer = ui.Map.Layer(lst, visParams, name + ' LST');
+    var start = range.dates[0];
+    var ds = lst.filterDate(start, end)
+    .median()
+    .multiply(0.02)
+    .subtract(272.15)
+    .clip(geometry);
+    
+    var layer = ui.Map.Layer(ds, visParams, 'LST');
     Map.layers().set(0, layer);
   });
 };
+
+// var update = function(range) {
+//   range.start().get('year').evaluate(function(name) {
+//     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
+//     var layer = ui.Map.Layer(lst, visParams, name + ' LST');
+//     Map.layers().set(0, layer);
+//   });
+// };
 
 // compute the date range and show the slider.
 var dateRange = ee.DateRange(start, end).evaluate(function(range) {
@@ -62,7 +77,7 @@ var dateRange = ee.DateRange(start, end).evaluate(function(range) {
     start: range['dates'][0],
     end: range['dates'][1],
     value: null,
-    period: 365,
+    period: 1,
     onChange: update
   });
   dateSlider.style().set({'width': '500px'});
