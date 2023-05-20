@@ -225,5 +225,5 @@ function addWelcomePanel() {
   Map.add(instructionPanel_p1);
 }
 
-addWelcomePanel()
+addWelcomePanel();
 
