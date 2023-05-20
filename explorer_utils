@@ -17,29 +17,29 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 // dictionary for filename definitions
 exports.filename_dict = {
-  'Land Use Cover': 'ESA-WorldCover-2020',
+  '🌾Land Use Cover': 'ESA-WorldCover-2020',
   '👥Population Count': 'Population-GPW-2015',
-  'Urban Density': 'ESA-WorldCover-derived-urban-density',
-  'Summer Day Temperature': 'MODIS-LST-day',
-  'Summer Night Temperature': 'MODIS-LST-night'
+  '🌃Urban Density': 'ESA-WorldCover-derived-urban-density',
+  '🌞Summer Day Temperature': 'MODIS-LST-day',
+  '🌙Summer Night Temperature': 'MODIS-LST-night'
 };
 
 // dictionary for resampling algorithms
 exports.reducer_dict = {
-  'Land Use Cover': ee.Reducer.mode(), // retain discrete class
+  '🌾Land Use Cover': ee.Reducer.mode(), // retain discrete class
   '👥Population Count': ee.Reducer.sum(), // population count per pixel
-  'Urban Density': ee.Reducer.mean(), // ratio
-  'Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
-  'Summer Night Temperature': ee.Reducer.median() // median to prevent influence from outliners
+  '🌃Urban Density': ee.Reducer.mean(), // ratio
+  '🌞Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
+  '🌙Summer Night Temperature': ee.Reducer.median() // median to prevent influence from outliners
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
 exports.layer_dict = {
-  'Land Use Cover': export_landuse,
+  '🌾Land Use Cover': export_landuse,
   '👥Population Count': export_population,
-  'Urban Density': export_urban_density,
-  'Summer Day Temperature': export_summer_lst,
-  'Summer Night Temperature': export_summer_lst_night
+  '🌃Urban Density': export_urban_density,
+  '🌞Summer Day Temperature': export_summer_lst,
+  '🌙Summer Night Temperature': export_summer_lst_night
 };
 
 // define function for Summer Temperature
