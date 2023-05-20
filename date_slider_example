@@ -28,6 +28,7 @@ var geometry =
           [68.36445312499998, 24.151463374228385],
           [68.36445312499998, 25.745178320542273]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+
 // return the list of coordinates
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
 
@@ -45,31 +46,12 @@ var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
 
 var lst = ee.ImageCollection("MODIS/061/MOD11A2")
   .select("LST_Day_1km")
-  // .filter(summerFilter);
-  // .median()
-  // .multiply(0.02)
-  // .subtract(272.15)
-  // .clip(geometry);
-
-// Use the start of the collection and now to bound the slider.
-// var start = ee.ImageCollection("MODIS/061/MOD11A2")
-//   .select("LST_Day_1km")
-//   .first()
-//   .date()
-//   // .get('year')
-//   .format();
-
-// var now = Date.now();
-// var end = ee.Date(now).format();
-
-// print(start, end);
 
 var start;
 var end;
 
 // Run this function on a change of the dateSlider.
 var update_start = function(date) {
-  // end = dateSlider2.getValue();
   start = date.getInfo().dates[0];
   console.log(start)
   console.log(end)
@@ -85,32 +67,11 @@ var update_start = function(date) {
     
     var layer = ui.Map.Layer(ds, visParams, 'LST');
     Map.layers().set(0, layer);
-  
-  // range.evaluate(function(range) {
-  //   var start = range['dates'][0];
-  //   console.log(start)
-  //   console.log(end)
-    
-  //   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-  //   // var start = range['dates'][0];
-  //   var ds = lst.filterDate(start, end)
-  //   .median()
-  //   .multiply(0.02)
-  //   .subtract(272.15)
-  //   .clip(geometry);
-    
-  //   var layer = ui.Map.Layer(ds, visParams, 'LST');
-  //   Map.layers().set(0, layer);
-  // });
 };
 
 var update_end = function(date) {
-  // start = dateSlider.getValue().dates[0];
   end = date.getInfo().dates[0];
   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-  
-  console.log(start)
-  console.log(end)
   
   var ds = lst.filterDate(start, end)
     .median()
@@ -120,37 +81,12 @@ var update_end = function(date) {
     
   var layer = ui.Map.Layer(ds, visParams, 'LST');
   Map.layers().set(0, layer);
-  // range.evaluate(function(range) {
-  //   var end = range['dates'][0];
-  //   console.log(start)
-  //   console.log(end)
-    
-  //   var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-  //   // var end = range['dates'][0];
-  //   var ds = lst.filterDate(start, end)
-  //   .median()
-  //   .multiply(0.02)
-  //   .subtract(272.15)
-  //   .clip(geometry);
-    
-  //   var layer = ui.Map.Layer(ds, visParams, 'LST');
-  //   Map.layers().set(0, layer);
-  // });
 };
 
-// var update = function(range) {
-//   range.start().get('year').evaluate(function(name) {
-//     var visParams = {bands: ["LST_Day_1km"], min: 20, max: 40};
-//     var layer = ui.Map.Layer(lst, visParams, name + ' LST');
-//     Map.layers().set(0, layer);
-//   });
-// };
-
 // compute the date range and show the slider.
-
 var dateSlider = ui.DateSlider({
-  start: '2000-01-01',//range['dates'][0],
-  end: '2023-01-01',//range['dates'][1],
+  start: '2000-01-01',
+  end: '2023-01-01',
   value: null,
   period: 1,
   onChange: update_start
@@ -160,8 +96,8 @@ dateSlider.style().set({'width': '300px'});
 Map.add(dateSlider.setValue('2022-12-01'));
 
 var dateSlider2 = ui.DateSlider({
-  start: '2000-01-01',//range['dates'][0],
-  end: '2023-01-01',//range['dates'][1],
+  start: '2000-01-01',
+  end: '2023-01-01',
   value: null,
   period: 1,
   onChange: update_end
