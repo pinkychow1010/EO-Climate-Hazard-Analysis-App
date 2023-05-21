@@ -56,8 +56,6 @@ Map.addLayer(
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
-Map.centerObject(pakistan, 6);
-
 // arguments for choropleth map
 var vector = pakistan; //ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 var attribute = 'mean';
@@ -101,3 +99,5 @@ Map.add(ui.Label('CISI in Pakistan (2021)',
   color: 'white'
 }
 ));
+
+Map.centerObject(pakistan, 6);
