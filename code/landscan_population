@@ -94,7 +94,7 @@ Map.addLayer(landscan_2021.clip(pakistan), {}, 'Pakistan Population Count 2021')
 
 // arguments for choropleth map
 var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
-var attribute = 'mean';
+var attribute = 'median_pop';
 var palette = palettes.cmocean.Balance[6];
 var log = 1;
 var class_n = 6;
@@ -105,7 +105,7 @@ var opacity = 0.9;
 var zonal = landscan_2021.reduceRegions({
   collection: vector,
   scale: 500,
-  reducer:  ee.Reducer.median()
+  reducer:  ee.Reducer.median().setOutputs(["median_pop"])
 });
 
 //
