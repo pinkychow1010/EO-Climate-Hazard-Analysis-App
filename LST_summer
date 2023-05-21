@@ -13,7 +13,7 @@ var bbox =
           [67.16985717414981, 24.7583352731244],
           [67.16985717414981, 24.920347285153472]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// released under MIT License Copyright © 2023 Ka Hei Chow
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
 // ######    Urban Heat       ###### //
