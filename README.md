@@ -1,6 +1,6 @@
 # Earth Observation Intraurban Analysis
 
-[![](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![](https://img.shields.io/badge/License-GPL-yellow.svg)](https://opensource.org/licenses/MIT)
 [![](https://img.shields.io/badge/Open-Website-orange)](https://sites.google.com/view/intraurban/home)
 [![](https://img.shields.io/badge/Explore-Code-green)](https://code.earthengine.google.com/?accept_repo=users/pinkychow1010/WB_IntraUrban)
 
