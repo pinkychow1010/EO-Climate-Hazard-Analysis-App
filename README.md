@@ -64,6 +64,7 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   2. [Relative Wealth Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/RWI_raster_example)
   3. [Critical Infrastructure](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/critical_infrastructure-spatial-index-cisi)
   4. [Landscan Population](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/landscan_population)
+  5. [Drought Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/drought_index_pdsi_terraclimate)
 </details>
 
 <details>
