@@ -1,0 +1,91 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[63.09101562499998, 38.67238595631456],
+          [63.09101562499998, 23.34699479861113],
+          [75.54951171874998, 23.34699479861113],
+          [75.54951171874998, 38.67238595631456]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// ################################# //
+// ######    LST differences  ###### //
+// ######     by Land Cover   ###### //
+// ################################# //
+
+/**
+ * This is a test function where user can explore LST by Land Use Class.
+ * The output will be a bar chart, where mean temperature will be computed for 
+ * different land use cover, illustrating the impact of landuse on urban heat.
+ */
+
+var rwi = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+// print(rwi.first());
+
+var aoi_rwi = rwi.filterBounds(geometry).map(
+  function(point) {
+  return point.buffer(2000);
+});
+
+var rwi_raster = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+  .reduceToImage({
+    properties: ['rwi'],
+    reducer: ee.Reducer.mean(),
+});
+
+Map.addLayer(rwi_raster, 
+{min: -1, max: 1.5, palette: ['red','orange','yellow','green','blue']},
+"Relative Wealth Index (facebook)");
+
+Map.centerObject(geometry, 5);
+Map.setOptions("Hybrid");
+
+
+
+// import module
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+
+var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var attribute = 'mean';
+var palette = palettes.cmocean.Balance[6];
+var log = 0;
+var class_n = 6;
+var title = "Mean";
+var opacity = 0.9;
+
+var zonal = rwi_raster.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.mean()
+});
+
+analysis.choropleth_map(
+  vector=zonal, 
+  attribute=attribute, 
+  palette=palette, 
+  opacity=opacity, 
+  log=log, 
+  class_n=class_n, 
+  title=title
+  );
+  
+
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); // customized basemap to enhance visuals 
+basemap.addCustomBasemap('simpleLight');
+
+Map.add(ui.Label('Relative Wealth Index', 
+{
+  position: 'top-center', 
+  fontSize: '30px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
