@@ -60,13 +60,13 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst.gif)
   
   ### Urban Heat Island Analysis
-  1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_choropleth)
-  2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_monthly)
-  3. [LST statitics for land use covers](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_by_LandCover)
-  4. [Diurnal LST temperature variation in summers based on Landsat](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/LST_summer)
-  5. [UHI Effects Intensity](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/UHI_effects)
-  6. [Counting very hot days based on MODIS](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/heatwave_trends)
-  7. [Heatwave events time series](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/heatwave_trends)
+  1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_choropleth)
+  2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_monthly)
+  3. [LST statitics for land use covers](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_by_LandCover)
+  4. [Diurnal LST temperature variation in summers based on Landsat](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_summer)
+  5. [UHI Effects Intensity](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/UHI_effects)
+  6. [Counting very hot days based on MODIS](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/heatwave_trends)
+  7. [Heatwave events time series](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/heatwave_trends)
 </details>
 
 <details>
@@ -77,11 +77,11 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/density.gif)
   
   ### Population Changes and Urban Development
-  1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/age_risk)
-  2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urban_centre)
-  3. [Analysing Urbanization Changes](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/extract_urbanization_trend)
-  4. [Population Count Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_count_choropleth)
-  5. [Population Density Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/population_density_choropleth)
+  1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/age_risk)
+  2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/extract_urban_centre)
+  3. [Analysing Urbanization Changes](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/extract_urbanization_trend)
+  4. [Population Count Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/population_count_choropleth)
+  5. [Population Density Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/population_density_choropleth)
 </details>
 
 <details>
@@ -92,8 +92,8 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst_lulc.gif)
   
   ### Land Use Changes and Vegetation Dynamics
-  1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/calculate_landuse_ratio)
-  2. [Evaluating impacts of vegetation changes on LST](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/fvc_ts_func)
+  1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/calculate_landuse_ratio)
+  2. [Evaluating impacts of vegetation changes on LST](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/fvc_ts_func)
 </details>
 
 <details>
@@ -123,9 +123,9 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Interface 💻🖱️</summary>
   
   ### Component to construct API
-  1. [App for small raster download](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader)
-  2. [Dataset selection](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_ds_select)
-  3. [Resample output](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/raster_downloader_res_select)
+  1. [App for small raster download](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/raster_downloader)
+  2. [Dataset selection](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/raster_downloader_ds_select)
+  3. [Resample output](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/raster_downloader_res_select)
   4. [Explorer Main Script](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/data_explorer_main)
   5. [Dashboard Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_func)
   6. [Admin-boundary-based Analysis Framework](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_interface)
