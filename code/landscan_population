@@ -2,23 +2,23 @@
 var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 // ######################################### //
-// ######    Critical Infrastructure  ###### //
-// ######     Spatial Index           ###### //
+// ######    Landscan Population      ###### //
 // ######################################### //
 
 /**
  * This is an example script for visualizing dataset from awesome gee commmunity
- * on critical infrastructure (CI). It is a gridded raster data layer integrated with
- * global spatial intensity of CI sourcing from the Open Source Map.
+ * on Landscan population count. It is a gridded raster data layer based on 
+ * rapid, large-scale detection of human settlements from high resolution imagery.
+ * The data layer has high scientific confidence compared to other available datasets.
  * 
  * This script produce visualization for an area of interest (i.e. Pakistan in this example).
  * 
  * Dataset Source:
- * Nirandjan, Sadhana, Koks, Elco E., Ward, Philip J., & Aerts, Jeroen C.J.H. (2021). A spatially-explicit harmonized global dataset of critical infrastructure (v1.0.0.)
- * [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4957647
+ * Sims, K., Reith, A., Bright, E., McKee, J., & Rose, A. (2022). LandScan Global 2021 [Data set]. Oak Ridge National Laboratory. 
+ * https://doi.org/10.48690/1527702
  * 
  * Project Details:
- * https://gee-community-catalog.org/projects/cisi/
+ * https://gee-community-catalog.org/projects/landscan/
  * 
  */
  
