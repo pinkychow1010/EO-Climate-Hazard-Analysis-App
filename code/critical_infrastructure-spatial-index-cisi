@@ -42,8 +42,9 @@ print(infrastructure.aggregate_array('id_no'));
 var hospital = infrastructure.filter(ee.Filter.eq('id_no','hospital'));
 
 // visualize CI index
+var cisi = global_CISI.clip(pakistan);
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
-Map.addLayer(global_CISI.clip(pakistan),vis,'Global CISI');
+Map.addLayer(cisi,vis,'Global CISI');
 
 Map.addLayer(
   hospital.sum().clip(pakistan),
@@ -58,8 +59,8 @@ var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 Map.centerObject(pakistan, 6);
 
 // arguments for choropleth map
-var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
-var attribute = '_mean';
+var vector = pakistan; //ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var attribute = 'mean';
 var palette = palettes.cmocean.Balance[6];
 var log = 0;
 var class_n = 6;
@@ -67,34 +68,40 @@ var title = "Mean";
 var opacity = 0.9;
 
 // sample raster values
-global_CISI.reduceRegions({
+var zonal = cisi.reduceRegions({
   collection: vector,
   scale: 500,
   reducer:  ee.Reducer.mean()
 });
 
-// call function for choropleth_map
-analysis.choropleth_map(
-  vector=vector, 
-  attribute=attribute, 
-  palette=palette, 
-  opacity=opacity, 
-  log=log, 
-  class_n=class_n, 
-  title=title
-  );
+// print(zonal);
 
-// customized basemap to enhance visuals 
-var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
-basemap.addCustomBasemap('simpleLight');
+print(zonal.filter(ee.Filter.neq('mean', null)))//.aggregate_min(attribute).getInfo())
 
-// add title label
-Map.add(ui.Label('CISI in Pakistan (2021)', 
-{
-  position: 'top-center', 
-  fontSize: '30px',
-  backgroundColor: '#0047AB',
-  fontWeight: '500',
-  color: 'white'
-}
-));
+// print(vector.filter(ee.Filter.notNull(attribute)).aggregate_min(attribute).getInfo())
+
+// // call function for choropleth_map
+// analysis.choropleth_map(
+//   vector=vector, 
+//   attribute=attribute, 
+//   palette=palette, 
+//   opacity=opacity, 
+//   log=log, 
+//   class_n=class_n, 
+//   title=title
+//   );
+
+// // customized basemap to enhance visuals 
+// var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+// basemap.addCustomBasemap('simpleLight');
+
+// // add title label
+// Map.add(ui.Label('CISI in Pakistan (2021)', 
+// {
+//   position: 'top-center', 
+//   fontSize: '30px',
+//   backgroundColor: '#0047AB',
+//   fontWeight: '500',
+//   color: 'white'
+// }
+// ));
