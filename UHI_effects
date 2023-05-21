@@ -14,7 +14,7 @@ var geometry =
           [74.59362711518368, 31.7489122969712]]], null, false),
     table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// released under MIT License Copyright © 2023 Ka Hei Chow
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
 // ######    Urban Heat       ###### //
