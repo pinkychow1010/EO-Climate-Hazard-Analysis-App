@@ -1,7 +1,7 @@
 # Earth Observation Intraurban Analysis
 
-[![](https://img.shields.io/badge/License-GPL-yellow.svg)](https://opensource.org/licenses/MIT)
-[![](https://img.shields.io/badge/Open-Website-orange)](https://sites.google.com/view/intraurban/home)
+[![](https://img.shields.io/badge/OpenSourceLicense-GPL-yellow.svg)](https://opensource.org/license/gpl-3-0/)
+[![](https://img.shields.io/badge/Visit-Website-orange)](https://sites.google.com/view/intraurban/home)
 [![](https://img.shields.io/badge/Explore-Code-green)](https://code.earthengine.google.com/?accept_repo=users/pinkychow1010/WB_IntraUrban)
 
 ## **Introduction**
@@ -51,6 +51,19 @@ Where do the majority of the population live in the city?
 ## **Code Catalog**
 
 Below are lists of Javascript code for multiple climate risk analysis. Users can import functions in Google Earth Engine and perform analysis directly using the [API](https://sites.google.com/view/intraurban/home).
+
+<details>
+  <summary>Socio-economical Vulnerability 🤒🏙️</summary>
+  
+  <br>
+  
+  ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/rwi.gif)
+  
+  ### Climate Vulnerability
+  1. [Age Risk](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/age_risk)
+  2. [Relative Wealth Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/RWI_raster_example)
+  3. [Critical Infrastructure](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/critical_infrastructure-spatial-index-cisi)
+</details>
 
 <details>
   <summary>Urban Heat 🥵🏙️</summary>
