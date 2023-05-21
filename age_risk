@@ -13,7 +13,7 @@ var aoi =
           [67.31920605468748, 24.753172208743685],
           [67.31920605468748, 25.08694754579853]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// released under MIT License Copyright © 2023 Ka Hei Chow
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################### //
 // ###### Age group statistics  ###### //
