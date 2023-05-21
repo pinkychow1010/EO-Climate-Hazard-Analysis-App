@@ -13,6 +13,17 @@ var geometry =
           [75.54951171874998, 23.34699479861113],
           [75.54951171874998, 38.67238595631456]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// ################################# //
+// ######    LST differences  ###### //
+// ######     by Land Cover   ###### //
+// ################################# //
+
+/**
+ * This is a test function where user can explore LST by Land Use Class.
+ * The output will be a bar chart, where mean temperature will be computed for 
+ * different land use cover, illustrating the impact of landuse on urban heat.
+ */
+
 var rwi = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
 // print(rwi.first());
 
