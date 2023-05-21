@@ -8,7 +8,7 @@ var bbox =
           [67.46027082573437, 24.76123013512878],
           [67.46027082573437, 25.44519155751865]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// released under GPL License Copyright © 2023 Ka Hei Chow
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
 // ######    LST differences  ###### //
