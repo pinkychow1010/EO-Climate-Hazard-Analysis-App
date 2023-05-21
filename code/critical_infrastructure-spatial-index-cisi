@@ -23,16 +23,22 @@ var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI"),
  * 
  */
 
+
+// derive country polygon
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 
+// extract Pakistan polygon
 var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
+// map layout
 Map.setOptions("Hybrid");
 Map.centerObject(pakistan, 6);
 
+// derive hospital points
 print(infrastructure.aggregate_array('id_no'));
 var hospital = infrastructure.filter(ee.Filter.eq('id_no','hospital'));
 
+// visualize CI index
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 Map.addLayer(global_CISI.clip(pakistan),vis,'Global CISI');
 
