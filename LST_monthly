@@ -13,7 +13,7 @@ var geometry =
           [67.28642982706013, 24.77603177887949],
           [67.28642982706013, 25.119692980119417]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// released under MIT License Copyright © 2023 Ka Hei Chow
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################### //
 // ######    MODIS-based        ###### //
