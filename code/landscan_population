@@ -22,6 +22,11 @@ var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LAN
  * 
  */
  
+// import modules 
+var palettes = require('users/gena/packages:palettes');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+
+// population legend layout
 var popcount_intervals =
 '<RasterSymbolizer>' +
 ' <ColorMap type="intervals" extended="false" >' +
@@ -62,13 +67,73 @@ var dict = {
     "#730009"
   ]};
   
-  // Create a panel to hold the legend widget
+// create a panel to hold the legend widget
 var legend = ui.Panel({
   style: {
     position: 'bottom-left',
     padding: '8px 15px'
   }
 });
+
+// call function for legend
+addCategoricalLegend(legend, dict, 'Population Count(estimate)');
+
+// get landscan 2000 and 2021
+var landscan_2000 = landscan_global.sort('system:time_start').first().sldStyle(popcount_intervals);
+var landscan_2021 = landscan_global.sort('system:time_start',false).first().sldStyle(popcount_intervals);
+
+// get area of interest: Pakistan
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+
+Map.centerObject(pakistan, 6);
+
+// display raster layers
+Map.addLayer(landscan_2020.clip(pakistan), {}, 'Pakistan Population Count 2000');
+Map.addLayer(landscan_2021.clip(pakistan), {}, 'Pakistan Population Count 2021');
+
+// arguments for choropleth map
+var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var attribute = '_mean';
+var palette = palettes.cmocean.Balance[6];
+var log = 1;
+var class_n = 6;
+var title = "Mean";
+var opacity = 0.9;
+
+// sample raster values
+landscan_2021.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.mean()
+});
+
+// call function for choropleth_map
+analysis.choropleth_map(
+  vector=vector, 
+  attribute=attribute, 
+  palette=palette, 
+  opacity=opacity, 
+  log=log, 
+  class_n=class_n, 
+  title=title
+  );
+
+// customized basemap to enhance visuals 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+basemap.addCustomBasemap('simpleLight');
+
+// add title label
+Map.add(ui.Label('Landscan Population in Pakistan (2021)', 
+{
+  position: 'top-center', 
+  fontSize: '30px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
+
 
 // Function to generate the legend
 function addCategoricalLegend(panel, dict, title) {
@@ -123,28 +188,4 @@ function addCategoricalLegend(panel, dict, title) {
   
   Map.add(panel);
 }
-
-addCategoricalLegend(legend, dict, 'Population Count(estimate)');
-
-var landscan_2020 = landscan_global.sort('system:time_start').first().sldStyle(popcount_intervals);
-
-var landscan_2021 = landscan_global.sort('system:time_start',false).first().sldStyle(popcount_intervals);
-
-var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
-
-var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
-
-Map.setOptions("Hybrid");
-Map.centerObject(pakistan, 6);
-
-Map.addLayer(landscan_2020.clip(pakistan), {}, 'Pakistan Population Count 2000');
-Map.addLayer(landscan_2021.clip(pakistan), {}, 'Pakistan Population Count 2021');
-
-
-
-
-
-
-
-
 
