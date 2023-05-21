@@ -76,20 +76,16 @@ var zonal = cisi.reduceRegions({
 
 // print(zonal);
 
-print(zonal.filter(ee.Filter.neq('mean', null)))//.aggregate_min(attribute).getInfo())
-
-// print(vector.filter(ee.Filter.notNull(attribute)).aggregate_min(attribute).getInfo())
-
-// // call function for choropleth_map
-// analysis.choropleth_map(
-//   vector=vector, 
-//   attribute=attribute, 
-//   palette=palette, 
-//   opacity=opacity, 
-//   log=log, 
-//   class_n=class_n, 
-//   title=title
-//   );
+// call function for choropleth_map
+analysis.choropleth_map(
+  vector=zonal, 
+  attribute=attribute, 
+  palette=palette, 
+  opacity=opacity, 
+  log=log, 
+  class_n=class_n, 
+  title=title
+  );
 
 // // customized basemap to enhance visuals 
 // var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
