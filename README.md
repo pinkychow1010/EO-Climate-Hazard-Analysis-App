@@ -60,9 +60,10 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/rwi.gif)
   
   ### Climate Vulnerability
-  1. [Age Risk](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/age_risk)
+  1. [WorldPop Age Risk](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/age_risk)
   2. [Relative Wealth Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/RWI_raster_example)
   3. [Critical Infrastructure](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/critical_infrastructure-spatial-index-cisi)
+  4. [Landscan Population](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/landscan_population)
 </details>
 
 <details>
