@@ -20,7 +20,6 @@ var aoi_rwi = rwi.filterBounds(geometry).map(
   function(point) {
   return point.buffer(2000);
 });
-// Map.addLayer(aoi_rwi);
 
 var rwi_raster = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
   .reduceToImage({
@@ -29,19 +28,3 @@ var rwi_raster = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
 });
 
 Map.addLayer(rwi_raster);
-
-
-// print(aoi_rwi.first());
-
-// var interpolated = aoi_rwi.kriging({
-//   propertyName: rwi,
-//   shape: 'gaussian',
-//   range: 4.8e4,
-//   sill: 164,
-//   nugget: 0.05,
-//   maxDistance: 3.8e4,
-//   reducer: ee.Reducer.mean()
-// });
-
-// print(interpolated)
-// Map.addLayer(interpolated);
