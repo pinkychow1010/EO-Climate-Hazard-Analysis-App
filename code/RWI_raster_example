@@ -16,14 +16,15 @@ var geometry =
 // released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
-// ######    LST differences  ###### //
-// ######     by Land Cover   ###### //
+// ######    Relative Wealth  ###### //
+// ######     Index           ###### //
 // ################################# //
 
 /**
- * This is a test function where user can explore LST by Land Use Class.
- * The output will be a bar chart, where mean temperature will be computed for 
- * different land use cover, illustrating the impact of landuse on urban heat.
+ * This is an example script using the facebook dataset relative wealth index
+ *  
+ * Project details: https://dataforgood.facebook.com/dfg/tools/relative-wealth-index
+ * This script visualize RWI for an area of interest as a choropleth map.
  */
 
 var rwi = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
