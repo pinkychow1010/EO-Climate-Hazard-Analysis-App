@@ -1,0 +1,44 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var imageCollection = ee.ImageCollection("projects/sat-io/open-datasets/TERRACLIMATE/2C/tmax");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+//Scale and offset applied to imagery
+function scalor(image) {
+    return image
+    .multiply(ee.Number(image.get('scale')))
+    .add(ee.Number(image.get('offset')))
+    .copyProperties(image, ["system:time_start","system:time_end"])
+}
+
+//data on TerraClimate 2c and 4c for month October
+var tmax_2c = ee.ImageCollection("projects/sat-io/open-datasets/TERRACLIMATE/2C/tmax");
+var dataset2c = tmax_2c.map(scalor)
+
+var tmax_4c = ee.ImageCollection("projects/sat-io/open-datasets/TERRACLIMATE/4C/tmax");
+var dataset4c = tmax_4c.map(scalor)
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+
+Map.centerObject(pakistan, 6);
+Map.setOptions("Hybrid");
+
+// print(dataset2c.sort('system:time_start'));
+var first = dataset2c.select('b5').sort('system:time_start').first(); // 1985
+var last = dataset2c.select('b5').sort('system:time_start',false).first(); // 2015
+
+var diff_2c = last.subtract(first);
+
+var first = dataset4c.select('b5').sort('system:time_start').first();
+var last = dataset4c.select('b5').sort('system:time_start',false).first();
+
+var diff_4c = last.subtract(first);
+
+var vis = {
+  min: -1.5, 
+  max: 3, 
+  palette: ['black','blue','yellow','orange','red','darkred'],
+  opacity: 0.8
+};
+
+Map.addLayer(diff_2c.clip(pakistan), vis, 'TMAX increase 2C');
+Map.addLayer(diff_4c.clip(pakistan), vis, 'TMAX increase 4C');
