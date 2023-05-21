@@ -87,17 +87,17 @@ analysis.choropleth_map(
   title=title
   );
 
-// // customized basemap to enhance visuals 
-// var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
-// basemap.addCustomBasemap('simpleLight');
+// customized basemap to enhance visuals 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+basemap.addCustomBasemap('simpleLight');
 
-// // add title label
-// Map.add(ui.Label('CISI in Pakistan (2021)', 
-// {
-//   position: 'top-center', 
-//   fontSize: '30px',
-//   backgroundColor: '#0047AB',
-//   fontWeight: '500',
-//   color: 'white'
-// }
-// ));
+// add title label
+Map.add(ui.Label('CISI in Pakistan (2021)', 
+{
+  position: 'top-center', 
+  fontSize: '30px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
