@@ -1,0 +1,23 @@
+var dataset = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+                  .filter(ee.Filter.date('2017-07-01', '2017-08-01'));
+
+var drought_index = dataset.select('pdsi');
+
+print(drought_index.first());
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+
+var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+
+Map.setOptions("Hybrid");
+Map.centerObject(pakistan, 6);
+
+var vis = {
+  min: -300.0,
+  max: 300.0,
+  palette: [
+    'red','yellow','green','blue'
+  ],
+};
+
+Map.addLayer(drought_index.first().clip(pakistan), vis, 'PDSI');
