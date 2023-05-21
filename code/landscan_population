@@ -105,19 +105,31 @@ var opacity = 0.9;
 var zonal = landscan_2021.reduceRegions({
   collection: vector,
   scale: 500,
-  reducer:  ee.Reducer.mean()
+  reducer:  ee.Reducer.median()
 });
 
+//
+print(zonal);
+Map.addLayer(zonal);
+
+var filtered = zonal.filter(ee.Filter.neq(attribute, null)).filter(ee.Filter.neq(attribute, undefined));
+print(filtered.aggregate_min(attribute).getInfo());
+
+// var min_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_min(attribute).getInfo());
+// var max_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_max(attribute).getInfo());
+// print(min_val)
+// print(max_val)
+
 // call function for choropleth_map
-analysis.choropleth_map(
-  vector=zonal, 
-  attribute=attribute, 
-  palette=palette, 
-  opacity=opacity, 
-  log=log, 
-  class_n=class_n, 
-  title=title
-  );
+// analysis.choropleth_map(
+//   vector=zonal, 
+//   attribute=attribute, 
+//   palette=palette, 
+//   opacity=opacity, 
+//   log=log, 
+//   class_n=class_n, 
+//   title=title
+//   );
 
 // customized basemap to enhance visuals 
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
