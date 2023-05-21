@@ -13,7 +13,7 @@ var aoi =
           [67.33053222297794, 24.7907546321477],
           [67.33053222297794, 25.062244457616945]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// released under MIT License Copyright © 2023 Ka Hei Chow
+// released under GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
 // ######    Urban Heat       ###### //
