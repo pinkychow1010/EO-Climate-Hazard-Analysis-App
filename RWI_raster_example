@@ -28,7 +28,7 @@ var rwi_raster = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
 });
 
 Map.addLayer(rwi_raster, 
-{min: -1, max: 2, palette: ['red','orange','green','blue']},
+{min: -1, max: 1.5, palette: ['red','orange','yellow','green','blue']},
 "Relative Wealth Index (facebook)");
 
 Map.centerObject(geometry, 5);
