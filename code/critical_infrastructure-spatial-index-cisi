@@ -23,6 +23,9 @@ var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI"),
  * 
  */
 
+// import modules 
+var palettes = require('users/gena/packages:palettes');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
 // derive country polygon
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
@@ -47,3 +50,51 @@ Map.addLayer(
   {min:0,max:50,palette:'aqua'},
   'Hospitals'
   );
+
+// get area of interest: Pakistan
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+
+Map.centerObject(pakistan, 6);
+
+// arguments for choropleth map
+var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var attribute = '_mean';
+var palette = palettes.cmocean.Balance[6];
+var log = 1;
+var class_n = 6;
+var title = "Mean";
+var opacity = 0.9;
+
+// sample raster values
+global_CISI.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.mean()
+});
+
+// call function for choropleth_map
+analysis.choropleth_map(
+  vector=vector, 
+  attribute=attribute, 
+  palette=palette, 
+  opacity=opacity, 
+  log=log, 
+  class_n=class_n, 
+  title=title
+  );
+
+// customized basemap to enhance visuals 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+basemap.addCustomBasemap('simpleLight');
+
+// add title label
+Map.add(ui.Label('CISI in Pakistan (2021)', 
+{
+  position: 'top-center', 
+  fontSize: '30px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
