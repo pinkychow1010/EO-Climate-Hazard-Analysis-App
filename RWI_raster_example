@@ -1,0 +1,47 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[63.09101562499998, 38.67238595631456],
+          [63.09101562499998, 23.34699479861113],
+          [75.54951171874998, 23.34699479861113],
+          [75.54951171874998, 38.67238595631456]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var rwi = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+// print(rwi.first());
+
+var aoi_rwi = rwi.filterBounds(geometry).map(
+  function(point) {
+  return point.buffer(2000);
+});
+// Map.addLayer(aoi_rwi);
+
+var rwi_raster = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+  .reduceToImage({
+    properties: ['rwi'],
+    reducer: ee.Reducer.mean(),
+});
+
+Map.addLayer(rwi_raster);
+
+
+// print(aoi_rwi.first());
+
+// var interpolated = aoi_rwi.kriging({
+//   propertyName: rwi,
+//   shape: 'gaussian',
+//   range: 4.8e4,
+//   sill: 164,
+//   nugget: 0.05,
+//   maxDistance: 3.8e4,
+//   reducer: ee.Reducer.mean()
+// });
+
+// print(interpolated)
+// Map.addLayer(interpolated);
