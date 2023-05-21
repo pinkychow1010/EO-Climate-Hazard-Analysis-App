@@ -33,3 +33,34 @@ Map.addLayer(rwi_raster,
 
 Map.centerObject(geometry, 5);
 Map.setOptions("Hybrid");
+
+
+
+// import module
+var palettes = require('users/gena/packages:palettes');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+
+var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var attribute = '_mean';
+var palette = ['red','orange','yellow'];//palettes.colorbrewer.YlOrRd[7]; //palettes.cmocean.Balance[7];
+var log = 0;
+var class_n = 3;
+var title = "Mean";
+var opacity = 0.9;
+
+rwi_raster.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.mean()
+});
+
+analysis.choropleth_map(
+  vector=vector, 
+  attribute=attribute, 
+  palette=palette, 
+  opacity=opacity, 
+  log=log, 
+  class_n=class_n, 
+  title=title
+  );
