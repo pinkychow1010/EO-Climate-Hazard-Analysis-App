@@ -64,3 +64,17 @@ analysis.choropleth_map(
   class_n=class_n, 
   title=title
   );
+  
+
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); // customized basemap to enhance visuals 
+basemap.addCustomBasemap('simpleLight');
+
+Map.add(ui.Label('Relative Wealth Index', 
+{
+  position: 'top-center', 
+  fontSize: '30px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
