@@ -2,15 +2,25 @@
 var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI"),
     infrastructure = ee.ImageCollection("projects/sat-io/open-datasets/CISI/amount_infrastructure");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// ################################# //
-// ######    LST differences  ###### //
-// ######     by Land Cover   ###### //
-// ################################# //
+// ######################################### //
+// ######    Critical Infrastructure  ###### //
+// ######     Spatial Index           ###### //
+// ######################################### //
 
 /**
- * This is a test function where user can explore LST by Land Use Class.
- * The output will be a bar chart, where mean temperature will be computed for 
- * different land use cover, illustrating the impact of landuse on urban heat.
+ * This is an example script for visualizing dataset from awesome gee commmunity
+ * on critical infrastructure (CI). It is a gridded raster data layer integrated with
+ * global spatial intensity of CI sourcing from the Open Source Map.
+ * 
+ * This script produce visualization for an area of interest (i.e. Pakistan in this example).
+ * 
+ * Dataset Source:
+ * Nirandjan, Sadhana, Koks, Elco E., Ward, Philip J., & Aerts, Jeroen C.J.H. (2021). A spatially-explicit harmonized global dataset of critical infrastructure (v1.0.0.)
+ * [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4957647
+ * 
+ * Project Details:
+ * https://gee-community-catalog.org/projects/cisi/
+ * 
  */
 
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
