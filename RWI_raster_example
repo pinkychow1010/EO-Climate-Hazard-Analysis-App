@@ -31,5 +31,5 @@ Map.addLayer(rwi_raster,
 {min: -1, max: 2, palette: ['red','orange','green','blue']},
 "Relative Wealth Index (facebook)");
 
-Map.centerObject(geometry, 10);
+Map.centerObject(geometry, 5);
 Map.setOptions("Hybrid");
