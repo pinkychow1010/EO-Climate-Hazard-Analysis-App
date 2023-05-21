@@ -1,0 +1,85 @@
+// ######################################### //
+// ######    Landscan Population      ###### //
+// ######    Choropleth Map           ###### //
+// ######################################### //
+
+/**
+ * This is an example script for visualizing dataset from awesome gee commmunity
+ * on Landscan population count. It is a gridded raster data layer based on 
+ * rapid, large-scale detection of human settlements from high resolution imagery.
+ * The data layer has high scientific confidence compared to other available datasets.
+ * 
+ * This script produce visualization for an area of interest (i.e. Pakistan in this example).
+ * 
+ * Dataset Source:
+ * Sims, K., Reith, A., Bright, E., McKee, J., & Rose, A. (2022). LandScan Global 2021 [Data set]. Oak Ridge National Laboratory. 
+ * https://doi.org/10.48690/1527702
+ * 
+ * Project Details:
+ * https://gee-community-catalog.org/projects/landscan/
+ * 
+ */
+ 
+// import modules
+var palettes = require('users/gena/packages:palettes');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+
+// dataset
+var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
+
+
+// create a panel to hold the legend widget
+var legend = ui.Panel({
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px'
+  }
+});
+
+// get landscan 2000 and 2021
+var landscan_2021 = landscan_global.sort('system:time_start',false).first();
+
+var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+
+var zonal = landscan_2021.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.mean().setOutputs(["mean_pop"])
+});
+
+// arguments for choropleth map
+var attribute = 'median_pop';
+var palette = palettes.misc.parula[7];
+var log = 0;
+var class_n = 7;
+var title = "Mean";
+var opacity = 0.9;
+
+// sample raster values
+var zonal = landscan_2021.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.median().setOutputs(["median_pop"])
+});
+
+
+// call function for choropleth_map
+analysis.choropleth_map(
+  vector=zonal, 
+  attribute=attribute, 
+  palette=palette, 
+  opacity=opacity, 
+  log=log, 
+  class_n=class_n, 
+  title=title
+  );
+  
+Map.add(ui.Label('Landscan Population Choropleth Map in Karachi (2021)', 
+{
+  position: 'top-center', 
+  fontSize: '30px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
