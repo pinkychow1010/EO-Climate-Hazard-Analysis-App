@@ -1,6 +1,27 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// ######################################### //
+// ######    Critical Infrastructure  ###### //
+// ######     Spatial Index           ###### //
+// ######################################### //
+
+/**
+ * This is an example script for visualizing dataset from awesome gee commmunity
+ * on critical infrastructure (CI). It is a gridded raster data layer integrated with
+ * global spatial intensity of CI sourcing from the Open Source Map.
+ * 
+ * This script produce visualization for an area of interest (i.e. Pakistan in this example).
+ * 
+ * Dataset Source:
+ * Nirandjan, Sadhana, Koks, Elco E., Ward, Philip J., & Aerts, Jeroen C.J.H. (2021). A spatially-explicit harmonized global dataset of critical infrastructure (v1.0.0.)
+ * [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4957647
+ * 
+ * Project Details:
+ * https://gee-community-catalog.org/projects/cisi/
+ * 
+ */
+ 
 var popcount_intervals =
 '<RasterSymbolizer>' +
 ' <ColorMap type="intervals" extended="false" >' +
