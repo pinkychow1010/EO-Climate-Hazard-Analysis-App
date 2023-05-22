@@ -144,6 +144,9 @@ var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 map1.setOptions(undefined, {'Custom': new_basemap});
 map2.setOptions(undefined, {'Custom': new_basemap});
 
+map1.centerObject(pakistan,5);
+map2.centerObject(pakistan,5);
+
 
 
 
