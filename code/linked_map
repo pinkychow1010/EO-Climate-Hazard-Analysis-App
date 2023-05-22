@@ -79,10 +79,10 @@ var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 // Create a map for each visualization option.
 var map1 = ui.Map();
 
-map1.add(ui.Label('CISI in Pakistan (2021)', 
+map1.add(ui.Label('Critical Infrastructure Spatial Index', 
 {
   position: 'bottom-center', 
-  fontSize: '26px',
+  fontSize: '22px',
   backgroundColor: '#0047AB',
   fontWeight: '500',
   color: 'white'
@@ -94,10 +94,10 @@ map1.setControlVisibility(true);
 
 var map2 = ui.Map();
 
-map2.add(ui.Label('CISI in Pakistan (2021)', 
+map2.add(ui.Label('Critical Infrastructure Spatial Index', 
 {
   position: 'bottom-center', 
-  fontSize: '26px',
+  fontSize: '22px',
   backgroundColor: '#0047AB',
   fontWeight: '500',
   color: 'white'
@@ -143,3 +143,22 @@ title.style().set({
 
 // content for main panel
 mainPanel.add(title);
+
+// // customized basemap to enhance visuals 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+var new_basemap = basemap.getCustomBasemap('simpleLight');
+
+map1.setOptions(undefined, {'Custom': new_basemap});
+map2.setOptions(undefined, {'Custom': new_basemap});
+
+
+
+
+
+
+
+
+
+
+
+
