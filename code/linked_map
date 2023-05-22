@@ -8,18 +8,7 @@ var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI"),
 // ######################################### //
 
 /**
- * This is an example script for visualizing dataset from awesome gee commmunity
- * on critical infrastructure (CI). It is a gridded raster data layer integrated with
- * global spatial intensity of CI sourcing from the Open Source Map.
- * 
- * This script produce visualization for an area of interest (i.e. Pakistan in this example).
- * 
- * Dataset Source:
- * Nirandjan, Sadhana, Koks, Elco E., Ward, Philip J., & Aerts, Jeroen C.J.H. (2021). A spatially-explicit harmonized global dataset of critical infrastructure (v1.0.0.)
- * [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4957647
- * 
- * Project Details:
- * https://gee-community-catalog.org/projects/cisi/
+ * This is an example script for linked map
  * 
  */
 
@@ -27,37 +16,20 @@ var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI"),
 var palettes = require('users/gena/packages:palettes');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
-// derive country polygon
-var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
-
-// extract Pakistan polygon
+// get area of interest: Pakistan
+var ADM2 = ee.FeatureCollection(
+  'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
+  );
 var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
-
-// map layout
-Map.setOptions("Hybrid");
-Map.centerObject(pakistan, 6);
-
-// derive hospital points
-print(infrastructure.aggregate_array('id_no'));
-var hospital = infrastructure.filter(ee.Filter.eq('id_no','hospital'));
 
 // visualize CI index
 var cisi = global_CISI.clip(pakistan);
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 Map.addLayer(cisi,vis,'Global CISI');
 
-Map.addLayer(
-  hospital.sum().clip(pakistan),
-  {min:0,max:50,palette:'aqua'},
-  'Hospitals'
-  );
-
-// get area of interest: Pakistan
-var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
-var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
 // arguments for choropleth map
-var vector = pakistan; //ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var vector = pakistan; 
 var attribute = 'mean';
 var palette = palettes.cmocean.Balance[6];
 var log = 0;
@@ -71,8 +43,6 @@ var zonal = cisi.reduceRegions({
   scale: 500,
   reducer:  ee.Reducer.mean()
 });
-
-// print(zonal);
 
 // call function for choropleth_map
 analysis.choropleth_map(
@@ -100,4 +70,6 @@ Map.add(ui.Label('CISI in Pakistan (2021)',
 }
 ));
 
+// map layout
+Map.setOptions("Hybrid");
 Map.centerObject(pakistan, 6);
