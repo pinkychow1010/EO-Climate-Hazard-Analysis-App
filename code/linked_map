@@ -24,9 +24,6 @@ var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
 // visualize CI index
 var cisi = global_CISI.clip(pakistan);
-// var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
-// Map.addLayer(cisi,vis,'Global CISI');
-
 
 // arguments for choropleth map
 var vector = pakistan; 
@@ -55,24 +52,6 @@ var zonal = cisi.reduceRegions({
 //   title=title
 //   );
 
-// // customized basemap to enhance visuals 
-// var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
-// basemap.addCustomBasemap('simpleLight');
-
-// add title label
-// Map.add(ui.Label('CISI in Pakistan (2021)', 
-// {
-//   position: 'top-center', 
-//   fontSize: '30px',
-//   backgroundColor: '#0047AB',
-//   fontWeight: '500',
-//   color: 'white'
-// }
-// ));
-
-// // map layout
-// Map.setOptions("Hybrid");
-// Map.centerObject(pakistan, 6);
 
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 
@@ -148,6 +127,7 @@ mainPanel.add(title);
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 var new_basemap = basemap.getCustomBasemap('simpleLight');
 
+// customized basemap to enhance visuals
 map1.setOptions(undefined, {'Custom': new_basemap});
 map2.setOptions(undefined, {'Custom': new_basemap});
 
