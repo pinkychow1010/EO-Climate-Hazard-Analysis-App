@@ -62,12 +62,15 @@ var choropleth_map = function choropleth_map(
   var zone = ee.FeatureCollection(vector);
   
   // filter null values to prevent errors from missing attribute values
+  // then get zonal max and min for reclassification
   var min_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_min(attribute).getInfo());
   var max_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_max(attribute).getInfo());
   
+  // check if min value is negative, if so turn off log (regardless of user input) to avoid errors
   var positive = min_val.abs().eq(min_val);
   log = ee.Number(log).multiply(positive);
   
+  // center object using map object
   if (map_object === undefined || map_object === null){
     Map.centerObject(zone, 5);
   } else {
@@ -79,31 +82,58 @@ var choropleth_map = function choropleth_map(
   }
   
   var get_index = function(value) {
+    /*
+    This is the function to reclassify original value spectrum into new class to map different colors
+    This is tested on both negative and positive value spectrums.
+    User can define a log argument to transform the values before classification.
+    It, nonetheless, does not work for negetive values.
     
+    The rational of the function is as follow:
+    First, check user log argument. Calculate the values with (*_log) and without log (*_linear). 
+    Perserve the one based on user definition.
+    
+    Get max and min to calculate the range. Use the range to calculate the step.
+    Assign index class based on pixel values. Fit all values into predefined classes using clamp.
+    The index will be used for coloring the polygons.
+    */
+    
+    // log option invert (binary)
     var log_inv = ee.Number(log).eq(ee.Number(0)); // 1 if log = 0 and 0 if log = 1
     
+    // non-log version for pixel value
     var scaled_linear = value.multiply(log_inv);
     
+    // log version for pixel value
     var scaled_log = value.multiply(log).add(log_inv).log();
     
+    // final pixel value
     var scaled_val = scaled_linear.add(scaled_log);
     
+    // non-log version for min value
     var min_linear = min_val.multiply(log_inv);
     
+    // log version for min value
     var min_log = min_val.multiply(log).add(log_inv).log();
     
+    // final min value
     var min = min_log.add(min_linear);
     
+    // non-log version for max value
     var max_linear = max_val.multiply(log_inv);
     
+    // log version for max value
     var max_log = max_val.multiply(log).add(log_inv).log();
-
+    
+    // final max value
     var max = max_log.add(max_linear);
     
+    // bins for classification
     var step = (max.subtract(min)).divide(class_n);
     
+    // get index class
     var index = (scaled_val.subtract(min)).divide(step).round();
     
+    // fit into range
     var index_clamp = index.clamp(0, ee.Number(class_n).subtract(1));
     
     return index_clamp;
