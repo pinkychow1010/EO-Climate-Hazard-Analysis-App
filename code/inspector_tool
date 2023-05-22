@@ -25,12 +25,12 @@ var getPolyLabel = function(inspector, vector, attribute) {
     }));
 
     var click_point = ee.Geometry.Point(coords.lon, coords.lat);
-    var attribute_list = shp.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
-    var shp_lst = shp.toList(shp.size());
+    var attribute_list = vector.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+    var shp_lst = vector.toList(vector.size());
 
-    var out = shp_lst.map(function (ele) {
-      var idx = shp_lst.indexOf(ele);
-      var overlap = ee.Feature(ele).intersects(click_point);
+    var out = shp_lst.map(function (element) {
+      var idx = shp_lst.indexOf(element);
+      var overlap = ee.Feature(element).intersects(click_point);
       var target_id = ee.Algorithms.If(overlap, idx, 0);
       return target_id;
     }).removeAll([0]);
@@ -42,7 +42,7 @@ var getPolyLabel = function(inspector, vector, attribute) {
       value: name.getInfo()
     })
     );
-  }
+  };
 };
 //
 
