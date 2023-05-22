@@ -1,6 +1,3 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var p = ee.FeatureCollection("projects/jkdeers/assets/Forest_Divisions");
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 var text = require('users/gena/packages:text');
 
 var ADM2 = ee.FeatureCollection(
@@ -14,35 +11,66 @@ Map.centerObject(pakistan,5);
 var shp = pakistan;
 print(shp);
 
-
 // Create a panel and add it to the map.
 var inspector = ui.Panel([ui.Label('Click for info')]);
 Map.add(inspector);
 
-Map.onClick(function(coords) {
-  // Show the loading label.
-  inspector.widgets().set(0, ui.Label({
-    value: 'Loading...',
-    style: {color: 'gray'}
-  }));
-
-  var click_point = ee.Geometry.Point(coords.lon, coords.lat);
-  var list = shp.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
-  var shp_lst = shp.toList(shp.size());
+//
+var getPolyLabel = function(inspector, attribute) {
+  var wrap = function(coords) {
+    inspector.widgets().set(0, ui.Label({
+      value: 'Loading...',
+      style: {color: 'gray'}
+    }));
   
-  var out = shp_lst.map(function (ele) {
+    var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+    var attribute_list = shp.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+    var shp_lst = shp.toList(shp.size());
     
-  var idx = shp_lst.indexOf(ele);
-  var target_id = ee.Algorithms.If(ee.Feature(ele).intersects(click_point), idx, 0);
-    return target_id;
-    
-  }).removeAll([0]);
+    var out = shp_lst.map(function (ele) {
+      var idx = shp_lst.indexOf(ele);
+      var overlap = ee.Feature(ele).intersects(click_point);
+      var target_id = ee.Algorithms.If(overlap, idx, 0);
+      return target_id;
+    }).removeAll([0]);
+  
+    out = out.get(0).getInfo();
+    var name = ee.List(attribute_list).get(out);
+  
+    inspector.widgets().set(0, ui.Label({
+      value: name.getInfo()
+    })
+    );
+  }
+};
+//
 
-  out = out.get(0).getInfo();
-  var name = ee.List(list).get(out);
-
-  inspector.widgets().set(0, ui.Label({
-    value: name.getInfo()
-  })
+Map.onClick(
+  getPolyLabel(inspector, 'shapeName')
   );
-});
+
+// var getPolyLabel = function(coords) {
+//     inspector.widgets().set(0, ui.Label({
+//       value: 'Loading...',
+//       style: {color: 'gray'}
+//     }));
+  
+//     var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+//     var attribute_list = shp.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+//     var shp_lst = shp.toList(shp.size());
+    
+//     var out = shp_lst.map(function (ele) {
+//       var idx = shp_lst.indexOf(ele);
+//       var overlap = ee.Feature(ele).intersects(click_point);
+//       var target_id = ee.Algorithms.If(overlap, idx, 0);
+//       return target_id;
+//     }).removeAll([0]);
+  
+//     out = out.get(0).getInfo();
+//     var name = ee.List(attribute_list).get(out);
+  
+//     inspector.widgets().set(0, ui.Label({
+//       value: name.getInfo()
+//     })
+//     );
+// }
