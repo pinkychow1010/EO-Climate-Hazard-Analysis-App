@@ -85,34 +85,31 @@ var choropleth_map = function choropleth_map(
     var scaled_linear = value.multiply(log_inv);
     
     var scaled_log = value.multiply(log).add(log_inv).log();
-    // var scaled_log = value.multiply(log).log();
     
     var scaled_val = scaled_linear.add(scaled_log);
     
     var min_linear = min_val.multiply(log_inv);
     
     var min_log = min_val.multiply(log).add(log_inv).log();
-    // var min_log = min_val.multiply(log).log();
     
     var min = min_log.add(min_linear);
     
     var max_linear = max_val.multiply(log_inv);
     
     var max_log = max_val.multiply(log).add(log_inv).log();
-    // var max_log = max_val.multiply(log).log();
 
     var max = max_log.add(max_linear);
     
     var step = (max.subtract(min)).divide(class_n);
-    print(step)
     
     var index = (scaled_val.subtract(min)).divide(step).round();
+    
     var index_clamp = index.clamp(0, ee.Number(class_n).subtract(1));
     
     return index_clamp;
   };
   
-  // choropleth map
+  // generate choropleth map using function
   zone = zone.map(function(f) {
 
     var value = f.getNumber(attribute);
