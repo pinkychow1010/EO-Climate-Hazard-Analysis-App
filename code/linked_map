@@ -25,6 +25,19 @@ var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 // visualize CI index
 var cisi = global_CISI.clip(pakistan);
 
+var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+
+var aoi_rwi = rwi_ds.filterBounds(pakistan).map(
+  function(point) {
+  return point.buffer(2000);
+});
+
+var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+  .reduceToImage({
+    properties: ['rwi'],
+    reducer: ee.Reducer.mean(),
+});
+
 // arguments for choropleth map
 var vector = pakistan; 
 var attribute = 'mean';
@@ -36,6 +49,12 @@ var opacity = 0.9;
 
 // sample raster values
 var zonal = cisi.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.mean()
+});
+
+var rwi_zonal = rwi.reduceRegions({
   collection: vector,
   scale: 500,
   reducer:  ee.Reducer.mean()
@@ -68,6 +87,17 @@ map1.add(ui.Label('Critical Infrastructure Spatial Index',
   color: 'white'
 }
 ));
+
+analysis.choropleth_map(
+  rwi_zonal, 
+  attribute,
+  palette, 
+  opacity, 
+  log, 
+  class_n, 
+  title,
+  map1
+  );
 
 map1.addLayer(cisi, vis, 'CISI')
 map1.setControlVisibility(true);
