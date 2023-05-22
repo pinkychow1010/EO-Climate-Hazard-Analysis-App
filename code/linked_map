@@ -60,18 +60,6 @@ var rwi_zonal = rwi.reduceRegions({
   reducer:  ee.Reducer.mean()
 });
 
-// // call function for choropleth_map
-// analysis.choropleth_map(
-//   vector=zonal, 
-//   attribute=attribute, 
-//   palette=palette, 
-//   opacity=opacity, 
-//   log=log, 
-//   class_n=class_n, 
-//   title=title
-//   );
-
-
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 
 // Create a map for each visualization option.
