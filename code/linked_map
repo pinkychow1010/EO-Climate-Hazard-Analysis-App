@@ -60,15 +60,15 @@ var zonal = cisi.reduceRegions({
 // basemap.addCustomBasemap('simpleLight');
 
 // add title label
-Map.add(ui.Label('CISI in Pakistan (2021)', 
-{
-  position: 'top-center', 
-  fontSize: '30px',
-  backgroundColor: '#0047AB',
-  fontWeight: '500',
-  color: 'white'
-}
-));
+// Map.add(ui.Label('CISI in Pakistan (2021)', 
+// {
+//   position: 'top-center', 
+//   fontSize: '30px',
+//   backgroundColor: '#0047AB',
+//   fontWeight: '500',
+//   color: 'white'
+// }
+// ));
 
 // map layout
 Map.setOptions("Hybrid");
@@ -77,13 +77,33 @@ Map.centerObject(pakistan, 6);
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 
 // Create a map for each visualization option.
-var map1 = ui.Map()
-map1.add(ui.Label('CISI'))
+var map1 = ui.Map();
+
+map1.add(ui.Label('CISI in Pakistan (2021)', 
+{
+  position: 'top-center', 
+  fontSize: '26px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
+
 map1.addLayer(cisi, vis, 'CISI')
 map1.setControlVisibility(true);
 
-var map2 = ui.Map()
-map2.add(ui.Label('CISI'))
+var map2 = ui.Map();
+
+map2.add(ui.Label('CISI in Pakistan (2021)', 
+{
+  position: 'top-center', 
+  fontSize: '26px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
+
 map2.addLayer(cisi, vis, 'CISI')
 map2.setControlVisibility(true);
 
