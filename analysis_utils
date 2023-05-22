@@ -50,7 +50,7 @@ var choropleth_map = function choropleth_map(
   log, 
   class_n,
   title,
-  map
+  map_object
   ) {
   
   if (log === undefined || log === null){var log = 0};
@@ -73,7 +73,7 @@ var choropleth_map = function choropleth_map(
     Map.centerObject(zone, 10);
     // Map.setOptions('HYBRID');
   } else {
-    map.centerObject(zone, 10);
+    map_object.centerObject(zone, 10);
   }
   
   function get_digit(number) {
@@ -122,7 +122,7 @@ var choropleth_map = function choropleth_map(
   if (map === undefined || map === null){
     Map.addLayer(VisCustom, {'opacity': opacity}, title);
   } else {
-    map.addLayer(VisCustom, {'opacity': opacity}, title);
+    map_object.addLayer(VisCustom, {'opacity': opacity}, title);
   }
   
   var vis = {
@@ -145,7 +145,7 @@ var choropleth_map = function choropleth_map(
   if (map === undefined || map === null){
     Map.add(legend);
   } else {
-    map.add(legend);
+    map_object.add(legend);
   }
   
   return legend;
