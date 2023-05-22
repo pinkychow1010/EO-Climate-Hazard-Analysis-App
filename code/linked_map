@@ -44,20 +44,20 @@ var zonal = cisi.reduceRegions({
   reducer:  ee.Reducer.mean()
 });
 
-// call function for choropleth_map
-analysis.choropleth_map(
-  vector=zonal, 
-  attribute=attribute, 
-  palette=palette, 
-  opacity=opacity, 
-  log=log, 
-  class_n=class_n, 
-  title=title
-  );
+// // call function for choropleth_map
+// analysis.choropleth_map(
+//   vector=zonal, 
+//   attribute=attribute, 
+//   palette=palette, 
+//   opacity=opacity, 
+//   log=log, 
+//   class_n=class_n, 
+//   title=title
+//   );
 
-// customized basemap to enhance visuals 
-var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
-basemap.addCustomBasemap('simpleLight');
+// // customized basemap to enhance visuals 
+// var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+// basemap.addCustomBasemap('simpleLight');
 
 // add title label
 Map.add(ui.Label('CISI in Pakistan (2021)', 
@@ -73,3 +73,32 @@ Map.add(ui.Label('CISI in Pakistan (2021)',
 // map layout
 Map.setOptions("Hybrid");
 Map.centerObject(pakistan, 6);
+
+// Create a map for each visualization option.
+var map1 = ui.Map()
+map1.add(ui.Label('CISI'))
+map1.addLayer(cisi, {}, 'CISI')
+map1.setControlVisibility(true);
+
+var map2 = ui.Map()
+map2.add(ui.Label('CISI'))
+map2.addLayer(cisi, {}, 'CISI')
+map2.setControlVisibility(true);
+
+var linker = ui.Map.Linker([map1, map2]);
+
+// Create a grid of maps.
+var mapGrid = ui.Panel(
+    [
+      ui.Panel([map1], null, {stretch: 'both'}),
+      ui.Panel([map2], null, {stretch: 'both'})
+    ],
+    ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'});
+
+map1.centerObject(pakistan,8);
+
+
+// Add the maps and title to the ui.root.
+ui.root.widgets().reset([mapGrid]);
+ui.root.setLayout(ui.Panel.Layout.Flow('vertical'));
+
