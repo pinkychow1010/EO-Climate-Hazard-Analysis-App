@@ -81,7 +81,7 @@ var map1 = ui.Map();
 
 map1.add(ui.Label('CISI in Pakistan (2021)', 
 {
-  position: 'top-center', 
+  position: 'bottom-center', 
   fontSize: '26px',
   backgroundColor: '#0047AB',
   fontWeight: '500',
@@ -96,7 +96,7 @@ var map2 = ui.Map();
 
 map2.add(ui.Label('CISI in Pakistan (2021)', 
 {
-  position: 'top-center', 
+  position: 'bottom-center', 
   fontSize: '26px',
   backgroundColor: '#0047AB',
   fontWeight: '500',
