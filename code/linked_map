@@ -74,15 +74,17 @@ Map.add(ui.Label('CISI in Pakistan (2021)',
 Map.setOptions("Hybrid");
 Map.centerObject(pakistan, 6);
 
+var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
+
 // Create a map for each visualization option.
 var map1 = ui.Map()
 map1.add(ui.Label('CISI'))
-map1.addLayer(cisi, {}, 'CISI')
+map1.addLayer(cisi, vis, 'CISI')
 map1.setControlVisibility(true);
 
 var map2 = ui.Map()
 map2.add(ui.Label('CISI'))
-map2.addLayer(cisi, {}, 'CISI')
+map2.addLayer(cisi, vis, 'CISI')
 map2.setControlVisibility(true);
 
 var linker = ui.Map.Linker([map1, map2]);
@@ -95,7 +97,7 @@ var mapGrid = ui.Panel(
     ],
     ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'});
 
-map1.centerObject(pakistan,8);
+map1.centerObject(pakistan,5);
 
 
 // Add the maps and title to the ui.root.
