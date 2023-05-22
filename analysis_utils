@@ -66,8 +66,9 @@ var choropleth_map = function choropleth_map(
   var min_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_min(attribute).getInfo());
   var max_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_max(attribute).getInfo());
   
-  // var min_val = ee.Number(vector.aggregate_min(attribute).getInfo());
-  // var max_val = ee.Number(vector.aggregate_max(attribute).getInfo());
+  // turn off log if minimal value is negetive
+  var positive = min_val.abs().eq(min_val);
+  log = log*positive;
   
   if (map_object === undefined || map_object === null){
     Map.centerObject(zone, 10);
@@ -88,33 +89,36 @@ var choropleth_map = function choropleth_map(
     
     console.log("debug")
     // cope with negetive values
-    try {
-      var scaled_log = value.log().multiply(log);
-    } catch (exception) {
-      var scaled_log = ee.Number(0);
-      log = 0;
-    } 
+    var scaled_log = value.multiply(log).log();
+    // try {
+    //   var scaled_log = value.log().multiply(log);
+    // } catch (exception) {
+    //   var scaled_log = ee.Number(0);
+    //   log = 0;
+    // } 
     
     var scaled_val = scaled_linear.add(scaled_log);
     
     var min_linear = min_val.multiply(log_inv);
     //
-    try {
-      var min_log = min_val.log().multiply(log);
-    } catch (exception) {
-      var min_log = ee.Number(0);
-    } 
+    var min_log = min_val.multiply(log).log();
+    // try {
+    //   var min_log = min_val.log().multiply(log);
+    // } catch (exception) {
+    //   var min_log = ee.Number(0);
+    // } 
     
     var min = min_log.add(min_linear);
     
     var max_linear = max_val.multiply(log_inv);
     
     //
-    try {
-      var max_log = max_val.log().multiply(log);
-    } catch (exception) {
-      var max_log = ee.Number(0);
-    }
+    var max_log = max_val.multiply(log).log();
+    // try {
+    //   var max_log = max_val.log().multiply(log);
+    // } catch (exception) {
+    //   var max_log = ee.Number(0);
+    // }
     
     var max = max_log.add(max_linear);
     
