@@ -68,7 +68,7 @@ var choropleth_map = function choropleth_map(
   
   // turn off log if minimal value is negetive
   var positive = min_val.abs().eq(min_val);
-  log = log*positive;
+  log = ee.Number(log).multiply(positive);
   
   if (map_object === undefined || map_object === null){
     Map.centerObject(zone, 10);
@@ -86,8 +86,7 @@ var choropleth_map = function choropleth_map(
     var log_inv = ee.Number(log).eq(ee.Number(0)); // 1 if log = 0 and 0 if log = 1
     
     var scaled_linear = value.multiply(log_inv);
-    
-    console.log("debug")
+
     // cope with negetive values
     var scaled_log = value.multiply(log).log();
     // try {
@@ -163,7 +162,7 @@ var choropleth_map = function choropleth_map(
   
   function toString(number) {
     return ee.Number(number).format('%d')
-  }
+  };
 
   var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
   
