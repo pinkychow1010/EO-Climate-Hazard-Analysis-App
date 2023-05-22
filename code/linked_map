@@ -70,9 +70,9 @@ var zonal = cisi.reduceRegions({
 // }
 // ));
 
-// map layout
-Map.setOptions("Hybrid");
-Map.centerObject(pakistan, 6);
+// // map layout
+// Map.setOptions("Hybrid");
+// Map.centerObject(pakistan, 6);
 
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 
