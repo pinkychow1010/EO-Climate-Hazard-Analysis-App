@@ -85,16 +85,38 @@ var choropleth_map = function choropleth_map(
     var log_inv = ee.Number(log).eq(ee.Number(0)); // 1 if log = 0 and 0 if log = 1
     
     var scaled_linear = value.multiply(log_inv);
-    var scaled_log = value.log().multiply(log);
+    
+    // cope with negetive values
+    try {
+      var scaled_log = value.log().multiply(log);
+    } catch (exception) {
+      var scaled_log = 0;
+      log = 0;
+    } 
+    
     
     var scaled_val = scaled_linear.add(scaled_log);
     
     var min_linear = min_val.multiply(log_inv);
-    var min_log = min_val.log().multiply(log);
+    //
+    try {
+      var min_log = min_val.log().multiply(log);
+    } catch (exception) {
+      var min_log = 0;
+    } 
+    
+    
     var min = min_log.add(min_linear);
     
     var max_linear = max_val.multiply(log_inv);
-    var max_log = max_val.log().multiply(log);
+    
+    //
+    try {
+      var max_log = max_val.log().multiply(log);
+    } catch (exception) {
+      var max_log = 0;
+    }
+    
     var max = max_log.add(max_linear);
     
     var step = (max.subtract(min)).divide(class_n);
