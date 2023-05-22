@@ -91,7 +91,7 @@ var choropleth_map = function choropleth_map(
     try {
       var scaled_log = value.log().multiply(log);
     } catch (exception) {
-      var scaled_log = 0;
+      var scaled_log = ee.Number(0);
       log = 0;
     } 
     
@@ -103,7 +103,7 @@ var choropleth_map = function choropleth_map(
     try {
       var min_log = min_val.log().multiply(log);
     } catch (exception) {
-      var min_log = 0;
+      var min_log = ee.Number(0);
     } 
     
     var min = min_log.add(min_linear);
@@ -114,7 +114,7 @@ var choropleth_map = function choropleth_map(
     try {
       var max_log = max_val.log().multiply(log);
     } catch (exception) {
-      var max_log = 0;
+      var max_log = ee.Number(0);
     }
     
     var max = max_log.add(max_linear);
