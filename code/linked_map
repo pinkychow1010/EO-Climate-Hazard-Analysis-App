@@ -41,7 +41,7 @@ var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
 // arguments for choropleth map
 var vector = pakistan; 
 var attribute = 'mean';
-var palette = palettes.cmocean.Balance[6];
+var palette = palettes.cmocean.Balance[6].reverse();
 var log = 0;
 var class_n = 6;
 var title = "Mean";
