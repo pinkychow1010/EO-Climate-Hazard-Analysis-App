@@ -83,7 +83,18 @@ map2.add(ui.Label('Critical Infrastructure Spatial Index',
 }
 ));
 
-map2.addLayer(cisi, vis, 'CISI')
+// call function for choropleth_map
+analysis.choropleth_map(
+  zonal, 
+  attribute, 
+  palette, 
+  opacity, 
+  log, 
+  class_n, 
+  title,
+  map2
+  );
+
 map2.setControlVisibility(true);
 
 var linker = ui.Map.Linker([map1, map2]);
@@ -125,7 +136,7 @@ mainPanel.add(title);
 
 // // customized basemap to enhance visuals 
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
-var new_basemap = basemap.getCustomBasemap('simpleLight');
+var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 
 // customized basemap to enhance visuals
 map1.setOptions(undefined, {'Custom': new_basemap});
