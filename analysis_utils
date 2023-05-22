@@ -69,7 +69,7 @@ var choropleth_map = function choropleth_map(
   // var min_val = ee.Number(vector.aggregate_min(attribute).getInfo());
   // var max_val = ee.Number(vector.aggregate_max(attribute).getInfo());
   
-  if (map === undefined || map === null){
+  if (map_object === undefined || map_object === null){
     Map.centerObject(zone, 10);
     // Map.setOptions('HYBRID');
   } else {
@@ -119,7 +119,7 @@ var choropleth_map = function choropleth_map(
   });
 
     
-  if (map === undefined || map === null){
+  if (map_object === undefined || map_object === null){
     Map.addLayer(VisCustom, {'opacity': opacity}, title);
   } else {
     map_object.addLayer(VisCustom, {'opacity': opacity}, title);
@@ -142,7 +142,7 @@ var choropleth_map = function choropleth_map(
 
   var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
   
-  if (map === undefined || map === null){
+  if (map_object === undefined || map_object === null){
     Map.add(legend);
   } else {
     map_object.add(legend);
