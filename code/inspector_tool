@@ -1,50 +1,96 @@
-var text = require('users/gena/packages:text');
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #d63000 */ee.Geometry.MultiPoint();
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// function (vector + attribute) > (on click interaction)
+
+var getPolyVal = function(vector, attribute, map) {
+
+    var inspector = ui.Panel([ui.Label('Click for info')]);
+    Map.add(inspector);
+    
+    var getPolyLabel = function(coords) {
+      inspector.widgets().set(0, ui.Label({
+        value: 'Loading...',
+        style: {color: 'gray'}
+      }));
+    
+      var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+      var attribute_list = vector.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+      var shp_lst = vector.toList(vector.size());
+      
+      var out = shp_lst.map(function (element) {
+        var idx = shp_lst.indexOf(element);
+        var overlap = ee.Feature(element).intersects(click_point);
+        var target_id = ee.Algorithms.If(overlap, idx, 0);
+        return target_id;
+      }).removeAll([0]);
+      
+      try {
+        out = out.get(0).getInfo();
+        var name = ee.List(attribute_list).get(out);
+      
+        inspector.widgets().set(0, ui.Label({
+          value: name.getInfo()
+        }));
+      } catch(e) {
+        inspector.widgets().set(0, ui.Label({value: ""}))
+      }
+    }
+  Map.addLayer(vector, {}, attribute);
+  Map.centerObject(vector);
+  Map.onClick(getPolyLabel);
+};
 
 var ADM2 = ee.FeatureCollection(
   'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
   );
+
 var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
-Map.addLayer(pakistan, {},'pak');
-Map.centerObject(pakistan,5);
+getPolyVal(pakistan, 'shapeName');
 
-var shp = pakistan;
-print(shp);
 
-// Create a panel and add it to the map.
-var inspector = ui.Panel([ui.Label('Click for info')]);
-Map.add(inspector);
 
-var getPolyLabel = function(coords) {
-    inspector.widgets().set(0, ui.Label({
-      value: 'Loading...',
-      style: {color: 'gray'}
-    }));
+// Map.addLayer(pakistan, {},'pak');
+// Map.centerObject(pakistan,5);
+
+// var shp = pakistan;
+// print(shp);
+
+// // Create a panel and add it to the map.
+// var inspector = ui.Panel([ui.Label('Click for info')]);
+// Map.add(inspector);
+
+// var getPolyLabel = function(coords) {
+//     inspector.widgets().set(0, ui.Label({
+//       value: 'Loading...',
+//       style: {color: 'gray'}
+//     }));
   
-    var click_point = ee.Geometry.Point(coords.lon, coords.lat);
-    var attribute_list = shp.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
-    var shp_lst = shp.toList(shp.size());
+//     var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+//     var attribute_list = shp.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+//     var shp_lst = shp.toList(shp.size());
     
-    var out = shp_lst.map(function (ele) {
-      var idx = shp_lst.indexOf(ele);
-      var overlap = ee.Feature(ele).intersects(click_point);
-      var target_id = ee.Algorithms.If(overlap, idx, 0);
-      return target_id;
-    }).removeAll([0]);
+//     var out = shp_lst.map(function (ele) {
+//       var idx = shp_lst.indexOf(ele);
+//       var overlap = ee.Feature(ele).intersects(click_point);
+//       var target_id = ee.Algorithms.If(overlap, idx, 0);
+//       return target_id;
+//     }).removeAll([0]);
     
-    try {
-      out = out.get(0).getInfo();
-      var name = ee.List(attribute_list).get(out);
+//     try {
+//       out = out.get(0).getInfo();
+//       var name = ee.List(attribute_list).get(out);
     
-      inspector.widgets().set(0, ui.Label({
-        value: name.getInfo()
-      }));
-    } catch(e) {
-      inspector.widgets().set(0, ui.Label({value: ""}))
-    }
-}
+//       inspector.widgets().set(0, ui.Label({
+//         value: name.getInfo()
+//       }));
+//     } catch(e) {
+//       inspector.widgets().set(0, ui.Label({value: ""}))
+//     }
+// }
 
-Map.onClick(getPolyLabel);
+// Map.onClick(getPolyLabel);
 
 //
 // var getPolyLabel = function(inspector, vector, attribute) {
