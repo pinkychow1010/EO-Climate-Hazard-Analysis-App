@@ -87,7 +87,7 @@ analysis.choropleth_map(
   map1
   );
 
-map1.addLayer(cisi, vis, 'CISI')
+// map1.addLayer(cisi, vis, 'CISI')
 map1.setControlVisibility(true);
 
 var map2 = ui.Map();
