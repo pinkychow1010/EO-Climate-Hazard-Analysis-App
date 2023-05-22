@@ -24,8 +24,8 @@ var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
 // visualize CI index
 var cisi = global_CISI.clip(pakistan);
-var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
-Map.addLayer(cisi,vis,'Global CISI');
+// var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
+// Map.addLayer(cisi,vis,'Global CISI');
 
 
 // arguments for choropleth map
