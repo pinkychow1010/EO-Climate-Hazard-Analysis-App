@@ -66,7 +66,7 @@ var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 var map1 = ui.Map();
 map1.style().set('cursor', 'crosshair');
 
-map1.add(ui.Label('Critical Infrastructure Spatial Index', 
+map1.add(ui.Label('Relative Wealth Index', 
 {
   position: 'bottom-center', 
   fontSize: '22px',
