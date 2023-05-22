@@ -95,7 +95,6 @@ var choropleth_map = function choropleth_map(
       log = 0;
     } 
     
-    
     var scaled_val = scaled_linear.add(scaled_log);
     
     var min_linear = min_val.multiply(log_inv);
