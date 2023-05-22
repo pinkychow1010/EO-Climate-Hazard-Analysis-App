@@ -119,8 +119,27 @@ var mapGrid = ui.Panel(
 
 map1.centerObject(pakistan,5);
 
+var mainPanel = ui.Panel(); // side bar
+mainPanel.style().set({
+    width: '240px',
+    backgroundColor: 'black'
+  }); // styling main panel
 
 // Add the maps and title to the ui.root.
-ui.root.widgets().reset([mapGrid]);
-ui.root.setLayout(ui.Panel.Layout.Flow('vertical'));
+ui.root.widgets().reset([mainPanel, mapGrid]);
+ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
 
+// set up title
+var title = ui.Label("Comparison Panel");
+title.style().set({
+    'position':  'top-center',
+    'fontSize': '24px',
+    'color': 'white',
+    'fontWeight': 'bold',
+    'fontFamily': 'serif',
+    'backgroundColor': 'black',
+    'padding': '10px 10px 4px 4px',
+    });
+
+// content for main panel
+mainPanel.add(title);
