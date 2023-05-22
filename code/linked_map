@@ -56,7 +56,7 @@ var zonal = cisi.reduceRegions({
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 
 // Create a map for each visualization option.
-var map1 = ui.Map().set('cursor', 'crosshair');
+var map1 = ui.Map().style().set('cursor', 'crosshair');
 
 map1.add(ui.Label('Critical Infrastructure Spatial Index', 
 {
@@ -71,7 +71,7 @@ map1.add(ui.Label('Critical Infrastructure Spatial Index',
 map1.addLayer(cisi, vis, 'CISI')
 map1.setControlVisibility(true);
 
-var map2 = ui.Map().set('cursor', 'crosshair');
+var map2 = ui.Map().style().set('cursor', 'crosshair');
 
 map2.add(ui.Label('Critical Infrastructure Spatial Index', 
 {
