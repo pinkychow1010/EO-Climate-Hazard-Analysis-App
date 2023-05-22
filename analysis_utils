@@ -41,7 +41,6 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
  * @return {null} null.
  *
  */
-
 var choropleth_map = function choropleth_map(
   vector, 
   attribute, 
@@ -66,15 +65,13 @@ var choropleth_map = function choropleth_map(
   var min_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_min(attribute).getInfo());
   var max_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_max(attribute).getInfo());
   
-  // turn off log if minimal value is negetive
   var positive = min_val.abs().eq(min_val);
   log = ee.Number(log).multiply(positive);
   
   if (map_object === undefined || map_object === null){
-    Map.centerObject(zone, 10);
-    // Map.setOptions('HYBRID');
+    Map.centerObject(zone, 5);
   } else {
-    map_object.centerObject(zone, 10);
+    map_object.centerObject(zone, 5);
   }
   
   function get_digit(number) {
@@ -86,63 +83,51 @@ var choropleth_map = function choropleth_map(
     var log_inv = ee.Number(log).eq(ee.Number(0)); // 1 if log = 0 and 0 if log = 1
     
     var scaled_linear = value.multiply(log_inv);
-
-    // cope with negetive values
-    var scaled_log = value.multiply(log).log();
-    // try {
-    //   var scaled_log = value.log().multiply(log);
-    // } catch (exception) {
-    //   var scaled_log = ee.Number(0);
-    //   log = 0;
-    // } 
+    
+    var scaled_log = value.multiply(log).add(log_inv).log();
+    // var scaled_log = value.multiply(log).log();
     
     var scaled_val = scaled_linear.add(scaled_log);
     
     var min_linear = min_val.multiply(log_inv);
-    //
-    var min_log = min_val.multiply(log).log();
-    // try {
-    //   var min_log = min_val.log().multiply(log);
-    // } catch (exception) {
-    //   var min_log = ee.Number(0);
-    // } 
+    
+    var min_log = min_val.multiply(log).add(log_inv).log();
+    // var min_log = min_val.multiply(log).log();
     
     var min = min_log.add(min_linear);
     
     var max_linear = max_val.multiply(log_inv);
     
-    //
-    var max_log = max_val.multiply(log).log();
-    // try {
-    //   var max_log = max_val.log().multiply(log);
-    // } catch (exception) {
-    //   var max_log = ee.Number(0);
-    // }
-    
+    var max_log = max_val.multiply(log).add(log_inv).log();
+    // var max_log = max_val.multiply(log).log();
+
     var max = max_log.add(max_linear);
     
     var step = (max.subtract(min)).divide(class_n);
+    print(step)
     
     var index = (scaled_val.subtract(min)).divide(step).round();
     var index_clamp = index.clamp(0, ee.Number(class_n).subtract(1));
-
+    
     return index_clamp;
   };
   
+  // choropleth map
   zone = zone.map(function(f) {
 
     var value = f.getNumber(attribute);
     var index = get_index(value);
-    
     var color = colors.get(index);
+    
     return f.set('style', {fillColor: color});
     });
   
-  var VisCustom = zone.style({
+  var VisCustom = zone
+  .style({
     styleProperty: 'style'
   });
 
-    
+  Map.addLayer(VisCustom, {'opacity': opacity}, title);  
   if (map_object === undefined || map_object === null){
     Map.addLayer(VisCustom, {'opacity': opacity}, title);
   } else {
@@ -155,15 +140,16 @@ var choropleth_map = function choropleth_map(
     palette: palette
   };
   
+  
   var log_hint = ee.Dictionary({
     '1': "(log)",
     '0': ""
   });
   
   function toString(number) {
-    return ee.Number(number).format('%d')
-  };
-
+    return ee.Number(number).format('%d');
+  }
+  
   var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
   
   if (map_object === undefined || map_object === null){
@@ -173,7 +159,140 @@ var choropleth_map = function choropleth_map(
   }
   
   return legend;
-};
+}
+
+// var choropleth_map = function choropleth_map(
+//   vector, 
+//   attribute, 
+//   palette,
+//   opacity,
+//   log, 
+//   class_n,
+//   title,
+//   map_object
+//   ) {
+  
+//   if (log === undefined || log === null){var log = 0};
+//   if (class_n === undefined || class_n === null){var class_n = 7};
+//   if (title === undefined || title === null){var title = attribute};
+//   if (opacity === undefined || opacity === null){var opacity = 1};
+//   if (palette === undefined || palette === null){var palette = palettes.cmocean.Balance[7]};
+  
+//   var colors = ee.List(palette);
+//   var zone = ee.FeatureCollection(vector);
+  
+//   // filter null values to prevent errors from missing attribute values
+//   var min_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_min(attribute).getInfo());
+//   var max_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_max(attribute).getInfo());
+  
+//   // turn off log if minimal value is negetive
+//   var positive = min_val.abs().eq(min_val);
+//   log = ee.Number(log).multiply(positive);
+  
+//   if (map_object === undefined || map_object === null){
+//     Map.centerObject(zone, 10);
+//     // Map.setOptions('HYBRID');
+//   } else {
+//     map_object.centerObject(zone, 10);
+//   }
+  
+//   function get_digit(number) {
+//     return number.toString().length;
+//   }
+  
+//   var get_index = function(value) {
+    
+//     var log_inv = ee.Number(log).eq(ee.Number(0)); // 1 if log = 0 and 0 if log = 1
+    
+//     var scaled_linear = value.multiply(log_inv);
+
+//     // cope with negetive values
+//     var scaled_log = value.multiply(log).log();
+//     // try {
+//     //   var scaled_log = value.log().multiply(log);
+//     // } catch (exception) {
+//     //   var scaled_log = ee.Number(0);
+//     //   log = 0;
+//     // } 
+    
+//     var scaled_val = scaled_linear.add(scaled_log);
+    
+//     var min_linear = min_val.multiply(log_inv);
+//     //
+//     var min_log = min_val.multiply(log).log();
+//     // try {
+//     //   var min_log = min_val.log().multiply(log);
+//     // } catch (exception) {
+//     //   var min_log = ee.Number(0);
+//     // } 
+    
+//     var min = min_log.add(min_linear);
+    
+//     var max_linear = max_val.multiply(log_inv);
+    
+//     //
+//     var max_log = max_val.multiply(log).log();
+//     // try {
+//     //   var max_log = max_val.log().multiply(log);
+//     // } catch (exception) {
+//     //   var max_log = ee.Number(0);
+//     // }
+    
+//     var max = max_log.add(max_linear);
+    
+//     var step = (max.subtract(min)).divide(class_n);
+    
+//     var index = (scaled_val.subtract(min)).divide(step).round();
+//     var index_clamp = index.clamp(0, ee.Number(class_n).subtract(1));
+
+//     return index_clamp;
+//   };
+  
+//   zone = zone.map(function(f) {
+
+//     var value = f.getNumber(attribute);
+//     var index = get_index(value);
+    
+//     var color = colors.get(index);
+//     return f.set('style', {fillColor: color});
+//     });
+  
+//   var VisCustom = zone.style({
+//     styleProperty: 'style'
+//   });
+
+    
+//   if (map_object === undefined || map_object === null){
+//     Map.addLayer(VisCustom, {'opacity': opacity}, title);
+//   } else {
+//     map_object.addLayer(VisCustom, {'opacity': opacity}, title);
+//   }
+  
+//   var vis = {
+//     min: vector.aggregate_min(attribute).getInfo(),
+//     max: vector.aggregate_max(attribute).getInfo(),
+//     palette: palette
+//   };
+  
+//   var log_hint = ee.Dictionary({
+//     '1': "(log)",
+//     '0': ""
+//   });
+  
+//   function toString(number) {
+//     return ee.Number(number).format('%d')
+//   };
+
+//   var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
+  
+//   if (map_object === undefined || map_object === null){
+//     Map.add(legend);
+//   } else {
+//     map_object.add(legend);
+//   }
+  
+//   return legend;
+// };
 
 // var choropleth_map = function choropleth_map(
 //   vector, 
