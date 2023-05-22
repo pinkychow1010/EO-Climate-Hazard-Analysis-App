@@ -15,7 +15,7 @@ var getPolyVal = function(vector, attribute, map) {
       }));
     
       var click_point = ee.Geometry.Point(coords.lon, coords.lat);
-      var attribute_list = vector.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+      var attribute_list = vector.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
       var shp_lst = vector.toList(vector.size());
       
       var out = shp_lst.map(function (element) {
@@ -47,7 +47,27 @@ var ADM2 = ee.FeatureCollection(
 
 var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
+var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+
+var aoi_rwi = rwi_ds.filterBounds(pakistan).map(
+  function(point) {
+  return point.buffer(2000);
+});
+
+var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+  .reduceToImage({
+    properties: ['rwi'],
+    reducer: ee.Reducer.mean(),
+});
+
+var rwi_zonal = rwi.reduceRegions({
+  collection: pakistan,
+  scale: 500,
+  reducer:  ee.Reducer.mean()
+});
+
 getPolyVal(pakistan, 'shapeName');
+getPolyVal(rwi_zonal, 'mean');
 
 
 
