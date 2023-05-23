@@ -146,25 +146,26 @@ var choropleth_map = function choropleth_map(
   
   // generate choropleth map using function
   zone = zone.map(function(f) {
-
+    // use index to get specific color
     var value = f.getNumber(attribute);
     var index = get_index(value);
     var color = colors.get(index);
     
+    // use color to set style
     return f.set('style', {fillColor: color});
     });
   
-  var VisCustom = zone
-  .style({
-    styleProperty: 'style'
-  });
+  // style zonal layer using customized color map
+  var VisCustom = zone.style({styleProperty: 'style'});
  
+  // add choropleth map to map object
   if (map_object === undefined || map_object === null){
     Map.addLayer(VisCustom, {'opacity': opacity}, title);
   } else {
     map_object.addLayer(VisCustom, {'opacity': opacity}, title);
   }
   
+  // use layer statistics to define legend color bar
   var vis = {
     min: vector.aggregate_min(attribute).getInfo(),
     max: vector.aggregate_max(attribute).getInfo(),
@@ -181,8 +182,10 @@ var choropleth_map = function choropleth_map(
     return ee.Number(number).format('%d');
   }
   
+  // set up legend with color bar
   var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
   
+  // display legend layer
   if (map_object === undefined || map_object === null){
     Map.add(legend);
   } else {
@@ -190,7 +193,7 @@ var choropleth_map = function choropleth_map(
   }
   
   return legend;
-}
+};
 
 // var choropleth_map = function choropleth_map(
 //   vector, 
