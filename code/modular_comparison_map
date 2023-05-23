@@ -16,19 +16,19 @@ var palettes = require('users/gena/packages:palettes');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 
-// get area of interest: Pakistan
+// get area of interest: aoi
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
-var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
 // visualize CI index
 var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
-var cisi = global_CISI.clip(pakistan);
+var cisi = global_CISI.clip(aoi);
 
 // get rwi data layer from community project
 var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
 
 // buffer point grid to fill gaps
-var aoi_rwi = rwi_ds.filterBounds(pakistan).map(
+var aoi_rwi = rwi_ds.filterBounds(aoi).map(
   function(point) {
   return point.buffer(2000);
 });
@@ -56,7 +56,7 @@ map1.add(ui.Label('Relative Wealth Index',
 ));
 
 // display choropleth map
-helper.zonalInspect(pakistan, rwi, map1);
+helper.zonalInspect(aoi, rwi, map1);
 
 // set all map controls
 var mapControl = {
@@ -87,7 +87,7 @@ map2.add(ui.Label('Critical Infrastructure Spatial Index',
 ));
 
 // call function for choropleth map in the second (right) panel
-helper.zonalInspect(pakistan, cisi, map2);
+helper.zonalInspect(aoi, cisi, map2);
 
 // set map control
 map2.setControlVisibility(mapControl);
@@ -105,7 +105,7 @@ var mapGrid = ui.Panel(
     ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'});
 
 // center map
-map1.centerObject(pakistan,5);
+map1.centerObject(aoi,5);
 
 var mainPanel = ui.Panel(); // side bar
 mainPanel.style().set({
@@ -140,8 +140,8 @@ var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 map1.setOptions(undefined, {'Custom': new_basemap});
 map2.setOptions(undefined, {'Custom': new_basemap});
 
-map1.centerObject(pakistan,5);
-map2.centerObject(pakistan,5);
+map1.centerObject(aoi,5);
+map2.centerObject(aoi,5);
 
 
 
