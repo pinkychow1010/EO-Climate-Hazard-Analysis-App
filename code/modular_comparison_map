@@ -18,7 +18,7 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 
 // get area of interest: aoi
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
-var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'AUS'));
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
 Map.addLayer(aoi);
 Map.centerObject(aoi);
