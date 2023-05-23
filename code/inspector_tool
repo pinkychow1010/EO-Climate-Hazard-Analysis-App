@@ -84,24 +84,26 @@ var getPolyVal = function(vector, attribute, map) {
         var overlap = ee.Feature(element).intersects(click_point);
         var target_id = ee.Algorithms.If(overlap, idx, 0);
         return target_id;
-      }).removeAll([0]); // perserve only target id
+      }).removeAll([0]); // perserve only target index
       
       try {
-        out = out.get(0).getInfo();
-        var id = ee.List(id_list).get(out);
-        var attribute_value = ee.List(attribute_list).get(out);
-      
+        out = out.get(0).getInfo(); // target index
+        var id = ee.List(id_list).get(out); // target name
+        var attribute_value = ee.List(attribute_list).get(out); // target attribute value
+        
+        // set label layout
         var value_label = ui.Label({
-            value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2)
+            value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2) // round to 2 decimals
           });
         
-        var empty_label = ui.Label({value: ""});
-        
+        // set dark theme for widgets
         value_label.style().set(dark_theme);
-        empty_label.style().set(dark_theme);
         
         inspector.widgets().set(0, value_label);
       } catch(e) {
+        // empty label if no overlap
+        var empty_label = ui.Label({value: ""});
+        empty_label.style().set(dark_theme); // set dark theme
         inspector.widgets().set(0, empty_label)
       }
     }
