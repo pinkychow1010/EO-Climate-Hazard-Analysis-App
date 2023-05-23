@@ -104,9 +104,9 @@ var getPolyVal = function(vector, attribute, map) {
         // empty label if no overlap
         var empty_label = ui.Label({value: ""});
         empty_label.style().set(dark_theme); // set dark theme
-        inspector.widgets().set(0, empty_label)
+        inspector.widgets().set(0, empty_label);
       }
-    }
+    };
   
   // display vector layer with inspector function to map object
   if (map === undefined || map === null){
@@ -125,14 +125,18 @@ var getPolyVal = function(vector, attribute, map) {
 // ######    Example Usage            ###### //
 // ######################################### //
 
+// get vector polygon layer
 var ADM2 = ee.FeatureCollection(
   'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
   );
 
+// Pakistan as aoi
 var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
+// get dataset layer
 var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
 
+// process layer to image
 var aoi_rwi = rwi_ds.filterBounds(pakistan).map(
   function(point) {
   return point.buffer(2000);
@@ -144,15 +148,17 @@ var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
     reducer: ee.Reducer.mean(),
 });
 
+// sample raster values with vector layer
 var rwi_zonal = rwi.reduceRegions({
   collection: pakistan,
   scale: 500,
   reducer:  ee.Reducer.mean()
 });
 
-
+// call function for layer display with inspector tool
 getPolyVal(rwi_zonal, 'mean');
 Map.centerObject(rwi_zonal,5);
 
+// set base map
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 basemap.addCustomBasemap('MutedMonotone');
