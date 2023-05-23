@@ -51,7 +51,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal) {
   // create thumbnail from the image
   var thumbnail = ui.Thumbnail({
     image: legendImage, 
-    params: {bbox:'0,0,10,100', dimensions:'5x100'},//'10x200'},  
+    params: {bbox:'0,0,10,100', dimensions:'10x200'},
     style: {padding: '0.5px', position: 'bottom-center'}
   });
   
