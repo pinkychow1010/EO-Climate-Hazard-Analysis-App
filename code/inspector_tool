@@ -197,6 +197,10 @@ Map.centerObject(pakistan,5);
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 basemap.addCustomBasemap('MutedMonotone');
 
+
+
+
+
 // var getPolyVal = function(vector, attribute, map) {
     
 //     // import modules
