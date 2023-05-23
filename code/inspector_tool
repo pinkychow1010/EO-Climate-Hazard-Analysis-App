@@ -132,7 +132,7 @@ var getPolyVal = function(vector, attribute, map) {
       );
     
     Map.centerObject(vector);
-    Map.onClick(getPolyLabel); 
+    Map.onClick(getPolyLabel); // add on click interations
     
   } else {
     // add choropleth map
@@ -148,7 +148,7 @@ var getPolyVal = function(vector, attribute, map) {
       );
 
     map.centerObject(vector);
-    map.onClick(getPolyLabel);  
+    map.onClick(getPolyLabel);  // add on click interactions
   }
 };
 
