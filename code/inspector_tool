@@ -74,29 +74,32 @@ var getPolyVal = function(vector, attribute, map) {
       
       // get polygon attributes
       var attribute_list = vector.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
+      
+      // get feature list
       var shp_lst = vector.toList(vector.size());
       
+      // get id of the clicked polygon
       var out = shp_lst.map(function (element) {
         var idx = shp_lst.indexOf(element);
         var overlap = ee.Feature(element).intersects(click_point);
         var target_id = ee.Algorithms.If(overlap, idx, 0);
         return target_id;
-      }).removeAll([0]);
+      }).removeAll([0]); // perserve only target id
       
       try {
         out = out.get(0).getInfo();
         var id = ee.List(id_list).get(out);
         var attribute_value = ee.List(attribute_list).get(out);
       
-      var value_label = ui.Label({
-          value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2)
-        });
-      
-      var empty_label = ui.Label({value: ""});
-      
-      value_label.style().set(dark_theme);
-      empty_label.style().set(dark_theme);
-      
+        var value_label = ui.Label({
+            value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2)
+          });
+        
+        var empty_label = ui.Label({value: ""});
+        
+        value_label.style().set(dark_theme);
+        empty_label.style().set(dark_theme);
+        
         inspector.widgets().set(0, value_label);
       } catch(e) {
         inspector.widgets().set(0, empty_label)
