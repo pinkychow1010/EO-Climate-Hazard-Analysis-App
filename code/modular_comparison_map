@@ -60,11 +60,6 @@ map1.add(ui.Label('Relative Wealth Index',
 
 // display choropleth map
 helper.zonalInspect(aoi, rwi, map1);
-// try {
-//   helper.zonalInspect(aoi, rwi, map1);
-// } catch(e) {
-  
-// }
 
 // set all map controls
 var mapControl = {
