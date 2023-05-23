@@ -2,14 +2,17 @@
 var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI"),
     infrastructure = ee.ImageCollection("projects/sat-io/open-datasets/CISI/amount_infrastructure");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
 // ######################################### //
 // ######    Mulit-variable           ###### //
 // ######    Linked Map               ###### //
 // ######################################### //
 
 /**
- * This is an example script for linked map
- * 
+ * This is an example script for comparison maps where
+ * two different variables are displayed side by side
+ * in the form of choropleth map. 
  */
 
 // import modules 
