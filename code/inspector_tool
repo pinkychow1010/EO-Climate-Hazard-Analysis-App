@@ -34,7 +34,7 @@ var geometry = /* color: #d63000 */ee.Geometry.MultiPoint();
  * @return {null}
  *
  */
-var getPolyVal = function(vector, attribute, map) {
+var getPolyVal = function(vector, raster, map) {
     
     // import modules
     var palettes = require('users/gena/packages:palettes');
@@ -45,6 +45,15 @@ var getPolyVal = function(vector, attribute, map) {
         'backgroundColor': 'black',
         'color': 'white'
       };
+    
+    // sample raster values with vector layer
+    var zonal = raster.reduceRegions({
+      collection: vector,
+      scale: 500,
+      reducer:  ee.Reducer.mean().setOutputs(["mean"]) // new property call "mean"
+    });
+    
+    var attribute = "mean"; // set as attribute
     
     // initial label for inspector
     var click = ui.Label('Click for info');
@@ -115,7 +124,7 @@ var getPolyVal = function(vector, attribute, map) {
   var palette = palettes.colorbrewer.RdBu[6]; // color map
   var log = 0; // option for log scale
   var class_n = 6; // number of class/ bins
-  var title = attribute; // layer name
+  var title = "Layer Mean"; // layer name
   var opacity = 0.9; // layer transparancy
 
   // display vector layer with inspector function to map object
@@ -180,17 +189,171 @@ var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
     reducer: ee.Reducer.mean(),
 });
 
-// sample raster values with vector layer
-var rwi_zonal = rwi.reduceRegions({
-  collection: pakistan,
-  scale: 500,
-  reducer:  ee.Reducer.mean()
-});
-
 // call function for layer display with inspector tool
-getPolyVal(rwi_zonal, 'mean');
-Map.centerObject(rwi_zonal,5);
+zonalInspect(pakistan, rwi);
+Map.centerObject(pakistan,5);
 
 // set base map
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 basemap.addCustomBasemap('MutedMonotone');
+
+// var getPolyVal = function(vector, attribute, map) {
+    
+//     // import modules
+//     var palettes = require('users/gena/packages:palettes');
+//     var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+    
+//     // set dark theme for label
+//     var dark_theme = {
+//         'backgroundColor': 'black',
+//         'color': 'white'
+//       };
+    
+//     // initial label for inspector
+//     var click = ui.Label('Click for info');
+//     var inspector = ui.Panel([click]);
+    
+//     // set dark theme
+//     click.style().set(dark_theme);
+//     inspector.style().set(dark_theme);
+    
+//     // add tool to map object
+//     if (map === undefined || map === null){
+//       Map.add(inspector);  
+//     } else {
+//       map.add(inspector); 
+//     }
+    
+//     // internal functions for get polygon property
+//     var getPolyLabel = function(coords) {
+      
+//       // initial label
+//       inspector.widgets().set(0, ui.Label({
+//         value: 'Loading...',
+//         style: dark_theme
+//       }));
+      
+//       // get click coordinates
+//       var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+      
+//       // get polygon names
+//       var id_list = vector.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+      
+//       // get polygon attributes
+//       var attribute_list = vector.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
+      
+//       // get feature list
+//       var shp_lst = vector.toList(vector.size());
+      
+//       // get id of the clicked polygon
+//       var out = shp_lst.map(function (element) {
+//         var idx = shp_lst.indexOf(element);
+//         var overlap = ee.Feature(element).intersects(click_point);
+//         var target_id = ee.Algorithms.If(overlap, idx, 0);
+//         return target_id;
+//       }).removeAll([0]); // perserve only target index
+      
+//       try {
+//         out = out.get(0).getInfo(); // target index
+//         var id = ee.List(id_list).get(out); // target name
+//         var attribute_value = ee.List(attribute_list).get(out); // target attribute value
+        
+//         // set label layout
+//         var value_label = ui.Label({
+//             value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2) // round to 2 decimals
+//           });
+        
+//         // set dark theme for widgets
+//         value_label.style().set(dark_theme);
+        
+//         inspector.widgets().set(0, value_label);
+//       } catch(e) {
+//         // empty label if no overlap
+//         var empty_label = ui.Label({value: ""});
+//         empty_label.style().set(dark_theme); // set dark theme
+//         inspector.widgets().set(0, empty_label);
+//       }
+//     };
+
+//   var palette = palettes.colorbrewer.RdBu[6]; // color map
+//   var log = 0; // option for log scale
+//   var class_n = 6; // number of class/ bins
+//   var title = attribute; // layer name
+//   var opacity = 0.9; // layer transparancy
+
+//   // display vector layer with inspector function to map object
+//   if (map === undefined || map === null){
+//     // add choropleth map
+//     analysis.choropleth_map(
+//       vector, 
+//       attribute, 
+//       palette, 
+//       opacity, 
+//       log, 
+//       class_n, 
+//       title
+//       );
+    
+//     Map.centerObject(vector);
+//     Map.onClick(getPolyLabel); // add on click interations
+    
+//   } else {
+//     // add choropleth map
+//     analysis.choropleth_map(
+//       vector, 
+//       attribute, 
+//       palette, 
+//       opacity, 
+//       log, 
+//       class_n, 
+//       title,
+//       map
+//       );
+
+//     map.centerObject(vector);
+//     map.onClick(getPolyLabel);  // add on click interactions
+//   }
+// };
+
+// // ######################################### //
+// // ######    Function                 ###### //
+// // ######    Example Usage            ###### //
+// // ######################################### //
+
+// // get vector polygon layer
+// var ADM2 = ee.FeatureCollection(
+//   'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
+//   );
+
+// // Pakistan as aoi
+// var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+
+// // get dataset layer
+// var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+
+// // process layer to image
+// var aoi_rwi = rwi_ds.filterBounds(pakistan).map(
+//   function(point) {
+//   return point.buffer(2000);
+// });
+
+// var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+//   .reduceToImage({
+//     properties: ['rwi'],
+//     reducer: ee.Reducer.mean(),
+// });
+
+// // sample raster values with vector layer
+// var rwi_zonal = rwi.reduceRegions({
+//   collection: pakistan,
+//   scale: 500,
+//   reducer:  ee.Reducer.mean()
+// });
+
+// // call function for layer display with inspector tool
+// getPolyVal(rwi_zonal, 'mean');
+// Map.centerObject(rwi_zonal,5);
+
+// // set base map
+// var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+// basemap.addCustomBasemap('MutedMonotone');
