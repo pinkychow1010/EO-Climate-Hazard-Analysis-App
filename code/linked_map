@@ -28,13 +28,16 @@ var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 // visualize CI index
 var cisi = global_CISI.clip(pakistan);
 
+// get rwi data layer from community project
 var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
 
+// buffer point grid to fill gaps
 var aoi_rwi = rwi_ds.filterBounds(pakistan).map(
   function(point) {
   return point.buffer(2000);
 });
 
+// convert point grid to raster image
 var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
   .reduceToImage({
     properties: ['rwi'],
@@ -42,33 +45,38 @@ var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
 });
 
 // arguments for choropleth map
-var vector = pakistan; 
-var attribute = 'mean';
-var palette = palettes.colorbrewer.RdBu[6];
-var log = 0;
-var class_n = 6;
-var title = "Mean";
-var opacity = 0.9;
+var vector = pakistan; // the vector for polygons
+var attribute = 'mean'; // property to display
+var palette = palettes.colorbrewer.RdBu[6]; // color map
+var log = 0; // option for log scale
+var class_n = 6; // number of class/ bins
+var title = "Mean"; // layer name
+var opacity = 0.9; // layer transparancy
 
-// sample raster values
+// sample raster values using reduceRegions
+
+// critical infrastructure spatial index
 var zonal = cisi.reduceRegions({
   collection: vector,
   scale: 500,
   reducer:  ee.Reducer.mean()
 });
 
+// relative wealth index
 var rwi_zonal = rwi.reduceRegions({
   collection: vector,
   scale: 500,
   reducer:  ee.Reducer.mean()
 });
 
+// visualization parameters for choropleth map
 var vis = {min:0,max:0.2,palette: ['orange','yellow','green','blue']};
 
 // Create a map for each visualization option.
 var map1 = ui.Map();
-map1.style().set('cursor', 'crosshair');
+map1.style().set('cursor', 'crosshair'); // set cursor shape
 
+// add RWI titile label
 map1.add(ui.Label('Relative Wealth Index', 
 {
   position: 'bottom-center', 
@@ -79,6 +87,7 @@ map1.add(ui.Label('Relative Wealth Index',
 }
 ));
 
+// display choropleth map
 analysis.choropleth_map(
   rwi_zonal, 
   attribute,
@@ -90,12 +99,14 @@ analysis.choropleth_map(
   map1
   );
 
-// map1.addLayer(cisi, vis, 'CISI')
+// set all map controls
 map1.setControlVisibility(true);
 
+// set right map
 var map2 = ui.Map();
-map2.style().set('cursor', 'crosshair');
+map2.style().set('cursor', 'crosshair'); // cursor shape
 
+// title for right map
 map2.add(ui.Label('Critical Infrastructure Spatial Index', 
 {
   position: 'bottom-center', 
@@ -106,7 +117,7 @@ map2.add(ui.Label('Critical Infrastructure Spatial Index',
 }
 ));
 
-// call function for choropleth_map
+// call function for choropleth map in the second (right) panel
 analysis.choropleth_map(
   zonal, 
   attribute, 
@@ -118,11 +129,13 @@ analysis.choropleth_map(
   map2
   );
 
+// set map control
 map2.setControlVisibility(true);
 
+// link control between two maps
 var linker = ui.Map.Linker([map1, map2]);
 
-// Create a grid of maps.
+// create a grid of maps.
 var mapGrid = ui.Panel(
     [
       ui.Panel([map1], null, {stretch: 'both'}),
@@ -130,6 +143,7 @@ var mapGrid = ui.Panel(
     ],
     ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'});
 
+// center map
 map1.centerObject(pakistan,5);
 
 var mainPanel = ui.Panel(); // side bar
