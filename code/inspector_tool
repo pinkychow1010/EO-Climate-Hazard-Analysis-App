@@ -36,6 +36,10 @@ var geometry = /* color: #d63000 */ee.Geometry.MultiPoint();
  */
 var getPolyVal = function(vector, attribute, map) {
     
+    // import modules
+    var palettes = require('users/gena/packages:palettes');
+    var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+    
     // set dark theme for label
     var dark_theme = {
         'backgroundColor': 'black',
@@ -107,14 +111,40 @@ var getPolyVal = function(vector, attribute, map) {
         inspector.widgets().set(0, empty_label);
       }
     };
-  
+
+  var palette = palettes.colorbrewer.RdBu[6]; // color map
+  var log = 0; // option for log scale
+  var class_n = 6; // number of class/ bins
+  var title = attribute; // layer name
+  var opacity = 0.9; // layer transparancy
+
   // display vector layer with inspector function to map object
   if (map === undefined || map === null){
-    Map.addLayer(vector, {}, attribute);
+    analysis.choropleth_map(
+      zonal, 
+      attribute, 
+      palette, 
+      opacity, 
+      log, 
+      class_n, 
+      title
+      );
+    
     Map.centerObject(vector);
-    Map.onClick(getPolyLabel);  
+    Map.onClick(getPolyLabel); 
+    
   } else {
-    map.addLayer(vector, {}, attribute);
+    analysis.choropleth_map(
+      zonal, 
+      attribute, 
+      palette, 
+      opacity, 
+      log, 
+      class_n, 
+      title,
+      map
+      );
+    //map.addLayer(vector, {}, attribute);
     map.centerObject(vector);
     map.onClick(getPolyLabel);  
   }
@@ -162,3 +192,5 @@ Map.centerObject(rwi_zonal,5);
 // set base map
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 basemap.addCustomBasemap('MutedMonotone');
+
+//
