@@ -10,7 +10,10 @@ var getPolyVal = function(vector, attribute, map) {
         'color': 'white'
       };
       
-    var inspector = ui.Panel([ui.Label('Click for info')]);
+    var click = ui.Label('Click for info');
+    var inspector = ui.Panel([click]);
+    
+    click.style().set(dark_theme);
     inspector.style().set(dark_theme);
     
     Map.add(inspector);
@@ -18,7 +21,7 @@ var getPolyVal = function(vector, attribute, map) {
     var getPolyLabel = function(coords) {
       inspector.widgets().set(0, ui.Label({
         value: 'Loading...',
-        style: {color: 'gray'}
+        style: dark_theme
       }));
     
       var click_point = ee.Geometry.Point(coords.lon, coords.lat);
