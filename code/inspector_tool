@@ -87,10 +87,18 @@ var getPolyVal = function(vector, attribute, map) {
         inspector.widgets().set(0, empty_label)
       }
     }
-  Map.addLayer(vector, {}, attribute);
-  Map.centerObject(vector);
-  Map.onClick(getPolyLabel);
+    
+  if (map === undefined || map === null){
+    Map.addLayer(vector, {}, attribute);
+    Map.centerObject(vector);
+    Map.onClick(getPolyLabel);  
+  } else {
+    map.addLayer(vector, {}, attribute);
+    map.centerObject(vector);
+    map.onClick(getPolyLabel);  
+  }
 };
+
 
 var ADM2 = ee.FeatureCollection(
   'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
