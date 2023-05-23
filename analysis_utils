@@ -158,8 +158,7 @@ var choropleth_map = function choropleth_map(
   .style({
     styleProperty: 'style'
   });
-
-  Map.addLayer(VisCustom, {'opacity': opacity}, title);  
+ 
   if (map_object === undefined || map_object === null){
     Map.addLayer(VisCustom, {'opacity': opacity}, title);
   } else {
