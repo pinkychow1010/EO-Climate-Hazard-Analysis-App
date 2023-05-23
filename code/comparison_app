@@ -6,9 +6,15 @@
 // ######################################### //
 
 /**
- * This is an example script for comparison maps where
- * two different variables are displayed side by side
- * in the form of choropleth map using modular functions.
+ * This is a script for comparing layers between national admin regions.
+ * 
+ * To do: 
+ * - add data layer control
+ * - provide more urban heat relevant layers
+ * - change base map
+ * - debug layers with missing data
+ * - change layout from drop down to drop down + compute zonal statistics button
+ * 
  */
 
 // import modules 
