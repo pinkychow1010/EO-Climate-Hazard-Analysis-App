@@ -26,12 +26,9 @@ var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGA
 var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
 var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
   
-// get area of interest: aoi
-//var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
-//var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
-// Map.addLayer(aoi);
-// Map.centerObject(aoi);
-
+// customized basemap to enhance visuals 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 
 // Create a map for each visualization option.
 var map1 = ui.Map();
@@ -79,6 +76,10 @@ map2.add(ui.Label('Critical Infrastructure Spatial Index',
 // set map control
 map2.setControlVisibility(mapControl);
 map2.setControlVisibility({zoomControl: false}) ;
+
+// customized basemap to enhance visuals
+map1.setOptions(undefined, {'Custom': new_basemap});
+map2.setOptions(undefined, {'Custom': new_basemap});
 
 // link control between two maps
 var linker = ui.Map.Linker([map1, map2]);
@@ -131,8 +132,14 @@ mainPanel.add(dropdownPanel);
 // Update from Admin 0 selection
 // Define the onChange() function for admin0Select
 var admin0Selected = function(admin0Selection) {
-  map1.clear();
-  map2.clear();
+  // map1.clear();
+  // map2.clear();
+  map1.layers().remove(0);
+  map2.layers().remove(0);
+  
+  // // customized basemap to enhance visuals
+  // map1.setOptions(undefined, {'Custom': new_basemap});
+  // map2.setOptions(undefined, {'Custom': new_basemap});
 
   // given admin0 values, fetch admin1 values for that country
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
@@ -182,16 +189,6 @@ admin0Names.evaluate(function(items){
   admin0Select.setDisabled(false); // enable menu
   admin0Select.setPlaceholder('Select country'); // Change placeholder
 });
-
-
-// // customized basemap to enhance visuals 
-var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
-var new_basemap = basemap.getCustomBasemap('MutedMonotone');
-
-// customized basemap to enhance visuals
-map1.setOptions(undefined, {'Custom': new_basemap});
-map2.setOptions(undefined, {'Custom': new_basemap});
-
 
 
 
