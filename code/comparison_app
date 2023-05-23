@@ -111,7 +111,7 @@ title.style().set({
 mainPanel.add(title);
 
 var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
-//dropdownPanel.style().set(style.dark_theme);
+dropdownPanel.style().set({'backgroundColor': 'black'};);
 
 // set up location input session (dropdowns for admin0, admin1 and admin2 names)
 // disable admin selections
@@ -125,7 +125,8 @@ mainPanel.add(dropdownPanel);
 // Update from Admin 0 selection
 // Define the onChange() function for admin0Select
 var admin0Selected = function(admin0Selection) {
-  Map.clear();
+  map1.clear();
+  map2.clear();
 
   // given admin0 values, fetch admin1 values for that country
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
@@ -134,8 +135,6 @@ var admin0Selected = function(admin0Selection) {
   // var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
   // var admin1Names = selectedAdmin1.aggregate_array('shapeName').sort();
   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
-  Map.addLayer(aoi);
-  Map.centerObject(aoi);
   
     // visualize CI index
   var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
@@ -160,6 +159,7 @@ var admin0Selected = function(admin0Selection) {
   // call function for choropleth map in the second (right) panel
   helper.zonalInspect(aoi, rwi, map1);
   helper.zonalInspect(aoi, cisi, map2);
+  
   // center map
   map1.centerObject(aoi,5);
 };
