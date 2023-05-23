@@ -1,0 +1,299 @@
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ######################################### //
+// ######    Mulit-variable           ###### //
+// ######    Linked Map (Modular)     ###### //
+// ######################################### //
+
+/**
+ * This is an example script for comparison maps where
+ * two different variables are displayed side by side
+ * in the form of choropleth map using modular functions.
+ */
+
+// import modules 
+var palettes = require('users/gena/packages:palettes');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+
+// ############################## //
+// ######    Functions     ###### //
+// ############################## //
+
+var zonalInspect = function(vector, raster, map) {
+    
+    // import modules
+    var palettes = require('users/gena/packages:palettes');
+    var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+    
+    // set dark theme for label
+    var dark_theme = {
+        'backgroundColor': 'black',
+        'color': 'white'
+      };
+    
+    // set cursor
+    if (map === undefined || map === null){
+      Map.style().set('cursor', 'crosshair');  
+    } else {
+      map.style().set('cursor', 'crosshair');
+    }
+    
+    // sample raster values with vector layer
+    var zonal = raster.reduceRegions({
+      collection: vector,
+      scale: 500,
+      reducer:  ee.Reducer.mean().setOutputs(["mean"]) // new property call "mean"
+    });
+    
+    var attribute = "mean"; // set as attribute
+    
+    // initial label for inspector
+    var click = ui.Label('Click for info');
+    var inspector = ui.Panel([click]);
+    
+    // set dark theme
+    click.style().set(dark_theme);
+    inspector.style().set(dark_theme);
+    
+    // add tool to map object
+    if (map === undefined || map === null){
+      Map.add(inspector);  
+    } else {
+      map.add(inspector); 
+    }
+    
+    // internal functions for get polygon property
+    var getPolyLabel = function(coords) {
+      
+      // initial label
+      inspector.widgets().set(0, ui.Label({
+        value: 'Loading...',
+        style: dark_theme
+      }));
+      
+      // get click coordinates
+      var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+      
+      // get polygon names from sampled zonal layer
+      var id_list = zonal.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+      
+      // get polygon attributes from sampled zonal layer
+      var attribute_list = zonal.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
+      
+      // get feature list from sampled zonal layer
+      var shp_lst = zonal.toList(zonal.size());
+      
+      // get id of the clicked polygon
+      var out = shp_lst.map(function (element) {
+        var idx = shp_lst.indexOf(element);
+        var overlap = ee.Feature(element).intersects(click_point);
+        var target_id = ee.Algorithms.If(overlap, idx, 0);
+        return target_id;
+      }).removeAll([0]); // perserve only target index
+      
+      try {
+        out = out.get(0).getInfo(); // target index
+        var id = ee.List(id_list).get(out); // target name
+        var attribute_value = ee.List(attribute_list).get(out); // target attribute value
+        
+        // set label layout
+        var value_label = ui.Label({
+            value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2) // round to 2 decimals
+          });
+        
+        // set dark theme for widgets
+        value_label.style().set(dark_theme);
+        
+        inspector.widgets().set(0, value_label);
+      } catch(e) {
+        // empty label if no overlap
+        var empty_label = ui.Label({value: ""});
+        empty_label.style().set(dark_theme); // set dark theme
+        inspector.widgets().set(0, empty_label);
+      }
+    };
+
+  var palette = palettes.colorbrewer.RdBu[6]; // color map
+  var log = 0; // option for log scale
+  var class_n = 6; // number of class/ bins
+  var title = "Layer Mean"; // layer name
+  var opacity = 0.9; // layer transparancy
+  
+  // display vector layer with inspector function to map object
+  if (map === undefined || map === null){
+    // add choropleth map
+    analysis.choropleth_map(
+      zonal, 
+      attribute, 
+      palette, 
+      opacity, 
+      log, 
+      class_n, 
+      title
+      );
+    
+    Map.centerObject(vector);
+    Map.onClick(getPolyLabel); // add on click interations
+    
+  } else {
+    // add choropleth map
+    analysis.choropleth_map(
+      zonal, 
+      attribute, 
+      palette, 
+      opacity, 
+      log, 
+      class_n, 
+      title,
+      map
+      );
+
+    map.centerObject(vector);
+    map.onClick(getPolyLabel);  // add on click interactions
+  }
+};
+
+// #################################### //
+// ######    Apply Functions     ###### //
+// #################################### //
+
+// get area of interest: Pakistan
+var ADM2 = ee.FeatureCollection(
+  'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
+  );
+var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+
+// visualize CI index
+var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
+var cisi = global_CISI.clip(pakistan);
+
+// get rwi data layer from community project
+var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+
+// buffer point grid to fill gaps
+var aoi_rwi = rwi_ds.filterBounds(pakistan).map(
+  function(point) {
+  return point.buffer(2000);
+});
+
+// convert point grid to raster image
+var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+  .reduceToImage({
+    properties: ['rwi'],
+    reducer: ee.Reducer.mean(),
+});
+
+// Create a map for each visualization option.
+var map1 = ui.Map();
+map1.style().set('cursor', 'crosshair'); // set cursor shape
+
+// add RWI titile label
+map1.add(ui.Label('Relative Wealth Index', 
+{
+  position: 'bottom-center', 
+  fontSize: '16px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
+
+// display choropleth map
+zonalInspect(pakistan, rwi, map1);
+
+// set all map controls
+var mapControl = {
+  all: false, 
+  layerList: false, 
+  zoomControl: true, 
+  scaleControl: true, 
+  mapTypeControl: false, 
+  fullscreenControl: false, 
+  drawingToolsControl: false
+  };
+  
+map1.setControlVisibility(mapControl);
+
+// set right map
+var map2 = ui.Map();
+map2.style().set('cursor', 'crosshair'); // cursor shape
+
+// title for right map
+map2.add(ui.Label('Critical Infrastructure Spatial Index', 
+{
+  position: 'bottom-center', 
+  fontSize: '16px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
+
+// call function for choropleth map in the second (right) panel
+zonalInspect(pakistan, cisi, map2);
+
+// set map control
+map2.setControlVisibility(mapControl);
+map2.setControlVisibility({zoomControl: false}) ;
+
+// link control between two maps
+var linker = ui.Map.Linker([map1, map2]);
+
+// create a grid of maps.
+var mapGrid = ui.Panel(
+    [
+      ui.Panel([map1], null, {stretch: 'both'}),
+      ui.Panel([map2], null, {stretch: 'both'})
+    ],
+    ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'});
+
+// center map
+map1.centerObject(pakistan,5);
+
+var mainPanel = ui.Panel(); // side bar
+mainPanel.style().set({
+    width: '240px',
+    backgroundColor: 'black'
+  }); // styling main panel
+
+// Add the maps and title to the ui.root.
+ui.root.widgets().reset([mainPanel, mapGrid]);
+ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
+
+// set up title
+var title = ui.Label("Comparison Panel");
+title.style().set({
+    'position':  'top-center',
+    'fontSize': '24px',
+    'color': 'white',
+    'fontWeight': 'bold',
+    'fontFamily': 'serif',
+    'backgroundColor': 'black',
+    'padding': '10px 10px 4px 4px',
+    });
+
+// content for main panel
+mainPanel.add(title);
+
+// // customized basemap to enhance visuals 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+var new_basemap = basemap.getCustomBasemap('MutedMonotone');
+
+// customized basemap to enhance visuals
+map1.setOptions(undefined, {'Custom': new_basemap});
+map2.setOptions(undefined, {'Custom': new_basemap});
+
+map1.centerObject(pakistan,5);
+map2.centerObject(pakistan,5);
+
+
+
+
+
+
+
+
+
+
+
+
