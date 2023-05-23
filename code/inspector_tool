@@ -220,7 +220,13 @@ basemap.addCustomBasemap('MutedMonotone');
 //         'backgroundColor': 'black',
 //         'color': 'white'
 //       };
-    
+       
+//    // set cursor
+//     if (map === undefined || map === null){
+//       Map.style().set('cursor', 'crosshair');  
+//     } else {
+//       map.style().set('cursor', 'crosshair');
+//     }
 //     // initial label for inspector
 //     var click = ui.Label('Click for info');
 //     var inspector = ui.Panel([click]);
