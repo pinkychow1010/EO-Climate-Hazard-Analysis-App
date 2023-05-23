@@ -82,14 +82,14 @@ var zonalInspect = function(vector, raster, map) {
       // get click coordinates
       var click_point = ee.Geometry.Point(coords.lon, coords.lat);
       
-      // get polygon names
-      var id_list = vector.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+      // get polygon names from sampled zonal layer
+      var id_list = zonal.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
       
-      // get polygon attributes
-      var attribute_list = vector.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
+      // get polygon attributes from sampled zonal layer
+      var attribute_list = zonal.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
       
-      // get feature list
-      var shp_lst = vector.toList(vector.size());
+      // get feature list from sampled zonal layer
+      var shp_lst = zonal.toList(zonal.size());
       
       // get id of the clicked polygon
       var out = shp_lst.map(function (element) {
