@@ -15,6 +15,7 @@ var getPolyVal = function(vector, attribute, map) {
       }));
     
       var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+      var id_list = vector.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
       var attribute_list = vector.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
       var shp_lst = vector.toList(vector.size());
       
@@ -27,10 +28,11 @@ var getPolyVal = function(vector, attribute, map) {
       
       try {
         out = out.get(0).getInfo();
-        var name = ee.List(attribute_list).get(out);
+        var id = ee.List(id_list).get(out);
+        var attribute_value = ee.List(attribute_list).get(out);
       
         inspector.widgets().set(0, ui.Label({
-          value: name.getInfo()
+          value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2)
         }));
       } catch(e) {
         inspector.widgets().set(0, ui.Label({value: ""}))
@@ -66,7 +68,7 @@ var rwi_zonal = rwi.reduceRegions({
   reducer:  ee.Reducer.mean()
 });
 
-getPolyVal(pakistan, 'shapeName');
+// getPolyVal(pakistan, 'shapeName');
 getPolyVal(rwi_zonal, 'mean');
 
 
