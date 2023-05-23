@@ -1,0 +1,197 @@
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ######################################### //
+// ######    Mulit-variable           ###### //
+// ######    Linked Map (Modular)     ###### //
+// ######################################### //
+
+/**
+ * This is an example script for comparison maps where
+ * two different variables are displayed side by side
+ * in the form of choropleth map using modular functions.
+ */
+
+// import modules 
+var palettes = require('users/gena/packages:palettes');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+
+var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
+var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
+var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
+  
+// get area of interest: aoi
+//var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+//var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+// Map.addLayer(aoi);
+// Map.centerObject(aoi);
+
+
+// Create a map for each visualization option.
+var map1 = ui.Map();
+map1.style().set('cursor', 'crosshair'); // set cursor shape
+
+// add RWI title label
+map1.add(ui.Label('Relative Wealth Index', 
+{
+  position: 'bottom-center', 
+  fontSize: '16px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
+
+// set all map controls
+var mapControl = {
+  all: false, 
+  layerList: false, 
+  zoomControl: true, 
+  scaleControl: true, 
+  mapTypeControl: false, 
+  fullscreenControl: false, 
+  drawingToolsControl: false
+  };
+  
+map1.setControlVisibility(mapControl);
+
+// set right map
+var map2 = ui.Map();
+map2.style().set('cursor', 'crosshair'); // cursor shape
+
+// title for right map
+map2.add(ui.Label('Critical Infrastructure Spatial Index', 
+{
+  position: 'bottom-center', 
+  fontSize: '16px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+}
+));
+
+// set map control
+map2.setControlVisibility(mapControl);
+map2.setControlVisibility({zoomControl: false}) ;
+
+// link control between two maps
+var linker = ui.Map.Linker([map1, map2]);
+
+// create a grid of maps.
+var mapGrid = ui.Panel(
+    [
+      ui.Panel([map1], null, {stretch: 'both'}),
+      ui.Panel([map2], null, {stretch: 'both'})
+    ],
+    ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'});
+
+var mainPanel = ui.Panel(); // side bar
+mainPanel.style().set({
+    width: '240px',
+    backgroundColor: 'black'
+  }); // styling main panel
+
+// Add the maps and title to the ui.root.
+ui.root.widgets().reset([mainPanel, mapGrid]);
+ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
+
+// set up title
+var title = ui.Label("Comparison Maps");
+title.style().set({
+    'position':  'top-center',
+    'fontSize': '24px',
+    'color': 'white',
+    'fontWeight': 'bold',
+    'fontFamily': 'serif',
+    'backgroundColor': 'black',
+    'padding': '10px 10px 4px 4px',
+    });
+
+// content for main panel
+mainPanel.add(title);
+
+var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
+//dropdownPanel.style().set(style.dark_theme);
+
+// set up location input session (dropdowns for admin0, admin1 and admin2 names)
+// disable admin selections
+var admin0Select = ui.Select({
+    placeholder: 'Please wait..',
+  }).setDisabled(true);
+
+dropdownPanel.add(admin0Select);
+mainPanel.add(dropdownPanel);
+
+// Update from Admin 0 selection
+// Define the onChange() function for admin0Select
+var admin0Selected = function(admin0Selection) {
+  Map.clear();
+
+  // given admin0 values, fetch admin1 values for that country
+  var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
+  var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
+  // var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
+  // var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
+  // var admin1Names = selectedAdmin1.aggregate_array('shapeName').sort();
+  var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
+  Map.addLayer(aoi);
+  Map.centerObject(aoi);
+  
+    // visualize CI index
+  var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
+  var cisi = global_CISI.clip(aoi);
+  
+  // get rwi data layer from community project
+  var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+  
+  // buffer point grid to fill gaps
+  var aoi_rwi = rwi_ds.filterBounds(aoi).map(
+    function(point) {
+    return point.buffer(2000);
+  });
+  
+  // convert point grid to raster image
+  var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+    .reduceToImage({
+      properties: ['rwi'],
+      reducer: ee.Reducer.mean(),
+  });
+  
+  // call function for choropleth map in the second (right) panel
+  helper.zonalInspect(aoi, rwi, map1);
+  helper.zonalInspect(aoi, cisi, map2);
+  // center map
+  map1.centerObject(aoi,5);
+};
+
+admin0Select.onChange(admin0Selected);
+
+// Get all country names and sort them
+var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
+// Fetch the value using evaluate() to not block the UI
+admin0Names.evaluate(function(items){
+  admin0Select.items().reset(items);
+  admin0Select.setDisabled(false); // enable menu
+  admin0Select.setPlaceholder('Select country'); // Change placeholder
+});
+
+
+// // customized basemap to enhance visuals 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+var new_basemap = basemap.getCustomBasemap('MutedMonotone');
+
+// customized basemap to enhance visuals
+map1.setOptions(undefined, {'Custom': new_basemap});
+map2.setOptions(undefined, {'Custom': new_basemap});
+
+
+
+
+
+
+
+
+
+
+
+
