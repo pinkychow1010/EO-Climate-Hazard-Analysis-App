@@ -111,7 +111,7 @@ title.style().set({
 mainPanel.add(title);
 
 var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
-dropdownPanel.style().set({'backgroundColor': 'black'};);
+dropdownPanel.style().set({'backgroundColor': 'black'});
 
 // set up location input session (dropdowns for admin0, admin1 and admin2 names)
 // disable admin selections
