@@ -19,6 +19,8 @@ var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI"),
 var palettes = require('users/gena/packages:palettes');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 
+var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
+
 // get area of interest: Pakistan
 var ADM2 = ee.FeatureCollection(
   'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
