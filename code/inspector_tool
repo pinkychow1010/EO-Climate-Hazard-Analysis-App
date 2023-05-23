@@ -28,7 +28,7 @@ var geometry = /* color: #d63000 */ee.Geometry.MultiPoint();
  * @listens click on area of interest (coordinates will be passed)
  *
  * @param {ee.Geometry.Polygon}     vector        A vector layer which consists of multiple polygon for label display. Property shapeName will be set as ID (name).
- * @param {String}                  attribute     An attribute value from the vector layer to be display in labels.
+ * @param {ee.Image}                raster        A raster layer whose values will be used as attributes shown in labels.
  * @param {ui.Map}[map=current map] map           A map object for displaying the inspector tool.
  * 
  * @return {null}
