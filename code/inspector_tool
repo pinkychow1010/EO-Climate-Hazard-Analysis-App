@@ -1,8 +1,39 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #d63000 */ee.Geometry.MultiPoint();
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// function (vector + attribute) > (on click interaction)
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
+// ######################################### //
+// ######    Inspector Tool           ###### //
+// ######    for Dashboard            ###### //
+// ######################################### //
+
+/**
+ * This is an example script for developing an inspector tool
+ * where user can get polygon id (name) and layer values by
+ * clicking on the individual polygon.
+ */
+
+/**
+ * Add value inspector to interactive dashboard.
+ * 
+ * This function is used to add an inspector tool for user to inspect layer value interactively
+ * by clicking on the individual polygons
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @global
+ *
+ * @fires   add inspector
+ * @listens click on area of interest (coordinates will be passed)
+ *
+ * @param {ee.Geometry.Polygon}   vector        A vector layer which consists of multiple polygon for label display.
+ * @param {String}                attribute     An attribute value from the vector layer to be display in labels.
+ * @param {ui.Map}                map object    A map object for displaying the inspector tool.
+ * 
+ * @return {null}
+ *
+ */
 var getPolyVal = function(vector, attribute, map) {
     
     var dark_theme = {
