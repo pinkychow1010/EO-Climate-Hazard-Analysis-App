@@ -192,5 +192,3 @@ Map.centerObject(rwi_zonal,5);
 // set base map
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 basemap.addCustomBasemap('MutedMonotone');
-
-//
