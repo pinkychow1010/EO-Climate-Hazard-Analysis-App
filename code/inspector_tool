@@ -189,7 +189,8 @@ var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
     reducer: ee.Reducer.mean(),
 });
 
-// call function for layer display with inspector tool
+// call function for choropleth display with inspector tool
+// using a vector and raster layer
 zonalInspect(pakistan, rwi);
 Map.centerObject(pakistan,5);
 
