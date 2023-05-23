@@ -121,7 +121,7 @@ var getPolyVal = function(vector, attribute, map) {
   // display vector layer with inspector function to map object
   if (map === undefined || map === null){
     analysis.choropleth_map(
-      zonal, 
+      vector, 
       attribute, 
       palette, 
       opacity, 
@@ -135,7 +135,7 @@ var getPolyVal = function(vector, attribute, map) {
     
   } else {
     analysis.choropleth_map(
-      zonal, 
+      vector, 
       attribute, 
       palette, 
       opacity, 
@@ -144,7 +144,7 @@ var getPolyVal = function(vector, attribute, map) {
       title,
       map
       );
-    //map.addLayer(vector, {}, attribute);
+
     map.centerObject(vector);
     map.onClick(getPolyLabel);  
   }
