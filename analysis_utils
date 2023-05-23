@@ -37,7 +37,9 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
  * @param {bool}                   [log=0]       Boolean option for log color scale. With 1 the values will be colored in log scale. With 0 the values will be mapped linearly.
  * @param {integer}                [class_n=7]   Number of class for color mapping. Default 7.
  * @param {string}                 [title=attribute] Title for the map layer. Default same as attribute.
- * 
+ * @param {int}                    [decimal=2]   Decimal rounded for legend. Default 2.
+ * @param {string}                 [size="large] Legend size. One of the following "small"/"medium"/"large". Default "large".
+ *
  * @return {null} null.
  *
  */
@@ -49,7 +51,9 @@ var choropleth_map = function choropleth_map(
   log, 
   class_n,
   title,
-  map_object
+  map_object,
+  decimal,
+  size
   ) {
   
   if (log === undefined || log === null){var log = 0};
@@ -183,7 +187,12 @@ var choropleth_map = function choropleth_map(
   }
   
   // set up legend with color bar
-  var legend = helper.add_colorbar(vis, "Legend " + log_hint.get(toString(log)).getInfo());
+  var legend = helper.add_colorbar(
+    vis, 
+    "Legend " + log_hint.get(toString(log)).getInfo(),
+    decimal,
+    size
+    );
   
   // display legend layer
   if (map_object === undefined || map_object === null){
