@@ -61,6 +61,11 @@ var choropleth_map = function choropleth_map(
   var colors = ee.List(palette);
   var zone = ee.FeatureCollection(vector);
   
+  // error catching for non-existing layer property
+  if (pakistan.aggregate_count("nonon").eq(0)) {
+    throw new Error("Defined property not found in vector layer!");
+  }
+  
   // filter null values to prevent errors from missing attribute values
   // then get zonal max and min for reclassification
   var min_val = ee.Number(vector.filter(ee.Filter.neq(attribute, null)).aggregate_min(attribute).getInfo());
