@@ -120,6 +120,7 @@ var getPolyVal = function(vector, attribute, map) {
 
   // display vector layer with inspector function to map object
   if (map === undefined || map === null){
+    // add choropleth map
     analysis.choropleth_map(
       vector, 
       attribute, 
@@ -134,6 +135,7 @@ var getPolyVal = function(vector, attribute, map) {
     Map.onClick(getPolyLabel); 
     
   } else {
+    // add choropleth map
     analysis.choropleth_map(
       vector, 
       attribute, 
