@@ -19,6 +19,7 @@ var getPolyVal = function(vector, attribute, map) {
     Map.add(inspector);
     
     var getPolyLabel = function(coords) {
+      
       inspector.widgets().set(0, ui.Label({
         value: 'Loading...',
         style: dark_theme
