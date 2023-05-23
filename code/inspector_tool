@@ -99,6 +99,10 @@ var getPolyVal = function(vector, attribute, map) {
   }
 };
 
+// ######################################### //
+// ######    Function                 ###### //
+// ######    Example Usage            ###### //
+// ######################################### //
 
 var ADM2 = ee.FeatureCollection(
   'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
