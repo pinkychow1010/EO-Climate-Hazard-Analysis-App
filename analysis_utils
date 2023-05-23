@@ -61,10 +61,10 @@ var choropleth_map = function choropleth_map(
   var colors = ee.List(palette);
   var zone = ee.FeatureCollection(vector);
   
-  // error catching for non-existing layer property
-  if (vector.filter(ee.Filter.notNull([attribute])).size().eq(0)) {
-    throw new Error("Defined property not found in vector layer!");
-  }
+  // // error catching for non-existing layer property
+  // if (vector.filter(ee.Filter.notNull([attribute])).size().eq(0)) {
+  //   throw new Error("Defined property not found in vector layer!");
+  // }
   
   // filter null values to prevent errors from missing attribute values
   // then get zonal max and min for reclassification
