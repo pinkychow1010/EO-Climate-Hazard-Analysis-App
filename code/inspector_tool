@@ -31,9 +31,15 @@ var getPolyVal = function(vector, attribute, map) {
         var id = ee.List(id_list).get(out);
         var attribute_value = ee.List(attribute_list).get(out);
       
-        inspector.widgets().set(0, ui.Label({
+      var value_label = ui.Label({
           value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2)
-        }));
+        });
+      
+      value_label.style().set({
+        
+      });
+        
+        inspector.widgets().set(0, value_label);
       } catch(e) {
         inspector.widgets().set(0, ui.Label({value: ""}))
       }
@@ -68,9 +74,9 @@ var rwi_zonal = rwi.reduceRegions({
   reducer:  ee.Reducer.mean()
 });
 
-// getPolyVal(pakistan, 'shapeName');
-getPolyVal(rwi_zonal, 'mean');
 
+getPolyVal(rwi_zonal, 'mean');
+Map.centerObject(rwi_zonal,5);
 
 
 // Map.addLayer(pakistan, {},'pak');
