@@ -17,9 +17,7 @@ var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 
 // get area of interest: Pakistan
-var ADM2 = ee.FeatureCollection(
-  'projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2'
-  );
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var pakistan = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
 
 // visualize CI index
