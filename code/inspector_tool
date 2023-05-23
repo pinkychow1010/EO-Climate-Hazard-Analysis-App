@@ -46,6 +46,13 @@ var zonalInspect = function(vector, raster, map) {
         'color': 'white'
       };
     
+    // set cursor
+    if (map === undefined || map === null){
+      Map.style().set('cursor', 'crosshair');  
+    } else {
+      map.style().set('cursor', 'crosshair');
+    }
+    
     // sample raster values with vector layer
     var zonal = raster.reduceRegions({
       collection: vector,
