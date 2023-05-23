@@ -132,15 +132,34 @@ mainPanel.add(dropdownPanel);
 // Update from Admin 0 selection
 // Define the onChange() function for admin0Select
 var admin0Selected = function(admin0Selection) {
-  // map1.clear();
-  // map2.clear();
-  map1.layers().remove(0);
-  map2.layers().remove(0);
+  map1.clear();
+  map2.clear();
   
-  // // customized basemap to enhance visuals
-  // map1.setOptions(undefined, {'Custom': new_basemap});
-  // map2.setOptions(undefined, {'Custom': new_basemap});
-
+  // customized basemap to enhance visuals
+  map1.setOptions(undefined, {'Custom': new_basemap});
+  map2.setOptions(undefined, {'Custom': new_basemap});
+  
+  // add back label
+  map1.add(ui.Label('Relative Wealth Index', 
+  {
+    position: 'bottom-center', 
+    fontSize: '16px',
+    backgroundColor: '#0047AB',
+    fontWeight: '500',
+    color: 'white'
+  }
+  ));
+  
+  map2.add(ui.Label('Critical Infrastructure Spatial Index', 
+  {
+    position: 'bottom-center', 
+    fontSize: '16px',
+    backgroundColor: '#0047AB',
+    fontWeight: '500',
+    color: 'white'
+  }
+  ));
+  
   // given admin0 values, fetch admin1 values for that country
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
