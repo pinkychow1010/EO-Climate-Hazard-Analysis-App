@@ -121,7 +121,7 @@ ui.root.widgets().reset([mainPanel, mapGrid]);
 ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
 
 // set up title
-var title = ui.Label("Comparison Panel");
+var title = ui.Label("Comparison Maps");
 title.style().set({
     'position':  'top-center',
     'fontSize': '24px',
