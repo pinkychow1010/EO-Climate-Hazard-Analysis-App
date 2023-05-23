@@ -7,10 +7,28 @@
 //LEGEND (Vertical, Gradient, position can be changed intuitvely)
 //Source: https://mygeoblog.com/2017/03/02/creating-a-gradient-legend/
 
-exports.add_colorbar = function add_color_bar(vis, title, decimal) {
+exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
   
   if (decimal === undefined || decimal === null){var decimal = 2};
   if (title === undefined || title === null){var title = "Legend"};
+  if (size === undefined || size === null){var size = "large"};
+  
+  var legend_size = {
+    'large': {
+      'fontSize':'16px',
+      'thumbnail':'10x200'
+    },
+    'medium': {
+      'fontSize':'14px',
+      'thumbnail':'7x140'
+    },
+    'small': {
+      'fontSize':'12px',
+      'thumbnail':'5x100'
+    }
+  };
+  
+  var scale = legend_size[size];
   
   // set position of panel
   var legendpos = ui.Panel({
@@ -25,7 +43,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal) {
     value: title,
     style: {
       fontWeight: 'bold',
-      fontSize: '16px',
+      fontSize: scale.fontSize,//'16px',
       margin: '0 0 4px 0',
       padding: '0'
       }
@@ -42,7 +60,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal) {
   // create text on top of legend
   var panel = ui.Panel({
       widgets: [
-        ui.Label(vis['max'].toFixed(decimal))
+        ui.Label(vis.max.toFixed(decimal))
       ],
     });
   
@@ -51,7 +69,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal) {
   // create thumbnail from the image
   var thumbnail = ui.Thumbnail({
     image: legendImage, 
-    params: {bbox:'0,0,10,100', dimensions:'10x200'},
+    params: {bbox:'0,0,10,100', dimensions:scale.thumbnail},//'10x200'},
     style: {padding: '0.5px', position: 'bottom-center'}
   });
   
