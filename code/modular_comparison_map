@@ -14,150 +14,151 @@
 // import modules 
 var palettes = require('users/gena/packages:palettes');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 
-// ############################## //
-// ######    Functions     ###### //
-// ############################## //
+// // ############################## //
+// // ######    Functions     ###### //
+// // ############################## //
 
-var zonalInspect = function(vector, raster, map) {
+// var zonalInspect = function(vector, raster, map) {
     
-    // import modules
-    var palettes = require('users/gena/packages:palettes');
-    var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+//     // import modules
+//     var palettes = require('users/gena/packages:palettes');
+//     var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
     
-    // set dark theme for label
-    var dark_theme = {
-        'backgroundColor': 'black',
-        'color': 'white'
-      };
+//     // set dark theme for label
+//     var dark_theme = {
+//         'backgroundColor': 'black',
+//         'color': 'white'
+//       };
     
-    // set cursor
-    if (map === undefined || map === null){
-      Map.style().set('cursor', 'crosshair');  
-    } else {
-      map.style().set('cursor', 'crosshair');
-    }
+//     // set cursor
+//     if (map === undefined || map === null){
+//       Map.style().set('cursor', 'crosshair');  
+//     } else {
+//       map.style().set('cursor', 'crosshair');
+//     }
     
-    // sample raster values with vector layer
-    var zonal = raster.reduceRegions({
-      collection: vector,
-      scale: 500,
-      reducer:  ee.Reducer.mean().setOutputs(["mean"]) // new property call "mean"
-    });
+//     // sample raster values with vector layer
+//     var zonal = raster.reduceRegions({
+//       collection: vector,
+//       scale: 500,
+//       reducer:  ee.Reducer.mean().setOutputs(["mean"]) // new property call "mean"
+//     });
     
-    var attribute = "mean"; // set as attribute
+//     var attribute = "mean"; // set as attribute
     
-    // initial label for inspector
-    var click = ui.Label('Click for info');
-    var inspector = ui.Panel([click]);
+//     // initial label for inspector
+//     var click = ui.Label('Click for info');
+//     var inspector = ui.Panel([click]);
     
-    // set dark theme
-    click.style().set(dark_theme);
-    inspector.style().set(dark_theme);
+//     // set dark theme
+//     click.style().set(dark_theme);
+//     inspector.style().set(dark_theme);
     
-    // add tool to map object
-    if (map === undefined || map === null){
-      Map.add(inspector);  
-    } else {
-      map.add(inspector); 
-    }
+//     // add tool to map object
+//     if (map === undefined || map === null){
+//       Map.add(inspector);  
+//     } else {
+//       map.add(inspector); 
+//     }
     
-    // internal functions for get polygon property
-    var getPolyLabel = function(coords) {
+//     // internal functions for get polygon property
+//     var getPolyLabel = function(coords) {
       
-      // initial label
-      inspector.widgets().set(0, ui.Label({
-        value: 'Loading...',
-        style: dark_theme
-      }));
+//       // initial label
+//       inspector.widgets().set(0, ui.Label({
+//         value: 'Loading...',
+//         style: dark_theme
+//       }));
       
-      // get click coordinates
-      var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+//       // get click coordinates
+//       var click_point = ee.Geometry.Point(coords.lon, coords.lat);
       
-      // get polygon names from sampled zonal layer
-      var id_list = zonal.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+//       // get polygon names from sampled zonal layer
+//       var id_list = zonal.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
       
-      // get polygon attributes from sampled zonal layer
-      var attribute_list = zonal.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
+//       // get polygon attributes from sampled zonal layer
+//       var attribute_list = zonal.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
       
-      // get feature list from sampled zonal layer
-      var shp_lst = zonal.toList(zonal.size());
+//       // get feature list from sampled zonal layer
+//       var shp_lst = zonal.toList(zonal.size());
       
-      // get id of the clicked polygon
-      var out = shp_lst.map(function (element) {
-        var idx = shp_lst.indexOf(element);
-        var overlap = ee.Feature(element).intersects(click_point);
-        var target_id = ee.Algorithms.If(overlap, idx, 0);
-        return target_id;
-      }).removeAll([0]); // perserve only target index
+//       // get id of the clicked polygon
+//       var out = shp_lst.map(function (element) {
+//         var idx = shp_lst.indexOf(element);
+//         var overlap = ee.Feature(element).intersects(click_point);
+//         var target_id = ee.Algorithms.If(overlap, idx, 0);
+//         return target_id;
+//       }).removeAll([0]); // perserve only target index
       
-      try {
-        out = out.get(0).getInfo(); // target index
-        var id = ee.List(id_list).get(out); // target name
-        var attribute_value = ee.List(attribute_list).get(out); // target attribute value
+//       try {
+//         out = out.get(0).getInfo(); // target index
+//         var id = ee.List(id_list).get(out); // target name
+//         var attribute_value = ee.List(attribute_list).get(out); // target attribute value
         
-        // set label layout
-        var value_label = ui.Label({
-            value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2) // round to 2 decimals
-          });
+//         // set label layout
+//         var value_label = ui.Label({
+//             value: id.getInfo() + " " + attribute_value.getInfo().toFixed(2) // round to 2 decimals
+//           });
         
-        // set dark theme for widgets
-        value_label.style().set(dark_theme);
+//         // set dark theme for widgets
+//         value_label.style().set(dark_theme);
         
-        inspector.widgets().set(0, value_label);
-      } catch(e) {
-        // empty label if no overlap
-        var empty_label = ui.Label({value: ""});
-        empty_label.style().set(dark_theme); // set dark theme
-        inspector.widgets().set(0, empty_label);
-      }
-    };
+//         inspector.widgets().set(0, value_label);
+//       } catch(e) {
+//         // empty label if no overlap
+//         var empty_label = ui.Label({value: ""});
+//         empty_label.style().set(dark_theme); // set dark theme
+//         inspector.widgets().set(0, empty_label);
+//       }
+//     };
 
-  var palette = palettes.colorbrewer.RdBu[6]; // color map
-  var log = 0; // option for log scale
-  var class_n = 6; // number of class/ bins
-  var title = "Layer Mean"; // layer name
-  var opacity = 0.9; // layer transparancy
-  var size = "small";
+//   var palette = palettes.colorbrewer.RdBu[6]; // color map
+//   var log = 0; // option for log scale
+//   var class_n = 6; // number of class/ bins
+//   var title = "Layer Mean"; // layer name
+//   var opacity = 0.9; // layer transparancy
+//   var size = "small";
   
-  // display vector layer with inspector function to map object
-  if (map === undefined || map === null){
-    // add choropleth map
-    analysis.choropleth_map(
-      zonal, 
-      attribute, 
-      palette, 
-      opacity, 
-      log, 
-      class_n, 
-      title,
-      null,
-      null,
-      size
-      );
+//   // display vector layer with inspector function to map object
+//   if (map === undefined || map === null){
+//     // add choropleth map
+//     analysis.choropleth_map(
+//       zonal, 
+//       attribute, 
+//       palette, 
+//       opacity, 
+//       log, 
+//       class_n, 
+//       title,
+//       null,
+//       null,
+//       size
+//       );
     
-    Map.centerObject(vector);
-    Map.onClick(getPolyLabel); // add on click interations
+//     Map.centerObject(vector);
+//     Map.onClick(getPolyLabel); // add on click interations
     
-  } else {
-    // add choropleth map
-    analysis.choropleth_map(
-      zonal, 
-      attribute, 
-      palette, 
-      opacity, 
-      log, 
-      class_n, 
-      title,
-      map,
-      null,
-      size
-      );
+//   } else {
+//     // add choropleth map
+//     analysis.choropleth_map(
+//       zonal, 
+//       attribute, 
+//       palette, 
+//       opacity, 
+//       log, 
+//       class_n, 
+//       title,
+//       map,
+//       null,
+//       size
+//       );
 
-    map.centerObject(vector);
-    map.onClick(getPolyLabel);  // add on click interactions
-  }
-};
+//     map.centerObject(vector);
+//     map.onClick(getPolyLabel);  // add on click interactions
+//   }
+// };
 
 // #################################### //
 // ######    Apply Functions     ###### //
@@ -205,7 +206,7 @@ map1.add(ui.Label('Relative Wealth Index',
 ));
 
 // display choropleth map
-zonalInspect(pakistan, rwi, map1);
+helper.zonalInspect(pakistan, rwi, map1);
 
 // set all map controls
 var mapControl = {
@@ -236,7 +237,7 @@ map2.add(ui.Label('Critical Infrastructure Spatial Index',
 ));
 
 // call function for choropleth map in the second (right) panel
-zonalInspect(pakistan, cisi, map2);
+helper.zonalInspect(pakistan, cisi, map2);
 
 // set map control
 map2.setControlVisibility(mapControl);
