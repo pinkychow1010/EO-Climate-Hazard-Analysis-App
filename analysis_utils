@@ -62,7 +62,7 @@ var choropleth_map = function choropleth_map(
   var zone = ee.FeatureCollection(vector);
   
   // error catching for non-existing layer property
-  if (vector.filter(ee.Filter.notNull([attribute])).size().lte(0)) {
+  if (vector.filter(ee.Filter.notNull([attribute])).size().eq(0)) {
     throw new Error("Defined property not found in vector layer!");
   }
   
