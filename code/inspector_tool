@@ -107,7 +107,8 @@ var getPolyVal = function(vector, attribute, map) {
         inspector.widgets().set(0, empty_label)
       }
     }
-    
+  
+  // display vector layer with inspector function to map object
   if (map === undefined || map === null){
     Map.addLayer(vector, {}, attribute);
     Map.centerObject(vector);
