@@ -126,7 +126,7 @@ var zonalInspect = function(vector, raster, map) {
   var class_n = 6; // number of class/ bins
   var title = "Layer Mean"; // layer name
   var opacity = 0.9; // layer transparancy
-
+  
   // display vector layer with inspector function to map object
   if (map === undefined || map === null){
     // add choropleth map
