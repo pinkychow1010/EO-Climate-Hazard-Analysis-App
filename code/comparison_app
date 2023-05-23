@@ -162,6 +162,8 @@ var admin0Selected = function(admin0Selection) {
   
   // center map
   map1.centerObject(aoi,5);
+  map1.setControlVisibility(mapControl);
+  map2.setControlVisibility(mapControl);
 };
 
 admin0Select.onChange(admin0Selected);
