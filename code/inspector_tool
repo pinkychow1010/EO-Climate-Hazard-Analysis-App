@@ -90,6 +90,8 @@ var rwi_zonal = rwi.reduceRegions({
 getPolyVal(rwi_zonal, 'mean');
 Map.centerObject(rwi_zonal,5);
 
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+basemap.addCustomBasemap('MutedMonotone');
 
 // Map.addLayer(pakistan, {},'pak');
 // Map.centerObject(pakistan,5);
