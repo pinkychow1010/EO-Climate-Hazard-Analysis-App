@@ -193,36 +193,49 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
   // display vector layer with inspector function to map object
   if (map === undefined || map === null){
     // add choropleth map
-    analysis.choropleth_map(
-      zonal, 
-      attribute, 
-      palette, 
-      opacity, 
-      log, 
-      class_n, 
-      title,
-      null,
-      null,
-      size
-      );
+    try {
+      analysis.choropleth_map(
+        zonal, 
+        attribute, 
+        palette, 
+        opacity, 
+        log, 
+        class_n, 
+        title,
+        null,
+        null,
+        size
+        );
+    } catch(e) {
+      var no_data_label = ui.Label({value: ""});
+      no_data_label.style().set(dark_theme); // set dark theme
+      inspector.widgets().set(0, no_data_label);
+    }
+
     
     Map.centerObject(vector);
     Map.onClick(getPolyLabel); // add on click interations
     
   } else {
     // add choropleth map
-    analysis.choropleth_map(
-      zonal, 
-      attribute, 
-      palette, 
-      opacity, 
-      log, 
-      class_n, 
-      title,
-      map,
-      null,
-      size
-      );
+    try {
+      analysis.choropleth_map(
+        zonal, 
+        attribute, 
+        palette, 
+        opacity, 
+        log, 
+        class_n, 
+        title,
+        map,
+        null,
+        size
+        );
+    } catch(e) {
+      var no_data_label = ui.Label({value: ""});
+      no_data_label.style().set(dark_theme); // set dark theme
+      inspector.widgets().set(0, no_data_label);
+    }
 
     map.centerObject(vector);
     map.onClick(getPolyLabel);  // add on click interactions
