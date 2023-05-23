@@ -118,6 +118,7 @@ var zonalInspect = function(vector, raster, map) {
   var class_n = 6; // number of class/ bins
   var title = "Layer Mean"; // layer name
   var opacity = 0.9; // layer transparancy
+  var size = "small";
   
   // display vector layer with inspector function to map object
   if (map === undefined || map === null){
@@ -129,7 +130,10 @@ var zonalInspect = function(vector, raster, map) {
       opacity, 
       log, 
       class_n, 
-      title
+      title,
+      null,
+      null,
+      size
       );
     
     Map.centerObject(vector);
@@ -145,7 +149,9 @@ var zonalInspect = function(vector, raster, map) {
       log, 
       class_n, 
       title,
-      map
+      map,
+      null,
+      size
       );
 
     map.centerObject(vector);
