@@ -207,7 +207,7 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
         size
         );
     } catch(e) {
-      var no_data_label = ui.Label({value: ""});
+      var no_data_label = ui.Label({value: "NO DATA"});
       no_data_label.style().set(dark_theme); // set dark theme
       inspector.widgets().set(0, no_data_label);
     }
@@ -232,7 +232,7 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
         size
         );
     } catch(e) {
-      var no_data_label = ui.Label({value: ""});
+      var no_data_label = ui.Label({value: "NO DATA"});
       no_data_label.style().set(dark_theme); // set dark theme
       inspector.widgets().set(0, no_data_label);
     }
