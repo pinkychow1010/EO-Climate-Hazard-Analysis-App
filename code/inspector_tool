@@ -27,7 +27,7 @@ var geometry = /* color: #d63000 */ee.Geometry.MultiPoint();
  * @fires   add inspector
  * @listens click on area of interest (coordinates will be passed)
  *
- * @param {ee.Geometry.Polygon}     vector        A vector layer which consists of multiple polygon for label display.
+ * @param {ee.Geometry.Polygon}     vector        A vector layer which consists of multiple polygon for label display. Property shapeName will be set as ID (name).
  * @param {String}                  attribute     An attribute value from the vector layer to be display in labels.
  * @param {ui.Map}[map=current map] map           A map object for displaying the inspector tool.
  * 
@@ -50,23 +50,29 @@ var getPolyVal = function(vector, attribute, map) {
     click.style().set(dark_theme);
     inspector.style().set(dark_theme);
     
-    // 
+    // add tool to map object
     if (map === undefined || map === null){
       Map.add(inspector);  
     } else {
       map.add(inspector); 
     }
     
-    
+    // internal functions for get polygon property
     var getPolyLabel = function(coords) {
       
+      // initial label
       inspector.widgets().set(0, ui.Label({
         value: 'Loading...',
         style: dark_theme
       }));
-    
+      
+      // get click coordinates
       var click_point = ee.Geometry.Point(coords.lon, coords.lat);
+      
+      // get polygon names
       var id_list = vector.reduceColumns(ee.Reducer.toList(), ['shapeName']).get('list');
+      
+      // get polygon attributes
       var attribute_list = vector.reduceColumns(ee.Reducer.toList(), [attribute]).get('list');
       var shp_lst = vector.toList(vector.size());
       
