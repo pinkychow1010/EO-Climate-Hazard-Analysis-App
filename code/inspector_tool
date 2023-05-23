@@ -227,6 +227,7 @@ basemap.addCustomBasemap('MutedMonotone');
 //     } else {
 //       map.style().set('cursor', 'crosshair');
 //     }
+//
 //     // initial label for inspector
 //     var click = ui.Label('Click for info');
 //     var inspector = ui.Panel([click]);
