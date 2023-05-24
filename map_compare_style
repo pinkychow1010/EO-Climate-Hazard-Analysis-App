@@ -47,3 +47,11 @@ exports.start_button = {
     'color': '#919090',
     'padding': '15px 4px 4px 4px'
   };
+
+exports.map_label =   {
+    position: 'bottom-center', 
+    fontSize: '16px',
+    backgroundColor: '#0047AB',
+    fontWeight: '500',
+    color: 'white'
+  };
