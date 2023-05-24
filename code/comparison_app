@@ -50,6 +50,8 @@ map1.setControlVisibility(mapControl); // hide unnecessary map controls to give 
 // right map
 var map2 = ui.Map();
 map2.style().set('cursor', 'crosshair'); // cursor shape
+map2.setControlVisibility(mapControl); // set map control
+map2.setControlVisibility({zoomControl: false}) ;
 
 // add map title labels
 map1.add(ui.Label('Relative Wealth Index', 
@@ -71,10 +73,6 @@ map2.add(ui.Label('Critical Infrastructure Spatial Index',
   color: 'white'
 }
 ));
-
-// set map control
-map2.setControlVisibility(mapControl);
-map2.setControlVisibility({zoomControl: false}) ;
 
 // customized basemap to enhance visuals
 map1.setOptions(undefined, {'Custom': new_basemap});
