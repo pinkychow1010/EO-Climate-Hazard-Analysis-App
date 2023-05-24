@@ -38,3 +38,5 @@ exports.title = {
     'backgroundColor': 'black',
     'padding': '10px 10px 4px 4px',
     };
+
+exports.dark_theme = {'backgroundColor': 'black'};
