@@ -133,13 +133,12 @@ var start_button = ui.Button({
 });
 
 mainPanel.add(start_button);
+
 // Update from Admin 0 selection
 // Define the onChange() function for admin0Select
 var admin0Selected = function(admin0Selection) {
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
   map1.centerObject(selectedAdmin0,5);
-  map1.setControlVisibility(mapControl);
-  map2.setControlVisibility(mapControl);
 };
 
 admin0Select.onChange(admin0Selected);
@@ -215,7 +214,6 @@ function computeMap(value) {
   helper.zonalInspect(aoi, cisi, map2);
   
   // center map
-  // map1.centerObject(aoi,5);
   map1.setControlVisibility(mapControl);
   map2.setControlVisibility(mapControl);
 }
