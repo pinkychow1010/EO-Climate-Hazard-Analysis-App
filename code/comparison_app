@@ -212,11 +212,11 @@ function computeMap(value) {
       reducer: ee.Reducer.mean(),
   });
   
-  // call function for choropleth map in the second (right) panel
+  // call function for choropleth map in both panels
   helper.zonalInspect(aoi, rwi, map1);
   helper.zonalInspect(aoi, cisi, map2);
   
-  // center map
+  // set map control
   map1.setControlVisibility(mapControl);
   map2.setControlVisibility(mapControl);
 }
