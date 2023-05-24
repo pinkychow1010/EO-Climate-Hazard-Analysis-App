@@ -29,7 +29,18 @@ var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGA
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 
-// Create a map for each visualization option.
+// set all map controls
+var mapControl = {
+  all: false, 
+  layerList: false, 
+  zoomControl: true, 
+  scaleControl: true, 
+  mapTypeControl: false, 
+  fullscreenControl: false, 
+  drawingToolsControl: false
+  };
+
+// Create a map with custom options
 var map1 = ui.Map();
 map1.style().set('cursor', 'crosshair'); // set cursor shape
 map1.setControlVisibility(mapControl);
@@ -44,17 +55,6 @@ map1.add(ui.Label('Relative Wealth Index',
   color: 'white'
 }
 ));
-
-// set all map controls
-var mapControl = {
-  all: false, 
-  layerList: false, 
-  zoomControl: true, 
-  scaleControl: true, 
-  mapTypeControl: false, 
-  fullscreenControl: false, 
-  drawingToolsControl: false
-  };
 
 // set right map
 var map2 = ui.Map();
