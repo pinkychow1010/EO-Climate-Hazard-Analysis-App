@@ -130,6 +130,89 @@ mainPanel.add(dropdownPanel);
 // Update from Admin 0 selection
 // Define the onChange() function for admin0Select
 var admin0Selected = function(admin0Selection) {
+  map1.centerObject(aoi,5);
+  map1.setControlVisibility(mapControl);
+  map2.setControlVisibility(mapControl);
+};
+
+//   map1.clear();
+//   map2.clear();
+  
+//   // customized basemap to enhance visuals
+//   map1.setOptions(undefined, {'Custom': new_basemap});
+//   map2.setOptions(undefined, {'Custom': new_basemap});
+  
+//   // add back label
+//   map1.add(ui.Label('Relative Wealth Index', 
+//   {
+//     position: 'bottom-center', 
+//     fontSize: '16px',
+//     backgroundColor: '#0047AB',
+//     fontWeight: '500',
+//     color: 'white'
+//   }
+//   ));
+  
+//   map2.add(ui.Label('Critical Infrastructure Spatial Index', 
+//   {
+//     position: 'bottom-center', 
+//     fontSize: '16px',
+//     backgroundColor: '#0047AB',
+//     fontWeight: '500',
+//     color: 'white'
+//   }
+//   ));
+  
+//   // given admin0 values, fetch admin1 values for that country
+//   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
+//   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
+//   // var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
+//   // var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
+//   // var admin1Names = selectedAdmin1.aggregate_array('shapeName').sort();
+//   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
+  
+//     // visualize CI index
+//   var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
+//   var cisi = global_CISI.clip(aoi);
+  
+//   // get rwi data layer from community project
+//   var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+  
+//   // buffer point grid to fill gaps
+//   var aoi_rwi = rwi_ds.filterBounds(aoi).map(
+//     function(point) {
+//     return point.buffer(2000);
+//   });
+  
+//   // convert point grid to raster image
+//   var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+//     .reduceToImage({
+//       properties: ['rwi'],
+//       reducer: ee.Reducer.mean(),
+//   });
+  
+//   // call function for choropleth map in the second (right) panel
+//   helper.zonalInspect(aoi, rwi, map1);
+//   helper.zonalInspect(aoi, cisi, map2);
+  
+//   // center map
+//   map1.centerObject(aoi,5);
+//   map1.setControlVisibility(mapControl);
+//   map2.setControlVisibility(mapControl);
+// };
+
+admin0Select.onChange(admin0Selected);
+
+// Get all country names and sort them
+var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
+// Fetch the value using evaluate() to not block the UI
+admin0Names.evaluate(function(items){
+  admin0Select.items().reset(items);
+  admin0Select.setDisabled(false); // enable menu
+  admin0Select.setPlaceholder('Select country'); // Change placeholder
+});
+
+function computeMap(value) {
   map1.clear();
   map2.clear();
   
@@ -194,20 +277,7 @@ var admin0Selected = function(admin0Selection) {
   map1.centerObject(aoi,5);
   map1.setControlVisibility(mapControl);
   map2.setControlVisibility(mapControl);
-};
-
-admin0Select.onChange(admin0Selected);
-
-// Get all country names and sort them
-var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
-// Fetch the value using evaluate() to not block the UI
-admin0Names.evaluate(function(items){
-  admin0Select.items().reset(items);
-  admin0Select.setDisabled(false); // enable menu
-  admin0Select.setPlaceholder('Select country'); // Change placeholder
-});
-
-
+}
 
 
 
