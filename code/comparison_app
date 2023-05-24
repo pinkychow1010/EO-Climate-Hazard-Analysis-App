@@ -11,6 +11,8 @@
  * To do: 
  * - add data layer control
  * - provide more urban heat relevant layers
+ * - debug: Layer Mean: Tile error: Error in map(ID=00000000000000002c31):
+Number.multiply: Parameter 'left' is required.
  */
 
 // import modules 
