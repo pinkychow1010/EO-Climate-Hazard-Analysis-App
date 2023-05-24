@@ -6,7 +6,12 @@
 
 // This script stores the style settings for the comparison map tool.
 
-exports.mainPanel = {
-    width: '240px',
-    backgroundColor: 'black'
+exports.mapControl = {
+  all: false, 
+  layerList: false, 
+  zoomControl: true, 
+  scaleControl: true, 
+  mapTypeControl: false, 
+  fullscreenControl: false, 
+  drawingToolsControl: false
   };
