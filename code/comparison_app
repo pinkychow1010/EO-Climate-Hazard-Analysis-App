@@ -126,7 +126,7 @@ dropdownPanel.add(admin0Select);
 mainPanel.add(dropdownPanel);
 
 var start_button = ui.Button({
-  label: "Compute",
+  label: "Start Computing",
   onClick: computeMap
 });
 
