@@ -15,3 +15,16 @@ exports.mapControl = {
   fullscreenControl: false, 
   drawingToolsControl: false
   };
+
+exports.label = {
+  position: 'bottom-center', 
+  fontSize: '16px',
+  backgroundColor: '#0047AB',
+  fontWeight: '500',
+  color: 'white'
+};
+
+exports.mainPanel = {
+  width: '240px',
+  backgroundColor: 'black'
+  };
