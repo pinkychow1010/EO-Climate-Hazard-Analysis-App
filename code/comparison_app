@@ -136,7 +136,8 @@ mainPanel.add(start_button);
 // Update from Admin 0 selection
 // Define the onChange() function for admin0Select
 var admin0Selected = function(admin0Selection) {
-  map1.centerObject(aoi,5);
+  var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
+  map1.centerObject(selectedAdmin0,5);
   map1.setControlVisibility(mapControl);
   map2.setControlVisibility(mapControl);
 };
@@ -251,6 +252,7 @@ function computeMap(value) {
   ));
   
   // given admin0 values, fetch admin1 values for that country
+  // var aoi = admin0Select.getValue(); 
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', aoi));
   //var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
