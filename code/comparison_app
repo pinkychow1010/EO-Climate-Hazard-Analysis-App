@@ -30,15 +30,16 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 
 // set all map controls
-var mapControl = {
-  all: false, 
-  layerList: false, 
-  zoomControl: true, 
-  scaleControl: true, 
-  mapTypeControl: false, 
-  fullscreenControl: false, 
-  drawingToolsControl: false
-  };
+var mapControl = style.mapControl;
+// {
+//   all: false, 
+//   layerList: false, 
+//   zoomControl: true, 
+//   scaleControl: true, 
+//   mapTypeControl: false, 
+//   fullscreenControl: false, 
+//   drawingToolsControl: false
+//   };
 
 // Create two maps with custom options
 
@@ -61,25 +62,25 @@ map2.setOptions(undefined, {'Custom': new_basemap});
 var linker = ui.Map.Linker([map1, map2]);
 
 // add map title labels
-map1.add(ui.Label('Relative Wealth Index', 
-{
-  position: 'bottom-center', 
-  fontSize: '16px',
-  backgroundColor: '#0047AB',
-  fontWeight: '500',
-  color: 'white'
-}
-));
+map1.add(ui.Label('Relative Wealth Index', style.label));
+// {
+//   position: 'bottom-center', 
+//   fontSize: '16px',
+//   backgroundColor: '#0047AB',
+//   fontWeight: '500',
+//   color: 'white'
+// }
+// ));
 
-map2.add(ui.Label('Critical Infrastructure Spatial Index', 
-{
-  position: 'bottom-center', 
-  fontSize: '16px',
-  backgroundColor: '#0047AB',
-  fontWeight: '500',
-  color: 'white'
-}
-));
+map2.add(ui.Label('Critical Infrastructure Spatial Index', style.label));
+// {
+//   position: 'bottom-center', 
+//   fontSize: '16px',
+//   backgroundColor: '#0047AB',
+//   fontWeight: '500',
+//   color: 'white'
+// }
+// ));
 
 // create a grid of maps
 var mapGrid = ui.Panel(
@@ -90,10 +91,12 @@ var mapGrid = ui.Panel(
 
 // main panel on the side for argument selections
 var mainPanel = ui.Panel();
-mainPanel.style().set({ // define style
-    width: '240px',
-    backgroundColor: 'black'
-  });
+mainPanel.style().set(style.mainPanel); // define style
+
+// mainPanel.style().set({ // define style
+//     width: '240px',
+//     backgroundColor: 'black'
+//   });
 
 // Add the maps and title to the ui.root.
 ui.root.widgets().reset([mainPanel, mapGrid]);
@@ -101,20 +104,12 @@ ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
 
 // set up title
 var title = ui.Label("Comparison Maps");
-title.style().set({
-    'position':  'top-center',
-    'fontSize': '24px',
-    'color': 'white',
-    'fontWeight': 'bold',
-    'fontFamily': 'serif',
-    'backgroundColor': 'black',
-    'padding': '10px 10px 4px 4px',
-    });
+title.style().set(style.title);
 
 mainPanel.add(title); // add title to main panel
 
 var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
-dropdownPanel.style().set({'backgroundColor': 'black'});
+dropdownPanel.style().set(style.dark_theme);
 
 // set up location input session (dropdowns for admin0, admin1 and admin2 names)
 // disable admin selections
@@ -131,12 +126,7 @@ var start_button = ui.Button({
   onClick: computeMap
 });
 
-start_button.style().set({
-    'width': '120px',
-    'backgroundColor': 'black',
-    'color': '#919090',
-    'padding': '15px 4px 4px 4px'
-  });
+start_button.style().set(style.start_button);
 
 mainPanel.add(start_button);
 
