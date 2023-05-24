@@ -130,10 +130,10 @@ var start_button = ui.Button({
 });
 
 start_button.style().set({
-    'width': '100px',
+    'width': '120px',
     'backgroundColor': 'black',
     'color': '#919090',
-    'padding': '20px 4px 4px 4px'
+    'padding': '15px 4px 4px 4px'
   });
 
 mainPanel.add(start_button);
