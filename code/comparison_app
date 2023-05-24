@@ -154,16 +154,17 @@ admin0Names.evaluate(function(items){
   admin0Select.setPlaceholder('Select country'); // Change placeholder
 });
 
+// Get value from drop down and use it to compute layers for aoi
 function computeMap(value) {
-  var country_name = admin0Select.getValue(); 
-  map1.clear();
+  var country_name = admin0Select.getValue(); // get selected country
+  map1.clear(); // clear map
   map2.clear();
   
   // customized basemap to enhance visuals
   map1.setOptions(undefined, {'Custom': new_basemap});
   map2.setOptions(undefined, {'Custom': new_basemap});
   
-  // add back label
+  // add data layer label
   map1.add(ui.Label('Relative Wealth Index', 
   {
     position: 'bottom-center', 
@@ -184,7 +185,7 @@ function computeMap(value) {
   }
   ));
   
-  // given admin0 values, fetch admin1 values for that country
+  // use country name to compute aoi geometry
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
