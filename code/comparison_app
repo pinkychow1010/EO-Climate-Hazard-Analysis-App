@@ -133,14 +133,16 @@ var start_button = ui.Button({
 
 mainPanel.add(start_button);
 
-// Update from Admin 0 selection
-// Define the onChange() function for admin0Select
+// Update from country selection
+// function after selection: zoom to country; no computation yet
 var admin0Selected = function(admin0Selection) {
-  var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
-  map1.centerObject(selectedAdmin0,5);
+  var selectedAdmin0 = ADM0.filter(
+    ee.Filter.eq('shapeName', admin0Selection)
+    );
+  map1.centerObject(selectedAdmin0,5); // zoom to country
 };
 
-admin0Select.onChange(admin0Selected);
+admin0Select.onChange(admin0Selected); // set up response for drop down
 
 // Get all country names and sort them
 var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
