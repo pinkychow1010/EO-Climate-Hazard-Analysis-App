@@ -129,7 +129,17 @@ var start_button = ui.Button({
   onClick: computeMap
 });
 
+start_button.style().set({
+    'width': '100px',
+    'backgroundColor': 'black',
+    'color': '#919090',
+    'padding': '20px 4px 4px 4px'
+  });
+
 mainPanel.add(start_button);
+
+// center maps
+map1.setCenter(70,30,5);
 
 // Update from country selection
 // function after selection: zoom to country; no computation yet
