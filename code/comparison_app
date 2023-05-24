@@ -132,6 +132,7 @@ mainPanel.add(start_button);
 
 // center maps
 map1.setCenter(70,30,5);
+map2.setCenter(70,30,5);
 
 // Update from country selection
 // function after selection: zoom to country; no computation yet
