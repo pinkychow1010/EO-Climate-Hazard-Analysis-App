@@ -68,11 +68,6 @@ var mapGrid = ui.Panel(
 var mainPanel = ui.Panel();
 mainPanel.style().set(style.mainPanel); // define style
 
-// mainPanel.style().set({ // define style
-//     width: '240px',
-//     backgroundColor: 'black'
-//   });
-
 // Add the maps and title to the ui.root.
 ui.root.widgets().reset([mainPanel, mapGrid]);
 ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
