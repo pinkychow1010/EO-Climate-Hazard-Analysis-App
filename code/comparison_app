@@ -187,14 +187,10 @@ function computeMap(value) {
   // given admin0 values, fetch admin1 values for that country
   // var aoi = admin0Select.getValue(); 
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
-  //var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
-  // var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
-  // var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
-  // var admin1Names = selectedAdmin1.aggregate_array('shapeName').sort();
   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
   
-    // visualize CI index
+  // visualize CI index
   var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
   var cisi = global_CISI.clip(aoi);
   
