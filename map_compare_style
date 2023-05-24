@@ -40,3 +40,10 @@ exports.title = {
     };
 
 exports.dark_theme = {'backgroundColor': 'black'};
+
+exports.start_button = {
+    'width': '120px',
+    'backgroundColor': 'black',
+    'color': '#919090',
+    'padding': '15px 4px 4px 4px'
+  };
