@@ -11,8 +11,6 @@
  * To do: 
  * - add data layer control
  * - provide more urban heat relevant layers
- * - change base map
- * - debug layers with missing data
  * - change layout from drop down to drop down + compute zonal statistics button
  * 
  */
