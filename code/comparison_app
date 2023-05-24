@@ -33,18 +33,8 @@ var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 
 // set all map controls
 var mapControl = style.mapControl;
-// {
-//   all: false, 
-//   layerList: false, 
-//   zoomControl: true, 
-//   scaleControl: true, 
-//   mapTypeControl: false, 
-//   fullscreenControl: false, 
-//   drawingToolsControl: false
-//   };
 
 // Create two maps with custom options
-
 // left map
 var map1 = ui.Map();
 map1.style().set('cursor', 'crosshair'); // set cursor shape
@@ -65,24 +55,7 @@ var linker = ui.Map.Linker([map1, map2]);
 
 // add map title labels
 map1.add(ui.Label('Relative Wealth Index', style.label));
-// {
-//   position: 'bottom-center', 
-//   fontSize: '16px',
-//   backgroundColor: '#0047AB',
-//   fontWeight: '500',
-//   color: 'white'
-// }
-// ));
-
 map2.add(ui.Label('Critical Infrastructure Spatial Index', style.label));
-// {
-//   position: 'bottom-center', 
-//   fontSize: '16px',
-//   backgroundColor: '#0047AB',
-//   fontWeight: '500',
-//   color: 'white'
-// }
-// ));
 
 // create a grid of maps
 var mapGrid = ui.Panel(
