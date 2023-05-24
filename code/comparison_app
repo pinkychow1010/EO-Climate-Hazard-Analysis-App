@@ -188,13 +188,15 @@ function computeMap(value) {
   // use country name to compute aoi geometry
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
+  
+  // get details at the admin 2 level
   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
   
-  // visualize CI index
+  // visualize CISI (Layer 1)
   var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
   var cisi = global_CISI.clip(aoi);
   
-  // get rwi data layer from community project
+  // get RWI data layer from community project (Layer 2)
   var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
   
   // buffer point grid to fill gaps
