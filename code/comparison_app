@@ -97,7 +97,6 @@ var start_button = ui.Button({
 });
 
 start_button.style().set(style.start_button);
-
 mainPanel.add(start_button);
 
 // center maps
