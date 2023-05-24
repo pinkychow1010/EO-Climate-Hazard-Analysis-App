@@ -122,9 +122,10 @@ var admin0Select = ui.Select({
     placeholder: 'Please wait..',
   }).setDisabled(true);
 
-dropdownPanel.add(admin0Select);
-mainPanel.add(dropdownPanel);
+dropdownPanel.add(admin0Select); // add country drop down
+mainPanel.add(dropdownPanel); // display on main panel
 
+// start computing button to pass arguments to calculation
 var start_button = ui.Button({
   label: "Start Computing",
   onClick: computeMap
