@@ -32,6 +32,7 @@ var new_basemap = basemap.getCustomBasemap('MutedMonotone');
 // Create a map for each visualization option.
 var map1 = ui.Map();
 map1.style().set('cursor', 'crosshair'); // set cursor shape
+map1.setControlVisibility(mapControl);
 
 // add RWI title label
 map1.add(ui.Label('Relative Wealth Index', 
@@ -54,8 +55,6 @@ var mapControl = {
   fullscreenControl: false, 
   drawingToolsControl: false
   };
-  
-map1.setControlVisibility(mapControl);
 
 // set right map
 var map2 = ui.Map();
@@ -95,7 +94,7 @@ var mainPanel = ui.Panel(); // side bar
 mainPanel.style().set({
     width: '240px',
     backgroundColor: 'black'
-  }); // styling main panel
+  });
 
 // Add the maps and title to the ui.root.
 ui.root.widgets().reset([mainPanel, mapGrid]);
