@@ -145,6 +145,7 @@ admin0Select.onChange(admin0Selected);
 
 // Get all country names and sort them
 var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
+
 // Fetch the value using evaluate() to not block the UI
 admin0Names.evaluate(function(items){
   admin0Select.items().reset(items);
@@ -153,7 +154,6 @@ admin0Names.evaluate(function(items){
 });
 
 function computeMap(value) {
-  
   var country_name = admin0Select.getValue(); 
   map1.clear();
   map2.clear();
@@ -184,7 +184,6 @@ function computeMap(value) {
   ));
   
   // given admin0 values, fetch admin1 values for that country
-  // var aoi = admin0Select.getValue(); 
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
