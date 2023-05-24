@@ -127,6 +127,12 @@ var admin0Select = ui.Select({
 dropdownPanel.add(admin0Select);
 mainPanel.add(dropdownPanel);
 
+var start_button = ui.Button({
+  label: "Compute",
+  onClick: computeMap
+});
+
+mainPanel.add(start_button);
 // Update from Admin 0 selection
 // Define the onChange() function for admin0Select
 var admin0Selected = function(admin0Selection) {
@@ -213,6 +219,9 @@ admin0Names.evaluate(function(items){
 });
 
 function computeMap(value) {
+  
+  var aoi = admin0Select.getValue(); 
+  
   map1.clear();
   map2.clear();
   
@@ -242,7 +251,8 @@ function computeMap(value) {
   ));
   
   // given admin0 values, fetch admin1 values for that country
-  var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
+  var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', aoi));
+  //var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', admin0Selection));
   var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
   // var shapeID = ee.Feature(selectedAdmin0.first()).get('shapeID');
   // var selectedAdmin1 = ADM1.filter(ee.Filter.eq('ADM0_shape', shapeID));
