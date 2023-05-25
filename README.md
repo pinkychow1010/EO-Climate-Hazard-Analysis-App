@@ -68,11 +68,11 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/rwi.gif)
   
   ### Climate Vulnerability
-  1. [WorldPop Age Risk](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/age_risk)
-  2. [Relative Wealth Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/RWI_raster_example)
-  3. [Critical Infrastructure](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/critical_infrastructure-spatial-index-cisi)
-  4. [Landscan Population](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/landscan_population)
-  5. [Drought Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/drought_index_pdsi_terraclimate)
+  1. [WorldPop Age Risk](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/age_risk)
+  2. [Relative Wealth Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/RWI_raster_example)
+  3. [Critical Infrastructure](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/critical_infrastructure_spatial_index_cisi)
+  4. [Landscan Population](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/landscan_population)
+  5. [Drought Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/drought_index_pdsi_terraclimate)
 </details>
 
 <details>
@@ -83,13 +83,13 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst.gif)
   
   ### Urban Heat Island Analysis
-  1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_choropleth)
-  2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_monthly)
-  3. [LST statitics for land use covers](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_by_LandCover)
-  4. [Diurnal LST temperature variation in summers based on Landsat](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/LST_summer)
-  5. [UHI Effects Intensity](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/UHI_effects)
-  6. [Counting very hot days based on MODIS](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/heatwave_trends)
-  7. [Heatwave events time series](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/heatwave_trends)
+  1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_choropleth)
+  2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_monthly)
+  3. [LST statitics for land use covers](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_by_LandCover)
+  4. [Diurnal LST temperature variation in summers based on Landsat](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_summer)
+  5. [UHI Effects Intensity](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/UHI_effects)
+  6. [Counting very hot days based on MODIS](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/heatwave_trends)
+  7. [Heatwave events time series](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/heatwave_trends)
 </details>
 
 <details>
