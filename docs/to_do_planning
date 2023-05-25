@@ -45,20 +45,22 @@ https://climatedataguide.ucar.edu/climate-data/palmer-drought-severity-index-pds
 - add a reset button to map for switching between analysis tasks, 
 at the moment user needs to manually reload the page to perform another task
 
-- build a template for external settings using location selection tool, 
+- <del> build a template for external settings using location selection tool, 
 at the moment user can perform tasks with location but external control, 
 eg. slider for threshold picked, is not possible. This can be solved with 
-additional widgets with the changes of Map.clear() to automated map layer removal
+additional widgets with the changes of Map.clear() to automated map layer removal </del>
+(alternative solution found: add widget in main panel)
 
-- convert Map.clear() to remove layers. At the moment after user select location,
+- <del> convert Map.clear() to remove layers. At the moment after user select location,
 all map widget will be removed along with map layers, hinder the funcationality of 
-external widgets
+external widgets </del>
 
-- convert app interface to split panel. At the moment the app interface is designed to 
+- <del> convert app interface to split panel. At the moment the app interface is designed to 
 show location selection at the top, with results displaying at the bottom. 
 The limited space causes inconvenience for displaying further information,
 as the content of the side panel will become very long and user have to schroll
-down a lot. 
+down a lot. </del>
+(alternative solution found: add welcome panel)
 
 An alternative can be a horizontal split panel, where the 
 location selection and results are displayed in the left, and analysis documentation
