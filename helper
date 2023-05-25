@@ -119,6 +119,10 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
     var data_size = zonal.filter(ee.Filter.notNull(['mean'])).size();
     var missing_ratio = ee.Number(1).subtract(data_size.divide(full_size));
     
+    // initial label for inspector
+    var click = ui.Label('Click for info');
+    var inspector = ui.Panel([click]);
+    
     if (missing_ratio > ee.Number(0.2)){
           var no_data_label = ui.Label({value: "NO DATA"});
           no_data_label.style().set(dark_theme); // set dark theme
@@ -128,10 +132,6 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
         }
       
     var attribute = "mean"; // set as attribute
-    
-    // initial label for inspector
-    var click = ui.Label('Click for info');
-    var inspector = ui.Panel([click]);
     
     // set dark theme
     click.style().set(dark_theme);
