@@ -7,6 +7,10 @@
 This page is solely a board to describe furture development plan, 
 including to do list.
 
+##############
+### ISSUES ###
+##############
+
 (known bugs)
 
 (fixed bugs)
@@ -17,10 +21,16 @@ including to do list.
 
 - <del> After downloaded, when data layer changed, raster download link does not change accordingly </del>
 
+##############
+### PLAN   ###
+##############
+
 (planned)
 
 - <priority> integrate IDAHO_EPSCOR/TERRACLIMATE pdsi (average days / year in water stress) </priority> 
 https://climatedataguide.ucar.edu/climate-data/palmer-drought-severity-index-pdsi
+
+- (In progress) <priority> add comparison map for admin levels </priority>
 
 - (In progress) <priority> add relative wealth index to downloader </priority>
 
