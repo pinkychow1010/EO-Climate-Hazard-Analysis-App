@@ -14,6 +14,14 @@
 
 <br>
 
+## **In Progress Items**
+
+- Comparison map tool where users can compare admin 2 level regions for different data layers
+
+- Integration of RWI (Relative Wealth Index), UHI Index (Urban Heat Island), GHSL, LandScan and CISI (Critical Infrastructure Spatial Index)
+
+<br>
+
 ## **Analysis Task**
 
 The toolbox allow users to easily download analysis-ready data layers, such as urban heat intensity and urbanisation trends within political-administrative boundaries worldwide. Users can download the results in CSV or GeoTIFF format for further GIS analysis.
