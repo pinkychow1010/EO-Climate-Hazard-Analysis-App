@@ -59,18 +59,18 @@ external widgets </del>
 show location selection at the top, with results displaying at the bottom. 
 The limited space causes inconvenience for displaying further information,
 as the content of the side panel will become very long and user have to schroll
-down a lot. </del>
-(alternative solution found: add welcome panel)
+down a lot.
 
 An alternative can be a horizontal split panel, where the 
 location selection and results are displayed in the left, and analysis documentation
 is displayed in the right. Default should be showing left panel only.
 User can check the right panel for information such as: how the indices are calculated?
-what data sources are used? and so on.
+what data sources are used? and so on.</del>
+(alternative solution found: add welcome panel)
 
 - documentation for different analysis tasks (in progress)
 
-- Future: air pollution S5, flooding S1 ...
+- Future: air pollution S5, flooding S1, Global UHI ...
 
 (completed)
 
