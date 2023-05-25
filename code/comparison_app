@@ -46,7 +46,7 @@ function get_rwi(aoi) {
 // all available layers
 var layer_dict = {
   "Relative Wealth Index": get_rwi,
-  "Critical Infrastructure Spatial Index": get_cisi()
+  "Critical Infrastructure Spatial Index": get_cisi
 };
 
 // import project data layers
@@ -183,9 +183,11 @@ function computeMap(value) {
   map2.setOptions(undefined, {'Custom': new_basemap});
   
   // add data layer label
-  map1.add(ui.Label(var1_selection.getValue(), style.map_label));
+  var var1 = var1_selection.getValue();
+  var var2 = var2_selection.getValue();
   
-  map2.add(ui.Label(var2_selection.getValue(), style.map_label));
+  map1.add(ui.Label(var1, style.map_label));
+  map2.add(ui.Label(var2, style.map_label));
   
   // use country name to compute aoi geometry
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
@@ -218,8 +220,8 @@ function computeMap(value) {
   // helper.zonalInspect(aoi, rwi, map1);
   // helper.zonalInspect(aoi, cisi, map2);
   
-  var layer1 = layer_dict[var1_selection](aoi);
-  var layer2 = layer_dict[var2_selection](aoi);
+  var layer1 = layer_dict[var1](aoi);
+  var layer2 = layer_dict[var2](aoi);
   
   helper.zonalInspect(aoi, layer1, map1);
   helper.zonalInspect(aoi, layer2, map2);
