@@ -18,7 +18,7 @@
 
 - Comparison map tool where users can compare admin 2 level regions for different data layers
 
-- Integration of RWI (Relative Wealth Index), UHI Index (Urban Heat Island), GHSL, LandScan and CISI (Critical Infrastructure Spatial Index)
+- Integration of [RWI (Relative Wealth Index)](https://dataforgood.facebook.com/dfg/tools/relative-wealth-index), [UHI Index (Urban Heat Island)](https://www.sciencedirect.com/science/article/abs/pii/S0303243418304653), [GHSL](https://ghsl.jrc.ec.europa.eu/ghs_pop.php), [LandScan](https://landscan.ornl.gov/) and [CISI (Critical Infrastructure Spatial Index)](https://gee-community-catalog.org/projects/cisi/)
 
 <br>
 
