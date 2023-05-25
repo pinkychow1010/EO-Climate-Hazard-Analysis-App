@@ -201,6 +201,7 @@ function computeMap(value) {
   // set map control
   map1.setControlVisibility(mapControl);
   map2.setControlVisibility(mapControl);
+  map2.setControlVisibility({zoomControl: false}) ;
 }
 
 
