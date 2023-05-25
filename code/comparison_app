@@ -20,10 +20,33 @@ var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
 
+function get_cisi(aoi) {
+  return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
+}
+
+function get_rwi(aoi) {
+  // get RWI data layer from community project (Layer 2)
+  var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+  
+  // buffer point grid to fill gaps
+  var aoi_rwi = rwi_ds.filterBounds(aoi).map(
+    function(point) {
+    return point.buffer(2000);
+  });
+  
+  // convert point grid to raster image
+  var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+    .reduceToImage({
+      properties: ['rwi'],
+      reducer: ee.Reducer.mean(),
+  }); 
+  return rwi;
+}
+
 // all available layers
 var layer_dict = {
-  "Relative Wealth Index": "",
-  "Critical Infrastructure Spatial Index": ""
+  "Relative Wealth Index": get_rwi,
+  "Critical Infrastructure Spatial Index": get_cisi()
 };
 
 // import project data layers
@@ -58,8 +81,8 @@ map2.setOptions(undefined, {'Custom': new_basemap});
 var linker = ui.Map.Linker([map1, map2]);
 
 // add map title labels
-map1.add(ui.Label('Relative Wealth Index', style.label));
-map2.add(ui.Label('Critical Infrastructure Spatial Index', style.label));
+// map1.add(ui.Label('Relative Wealth Index', style.label));
+// map2.add(ui.Label('Critical Infrastructure Spatial Index', style.label));
 
 // create a grid of maps
 var mapGrid = ui.Panel(
@@ -160,9 +183,9 @@ function computeMap(value) {
   map2.setOptions(undefined, {'Custom': new_basemap});
   
   // add data layer label
-  map1.add(ui.Label('Relative Wealth Index', style.map_label));
+  map1.add(ui.Label(var1_selection.getValue(), style.map_label));
   
-  map2.add(ui.Label('Critical Infrastructure Spatial Index', style.map_label));
+  map2.add(ui.Label(var2_selection.getValue(), style.map_label));
   
   // use country name to compute aoi geometry
   var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
@@ -171,29 +194,35 @@ function computeMap(value) {
   // get details at the admin 2 level
   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
   
-  // visualize CISI (Layer 1)
-  var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
-  var cisi = global_CISI.clip(aoi);
+  // // visualize CISI (Layer 1)
+  // var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
+  // var cisi = global_CISI.clip(aoi);
   
-  // get RWI data layer from community project (Layer 2)
-  var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+  // // get RWI data layer from community project (Layer 2)
+  // var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
   
-  // buffer point grid to fill gaps
-  var aoi_rwi = rwi_ds.filterBounds(aoi).map(
-    function(point) {
-    return point.buffer(2000);
-  });
+  // // buffer point grid to fill gaps
+  // var aoi_rwi = rwi_ds.filterBounds(aoi).map(
+  //   function(point) {
+  //   return point.buffer(2000);
+  // });
   
-  // convert point grid to raster image
-  var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
-    .reduceToImage({
-      properties: ['rwi'],
-      reducer: ee.Reducer.mean(),
-  });
+  // // convert point grid to raster image
+  // var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+  //   .reduceToImage({
+  //     properties: ['rwi'],
+  //     reducer: ee.Reducer.mean(),
+  // });
   
-  // call function for choropleth map in both panels
-  helper.zonalInspect(aoi, rwi, map1);
-  helper.zonalInspect(aoi, cisi, map2);
+  // // call function for choropleth map in both panels
+  // helper.zonalInspect(aoi, rwi, map1);
+  // helper.zonalInspect(aoi, cisi, map2);
+  
+  var layer1 = layer_dict[var1_selection]();
+  var layer2 = layer_dict[var2_selection]();
+  
+  helper.zonalInspect(aoi, layer1, map1);
+  helper.zonalInspect(aoi, layer2, map2);
   
   // set map control
   map1.setControlVisibility(mapControl);
