@@ -1,3 +1,15 @@
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ######################################### //
+// ######    Functions for Map        ###### //
+// ######     Comparison Tool        ###### //
+// ######################################### //
+
+/**
+ * This script contains functions to get different geospatial layers
+ *
+ */
+ 
 exports.get_cisi = function get_cisi(aoi) {
   return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
 }
