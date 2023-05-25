@@ -115,8 +115,8 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst_lulc.gif)
   
   ### Land Use Changes and Vegetation Dynamics
-  1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/calculate_landuse_ratio)
-  2. [Evaluating impacts of vegetation changes on LST](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/fvc_ts_func)
+  1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/calculate_landuse_ratio)
+  2. [Evaluating impacts of vegetation changes on LST](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/fractional_vegetation_tsa)
 </details>
 
 <details>
