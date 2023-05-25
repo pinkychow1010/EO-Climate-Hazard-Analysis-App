@@ -2,12 +2,11 @@
 
 // ######################################### //
 // ######    Functions for Map        ###### //
-// ######     Comparison Tool        ###### //
+// ######     Comparison Tool         ###### //
 // ######################################### //
 
 /**
  * This script contains functions to get different geospatial layers
- *
  */
  
 exports.get_cisi = function get_cisi(aoi) {
