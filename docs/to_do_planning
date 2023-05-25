@@ -32,7 +32,7 @@ https://climatedataguide.ucar.edu/climate-data/palmer-drought-severity-index-pds
 
 - (In progress) <priority> add comparison map for admin levels </priority>
 
-- (In progress) <priority> add relative wealth index to downloader </priority>
+- (In progress) <priority> add relative wealth index / UHL yale to downloader </priority>
 
 - (In progress) <priority> national zonal statistics with adm 2 polygons (building an interface) (different layer overlay?) </priority>
 
