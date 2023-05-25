@@ -115,6 +115,18 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
       reducer:  ee.Reducer.mean().setOutputs(["mean"]) // new property call "mean"
     });
     
+    var full_size = zonal.size();
+    var data_size = zonal.filter(ee.Filter.notNull(['mean'])).size();
+    var missing_ratio = ee.Number(1).subtract(data_size.divide(full_size));
+    
+    if (missing_ratio > ee.Number(0.2)){
+          var no_data_label = ui.Label({value: "NO DATA"});
+          no_data_label.style().set(dark_theme); // set dark theme
+          inspector.widgets().set(0, no_data_label);
+          
+          return null;
+        }
+      
     var attribute = "mean"; // set as attribute
     
     // initial label for inspector
