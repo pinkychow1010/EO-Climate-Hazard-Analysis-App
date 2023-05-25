@@ -20,34 +20,34 @@ var palettes = require('users/gena/packages:palettes');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
+var data = require('users/pinkychow1010/WB_IntraUrban:get_layer_func'); // customized basemap to enhance visuals 
+// function get_cisi(aoi) {
+//   return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
+// }
 
-function get_cisi(aoi) {
-  return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
-}
-
-function get_rwi(aoi) {
-  // get RWI data layer from community project (Layer 2)
-  var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+// function get_rwi(aoi) {
+//   // get RWI data layer from community project (Layer 2)
+//   var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
   
-  // buffer point grid to fill gaps
-  var aoi_rwi = rwi_ds.filterBounds(aoi).map(
-    function(point) {
-    return point.buffer(2000);
-  });
+//   // buffer point grid to fill gaps
+//   var aoi_rwi = rwi_ds.filterBounds(aoi).map(
+//     function(point) {
+//     return point.buffer(2000);
+//   });
   
-  // convert point grid to raster image
-  var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
-    .reduceToImage({
-      properties: ['rwi'],
-      reducer: ee.Reducer.mean(),
-  }); 
-  return rwi;
-}
+//   // convert point grid to raster image
+//   var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+//     .reduceToImage({
+//       properties: ['rwi'],
+//       reducer: ee.Reducer.mean(),
+//   }); 
+//   return rwi;
+// }
 
 // all available layers
 var layer_dict = {
-  "Relative Wealth Index": get_rwi,
-  "Critical Infrastructure Spatial Index": get_cisi
+  "Relative Wealth Index": data.get_rwi,
+  "Critical Infrastructure Spatial Index": data.get_cisi
 };
 
 // import project data layers
