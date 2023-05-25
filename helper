@@ -132,16 +132,23 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
     click.style().set(dark_theme);
     inspector.style().set(dark_theme);
     
-    var full_size = zonal.size();
-    var data_size = zonal.filter(ee.Filter.notNull([attribute])).size();
-    var missing_ratio = ee.Number(1).subtract(data_size.divide(full_size));
+    // since for some countries most of the values are missing,
+    // error handling is required
+    // also to inform user for no data case
     
-    if (missing_ratio.getInfo() > 0.2){
-      var no_data_label = ui.Label({value: "NO DATA"});
+    // check out those countries by calculating missing ratio
+    var full_size = zonal.size(); // total polygons
+    var data_size = zonal.filter(ee.Filter.notNull([attribute])).size(); // total polygons with data
+    var missing_ratio = ee.Number(1).subtract(data_size.divide(full_size)); // get missing value proportion
+    
+    // if missing value are too high, it is very possible that the remaining data is unreliable
+    // in this case the whole country will be treated as NO DATA
+    if (missing_ratio.getInfo() > 0.2){ // use getInfo to compare with number rather than ee.Number Object which always return 1
+      var no_data_label = ui.Label({value: "NO DATA"}); // show no data
       no_data_label.style().set(dark_theme); // set dark theme
       inspector.widgets().set(0, no_data_label);
       
-      return null;
+      return null; // skip the choropleth part
     }
     
     // internal functions for get polygon property
