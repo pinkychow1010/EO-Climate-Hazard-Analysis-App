@@ -218,8 +218,8 @@ function computeMap(value) {
   // helper.zonalInspect(aoi, rwi, map1);
   // helper.zonalInspect(aoi, cisi, map2);
   
-  var layer1 = layer_dict[var1_selection]();
-  var layer2 = layer_dict[var2_selection]();
+  var layer1 = layer_dict[var1_selection](aoi);
+  var layer2 = layer_dict[var2_selection](aoi);
   
   helper.zonalInspect(aoi, layer1, map1);
   helper.zonalInspect(aoi, layer2, map2);
