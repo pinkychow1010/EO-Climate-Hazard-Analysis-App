@@ -1,0 +1,22 @@
+exports.get_cisi = function get_cisi(aoi) {
+  return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
+}
+
+exports.get_rwi = function get_rwi(aoi) {
+  // get RWI data layer from community project (Layer 2)
+  var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+  
+  // buffer point grid to fill gaps
+  var aoi_rwi = rwi_ds.filterBounds(aoi).map(
+    function(point) {
+    return point.buffer(2000);
+  });
+  
+  // convert point grid to raster image
+  var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+    .reduceToImage({
+      properties: ['rwi'],
+      reducer: ee.Reducer.mean(),
+  }); 
+  return rwi;
+}
