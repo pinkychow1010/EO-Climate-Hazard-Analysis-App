@@ -11,6 +11,8 @@ including to do list.
 
 (fixed bugs)
 
+- <del> No response with zonal statistics calculation when missing values exist -> show no data label instead
+
 - <del> For data downloader, land use download resampled to another resolution do not retain original class (expected same class from majority interpolation) </del>
 
 - <del> After downloaded, when data layer changed, raster download link does not change accordingly </del>
