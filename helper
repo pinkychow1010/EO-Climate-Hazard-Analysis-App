@@ -89,11 +89,19 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
 };
 
 
-exports.zonalInspect = function zonalInspect(vector, raster, map) {
+exports.zonalInspect = function zonalInspect(vector, raster, map, reducer) {
     
     // import modules
     var palettes = require('users/gena/packages:palettes');
     var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+    
+    if (reducer === undefined || reducer === null){var reducer = "mean"};
+     
+    var reducer_column = {
+      "mean": ee.Reducer.mean,
+      "median": ee.Reducer.median,
+      "sum": ee.Reducer.sum
+    };
     
     // set dark theme for label
     var dark_theme = {
@@ -112,10 +120,10 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
     var zonal = raster.reduceRegions({
       collection: vector,
       scale: 500,
-      reducer:  ee.Reducer.mean().setOutputs(["mean"]) // new property call "mean"
+      reducer:  reducer_column[reducer]().setOutputs([reducer]) // new property from reducer
     });
     
-    var attribute = "mean"; // set as attribute
+    var attribute = reducer; // set as attribute
     
     // initial label for inspector
     var click = ui.Label('Click for info');
