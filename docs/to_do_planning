@@ -22,9 +22,9 @@ including to do list.
 - <priority> integrate IDAHO_EPSCOR/TERRACLIMATE pdsi (average days / year in water stress) </priority> 
 https://climatedataguide.ucar.edu/climate-data/palmer-drought-severity-index-pdsi
 
-- <priority> add relative wealth index to downloader </priority>
+- (In progress) <priority> add relative wealth index to downloader </priority>
 
-- <priority> national zonal statistics with adm 2 polygons (building an interface) (different layer overlay?) </priority>
+- (In progress) <priority> national zonal statistics with adm 2 polygons (building an interface) (different layer overlay?) </priority>
 
 - <priority> historical heatwave events / agricultural stress </priority>
 
@@ -40,7 +40,7 @@ https://climatedataguide.ucar.edu/climate-data/palmer-drought-severity-index-pds
 
 - NDVI - LST comparison
 
-- include Oxford/MAP/friction_surface_2019 into data downloader
+- <del> include Oxford/MAP/friction_surface_2019 into data downloader </del> (used CISI instead)
 
 - add a reset button to map for switching between analysis tasks, 
 at the moment user needs to manually reload the page to perform another task
