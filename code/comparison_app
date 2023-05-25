@@ -9,7 +9,8 @@
  * This is a script for comparing layers between national admin regions.
  * 
  * To do: 
- * - add data layer control
+ * - <del> add data layer control </del>
+ * - add welcome panel with instructions
  * - provide more urban heat relevant layers
  *
  */
@@ -80,10 +81,6 @@ map2.setOptions(undefined, {'Custom': new_basemap});
 // link control between two maps
 var linker = ui.Map.Linker([map1, map2]);
 
-// add map title labels
-// map1.add(ui.Label('Relative Wealth Index', style.label));
-// map2.add(ui.Label('Critical Infrastructure Spatial Index', style.label));
-
 // create a grid of maps
 var mapGrid = ui.Panel(
     [ui.Panel([map1], null, {stretch: 'both'}),
@@ -121,21 +118,17 @@ dropdownPanel.add(admin0Select); // add country drop down
 var var1_selection = ui.Select({
   placeholder: 'Select data layer 1...',
   items: Object.keys(layer_dict),
-  // style: style.selection
-  // onChange: changeDescription
 });
 
 var var2_selection = ui.Select({
   placeholder: 'Select data layer 2...',
   items: Object.keys(layer_dict),
-  // style: style.selection
-  // onChange: changeDescription
 });
 
 dropdownPanel.add(var1_selection); 
 dropdownPanel.add(var2_selection); 
 
-// add drop down
+// add drop down to side bar
 mainPanel.add(dropdownPanel); // display on main panel
 
 // start computing button to pass arguments to calculation
@@ -186,6 +179,7 @@ function computeMap(value) {
   var var1 = var1_selection.getValue();
   var var2 = var2_selection.getValue();
   
+  // use layer selection to control displayed labels
   map1.add(ui.Label(var1, style.map_label));
   map2.add(ui.Label(var2, style.map_label));
   
@@ -196,33 +190,11 @@ function computeMap(value) {
   // get details at the admin 2 level
   var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
   
-  // // visualize CISI (Layer 1)
-  // var global_CISI = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI");
-  // var cisi = global_CISI.clip(aoi);
-  
-  // // get RWI data layer from community project (Layer 2)
-  // var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
-  
-  // // buffer point grid to fill gaps
-  // var aoi_rwi = rwi_ds.filterBounds(aoi).map(
-  //   function(point) {
-  //   return point.buffer(2000);
-  // });
-  
-  // // convert point grid to raster image
-  // var rwi = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
-  //   .reduceToImage({
-  //     properties: ['rwi'],
-  //     reducer: ee.Reducer.mean(),
-  // });
-  
-  // // call function for choropleth map in both panels
-  // helper.zonalInspect(aoi, rwi, map1);
-  // helper.zonalInspect(aoi, cisi, map2);
-  
+  // ger layer based on user selection, call aoi to get regional raster only
   var layer1 = layer_dict[var1](aoi);
   var layer2 = layer_dict[var2](aoi);
   
+  // get choropleth maps for both maps
   helper.zonalInspect(aoi, layer1, map1);
   helper.zonalInspect(aoi, layer2, map2);
   
