@@ -100,11 +100,11 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/density.gif)
   
   ### Population Changes and Urban Development
-  1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/age_risk)
-  2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/extract_urban_centre)
-  3. [Analysing Urbanization Changes](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/extract_urbanization_trend)
-  4. [Population Count Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/population_count_choropleth)
-  5. [Population Density Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/population_density_choropleth)
+  1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/dataset_showcase/age_risk)
+  2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/extract_urban_centre)
+  3. [Analysing Urbanization Changes](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/extract_urbanization_trend)
+  4. [Population Count Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/population_count_choropleth)
+  5. [Population Density Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/population_density_choropleth)
 </details>
 
 <details>
