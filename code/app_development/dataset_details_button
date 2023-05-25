@@ -1,0 +1,57 @@
+var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+basemap.addCustomBasemap('MutedMonotone');
+
+// var label_panel = ui.Panel()
+// var label = ui.Label("Label📋", style.map_label);
+
+var style = {
+      whiteSpace: 'pre', 
+      textAlign: 'left', 
+      padding: '50px 50px 0px 50px',
+      width: '500px',
+      fontSize: '12px'
+    };
+    
+var instructionMessage = ui.Label(
+  'The Relative Wealth Index predicts the relative standard\n\
+  of living within countries using privacy protecting connectivity data,\n\
+  satellite imagery, and other novel data sources.', style);
+  
+instructionMessage.style().set({padding: '0px 30px 20px 30px'});
+
+var heading = ui.Label('\n\n\nRelative Wealth Index');
+heading.style().set({padding: '30px 30px 0px 30px'})
+
+function hide(widget) {
+  widget.style().set({shown: false});
+}
+
+var okButton = ui.Button('close', ok);
+okButton.style().set(
+  {
+    padding:'0% 20% 20% 20%',
+    position: 'top-center'
+  }
+  );
+
+function ok() {hide(instructionPanel)}
+  
+var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
+
+var start_button = ui.Button({
+  label: "Relative Wealth Index 📋",
+  onClick: message,
+  style: {
+    backgroundColor: '#ffffff00',
+    position: 'bottom-center',
+    fontSize: '58px',
+    color: '#1C2833'
+  }
+});
+
+function message(){
+  Map.add(instructionPanel)
+}
+
+Map.add(start_button);
