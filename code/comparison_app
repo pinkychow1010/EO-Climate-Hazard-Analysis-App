@@ -22,13 +22,13 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
 var data = require('users/pinkychow1010/WB_IntraUrban:get_layer_func'); // customized basemap to enhance visuals 
 
-// all available layers
+// all available data layers imported from functions
 var layer_dict = {
   "Relative Wealth Index": data.get_rwi,
   "Critical Infrastructure Spatial Index": data.get_cisi
 };
 
-// import project data layers
+// import project data layers for admin level selections
 var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
 var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
 var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
