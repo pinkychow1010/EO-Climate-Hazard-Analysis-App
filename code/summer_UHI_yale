@@ -1,0 +1,41 @@
+// ######################################### //
+// ######    Urban Heat Index         ###### //
+// ######################################### //
+
+/**
+ * 
+ * This is an example script for visualizing urban heat intensity for global regions.
+ * The UHI dataset was created based on the simplified urban-extent (SUE) algorithm 
+ * detailed in Chakraborty and Lee, 2019.
+ * 
+ * Credits for the data layer: 
+ * T. Chakraborty, X. Lee, “A simplified urban-extent algorithm to characterize surface urban heat islands on a global scale and examine vegetation control on their spatiotemporal variability”, 
+ * International Journal of Applied Earth Observation and Geoinformation. 74, 269-280, 2019.
+ * 
+ */
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+basemap.addCustomBasemap('MutedMonotone');
+
+var dataset = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4');
+
+var day_vis = {
+  bands: ['Daytime'],
+  min: -1.5,
+  max: 7.5,
+  palette: [
+    '313695', '74add1', 'fed976', 'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026']
+};
+
+var night_vis = {
+  bands: ['Nighttime'],
+  min: -1.5,
+  max: 7.5,
+  palette: [
+    '313695', '74add1', 'fed976', 'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026']
+};
+
+Map.setCenter(66.99, 24.86, 10);
+Map.add(ui.Label('Urban Heat Island Intensity', {color: "white", backgroundColor: "black"}));
+
+Map.addLayer(dataset, day_vis, 'Daytime UHI');
+Map.addLayer(dataset, night_vis, 'Nighttime UHI');
