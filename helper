@@ -123,6 +123,10 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
     var click = ui.Label('Click for info');
     var inspector = ui.Panel([click]);
     
+    // set dark theme
+    click.style().set(dark_theme);
+    inspector.style().set(dark_theme);
+    
     if (missing_ratio > ee.Number(0.2)){
           var no_data_label = ui.Label({value: "NO DATA"});
           no_data_label.style().set(dark_theme); // set dark theme
@@ -132,10 +136,6 @@ exports.zonalInspect = function zonalInspect(vector, raster, map) {
         }
       
     var attribute = "mean"; // set as attribute
-    
-    // set dark theme
-    click.style().set(dark_theme);
-    inspector.style().set(dark_theme);
     
     // add tool to map object
     if (map === undefined || map === null){
