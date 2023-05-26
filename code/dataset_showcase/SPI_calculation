@@ -1,4 +1,6 @@
 
+// more about SPI: https://edo.jrc.ec.europa.eu/documents/factsheets/factsheet_spi.pdf
+
 function yearlySPI(AOI, startDate, endDate){
   var CHIRPS = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY")
   var timestep = '12';
