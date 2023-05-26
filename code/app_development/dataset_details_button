@@ -9,7 +9,18 @@
 
 
 
-var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ################################# //
+// ######   Detaset Details   ###### //
+// ######       Button        ###### //
+// ################################# //
+
+/**
+ * This is the development of a button to display dataset details.
+ */
+ 
+ var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 basemap.addCustomBasemap('MutedMonotone');
 
