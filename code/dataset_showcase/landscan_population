@@ -42,7 +42,8 @@ var popcount_intervals =
   '</ColorMap>' +
 '</RasterSymbolizer>';
 
-// Define a dictionary which will be used to make legend and visualize image on map
+// Define a dictionary which will be used to make legend and 
+// visualize image on map
 var dict = {
   "names": [
     "0",
