@@ -1,0 +1,26 @@
+// ######################################## //
+// ######    GHSL Urban cluster      ###### //
+// ######################################## //
+
+/**
+ * This is an example script for visualizing urban clusters
+ * for an area of interest.
+ * 
+ */
+ 
+ var dataset = ee.ImageCollection('JRC/GHSL/P2016/SMOD_POP_GLOBE_V1')
+                  .filter(ee.Filter.date('2015-01-01', '2015-12-31'));
+var degreeOfUrbanization = dataset.select('smod_code').first();
+var visParams = {
+  min: 0.0,
+  max: 3.0,
+  palette: ['000000', '448564', '70daa4', 'ffffff'],
+  opacity: 0.8
+};
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+Map.setOptions("Hybrid");
+Map.centerObject(aoi, 5);
+Map.addLayer(degreeOfUrbanization.clip(aoi), visParams, 'Degree of Urbanization');
