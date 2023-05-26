@@ -60,6 +60,8 @@ Where do the majority of the population live in the city?
 
 Below are lists of Javascript code for multiple climate risk analysis. Users can import functions in Google Earth Engine and perform analysis directly using the [API](https://sites.google.com/view/intraurban/home).
 
+(click to expand)
+
 <details>
   <summary>Socio-economical Vulnerability 🤒🏙️</summary>
   
@@ -68,11 +70,11 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/rwi.gif)
   
   ### Climate Vulnerability
-  1. [WorldPop Age Risk](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/age_risk)
-  2. [Relative Wealth Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/RWI_raster_example)
-  3. [Critical Infrastructure](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/critical_infrastructure_spatial_index_cisi)
-  4. [Landscan Population](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/landscan_population)
-  5. [Drought Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/drought_index_pdsi_terraclimate)
+  1. [WorldPop Age Risk](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/age_risk) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fdataset_showcase%2Fage_risk)
+  2. [Relative Wealth Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/RWI_raster_example) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fdataset_showcase%2FRWI_raster_example)
+  3. [Critical Infrastructure](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/critical_infrastructure_spatial_index_cisi) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fdataset_showcase%2Fcritical_infrastructure_spatial_index_cisi)
+  4. [Landscan Population](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/landscan_population) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fdataset_showcase%2Flandscan_population)
+  5. [Drought Index](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis/blob/master/code/dataset_showcase/drought_index_pdsi_terraclimate) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fdataset_showcase%2Fdrought_index_pdsi_terraclimate)
 </details>
 
 <details>
@@ -83,13 +85,13 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst.gif)
   
   ### Urban Heat Island Analysis
-  1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_choropleth)
-  2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_monthly)
-  3. [LST statitics for land use covers](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_by_LandCover)
-  4. [Diurnal LST temperature variation in summers based on Landsat](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_summer)
-  5. [UHI Effects Intensity](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/UHI_effects)
-  6. [Counting very hot days based on MODIS](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/heatwave_trends)
-  7. [Heatwave events time series](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/heatwave_trends)
+  1. [MODIS-based Land Surface Temperature (LST) Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_choropleth) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2FLST_choropleth)
+  2. [MODIS-based Monthly Median LST (2010-2020)](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_monthly) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2FLST_monthly)
+  3. [LST statitics for land use covers](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_by_LandCover) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2FLST_by_LandCover)
+  4. [Diurnal LST temperature variation in summers based on Landsat](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/LST_summer) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2FLST_summer)
+  5. [UHI Effects Intensity](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/UHI_effects) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2FUHI_effects)
+  6. [Counting very hot days based on MODIS](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/heatwave_trends) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2Fheatwave_trends)
+  7. [Heatwave events time series](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/heatwave_moving_average) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2Fheatwave_moving_average)
 </details>
 
 <details>
