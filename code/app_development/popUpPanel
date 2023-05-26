@@ -1,0 +1,243 @@
+
+function addOnePage(
+  p1_heading, p1_message
+  ) {
+  
+  // set style for elements
+  var msg_style = {
+    whiteSpace: 'pre', 
+    textAlign: 'center', 
+    padding: '0px 50px 50px 50px',
+    width: '500px',
+    color: 'grey',
+    fontSize: '15px'
+  };
+  
+  var hd_style = {
+      whiteSpace: 'pre', 
+      textAlign: 'center', 
+      padding: '50px 50px 0px 50px',
+      width: '500px',
+      fontSize: '26px', 
+      fontWeight:'bold'
+    };
+  
+  var button_style = {
+    padding:'0% 42.5% 20% 42.5%',
+    position: 'top-center'
+  };
+  
+  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  
+  // Page 1
+  var instructionMessage = ui.Label(p1_message, msg_style);
+    
+  var heading = ui.Label(p1_heading, hd_style);
+  
+  function hide(widget) {
+    widget.style().set({shown: false});
+  }
+  
+  
+  var okButton = ui.Button('OK', ok);
+  okButton.style().set(button_style);
+  
+  function ok() {hide(instructionPanel_p1)}
+  
+  // construct pages
+  var instructionPanel_p1 = ui.Panel([heading, instructionMessage, okButton]);
+
+  instructionPanel_p1.style().set(page_style);
+
+  Map.add(instructionPanel_p1);
+}
+
+function addTwoPage(
+  p1_heading, p1_message,
+  p2_heading, p2_message
+  ) {
+  
+  // set style for elements
+  var msg_style = {
+    whiteSpace: 'pre', 
+    textAlign: 'center', 
+    padding: '0px 50px 50px 50px',
+    width: '500px',
+    color: 'grey',
+    fontSize: '15px'
+  };
+  
+  var hd_style = {
+      whiteSpace: 'pre', 
+      textAlign: 'center', 
+      padding: '50px 50px 0px 50px',
+      width: '500px',
+      fontSize: '26px', 
+      fontWeight:'bold'
+    };
+  
+  var button_style = {
+    padding:'0% 42.5% 20% 42.5%',
+    position: 'top-center'
+  };
+  
+  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  
+  // Page 1
+  var instructionMessage = ui.Label(p1_message, msg_style);
+    
+  var heading = ui.Label(p1_heading, hd_style);
+  
+  // Page 2
+  var instructionMessage_p2 = ui.Label(p2_message, msg_style);
+    
+  instructionMessage_p2.style().set({padding: '0px 50px 20px 50px'});
+  
+  var heading_p2 = ui.Label(p2_heading, hd_style);
+  
+  // Welcome panel first page
+  var nextButton = ui.Button('Next', p2);
+  nextButton.style().set(button_style);
+  
+  function hide(widget) {
+    widget.style().set({shown: false});
+  }
+  
+  function p2() {
+    hide(instructionPanel_p1);
+    Map.add(instructionPanel_p2);
+  }
+  
+  var okButton = ui.Button('OK', ok);
+  okButton.style().set(button_style);
+  
+  function ok() {hide(instructionPanel_p2)}
+  
+  // construct pages
+  var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
+  var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, okButton]);
+
+  instructionPanel_p1.style().set(page_style);
+  instructionPanel_p2.style().set(page_style);
+
+  Map.add(instructionPanel_p1);
+}
+
+function addThreePage(
+  p1_heading, p1_message,
+  p2_heading, p2_message,
+  p3_heading, p3_message
+  ) {
+  
+  // set style for elements
+  var msg_style = {
+    whiteSpace: 'pre', 
+    textAlign: 'center', 
+    padding: '0px 50px 50px 50px',
+    width: '500px',
+    color: 'grey',
+    fontSize: '15px'
+  };
+  
+  var hd_style = {
+      whiteSpace: 'pre', 
+      textAlign: 'center', 
+      padding: '50px 50px 0px 50px',
+      width: '500px',
+      fontSize: '26px', 
+      fontWeight:'bold'
+    };
+  
+  var button_style = {
+    padding:'0% 42.5% 20% 42.5%',
+    position: 'top-center'
+  };
+  
+  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  
+  // Page 1
+  var instructionMessage = ui.Label(p1_message, msg_style);
+    
+  var heading = ui.Label(p1_heading, hd_style);
+  
+  // Page 2
+  var instructionMessage_p2 = ui.Label(p2_message , msg_style);
+    
+  instructionMessage_p2.style().set({fontSize: '13.5px'});
+  
+  var heading_p2 = ui.Label(p2_heading, hd_style);
+  
+  // Page 3
+  var instructionMessage_p3 = ui.Label(p3_message, msg_style);
+    
+  instructionMessage_p3.style().set({padding: '0px 50px 20px 50px'});
+  
+  var heading_p3 = ui.Label(p3_heading, hd_style);
+  
+  // Welcome panel first page
+  var nextButton = ui.Button('Next', p2);
+  nextButton.style().set(button_style);
+  
+  function hide(widget) {
+    widget.style().set({shown: false});
+  }
+  
+  function p2() {
+    hide(instructionPanel_p1);
+    Map.add(instructionPanel_p2);
+  }
+  
+  // Welcome panel second page
+  var nextButton_p3 = ui.Button('Next', p3);
+  nextButton_p3.style().set(button_style);
+  
+  function p3() {
+    hide(instructionPanel_p2);
+    Map.add(instructionPanel_p3);
+  }
+  
+  // Welcome panel third page
+  var okButton = ui.Button('OK', ok);
+  okButton.style().set(button_style);
+  
+  function ok() {hide(instructionPanel_p3)}
+  
+  // construct pages
+  var instructionPanel_p1 = ui.Panel([heading, instructionMessage, nextButton]);
+  var instructionPanel_p2 = ui.Panel([heading_p2, instructionMessage_p2, nextButton_p3]);
+  var instructionPanel_p3 = ui.Panel([heading_p3, instructionMessage_p3, okButton]);
+
+  instructionPanel_p1.style().set(page_style);
+  instructionPanel_p2.style().set(page_style);
+  instructionPanel_p3.style().set(page_style);
+
+  Map.add(instructionPanel_p1);
+}
+
+var p1_heading = "Hi!";
+var p2_heading = "Hi!";
+var p3_heading = "Hi!";
+
+var p1_message = "This is the first page";
+var p2_message = "This is the second page";
+var p3_message = "This is the third page";
+
+function callback1() {addOnePage(
+  p1_heading, p1_message
+  )}
+  
+function callback2() {addTwoPage(
+  p1_heading, p1_message,
+  p2_heading, p2_message
+  )}
+  
+function callback3() {addThreePage(
+  p1_heading, p1_message,
+  p2_heading, p2_message,
+  p3_heading, p3_message
+  )}
+
+Map.onClick(
+  callback3
+  );
+  
