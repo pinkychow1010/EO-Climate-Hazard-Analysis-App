@@ -1,3 +1,6 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #98ff00 */ee.Geometry.MultiPoint();
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // more about SPI: https://edo.jrc.ec.europa.eu/documents/factsheets/factsheet_spi.pdf
 
@@ -84,5 +87,6 @@ var AOI = // Karachi
           [69.36980364161634, 24.723262254852564],
           [69.36980364161634, 28.262179345630027]]], null, false);
 
-var SPI = yearlySPI(AOI, '2020-05-01', '2020-06-01');
+var SPI = yearlySPI(AOI, '2010-05-01', '2010-06-01');
+// print(SPI)
 Map.addLayer(SPI, {min:-2, max:2, palette:['red','yellow','green']});
