@@ -13,6 +13,17 @@ var aoi =
           [67.33053222297794, 24.7907546321477],
           [67.33053222297794, 25.062244457616945]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/2f417677e286534c190e88485afefb1b  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
 // released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
