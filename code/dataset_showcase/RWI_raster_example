@@ -13,6 +13,16 @@ var geometry =
           [75.54951171874998, 23.34699479861113],
           [75.54951171874998, 38.67238595631456]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/6236ad8cfb9698427d6ed43ff8ac58fe  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
 // released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
