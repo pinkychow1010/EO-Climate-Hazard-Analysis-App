@@ -3,6 +3,7 @@
 [![](https://img.shields.io/badge/OpenSourceLicense-GPL-yellow.svg)](https://opensource.org/license/gpl-3-0/)
 [![](https://img.shields.io/badge/Visit-Website-orange)](https://sites.google.com/view/intraurban/home)
 [![](https://img.shields.io/badge/Explore-Code-green)](https://code.earthengine.google.com/?accept_repo=users/pinkychow1010/WB_IntraUrban)
+[<img src="https://img.shields.io/badge/-share%20on%20twitter-blue?logo=twitter&style=for-the-badge"  width="120" height="20">](https://twitter.com/intent/tweet?text=Check%20out%20this%20Google%20Earth%20Engine%20Dashboard%20to%20download%20%F0%9F%8C%8D%F0%9F%8C%A1%EF%B8%8F%20climate%20risk%20data%20layers%20%E2%AC%87%EF%B8%8F%E2%AC%87%EF%B8%8F%0A%0Ahttps%3A%2F%2Fgithub.com%2Fpinkychow1010%2FEO-Climate-Hazard-Analysis-App%0A%0A%23GoogleEarthEngine%20%23ClimateRisk%20%23EarthObservation%20%23RemoteSensing)
 
 ## **Introduction**
 
