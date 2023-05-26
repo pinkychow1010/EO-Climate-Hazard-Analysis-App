@@ -1,7 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #98ff00 */ee.Geometry.MultiPoint();
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-
+// credits: https://www.un-spider.org/advisory-support/recommended-practices/recommended-practice-drought-monitoring-spi/step-by-step
 // more about SPI: https://edo.jrc.ec.europa.eu/documents/factsheets/factsheet_spi.pdf
 
 function yearlySPI(AOI, startDate, endDate){
