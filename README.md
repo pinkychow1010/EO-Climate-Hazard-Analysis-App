@@ -139,7 +139,7 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Helper 📦</summary>
   
   ### General geospatial functions to aid analysis
-  1. [Helper](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper) ➤ <a href="https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Ahelper" target="_blank">(open in code editor)</a>
+  1. [Helper](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper) 🖱️ <a href="https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Ahelper" target="_blank">(open in code editor)</a>
   2. [Customized Basemap](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/basemap_resources) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Abasemap_resources)
   3. [Choropleth Map](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/analysis_utils) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aanalysis_utils)
 </details>
