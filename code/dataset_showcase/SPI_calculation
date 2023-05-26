@@ -1,0 +1,86 @@
+
+function yearlySPI(AOI, startDate, endDate){
+  var CHIRPS = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY")
+  var timestep = '12';
+  var firstImage = ee.Date(ee.List(CHIRPS.get('date_range')).get(0));
+  var latestImage = ee.Date(CHIRPS.limit(1, 'system:time_start',  false).first().get('system:time_start'));
+
+  //MONTHLY SPI
+  var thresholdMonths = ee.Number(12)
+  
+  //Create a list with a lag of one month between each list entry. Started from latest image counting backwards
+  var timedif = (latestImage.difference(firstImage, 'month'))
+  .divide(ee.Number.parse(timestep));
+  
+  //Creates a simple list
+  var list = ee.List.sequence(0, timedif); 
+  
+  //Map the dates (beginning with the latest image) of the months ends over the list, counting backwards in time
+  var timeListDate = list.map(function(month){
+    var zero = ee.Number(0); //Is needed to substract month
+    var delta = (zero.subtract(month)).multiply(ee.Number.parse(timestep)); //results in a negative counting in the list (from latest image backwards) in the steps provided by the user
+    var latestDate = latestImage.advance(1, 'day');//Advance one day to include the latest image (starts counting at 00:00 o'clock)
+    return latestDate.advance(delta, 'month');//returns a list of dates counted from latest date backwards
+  });
+    
+    //Sort list according to their dates
+  var sortedTimeList = timeListDate.sort();
+  
+    //Calculate summed CHIRPS. Just those images will be kept, whose timeframe corrensponse to the user provided number of months
+  var PrecipitationSum = ee.ImageCollection.fromImages(timeListDate.map(function(monthly_sum){
+    var startTime = ee.Date(monthly_sum).advance(ee.Number.parse(timestep).multiply(-1), 'month');
+    var endTime = ee.Date(monthly_sum);
+    var filteredCHIRPS = CHIRPS.filterDate(startTime, endTime);
+    var clippedCHIRPS = filteredCHIRPS.map(function(clip){return clip.clip(AOI)});
+    var imageAmount = clippedCHIRPS.size();
+    var summedCollection = clippedCHIRPS
+      .sum()
+      .set({
+        'Used_Images': imageAmount,
+        'Start_Date': ee.Date(filteredCHIRPS.first().get('system:time_start')),
+        'End_Date': ee.Date(filteredCHIRPS.limit(1, 'system:time_end', false).first().get('system:time_end')),
+        'system:time_start': filteredCHIRPS.first().get('system:time_start'), //Add start date to new image
+        'system:time_end': filteredCHIRPS.limit(1, 'system:time_end', false).first().get('system:time_end') //Add end date to new image
+      });
+    var time = ee.Date(summedCollection.get('system:time_end')).difference(ee.Date(summedCollection.get('system:time_start')), 'month').round();
+    var summedImage = summedCollection.set({
+      'Observed_Months': time
+    });
+  return ee.Algorithms.If(
+    time.gte(ee.Number.parse(timestep)), 
+    summedImage);
+  }));
+  
+  //Calculate Statistics
+  var summedChirpsCollection = ee.ImageCollection(PrecipitationSum.copyProperties(CHIRPS));
+
+  var stats = summedChirpsCollection.map(function(toStats){
+    var collectionForStats = summedChirpsCollection
+      .reduce(ee.Reducer.stdDev().combine(ee.Reducer.mean(), null, true));
+    return toStats.addBands(collectionForStats);
+  });
+  
+    //Calculate SPI
+  var SPI12_n = stats.map(function(toSPI){
+    var bandForSPI = toSPI.select(['precipitation'], ['SPI']);
+    var calc = toSPI.expression('(precipitation - mean) / stdDev',
+    {
+      precipitation: bandForSPI,
+      mean: toSPI.select('precipitation_mean'),
+      stdDev: toSPI.select('precipitation_stdDev')});
+    return toSPI.addBands(calc);
+  });
+  var SPI = SPI12_n.select(['SPI']);
+  var mean = SPI.filter(ee.Filter.date(startDate, endDate)).mean();
+return mean;
+}
+
+var AOI = // Karachi
+    ee.Geometry.Polygon(
+        [[[64.75005266505384, 28.262179345630027],
+          [64.75005266505384, 24.723262254852564],
+          [69.36980364161634, 24.723262254852564],
+          [69.36980364161634, 28.262179345630027]]], null, false);
+
+var SPI = yearlySPI(AOI, '2020-05-01', '2020-06-01');
+Map.addLayer(SPI, {min:-2, max:2, palette:['red','yellow','green']});
