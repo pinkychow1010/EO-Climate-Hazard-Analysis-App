@@ -23,7 +23,7 @@ var bbox =
 
 
 
-// released under MIT License Copyright © 2023 Ka Hei Chow
+// released under GPL License Copyright © 2023 Ka Hei Chow
 
 /*
  * Debugging downloader spatial interpolation issues
