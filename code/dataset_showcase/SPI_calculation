@@ -1,8 +1,20 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = /* color: #98ff00 */ee.Geometry.MultiPoint();
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-// credits: https://www.un-spider.org/advisory-support/recommended-practices/recommended-practice-drought-monitoring-spi/step-by-step
-// more about SPI: https://edo.jrc.ec.europa.eu/documents/factsheets/factsheet_spi.pdf
+// ###################################################### //
+// ######    Standardized Precipitation Index      ###### //
+// ###################################################### //
+
+/**
+ * This is an example script for visualizing SPI for 
+ * an area of interest (i.e. Pakistan in this example), which
+ * is useful for agricultural drought monitoring.
+ * 
+ * 
+ * credits: https://www.un-spider.org/advisory-support/recommended-practices/recommended-practice-drought-monitoring-spi/step-by-step
+ * more about SPI: https://edo.jrc.ec.europa.eu/documents/factsheets/factsheet_spi.pdf
+ * 
+ */
 
 function yearlySPI(AOI, startDate, endDate){
   var CHIRPS = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY")
@@ -80,12 +92,14 @@ function yearlySPI(AOI, startDate, endDate){
 return mean;
 }
 
-var AOI = // Karachi
-    ee.Geometry.Polygon(
-        [[[64.75005266505384, 28.262179345630027],
-          [64.75005266505384, 24.723262254852564],
-          [69.36980364161634, 24.723262254852564],
-          [69.36980364161634, 28.262179345630027]]], null, false);
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var AOI = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+// var AOI = // Karachi
+//     ee.Geometry.Polygon(
+//         [[[64.75005266505384, 28.262179345630027],
+//           [64.75005266505384, 24.723262254852564],
+//           [69.36980364161634, 24.723262254852564],
+//           [69.36980364161634, 28.262179345630027]]], null, false);
 
 var SPI = yearlySPI(AOI, '2010-05-01', '2010-06-01');
 // print(SPI)
