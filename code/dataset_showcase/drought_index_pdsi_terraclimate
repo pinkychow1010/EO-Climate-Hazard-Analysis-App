@@ -1,4 +1,22 @@
-var dataset = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/c09818df9994072215dab348fab99563  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// ######################################## //
+// ######    PDSI Drought Index      ###### //
+// ######################################## //
+
+/**
+ * This is an example script for visualizing PSDI data layer.
+ */
+ 
+ var dataset = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
                   .filter(ee.Filter.date('2017-07-01', '2017-08-01'));
 
 var drought_index = dataset.select('pdsi');
