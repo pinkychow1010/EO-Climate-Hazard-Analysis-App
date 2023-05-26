@@ -5,7 +5,7 @@ var imageCollection = ee.ImageCollection("projects/sat-io/open-datasets/TERRACLI
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/c3148aaa0a61e588e6d0763f7ac90b53  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/90c23c6a54be528fc59fff1f3b666068  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
