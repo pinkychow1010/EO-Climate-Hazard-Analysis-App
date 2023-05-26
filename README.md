@@ -139,18 +139,18 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Helper 📦</summary>
   
   ### General geospatial functions to aid analysis
-  1. [Helper](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper) [(open in code editor)]
-  2. [Customized Basemap](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/basemap_resources) [(open in code editor)]
-  3. [Choropleth Map](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/analysis_utils) [(open in code editor)]
+  1. [Helper](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Ahelper)
+  2. [Customized Basemap](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/basemap_resources) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Abasemap_resources)
+  3. [Choropleth Map](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/analysis_utils) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aanalysis_utils)
 </details>
 
 <details>
   <summary>Interface 💻🖱️</summary>
   
   ### Component to construct API
-  1. [App for small raster download](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader) [(open in code editor)]
-  2. [Dataset selection](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_ds_select) [(open in code editor)]
-  3. [Resample output](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_res_select) [(open in code editor)]
+  1. [App for small raster download](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fapp_development%2Fraster_downloader)
+  2. [Dataset selection](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_ds_select) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fapp_development%2Fraster_downloader_ds_select)
+  3. [Resample output](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_res_select) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fapp_development%2Fraster_downloader_res_select)
   4. [Explorer Main Script](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/data_explorer_main) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Adata_explorer_main)
   5. [Dashboard Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_func) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aapp_func)
   6. [Admin-boundary-based Analysis Framework](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_interface) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aapp_interface)
