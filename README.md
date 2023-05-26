@@ -102,11 +102,11 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/density.gif)
   
   ### Population Changes and Urban Development
-  1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/dataset_showcase/age_risk)
-  2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/extract_urban_centre)
-  3. [Analysing Urbanization Changes](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/extract_urbanization_trend)
-  4. [Population Count Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/population_count_choropleth)
-  5. [Population Density Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/population_density_choropleth)
+  1. [Age-based Risk Factor](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/dataset_showcase/age_risk) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fdataset_showcase%2Fage_risk)
+  2. [Analysing Dense Urban Regions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/extract_urban_centre) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2Fextract_urban_centre)
+  3. [Analysing Urbanization Changes](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/extract_urbanization_trend) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2Fextract_urbanization_trend)
+  4. [Population Count Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/population_count_choropleth) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2Fpopulation_count_choropleth)
+  5. [Population Density Choropleth](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/population_density_choropleth) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fanalysis%2Fpopulation_density_choropleth)
 </details>
 
 <details>
@@ -117,8 +117,8 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   ![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/lst_lulc.gif)
   
   ### Land Use Changes and Vegetation Dynamics
-  1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/calculate_landuse_ratio)
-  2. [Evaluating impacts of vegetation changes on LST](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/fractional_vegetation_tsa)
+  1. [Calculate Land Use Proportion](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/calculate_landuse_ratio) [(open in code editor)]
+  2. [Evaluating impacts of vegetation changes on LST](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/analysis/fractional_vegetation_tsa) [(open in code editor)]
 </details>
 
 <details>
@@ -139,27 +139,27 @@ Below are lists of Javascript code for multiple climate risk analysis. Users can
   <summary>Helper 📦</summary>
   
   ### General geospatial functions to aid analysis
-  1. [Helper](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper)
-  2. [Customized Basemap](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/basemap_resources)
-  3. [Choropleth Map](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/analysis_utils)
+  1. [Helper](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/helper) [(open in code editor)]
+  2. [Customized Basemap](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/basemap_resources) [(open in code editor)]
+  3. [Choropleth Map](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/analysis_utils) [(open in code editor)]
 </details>
 
 <details>
   <summary>Interface 💻🖱️</summary>
   
   ### Component to construct API
-  1. [App for small raster download](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader)
-  2. [Dataset selection](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_ds_select)
-  3. [Resample output](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_res_select)
-  4. [Explorer Main Script](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/data_explorer_main)
-  5. [Dashboard Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_func)
-  6. [Admin-boundary-based Analysis Framework](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_interface)
-  7. [Data Explorer App](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_interface)
-  8. [Data Explorer Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_utils)
-  9. [Data Explorer Dashboard Styling](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_style)
-  10. [Analysis Tool App](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_interface)
-  11. [Analysis Tool Message](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_text)
-  12. [Analysis Tool Styling](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_style)
+  1. [App for small raster download](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader) [(open in code editor)]
+  2. [Dataset selection](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_ds_select) [(open in code editor)]
+  3. [Resample output](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/code/app_development/raster_downloader_res_select) [(open in code editor)]
+  4. [Explorer Main Script](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/data_explorer_main) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Adata_explorer_main)
+  5. [Dashboard Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_func) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aapp_func)
+  6. [Admin-boundary-based Analysis Framework](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/app_interface) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aapp_interface)
+  7. [Data Explorer App](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_interface) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aexplorer_interface)
+  8. [Data Explorer Functions](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_utils) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aexplorer_utils)
+  9. [Data Explorer Dashboard Styling](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/explorer_style) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Aexplorer_style)
+  10. [Analysis Tool App](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_interface) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Amain_interface)
+  11. [Analysis Tool Message](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_text) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Amain_text)
+  12. [Analysis Tool Styling](https://github.com/pinkychow1010/wb-pak-intraurban/blob/master/main_style) [(open in code editor)](https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Amain_style)
 </details>
 
 
