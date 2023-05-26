@@ -1,6 +1,17 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var table = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/5d5d33979945a4f84b34d34c1f2891a1  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
 // released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
 // ################################# //
