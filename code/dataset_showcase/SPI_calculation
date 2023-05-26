@@ -2,6 +2,8 @@
 // ######    Standardized Precipitation Index      ###### //
 // ###################################################### //
 
+//[<img src="https://cdn.pixabay.com/photo/2022/04/19/09/46/get-started-7142480_1280.png" alt= “” width="100px" height="50px">](https://code.earthengine.google.com/f3e4d6e5d7c4a35b354a86143e494b47)
+
 /**
  * This is an example script for visualizing SPI for 
  * an area of interest (i.e. Pakistan in this example), which
