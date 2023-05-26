@@ -102,6 +102,6 @@ var AOI = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
 //           [69.36980364161634, 28.262179345630027]]], null, false);
 
 var SPI = yearlySPI(AOI, '2010-05-01', '2010-06-01');
-// print(SPI)
+
 Map.setOptions("Hybrid");
 Map.addLayer(SPI, {min:-2, max:2, palette:['red','yellow','green']});
