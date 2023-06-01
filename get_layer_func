@@ -30,7 +30,7 @@ exports.get_age_risk = function get_age_risk(aoi) {
   
   // mask out invalid pixels
   var mask = ds.select('population').gt(0);
-  return risk.updateMask(mask).clip(aoi);
+  return risk.select('risk').updateMask(mask).clip(aoi);
 };
 
 exports.get_uhi_day = function get_uhi_day(aoi) {
