@@ -69,7 +69,7 @@ exports.comparison_app = function(layer_dict) {
   ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
   
   // set up title
-  var title = ui.Label("Map Comparison Tool");
+  var title = ui.Label("Map Comparison");
   title.style().set(style.title);
   
   mainPanel.add(title); // add title to main panel
