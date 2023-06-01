@@ -1,0 +1,169 @@
+// import modules 
+var palettes = require('users/gena/packages:palettes');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
+var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
+
+exports.comparison_app = function(layer_dict) {
+  // import project data layers for admin level selections
+  var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
+  var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
+  var ADM2 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2");
+  
+  // customized basemap to enhance visuals 
+  var new_basemap = basemap.getCustomBasemap('MutedMonotone');
+  
+  // set all map controls
+  var mapControl = style.mapControl;
+  
+  // Create two maps with custom options
+  // left map
+  var map1 = ui.Map();
+  map1.style().set('cursor', 'crosshair'); // set cursor shape
+  map1.setControlVisibility(mapControl); // hide unnecessary map controls to give space
+  
+  // right map
+  var map2 = ui.Map();
+  map2.style().set('cursor', 'crosshair'); // cursor shape
+  map2.setControlVisibility(mapControl); // set map control
+  map2.setControlVisibility({zoomControl: false}) ;
+  
+  // customized basemap for both maps to enhance visuals
+  map1.setOptions(undefined, {'Custom': new_basemap});
+  map2.setOptions(undefined, {'Custom': new_basemap});
+  
+  // link control between two maps
+  var linker = ui.Map.Linker([map1, map2]);
+  
+  // create a grid of maps
+  var mapGrid = ui.Panel(
+      [ui.Panel([map1], null, {stretch: 'both'}),
+        ui.Panel([map2], null, {stretch: 'both'})],
+      ui.Panel.Layout.Flow('horizontal'), {stretch: 'both'}
+      );
+  
+  // main panel on the side for argument selections
+  var mainPanel = ui.Panel();
+  mainPanel.style().set(style.mainPanel); // define style
+  
+  // Add the maps and title to the ui.root.
+  ui.root.widgets().reset([mainPanel, mapGrid]);
+  ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
+  
+  // set up title
+  var title = ui.Label("Comparison Maps");
+  title.style().set(style.title);
+  
+  mainPanel.add(title); // add title to main panel
+  
+  var dropdownPanel = ui.Panel(); // panel to hold the drop-down boxes
+  dropdownPanel.style().set(style.dark_theme);
+  
+  // set up location input session (dropdowns for admin0, admin1 and admin2 names)
+  // disable admin selections
+  var admin0Select = ui.Select({
+      placeholder: 'Please wait..',
+    }).setDisabled(true);
+  
+  dropdownPanel.add(admin0Select); // add country drop down
+  
+  
+  // select variable 1 (left map)
+  var var1_selection = ui.Select({
+    placeholder: 'Select data layer 1...',
+    items: Object.keys(layer_dict),
+  });
+  
+  var var2_selection = ui.Select({
+    placeholder: 'Select data layer 2...',
+    items: Object.keys(layer_dict),
+  });
+  
+  dropdownPanel.add(var1_selection); 
+  dropdownPanel.add(var2_selection); 
+  
+  // add drop down to side bar
+  mainPanel.add(dropdownPanel); // display on main panel
+  
+  // start computing button to pass arguments to calculation
+  var start_button = ui.Button({
+    label: "Start Computing",
+    onClick: computeMap
+  });
+  
+  start_button.style().set(style.start_button);
+  mainPanel.add(start_button);
+  
+  // center maps
+  map1.setCenter(70,30,5);
+  map2.setCenter(70,30,5);
+  
+  // Update from country selection
+  // function after selection: zoom to country; no computation yet
+  var admin0Selected = function(admin0Selection) {
+    var selectedAdmin0 = ADM0.filter(
+      ee.Filter.eq('shapeName', admin0Selection)
+      );
+    map1.centerObject(selectedAdmin0,5); // zoom to country
+  };
+  
+  admin0Select.onChange(admin0Selected); // set up response for drop down
+  
+  // Get all country names and sort them
+  var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
+  
+  // Fetch the value using evaluate() to not block the UI
+  admin0Names.evaluate(function(items){
+    admin0Select.items().reset(items);
+    admin0Select.setDisabled(false); // enable menu
+    admin0Select.setPlaceholder('Select country'); // Change placeholder
+  });
+  
+  // Get value from drop down and use it to compute layers for aoi
+  function computeMap(value) {
+    var country_name = admin0Select.getValue(); // get selected country
+    map1.clear(); // clear map
+    map2.clear();
+    
+    // customized basemap to enhance visuals
+    map1.setOptions(undefined, {'Custom': new_basemap});
+    map2.setOptions(undefined, {'Custom': new_basemap});
+    
+    // add data layer label
+    var var1 = var1_selection.getValue();
+    var var2 = var2_selection.getValue();
+    
+    // use layer selection to control displayed labels
+    map1.add(ui.Label(var1, style.map_label));
+    map2.add(ui.Label(var2, style.map_label));
+    
+    // use country name to compute aoi geometry
+    var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
+    var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
+    
+    // get details at the admin 2 level
+    var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
+    
+    // ger layer based on user selection, call aoi to get regional raster only
+    var layer1 = layer_dict[var1](aoi);
+    var layer2 = layer_dict[var2](aoi);
+    
+    // get choropleth maps for both maps
+    helper.zonalInspect(aoi, layer1, map1);
+    helper.zonalInspect(aoi, layer2, map2);
+    
+    // set map control
+    map1.setControlVisibility(mapControl);
+    map2.setControlVisibility(mapControl);
+    map2.setControlVisibility({zoomControl: false});
+  }
+};
+
+
+
+
+
+
+
+
