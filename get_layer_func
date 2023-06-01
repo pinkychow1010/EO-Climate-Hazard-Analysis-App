@@ -9,6 +9,30 @@
  * This script contains functions to get different geospatial layers
  */
 
+exports.get_pdsi = function get_pdsi(aoi) {
+  // return the list of coordinates
+  var listCoords = ee.Array.cat(aoi.coordinates(), 1); 
+  
+  // get the Y-coordinates
+  var yCoords = listCoords.slice(1, 1, 2);
+  
+  // reduce the arrays
+  var yMin = yCoords.reduce('min', [0]).get([0,0]);
+  var yMax = yCoords.reduce('max', [0]).get([0,0]);
+  
+  var south = yMin.add(yMax).divide(2).lt(0);
+  var shift = south.multiply(6).getInfo();
+  
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+  var yearFilter = ee.Filter.date(ee.Date("2010-01-01"),ee.Date("2023-01-01"));
+  
+  var dataset = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+                    .filter(yearFilter).filter(summerFilter);
+  
+  var drought_index = dataset.select('pdsi').median().multiply(0.01).clip(aoi);
+  return drought_index;
+};
+
 exports.get_temp_diff = function get_temp_diff(aoi) {
   var temp_diff = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAYNIGHT_M/v01")
   .reduce('mean')
