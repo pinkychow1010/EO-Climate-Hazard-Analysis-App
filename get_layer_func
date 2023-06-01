@@ -9,9 +9,29 @@
  * This script contains functions to get different geospatial layers
  */
  
+exports.get_urban_density = function get_urban_density(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(50);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  return reduceNeighborhood;
+};
+
 exports.get_cisi = function get_cisi(aoi) {
   return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
-}
+};
 
 exports.get_rwi = function get_rwi(aoi) {
   // get RWI data layer from community project (Layer 2)
@@ -30,4 +50,4 @@ exports.get_rwi = function get_rwi(aoi) {
       reducer: ee.Reducer.mean(),
   }); 
   return rwi;
-}
+};
