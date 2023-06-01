@@ -9,6 +9,12 @@
  * This script contains functions to get different geospatial layers
  */
 
+exports.get_landscan_pop = function get_landscan_pop(aoi) {
+  var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
+  var landscan_2021 = landscan_global.sort('system:time_start',false).first();
+  return landscan_2021.clip(aoi);
+};
+
 exports.get_pdsi = function get_pdsi(aoi) {
   // return the list of coordinates
   var centroid = aoi.first().geometry().centroid();
