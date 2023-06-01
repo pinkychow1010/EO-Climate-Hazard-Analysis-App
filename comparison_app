@@ -17,7 +17,7 @@ var layer_dict = {
   "Urban Density": data.get_urban_density,
   "Cropland Density": data.get_cropland_density,
   "Forest Density": data.get_forest_density,
-  "Age Risk": data.get_age_risk
+  "Urbanization Degree": data.get_urban_degree
 };
 
 app.comparison_app(layer_dict);
