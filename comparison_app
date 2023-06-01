@@ -13,7 +13,10 @@ var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface');
 // all available data layers imported from functions
 var layer_dict = {
   "Relative Wealth Index": data.get_rwi,
-  "Critical Infrastructure Spatial Index": data.get_cisi
+  "Critical Infrastructure Spatial Index": data.get_cisi,
+  "Urban Density": data.get_urban_density,
+  "Cropland Density": data.get_cropland_density,
+  "Forest Density": data.get_forest_density
 };
 
 app.comparison_app(layer_dict);
