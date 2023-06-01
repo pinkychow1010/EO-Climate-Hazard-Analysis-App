@@ -152,13 +152,13 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
     
     // if missing value are too high, it is very possible that the remaining data is unreliable
     // in this case the whole country will be treated as NO DATA
-    // if (missing_ratio.getInfo() > 0.2){ // use getInfo to compare with number rather than ee.Number Object which always return 1
-    //   var no_data_label = ui.Label({value: "NO DATA"}); // show no data
-    //   no_data_label.style().set(dark_theme); // set dark theme
-    //   inspector.widgets().set(0, no_data_label);
+    if (missing_ratio.getInfo() > 0.2){ // use getInfo to compare with number rather than ee.Number Object which always return 1
+      var no_data_label = ui.Label({value: "NO DATA"}); // show no data
+      no_data_label.style().set(dark_theme); // set dark theme
+      inspector.widgets().set(0, no_data_label);
       
-    //   return null; // skip the choropleth part
-    // }
+      return null; // skip the choropleth part
+    }
     
     // internal functions for get polygon property
     var getPolyLabel = function(coords) {
