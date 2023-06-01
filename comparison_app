@@ -17,8 +17,7 @@ var layer_dict = {
   "Urban Density": data.get_urban_density,
   "Cropland Density": data.get_cropland_density,
   "Forest Density": data.get_forest_density,
-  "Urban Heat Index (Day)": data.get_uhi_day,
-  "Urban Heat Index (Night)": data.get_uhi_night
+  "Age Risk": data.get_age_risk
 };
 
 app.comparison_app(layer_dict);
