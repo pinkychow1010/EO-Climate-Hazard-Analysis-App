@@ -9,6 +9,10 @@
  * This script contains functions to get different geospatial layers
  */
 
+exports.get_uhi = function get_uhi(aoi) {
+  return ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4').clip(aoi);
+};
+
 exports.get_forest_density = function get_forest_density(aoi) {
   
   var bbox = aoi.geometry();
