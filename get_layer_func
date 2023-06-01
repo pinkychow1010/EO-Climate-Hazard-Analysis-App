@@ -9,29 +9,11 @@
  * This script contains functions to get different geospatial layers
  */
 
-exports.get_age_risk = function get_age_risk(aoi) {
-  var ds = ee.ImageCollection('WorldPop/GP/100m/pop_age_sex').sum().clip(aoi);
-  // compute risk factor based on demographics
-  var risk = ds.expression(
-                        '(total-M80-M75-M70-M65-M60-F80-F75-F70-F65-F60)/total*0.2 + ((M60+F60)/total)*0.4 + ((M65+F65)/total)*0.6 + ((M70+F70)/total)*0.8 + (M75+M80+F75+F80)/total', {
-                          'total' : ds.select('population'),
-                          'M60' : ds.select('M_60'),
-                          'M65' : ds.select('M_65'),
-                          'M70' : ds.select('M_70'),
-                          'M75' : ds.select('M_75'),
-                          'M80' : ds.select('M_80'),
-                          'F60' : ds.select('F_60'),
-                          'F65' : ds.select('F_65'),
-                          'F70' : ds.select('F_70'),
-                          'F75' : ds.select('F_75'),
-                          'F80' : ds.select('F_80')
-                        })
-                        .rename('risk');
-  
-  // // mask out invalid pixels
-  // var mask = ds.select('population').gt(0);
-  // var out = risk.select('risk').updateMask(mask);
-  return risk;
+exports.get_urban_degree = function get_urban_degree(aoi) {
+  var dataset = ee.ImageCollection('JRC/GHSL/P2016/SMOD_POP_GLOBE_V1')
+                  .filter(ee.Filter.date('2015-01-01', '2015-12-31'));
+  var degreeOfUrbanization = dataset.select('smod_code').first();
+  return degreeOfUrbanization.clip(aoi);
 };
 
 exports.get_uhi_day = function get_uhi_day(aoi) {
