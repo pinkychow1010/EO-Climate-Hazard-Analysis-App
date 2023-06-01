@@ -10,12 +10,18 @@
  */
 
 exports.get_uhi_day = function get_uhi_day(aoi) {
-  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4').select('Daytime');
+  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
+  .select('Daytime')
+  .filter(ee.Filter.inList('system:index', ["2018"]))
+  .first();
   return uhi.clip(aoi);
 };
 
 exports.get_uhi_night = function get_uhi_night(aoi) {
-  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4').select('Nighttime');
+  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
+  .select('Nighttime')
+  .filter(ee.Filter.inList('system:index', ["2018"]))
+  .first();
   return uhi.clip(aoi);
 };
 
