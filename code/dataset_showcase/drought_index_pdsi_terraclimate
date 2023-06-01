@@ -38,4 +38,30 @@ var vis = {
   ],
 };
 
-Map.addLayer(drought_index.first().clip(pakistan), vis, 'PDSI');
+Map.addLayer(drought_index.first().clip(pakistan).multiply(0.01), vis, 'PDSI');
+
+// // return the list of coordinates
+// var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
+
+// // get the Y-coordinates
+// var yCoords = listCoords.slice(1, 1, 2)
+
+// // reduce the arrays
+// var yMin = yCoords.reduce('min', [0]).get([0,0])
+// var yMax = yCoords.reduce('max', [0]).get([0,0])
+
+// var south = yMin.add(yMax).divide(2).lt(0);
+// var shift = south.multiply(6).getInfo();
+
+// var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+// var yearFilter = ee.Filter.date(ee.Date("2010-01-01"),ee.Date("2023-01-01"));
+
+// var dataset = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+//                   .filter(yearFilter).filter(summerFilter);
+
+// var drought_index = dataset.select('pdsi').median().multiply(0.01).clip(geometry);
+// Map.addLayer(
+//   drought_index, 
+//   {min:-4, max:2, palette:['red','white','blue']},
+//   "PDSI"
+//   );

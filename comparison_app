@@ -17,7 +17,8 @@ var layer_dict = {
   "Urban Density": data.get_urban_density,
   "Cropland Density": data.get_cropland_density,
   "Forest Density": data.get_forest_density,
-  "Urbanization Degree": data.get_urban_degree
+  "Urbanization Degree": data.get_urban_degree,
+  "Palmer Drought Severity Index": data.get_pdsi
 };
 
 app.comparison_app(layer_dict);
