@@ -8,7 +8,47 @@
 /**
  * This script contains functions to get different geospatial layers
  */
- 
+
+exports.get_forest_density = function get_forest_density(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(10);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  return reduceNeighborhood;
+};
+
+exports.get_cropland_density = function get_cropland_density(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(40);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  return reduceNeighborhood;
+};
+
 exports.get_urban_density = function get_urban_density(aoi) {
   
   var bbox = aoi.geometry();
