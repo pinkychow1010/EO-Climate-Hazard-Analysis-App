@@ -11,7 +11,8 @@
 
 exports.get_pdsi = function get_pdsi(aoi) {
   // return the list of coordinates
-  var listCoords = ee.Array.cat(aoi.coordinates(), 1); 
+  var centroid = aoi.first().geometry().centroid();
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
   
   // get the Y-coordinates
   var yCoords = listCoords.slice(1, 1, 2);
