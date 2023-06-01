@@ -16,7 +16,8 @@ var layer_dict = {
   "Critical Infrastructure Spatial Index": data.get_cisi,
   "Urban Density": data.get_urban_density,
   "Cropland Density": data.get_cropland_density,
-  "Forest Density": data.get_forest_density
+  "Forest Density": data.get_forest_density,
+  "Urban Heat Index": data.get_uhi
 };
 
 app.comparison_app(layer_dict);
