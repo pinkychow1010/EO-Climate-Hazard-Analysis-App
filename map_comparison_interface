@@ -167,8 +167,8 @@ exports.comparison_app = function(layer_dict) {
     var layer2 = layer_dict[var2](aoi);
     
     // get choropleth maps for both maps
-    helper.zonalInspect(aoi, layer1, map1);
-    helper.zonalInspect(aoi, layer2, map2);
+    helper.zonalInspect(aoi, layer1, map1); // vector, raster, map, reducer, log
+    helper.zonalInspect(aoi, layer2, map2); 
     
     // set map control
     map1.setControlVisibility(mapControl);
