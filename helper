@@ -89,14 +89,15 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
 };
 
 
-exports.zonalInspect = function zonalInspect(vector, raster, map, reducer) {
+exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) {
     
     // import modules
     var palettes = require('users/gena/packages:palettes');
     var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
     
     if (reducer === undefined || reducer === null){var reducer = "mean"};
-     
+    if (log === undefined || log === null){var log = 0};
+    
     var reducer_column = {
       "mean": ee.Reducer.mean,
       "median": ee.Reducer.median,
@@ -211,7 +212,7 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer) {
     };
 
   var palette = palettes.colorbrewer.RdBu[6]; // color map
-  var log = 0; // option for log scale
+  // var log = 0; // option for log scale
   var class_n = 6; // number of class/ bins
   var title = "Layer Mean"; // layer name
   var opacity = 0.9; // layer transparancy

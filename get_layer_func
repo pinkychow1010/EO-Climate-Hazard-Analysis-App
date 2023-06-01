@@ -8,10 +8,100 @@
 /**
  * This script contains functions to get different geospatial layers
  */
- 
+
+exports.get_temp_diff = function get_temp_diff(aoi) {
+  var temp_diff = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAYNIGHT_M/v01")
+  .reduce('mean')
+  .multiply(0.02);
+  return temp_diff.clip(aoi);
+};
+
+exports.get_urban_degree = function get_urban_degree(aoi) {
+  var dataset = ee.ImageCollection('JRC/GHSL/P2016/SMOD_POP_GLOBE_V1')
+                  .filter(ee.Filter.date('2015-01-01', '2015-12-31'));
+  var degreeOfUrbanization = dataset.select('smod_code').sum().clip(aoi);
+  return degreeOfUrbanization;
+};
+
+exports.get_uhi_day = function get_uhi_day(aoi) {
+  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
+  .select('Daytime')
+  .filter(ee.Filter.inList('system:index', ["2018"]))
+  .first();
+  return uhi.clip(aoi);
+};
+
+exports.get_uhi_night = function get_uhi_night(aoi) {
+  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
+  .select('Nighttime')
+  .filter(ee.Filter.inList('system:index', ["2018"]))
+  .first();
+  return uhi.clip(aoi);
+};
+
+exports.get_forest_density = function get_forest_density(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(10);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  return reduceNeighborhood;
+};
+
+exports.get_cropland_density = function get_cropland_density(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(40);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  return reduceNeighborhood;
+};
+
+exports.get_urban_density = function get_urban_density(aoi) {
+  
+  var bbox = aoi.geometry();
+  
+  // get urban areas
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+  .first()
+  .clip(bbox);
+  
+  var urban_mask = lulc.eq(50);
+  
+  // calculate urban density
+  var reduceNeighborhood = urban_mask.reduceNeighborhood(
+    ee.Reducer.mean(), 
+    ee.Kernel.circle(5000, 'meters')
+  ).multiply(100).toByte();
+  
+  return reduceNeighborhood;
+};
+
 exports.get_cisi = function get_cisi(aoi) {
   return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
-}
+};
 
 exports.get_rwi = function get_rwi(aoi) {
   // get RWI data layer from community project (Layer 2)
@@ -30,4 +120,4 @@ exports.get_rwi = function get_rwi(aoi) {
       reducer: ee.Reducer.mean(),
   }); 
   return rwi;
-}
+};
