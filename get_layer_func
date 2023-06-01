@@ -9,6 +9,13 @@
  * This script contains functions to get different geospatial layers
  */
 
+exports.get_temp_diff = function get_temp_diff(aoi) {
+  var temp_diff = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAYNIGHT_M/v01")
+  .reduce('mean')
+  .multiply(0.02);
+  return temp_diff.clip(aoi);
+};
+
 exports.get_urban_degree = function get_urban_degree(aoi) {
   var dataset = ee.ImageCollection('JRC/GHSL/P2016/SMOD_POP_GLOBE_V1')
                   .filter(ee.Filter.date('2015-01-01', '2015-12-31'));
