@@ -201,8 +201,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   var p2_message = "To begin with, select a country\n\
   and two data layers which you\n\
   would like to compare side to side.\n\
-  Click start compute and wait for \n\
-  a minute for the layers to load.\n\
+  Click start to compute and wait for a minute \n\
+  for the layers to load on-the-fly.\n\
   Click layer label to view details\n\
   of the dataset, including the project website.";
   
