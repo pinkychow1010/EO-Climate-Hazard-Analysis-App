@@ -112,7 +112,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   start_button.style().set(style.start_button);
   mainPanel.add(start_button);
   
-  var loading_button = ui.Label("Processing takes ~1 min", style.dark_theme);
+  var loading_button = ui.Label("Processing takes up to 1-2 min", style.dark_theme);
   loading_button.style().set({color:"white", shown: false});
   // loading_button.setImageUrl("https://i.gifer.com/ZKZg.gif");
   mainPanel.add(loading_button);
