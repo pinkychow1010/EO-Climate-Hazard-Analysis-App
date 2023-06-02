@@ -14,8 +14,8 @@ print(zonal.first())
 var chart =
     ui.Chart.feature
         .byFeature({
-          features: zonal.select(['DISTRICT','mean_pop']),
-          xProperty: 'DISTRICT',
+          features: zonal.select(['TEHSIL','mean_pop']),
+          xProperty: 'TEHSIL',
         })
         .setChartType('ColumnChart')
 print(chart);
