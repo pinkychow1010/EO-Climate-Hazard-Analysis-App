@@ -151,6 +151,7 @@ exports.comparison_app = function(layer_dict) {
     var var1 = var1_selection.getValue();
     var var2 = var2_selection.getValue();
     
+    // remove category label if applicable (only name of the dataset)
     var var1_label = var1.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
     var var2_label = var2.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
     
