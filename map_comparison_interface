@@ -202,7 +202,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     map2.setControlVisibility(mapControl);
     map2.setControlVisibility({zoomControl: false});
     loading_button.style().set({shown: false});
-    waitPanel.widgets().reset();
+    // waitPanel.widgets().reset();
   }
   
   var p1_heading = "Welcome! 👋";
