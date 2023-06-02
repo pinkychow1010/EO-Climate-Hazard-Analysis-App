@@ -34,4 +34,15 @@ var info_dict = {
   "HAZARD | Palmer Drought Severity Index": text.pdsi
 };
 
-app.comparison_app(layer_dict, info_dict);
+var url_dict = {
+  "EXPOSURE | Relative Wealth Index": "https://gee-community-catalog.org/projects/rwi/",
+  "EXPOSURE | Critical Infrastructure Spatial Index": "https://gee-community-catalog.org/projects/cisi/",
+  "EXPOSURE | Population 2021 (LandScan)": "https://gee-community-catalog.org/projects/landscan/",
+  "EXPOSURE | Urban Density": "https://esa-worldcover.org/en",
+  "EXPOSURE | Cropland Density": "https://esa-worldcover.org/en",
+  "VULNERABILITY | Forest Density": "https://esa-worldcover.org/en",
+  "VULNERABILITY | Urbanization Degree": "https://ghsl.jrc.ec.europa.eu/",
+  "HAZARD | Palmer Drought Severity Index": "https://www.climatologylab.org/terraclimate.html"
+};
+
+app.comparison_app(layer_dict, info_dict, url_dict);
