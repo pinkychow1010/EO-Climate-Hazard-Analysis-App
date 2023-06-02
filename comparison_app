@@ -24,14 +24,14 @@ var layer_dict = {
 };
 
 var info_dict = {
-  "EXPOSURE | Relative Wealth Index": "...",
-  "EXPOSURE | Critical Infrastructure Spatial Index": "...",
-  "EXPOSURE | Population 2021 (LandScan)": "...",
-  "EXPOSURE | Urban Density": "...",
-  "EXPOSURE | Cropland Density": "...",
-  "VULNERABILITY | Forest Density": "...",
-  "VULNERABILITY | Urbanization Degree": "...",
-  "HAZARD | Palmer Drought Severity Index": "..."
+  "EXPOSURE | Relative Wealth Index": text.rwi,
+  "EXPOSURE | Critical Infrastructure Spatial Index": text.cisi,
+  "EXPOSURE | Population 2021 (LandScan)": text.landscan,
+  "EXPOSURE | Urban Density": text.urban,
+  "EXPOSURE | Cropland Density": text.cropland,
+  "VULNERABILITY | Forest Density": text.forest,
+  "VULNERABILITY | Urbanization Degree": text.ghsl,
+  "HAZARD | Palmer Drought Severity Index": text.pdsi
 };
 
 app.comparison_app(layer_dict, info_dict);
