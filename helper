@@ -289,9 +289,9 @@ exports.add_popup = function add_popup(title, content, map) {
   var hd_style = {
       whiteSpace: 'pre', 
       textAlign: 'center', 
-      padding: '50px 50px 0px 50px',
+      padding: '30px 30px 0px 30px',
       width: '500px',
-      fontSize: '22px', 
+      fontSize: '20px', 
       fontWeight:'bold'
     };
   
@@ -300,7 +300,10 @@ exports.add_popup = function add_popup(title, content, map) {
     position: 'top-center'
   };
   
-  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  var page_style = {
+    border: '15px solid #c9c9c9', 
+    position: 'top-center'
+  };
   
   function hide(widget) {
     widget.style().set({shown: false});
