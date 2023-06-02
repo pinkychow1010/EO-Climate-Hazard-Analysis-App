@@ -1,0 +1,46 @@
+// Description for Datasets
+
+exports.rwi = "The Relative Wealth Index predicts the relative\n\
+standard of living within countries using privacy\n\
+protecting connectivity data, satellite imagery, \n\
+and other novel data sources.\n\
+ 【Click heading to project】";
+
+exports.cisi = "Critical Infrastructure Spatial Index represents\n\
+the global spatial intensity of CI. The \n\
+dataset is generated from Open Streetmap \n\
+(2021). 【Click heading to project】";
+
+exports.landscan = "LandScan is the finest resolution global \n\
+population distribution data available and represents\n\
+an “ambient population” used for risk assessment.\n\
+ 【Click heading to project】";
+
+exports.urban = "This layer is extracted from ESA WorldCover\n\
+the first global land cover products\n\
+for 2020 and 2021 at 10 m resolution.\n\
+ 【Click heading to project】";
+
+exports.cropland = "This layer is extracted from ESA WorldCover\n\
+the first global land cover products\n\
+for 2020 and 2021 at 10 m resolution.\n\
+ 【Click heading to project】";
+
+exports.forest = "This layer is extracted from ESA WorldCover\n\
+the first global land cover products\n\
+for 2020 and 2021 at 10 m resolution.\n\
+ 【Click heading to project】";
+
+exports.ghsl = "The GHS-SMOD is the rural-urban Settlement\n\
+classification MODel adopted by the GHSL.\n\
+It is the representation of the degree\n\
+of urbanization concept into the GHSL\n\
+data scenario. 【Click heading to project】";
+
+exports.pdsi = "TerraClimate is a dataset of monthly climate\n\
+and climatic water balance for global\n\
+terrestrial surfaces from 1958-2019. These data\n\
+provide important inputs for ecological and \n\
+hydrological studies at global scales that require\n\
+high spatial resolution and time-varying data. \n\
+【Click heading to project】";

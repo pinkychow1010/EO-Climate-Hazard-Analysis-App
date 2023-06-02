@@ -9,17 +9,41 @@
 // import modules 
 var data = require('users/pinkychow1010/WB_IntraUrban:get_layer_func'); // customized basemap to enhance visuals 
 var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface'); // customized basemap to enhance visuals 
+var text = require('users/pinkychow1010/WB_IntraUrban:map_comparison_text'); // customized basemap to enhance visuals 
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper'); // customized basemap to enhance visuals 
 
 // all available data layers imported from functions
 var layer_dict = {
   "EXPOSURE | Relative Wealth Index": data.get_rwi,
-  "EXPOSURE | Critical Infrastructure Spatial Index": data.get_cisi,
-  "EXPOSURE | Population 2021 (LandScan)": data.get_landscan_pop,
+  "EXPOSURE | Critical Infrastructure": data.get_cisi,
+  "EXPOSURE | Population (LandScan)": data.get_landscan_pop,
   "EXPOSURE | Urban Density": data.get_urban_density,
   "EXPOSURE | Cropland Density": data.get_cropland_density,
   "VULNERABILITY | Forest Density": data.get_forest_density,
-  "EXPOSURE | Urbanization Degree": data.get_urban_degree,
+  "VULNERABILITY | Urbanization Degree": data.get_urban_degree,
   "HAZARD | Palmer Drought Severity Index": data.get_pdsi
 };
 
-app.comparison_app(layer_dict);
+var info_dict = {
+  "EXPOSURE | Relative Wealth Index": text.rwi,
+  "EXPOSURE | Critical Infrastructure": text.cisi,
+  "EXPOSURE | Population (LandScan)": text.landscan,
+  "EXPOSURE | Urban Density": text.urban,
+  "EXPOSURE | Cropland Density": text.cropland,
+  "VULNERABILITY | Forest Density": text.forest,
+  "VULNERABILITY | Urbanization Degree": text.ghsl,
+  "HAZARD | Palmer Drought Severity Index": text.pdsi
+};
+
+var url_dict = {
+  "EXPOSURE | Relative Wealth Index": "https://gee-community-catalog.org/projects/rwi/",
+  "EXPOSURE | Critical Infrastructure": "https://gee-community-catalog.org/projects/cisi/",
+  "EXPOSURE | Population (LandScan)": "https://gee-community-catalog.org/projects/landscan/",
+  "EXPOSURE | Urban Density": "https://esa-worldcover.org/en",
+  "EXPOSURE | Cropland Density": "https://esa-worldcover.org/en",
+  "VULNERABILITY | Forest Density": "https://esa-worldcover.org/en",
+  "VULNERABILITY | Urbanization Degree": "https://ghsl.jrc.ec.europa.eu/",
+  "HAZARD | Palmer Drought Severity Index": "https://www.climatologylab.org/terraclimate.html"
+};
+
+app.comparison_app(layer_dict, info_dict, url_dict);
