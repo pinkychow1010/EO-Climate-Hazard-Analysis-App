@@ -303,8 +303,8 @@ exports.add_popup = function add_popup(title, content, map, url) {
   var page_style = {
     border: '7px solid #c9c9c9',
     position: 'top-center',
-    width: '400px',
-    height: '400px'
+    width: '380px',
+    height: '450px'
   };
   
   function hide(widget) {
@@ -318,7 +318,6 @@ exports.add_popup = function add_popup(title, content, map, url) {
       backgroundColor: '#ffffff00',
       position: 'bottom-center',
       fontSize: '30px',
-      color: '#1C2833',
       width: '180px',
       height: '50px',
       border: '2px solid #006C99'
