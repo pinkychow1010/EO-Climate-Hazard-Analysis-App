@@ -280,7 +280,7 @@ exports.add_popup = function add_popup(title, content, map, url) {
   var msg_style = {
     whiteSpace: 'pre', 
     textAlign: 'center', 
-    padding: '0px 30px 30px 30px',
+    padding: '0px 20px 20px 20px',
     width: '280px',
     color: 'grey',
     fontSize: '12px'
