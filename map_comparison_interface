@@ -69,7 +69,7 @@ exports.comparison_app = function(layer_dict) {
   ui.root.setLayout(ui.Panel.Layout.Flow('horizontal'));
   
   // set up title
-  var title = ui.Label("Map Comparison");
+  var title = ui.Label("Map Comparison 🗺️");
   title.style().set(style.title);
   
   mainPanel.add(title); // add title to main panel
@@ -151,9 +151,12 @@ exports.comparison_app = function(layer_dict) {
     var var1 = var1_selection.getValue();
     var var2 = var2_selection.getValue();
     
+    var var1_label = var1.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
+    var var2_label = var2.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
+    
     // use layer selection to control displayed labels
-    map1.add(ui.Label(var1, style.map_label));
-    map2.add(ui.Label(var2, style.map_label));
+    map1.add(ui.Label(var1_label, style.map_label));
+    map2.add(ui.Label(var2_label, style.map_label));
     
     // use country name to compute aoi geometry
     var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
