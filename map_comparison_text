@@ -35,11 +35,12 @@ exports.ghsl = "The GHS-SMOD is the rural-urban Settlement\n\
 classification MODel adopted by the GHSL.\n\
 It is the representation of the degree\n\
 of urbanization concept into the GHSL\n\
-data scenario.";
+data scenario. 【Click heading to project】";
 
 exports.pdsi = "TerraClimate is a dataset of monthly climate\n\
 and climatic water balance for global\n\
 terrestrial surfaces from 1958-2019. These data\n\
 provide important inputs for ecological and \n\
 hydrological studies at global scales that require\n\
-high spatial resolution and time-varying data. ";
+high spatial resolution and time-varying data. \n\
+【Click heading to project】";
