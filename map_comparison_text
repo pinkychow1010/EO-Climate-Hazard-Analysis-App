@@ -6,7 +6,7 @@ protecting connectivity data, satellite imagery, \n\
 and other novel data sources.\n\
  【Click heading to project】";
 
-exports.cisi = "Critical Infrastructure Spatial Index (CISI) represents\n\
+exports.cisi = "Critical Infrastructure Spatial Index represents\n\
 the global spatial intensity of CI. The \n\
 dataset is generated from Open Streetmap \n\
 (2021). 【Click heading to project】";
