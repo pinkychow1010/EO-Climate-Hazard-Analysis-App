@@ -1,6 +1,8 @@
 // Description for Datasets
 
-exports.rwi = ""
+exports.rwi = "The Relative Wealth Index predicts the relative standard of \n \
+living within countries using privacy protecting connectivity data, \n \
+satellite imagery, and other novel data sources."
 
 exports.cisi = ""
 
