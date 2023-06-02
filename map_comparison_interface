@@ -189,13 +189,24 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     loading_button.style().set({shown: false});
   }
   
-  var p1_heading = "Hi!";
-  var p2_heading = "Hi!";
+  var p1_heading = "Welcome! 👋";
+  var p2_heading = "Welcome! 👋";
   var p3_heading = "Hi!";
   
-  var p1_message = "This is the first page";
-  var p2_message = "This is the second page";
-  var p3_message = "This is the third page";
+  var p1_message = "Want to retrieve climate risk data \n\
+  from space? This climate hazard tool enables\n\
+  you to download and perform \n\
+  further GIS analysis in no time!";
+  
+  var p2_message = "To begin with, select a country\n\
+  and two data layers which you\n\
+  would like to compare side to side.\n\
+  Click start compute and wait for \n\
+  a minute for the layers to load.\n\
+  Click layer label to view details\n\
+  of the dataset, including the project website.";
+  
+  var p3_message = "Let's get started!";
   
   function addInstruction() {helper.addThreePage(
     p1_heading, p1_message,
