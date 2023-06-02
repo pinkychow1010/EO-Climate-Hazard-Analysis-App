@@ -3,10 +3,11 @@
 exports.rwi = "The Relative Wealth Index predicts the relative\n\
 standard of living within countries using privacy\n\
 protecting connectivity data, satellite imagery, \n\
-and other novel data sources. \n\
-Project Details: https://dataforgood.facebook.com/dfg/tools/relative-wealth-index";
+and other novel data sources.";
 
-exports.cisi = "";
+exports.cisi = "Critical Infrastructure Spatial Index (CISI) represents\n\
+the global spatial intensity of CI. \n\
+The datasets are generated from \nOpen Streetmap (2021).";
 
 exports.landscan = "";
 
