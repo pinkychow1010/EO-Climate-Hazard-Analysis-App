@@ -130,8 +130,6 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   
   mainPanel.add(waitPanel);
   
-  
-  
   // center maps
   map1.setCenter(70,30,5);
   map2.setCenter(70,30,5);
@@ -204,6 +202,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     map2.setControlVisibility(mapControl);
     map2.setControlVisibility({zoomControl: false});
     loading_button.style().set({shown: false});
+    waitPanel.widgets().reset();
   }
   
   var p1_heading = "Welcome! 👋";
