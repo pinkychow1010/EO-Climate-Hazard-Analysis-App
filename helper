@@ -289,7 +289,7 @@ exports.add_popup = function add_popup(title, content, map, url) {
   var hd_style = {
       whiteSpace: 'pre', 
       textAlign: 'center', 
-      padding: '10px 10px 10px 10px',
+      padding: '10px 5px 10px 5px',
       width: '280px',
       fontSize: '18px', 
       fontWeight:'bold'
