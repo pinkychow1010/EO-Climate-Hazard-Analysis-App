@@ -289,7 +289,7 @@ exports.add_popup = function add_popup(title, content, map) {
   var hd_style = {
       whiteSpace: 'pre', 
       textAlign: 'center', 
-      padding: '30px 30px 0px 30px',
+      padding: '20px 20px 0px 20px',
       width: '300px',
       fontSize: '20px', 
       fontWeight:'bold'
@@ -303,7 +303,8 @@ exports.add_popup = function add_popup(title, content, map) {
   var page_style = {
     border: '7px solid #c9c9c9', 
     position: 'top-center',
-    width: '400px'
+    width: '400px',
+    height: '600px'
   };
   
   function hide(widget) {
