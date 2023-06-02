@@ -12,14 +12,14 @@ var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface');
 
 // all available data layers imported from functions
 var layer_dict = {
-  "Relative Wealth Index": data.get_rwi,
-  "Critical Infrastructure Spatial Index": data.get_cisi,
-  "Population 2021 (LandScan)": data.get_landscan_pop,
-  "Urban Density": data.get_urban_density,
-  "Cropland Density": data.get_cropland_density,
-  "Forest Density": data.get_forest_density,
-  "Urbanization Degree": data.get_urban_degree,
-  "Palmer Drought Severity Index": data.get_pdsi
+  "EXPOSURE | Relative Wealth Index": data.get_rwi,
+  "EXPOSURE | Critical Infrastructure Spatial Index": data.get_cisi,
+  "EXPOSURE | Population 2021 (LandScan)": data.get_landscan_pop,
+  "EXPOSURE | Urban Density": data.get_urban_density,
+  "EXPOSURE | Cropland Density": data.get_cropland_density,
+  "VULNERABILITY | Forest Density": data.get_forest_density,
+  "EXPOSURE | Urbanization Degree": data.get_urban_degree,
+  "HAZARD | Palmer Drought Severity Index": data.get_pdsi
 };
 
 app.comparison_app(layer_dict);
