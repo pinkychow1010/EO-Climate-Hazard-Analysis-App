@@ -1,1 +1,17 @@
 // Description for Datasets
+
+exports.rwi = ""
+
+exports.cisi = ""
+
+exports.landscan = ""
+
+exports.urban = ""
+
+exports.cropland = ""
+
+exports.forest = ""
+
+exports.ghsl = ""
+
+exports.pdsi = ""
