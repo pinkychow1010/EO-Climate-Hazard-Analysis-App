@@ -304,7 +304,7 @@ exports.add_popup = function add_popup(title, content, map, url) {
     border: '7px solid #c9c9c9',
     position: 'top-center',
     width: '400px',
-    height: '350px'
+    height: '400px'
   };
   
   function hide(widget) {
