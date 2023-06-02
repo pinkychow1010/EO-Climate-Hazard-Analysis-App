@@ -365,7 +365,7 @@ exports.add_popup = function add_popup(title, content, map, url) {
 
 
 exports.addOnePage = function addOnePage(
-  p1_heading, p1_message
+  p1_heading, p1_message, map
   ) {
   
   // set style for elements
@@ -413,13 +413,18 @@ exports.addOnePage = function addOnePage(
   var instructionPanel_p1 = ui.Panel([heading, instructionMessage, okButton]);
 
   instructionPanel_p1.style().set(page_style);
-
-  Map.add(instructionPanel_p1);
-}
+  
+  if (map === undefined || map === null){
+      Map.add(instructionPanel_p1);
+    } else {
+      map.add(instructionPanel_p1);
+    }
+};
 
 exports.addTwoPage = function addTwoPage(
   p1_heading, p1_message,
-  p2_heading, p2_message
+  p2_heading, p2_message,
+  map
   ) {
   
   // set style for elements
@@ -470,7 +475,11 @@ exports.addTwoPage = function addTwoPage(
   
   function p2() {
     hide(instructionPanel_p1);
-    Map.add(instructionPanel_p2);
+    if (map === undefined || map === null){
+      Map.add(instructionPanel_p2);
+    } else {
+      map.add(instructionPanel_p2);
+    }
   }
   
   var okButton = ui.Button('OK', ok);
@@ -484,14 +493,19 @@ exports.addTwoPage = function addTwoPage(
 
   instructionPanel_p1.style().set(page_style);
   instructionPanel_p2.style().set(page_style);
-
-  Map.add(instructionPanel_p1);
-}
+  
+  if (map === undefined || map === null){
+      Map.add(instructionPanel_p1);
+    } else {
+      map.add(instructionPanel_p1);
+    }
+};
 
 exports.addThreePage = function addThreePage(
   p1_heading, p1_message,
   p2_heading, p2_message,
-  p3_heading, p3_message
+  p3_heading, p3_message,
+  map
   ) {
   
   // set style for elements
@@ -549,7 +563,11 @@ exports.addThreePage = function addThreePage(
   
   function p2() {
     hide(instructionPanel_p1);
-    Map.add(instructionPanel_p2);
+    if (map === undefined || map === null){
+      Map.add(instructionPanel_p2);
+    } else {
+      map.add(instructionPanel_p2);
+    }
   }
   
   // Welcome panel second page
@@ -558,7 +576,11 @@ exports.addThreePage = function addThreePage(
   
   function p3() {
     hide(instructionPanel_p2);
-    Map.add(instructionPanel_p3);
+    if (map === undefined || map === null){
+      Map.add(instructionPanel_p3);
+    } else {
+      map.add(instructionPanel_p3);
+    }
   }
   
   // Welcome panel third page
@@ -575,6 +597,10 @@ exports.addThreePage = function addThreePage(
   instructionPanel_p1.style().set(page_style);
   instructionPanel_p2.style().set(page_style);
   instructionPanel_p3.style().set(page_style);
-
-  Map.add(instructionPanel_p1);
-}
+  
+  if (map === undefined || map === null){
+      Map.add(instructionPanel_p1);
+    } else {
+      map.add(instructionPanel_p1);
+    }
+};
