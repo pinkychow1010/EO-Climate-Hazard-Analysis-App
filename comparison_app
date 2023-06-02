@@ -18,7 +18,7 @@ var layer_dict = {
   "EXPOSURE | Urban Density": data.get_urban_density,
   "EXPOSURE | Cropland Density": data.get_cropland_density,
   "VULNERABILITY | Forest Density": data.get_forest_density,
-  "EXPOSURE | Urbanization Degree": data.get_urban_degree,
+  "VULNERABILITY | Urbanization Degree": data.get_urban_degree,
   "HAZARD | Palmer Drought Severity Index": data.get_pdsi
 };
 
