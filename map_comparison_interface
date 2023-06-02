@@ -22,7 +22,7 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 
-exports.comparison_app = function(layer_dict, info_dict) {
+exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   // import project data layers for admin level selections
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
@@ -158,8 +158,8 @@ exports.comparison_app = function(layer_dict, info_dict) {
     var var2_label = var2.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
     
     // use layer selection to control displayed labels
-    helper.add_popup(var1_label, info_dict[var1], map1);
-    helper.add_popup(var2_label, info_dict[var2], map2);
+    helper.add_popup(var1_label, info_dict[var1], map1, url_dict[var1]);
+    helper.add_popup(var2_label, info_dict[var2], map2, url_dict[var2]);
     // map1.add(ui.Label(var1_label, style.map_label));
     // map2.add(ui.Label(var2_label, style.map_label));
     
