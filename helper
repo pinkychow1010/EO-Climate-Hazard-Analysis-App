@@ -272,3 +272,69 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
     map.onClick(getPolyLabel);  // add on click interactions
   }
 };
+
+
+
+exports.add_popup = function add_popup(title, content) {
+  // set style for elements
+  var msg_style = {
+    whiteSpace: 'pre', 
+    textAlign: 'center', 
+    padding: '0px 50px 50px 50px',
+    width: '500px',
+    color: 'grey',
+    fontSize: '12px'
+  };
+  
+  var hd_style = {
+      whiteSpace: 'pre', 
+      textAlign: 'center', 
+      padding: '50px 50px 0px 50px',
+      width: '500px',
+      fontSize: '22px', 
+      fontWeight:'bold'
+    };
+  
+  var button_style = {
+    padding:'0% 42.5% 20% 42.5%',
+    position: 'top-center'
+  };
+  
+  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+      
+  var instructionMessage = ui.Label(content, msg_style);
+    
+  instructionMessage.style().set(msg_style);
+  
+  var heading = ui.Label(title);
+  heading.style().set(hd_style);
+  
+  function hide(widget) {
+    widget.style().set({shown: false});
+  }
+  
+  var okButton = ui.Button('close', ok);
+  okButton.style().set(button_style);
+  
+  function ok() {hide(instructionPanel)}
+    
+  var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
+  instructionPanel.style().set(page_style);
+  
+  var start_button = ui.Button({
+    label: title,
+    onClick: message,
+    style: {
+      backgroundColor: '#ffffff00',
+      position: 'bottom-center',
+      fontSize: '58px',
+      color: '#1C2833'
+    }
+  });
+  
+  function message(){
+    Map.add(instructionPanel);
+  }
+  
+  Map.add(start_button);
+};
