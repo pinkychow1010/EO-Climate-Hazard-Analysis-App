@@ -112,9 +112,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   start_button.style().set(style.start_button);
   mainPanel.add(start_button);
   
-  var loading_button = ui.Label("Please wait...", style.dark_theme);
+  var loading_button = ui.Label("Processing takes up to 1-2 min", style.dark_theme);
   loading_button.style().set({color:"white", shown: false});
-  // loading_button.setImageUrl("https://i.gifer.com/ZKZg.gif");
   mainPanel.add(loading_button);
   
   // center maps
@@ -144,6 +143,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   
   // Get value from drop down and use it to compute layers for aoi
   function computeMap(value) {
+    
+    // waitPanel.widgets().reset([waitMessage]);
     loading_button.style().set({shown: true});
     var country_name = admin0Select.getValue(); // get selected country
     map1.clear(); // clear map
@@ -164,8 +165,6 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     // use layer selection to control displayed labels
     helper.add_popup(var1_label, info_dict[var1], map1, url_dict[var1]);
     helper.add_popup(var2_label, info_dict[var2], map2, url_dict[var2]);
-    // map1.add(ui.Label(var1_label, style.map_label));
-    // map2.add(ui.Label(var2_label, style.map_label));
     
     // use country name to compute aoi geometry
     var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
@@ -186,7 +185,6 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     map1.setControlVisibility(mapControl);
     map2.setControlVisibility(mapControl);
     map2.setControlVisibility({zoomControl: false});
-    loading_button.style().set({shown: false});
   }
   
   var p1_heading = "Welcome! 👋";
