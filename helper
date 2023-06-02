@@ -513,7 +513,7 @@ exports.addThreePage = function addThreePage(
     whiteSpace: 'pre', 
     textAlign: 'center', 
     padding: '0px 50px 50px 50px',
-    width: '500px',
+    width: '400px',
     color: 'grey',
     fontSize: '15px'
   };
@@ -522,7 +522,7 @@ exports.addThreePage = function addThreePage(
       whiteSpace: 'pre', 
       textAlign: 'center', 
       padding: '50px 50px 0px 50px',
-      width: '500px',
+      width: '400px',
       fontSize: '26px', 
       fontWeight:'bold'
     };
