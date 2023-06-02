@@ -113,7 +113,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   mainPanel.add(start_button);
   
   var loading_button = ui.Label("Processing takes up to 1-2 min", style.dark_theme);
-  loading_button.style().set({color:"#FFFFFF50"});
+  loading_button.style().set({color:"#FFFFFF75"});
   mainPanel.add(loading_button);
   
   // center maps
