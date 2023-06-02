@@ -317,10 +317,10 @@ exports.add_popup = function add_popup(title, content, map) {
     style: {
       backgroundColor: '#ffffff00',
       position: 'bottom-center',
-      fontSize: '60px',
+      fontSize: '30px',
       color: '#1C2833',
       width: '180px',
-      height: '40px'
+      height: '50px'
     }
   });
   
