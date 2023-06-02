@@ -317,8 +317,9 @@ exports.add_popup = function add_popup(title, content, map) {
     style: {
       backgroundColor: '#ffffff00',
       position: 'bottom-center',
-      fontSize: '58px',
-      color: '#1C2833'
+      fontSize: '30px',
+      color: '#1C2833',
+      width: '120px'
     }
   });
   
