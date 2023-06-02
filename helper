@@ -332,13 +332,19 @@ exports.add_popup = function add_popup(title, content, map) {
     }
   });
   
+  // pop up panel once the button is clicked
   function message(){
     if (map === undefined || map === null){
       Map.add(instructionPanel);
-      Map.add(start_button);
     } else {
       map.add(instructionPanel);
-      map.add(start_button);
     }
   }
+  
+  // add label button on map
+  if (map === undefined || map === null){
+      Map.add(start_button);
+    } else {
+      map.add(start_button);
+    }
 };
