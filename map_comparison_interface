@@ -202,6 +202,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     map1.setControlVisibility(mapControl);
     map2.setControlVisibility(mapControl);
     map2.setControlVisibility({zoomControl: false});
+    
+    // disable waiting
     loading_button.style().set({shown: false});
     waitPanel.widgets().reset([emptyMessage]);
   }
