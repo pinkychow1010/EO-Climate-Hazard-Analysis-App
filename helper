@@ -296,7 +296,7 @@ exports.add_popup = function add_popup(title, content, map, url) {
     };
   
   var button_style = {
-    padding:'0% 42.5% 20% 42.5%',
+    padding:'20% 42.5% 20% 42.5%',
     position: 'top-center'
   };
   
