@@ -122,8 +122,6 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     var selectedAdmin0 = ADM0.filter(
       ee.Filter.eq('shapeName', admin0Selection)
       );
-    map1.clear();
-    map2.clear();
     map1.centerObject(selectedAdmin0,5); // zoom to country
   };
   
