@@ -122,12 +122,12 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   // var spinner = "https://media.tenor.com/UnFx-k_lSckAAAAM/amalie-steiness.gif"
   // var spinner = "https://i.gifer.com/origin/34/34338d26023e5515f6cc8969aa027bca_w200.gif";
   var waitMessage = ui.Panel([
-  ui.Label({imageUrl: spinner}),
-  ui.Label('Processing, please wait...')
+  // ui.Label({imageUrl: spinner}),
+  ui.Label('Processing takes ~1 min')
   ], ui.Panel.Layout.flow('horizontal'));
   
-  var emptyMessage = ui.Panel([ui.Label('')]);
-  emptyMessage.style().set(style.dark_theme);
+  // var emptyMessage = ui.Panel([ui.Label('')]);
+  // emptyMessage.style().set(style.dark_theme);
   
   mainPanel.add(waitPanel);
   
@@ -204,8 +204,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     map2.setControlVisibility({zoomControl: false});
     
     // disable waiting
-    loading_button.style().set({shown: false});
-    waitPanel.widgets().reset([emptyMessage]);
+    // loading_button.style().set({shown: false});
+    // waitPanel.widgets().reset([emptyMessage]);
   }
   
   var p1_heading = "Welcome! 👋";
