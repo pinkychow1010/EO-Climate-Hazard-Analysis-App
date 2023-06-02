@@ -12,9 +12,9 @@ dataset is generated from Open Streetmap \n\
 (2021). 【Click heading to project】";
 
 exports.landscan = "LandScan is the finest resolution global \n\
-population distribution data available and represents\n\
-an “ambient population” used for risk assessment.\n\
- 【Click heading to project】";
+population distribution data available and \n\
+represents an “ambient population” used for \n\
+risk assessment.【Click heading to project】";
 
 exports.urban = "This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
