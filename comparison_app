@@ -9,6 +9,7 @@
 // import modules 
 var data = require('users/pinkychow1010/WB_IntraUrban:get_layer_func'); // customized basemap to enhance visuals 
 var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface'); // customized basemap to enhance visuals 
+var text = require('users/pinkychow1010/WB_IntraUrban:map_comparison_text'); // customized basemap to enhance visuals 
 
 // all available data layers imported from functions
 var layer_dict = {
@@ -22,4 +23,15 @@ var layer_dict = {
   "HAZARD | Palmer Drought Severity Index": data.get_pdsi
 };
 
-app.comparison_app(layer_dict);
+var info_dict = {
+  "EXPOSURE | Relative Wealth Index": "...",
+  "EXPOSURE | Critical Infrastructure Spatial Index": "...",
+  "EXPOSURE | Population 2021 (LandScan)": "...",
+  "EXPOSURE | Urban Density": "...",
+  "EXPOSURE | Cropland Density": "...",
+  "VULNERABILITY | Forest Density": "...",
+  "VULNERABILITY | Urbanization Degree": "...",
+  "HAZARD | Palmer Drought Severity Index": "..."
+};
+
+app.comparison_app(layer_dict, info_dict);
