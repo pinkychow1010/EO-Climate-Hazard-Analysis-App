@@ -339,8 +339,8 @@ exports.add_popup = function add_popup(title, content, map, url) {
     var heading = ui.Label(title);
     heading.style().set(hd_style);
     
-    if (url === undefined || url === null){
-      heading.setUrl("");
+    if (url !== undefined || url !== null){
+      heading.setUrl(url);
     }
     
     // construct panel
