@@ -302,7 +302,8 @@ exports.add_popup = function add_popup(title, content, map) {
   
   var page_style = {
     border: '7px solid #c9c9c9', 
-    position: 'top-center'
+    position: 'top-center',
+    width: '400px'
   };
   
   function hide(widget) {
