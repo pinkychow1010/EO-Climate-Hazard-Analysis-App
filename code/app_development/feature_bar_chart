@@ -1,0 +1,21 @@
+var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
+
+var landscan_2021 = landscan_global.sort('system:time_start',false).first();
+
+var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+
+var zonal = landscan_2021.reduceRegions({
+  collection: vector,
+  scale: 500,
+  reducer:  ee.Reducer.mean().setOutputs(["mean_pop"])
+})
+
+print(zonal.first())
+var chart =
+    ui.Chart.feature
+        .byFeature({
+          features: zonal.select(['DISTRICT','mean_pop']),
+          xProperty: 'DISTRICT',
+        })
+        .setChartType('ColumnChart')
+print(chart);
