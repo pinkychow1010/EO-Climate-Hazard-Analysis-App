@@ -191,7 +191,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   
   var p1_heading = "Welcome! 👋";
   var p2_heading = "Welcome! 👋";
-  var p3_heading = "Hi!";
+  var p3_heading = "Welcome! 👋";
   
   var p1_message = "Want to retrieve climate risk data \n\
   from space? This climate hazard tool enables\n\
