@@ -156,8 +156,10 @@ exports.comparison_app = function(layer_dict) {
     var var2_label = var2.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
     
     // use layer selection to control displayed labels
-    map1.add(ui.Label(var1_label, style.map_label));
-    map2.add(ui.Label(var2_label, style.map_label));
+    helper.add_popup(var1_label, "xxx");
+    helper.add_popup(var2_label, "xxx");
+    // map1.add(ui.Label(var1_label, style.map_label));
+    // map2.add(ui.Label(var2_label, style.map_label));
     
     // use country name to compute aoi geometry
     var selectedAdmin0 = ADM0.filter(ee.Filter.eq('shapeName', country_name));
