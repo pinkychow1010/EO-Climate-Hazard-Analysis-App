@@ -1,19 +1,21 @@
 // Description for Datasets
 
-exports.rwi = "The Relative Wealth Index predicts the relative standard of \n \
-living within countries using privacy protecting connectivity data, \n \
-satellite imagery, and other novel data sources."
+exports.rwi = "The Relative Wealth Index predicts the relative\n\
+standard of living within countries using privacy\n\
+protecting connectivity data, satellite imagery, \n\
+and other novel data sources. \n\
+Project Details: https://dataforgood.facebook.com/dfg/tools/relative-wealth-index";
 
-exports.cisi = ""
+exports.cisi = "";
 
-exports.landscan = ""
+exports.landscan = "";
 
-exports.urban = ""
+exports.urban = "";
 
-exports.cropland = ""
+exports.cropland = "";
 
-exports.forest = ""
+exports.forest = "";
 
-exports.ghsl = ""
+exports.ghsl = "";
 
-exports.pdsi = ""
+exports.pdsi = "";
