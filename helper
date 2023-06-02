@@ -301,8 +301,7 @@ exports.add_popup = function add_popup(title, content, map, url) {
   };
   
   var page_style = {
-    border: '7px solid #c9c9c9', 
-    padding:'20% 2.5% 20% 2.5%',
+    border: '7px solid #c9c9c9',
     position: 'top-center',
     width: '400px',
     height: '350px'
