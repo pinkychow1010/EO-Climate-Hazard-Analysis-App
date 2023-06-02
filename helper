@@ -275,7 +275,7 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
 
 
 
-exports.add_popup = function add_popup(title, content, map) {
+exports.add_popup = function add_popup(title, content, map, url) {
   // set style for elements
   var msg_style = {
     whiteSpace: 'pre', 
@@ -328,7 +328,7 @@ exports.add_popup = function add_popup(title, content, map) {
   function message(){
     // add styled message
     var instructionMessage = ui.Label(content, msg_style);
-    instructionMessage.style().set(msg_style);
+    // instructionMessage.style().set(msg_style);
     
     // add styled close button
     var okButton = ui.Button('close', ok);
@@ -338,6 +338,10 @@ exports.add_popup = function add_popup(title, content, map) {
     // add title as panel heading
     var heading = ui.Label(title);
     heading.style().set(hd_style);
+    
+    if (url === undefined || url === null){
+      heading.setUrl("");
+    }
     
     // construct panel
     var instructionPanel = ui.Panel([heading, instructionMessage, okButton]);
