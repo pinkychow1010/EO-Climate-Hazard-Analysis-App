@@ -275,7 +275,7 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
 
 
 
-exports.add_popup = function add_popup(title, content) {
+exports.add_popup = function add_popup(title, content, map) {
   // set style for elements
   var msg_style = {
     whiteSpace: 'pre', 
@@ -333,8 +333,12 @@ exports.add_popup = function add_popup(title, content) {
   });
   
   function message(){
-    Map.add(instructionPanel);
+    if (map === undefined || map === null){
+      Map.add(instructionPanel);
+      Map.add(start_button);
+    } else {
+      map.add(instructionPanel);
+      map.add(start_button);
+    }
   }
-  
-  Map.add(start_button);
 };
