@@ -113,7 +113,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
   mainPanel.add(start_button);
   
   var loading_button = ui.Label("Please wait...", style.dark_theme);
-  loading_button.setImageUrl("https://i.gifer.com/ZKZg.gif");
+  loading_button.style.set({color:"white"});
+  // loading_button.setImageUrl("https://i.gifer.com/ZKZg.gif");
   mainPanel.add(loading_button);
   
   // center maps
