@@ -343,11 +343,9 @@ exports.add_popup = function add_popup(title, content, map) {
     
     // display panel
     if (map === undefined || map === null){
-      Map.layers().set(0, instructionPanel);
-      // Map.add(instructionPanel);
+      Map.add(instructionPanel);
     } else {
-      map.layers().set(0, instructionPanel);
-      // map.add(instructionPanel);
+      map.add(instructionPanel);
     }
   }
   
