@@ -3,27 +3,33 @@
 exports.rwi = "The Relative Wealth Index predicts the relative\n\
 standard of living within countries using privacy\n\
 protecting connectivity data, satellite imagery, \n\
-and other novel data sources.";
+and other novel data sources.\n\
+ 【Click heading to project】";
 
 exports.cisi = "Critical Infrastructure Spatial Index (CISI) represents\n\
-the global spatial intensity of CI. \n\
-The datasets are generated from \nOpen Streetmap (2021).";
+the global spatial intensity of CI. The \n\
+dataset is generated from Open Streetmap \n\
+(2021). 【Click heading to project】";
 
 exports.landscan = "LandScan is the finest resolution global \n\
 population distribution data available and represents\n\
-an “ambient population” used for risk assessment.";
+an “ambient population” used for risk assessment.\n\
+ 【Click heading to project】";
 
 exports.urban = "This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
-for 2020 and 2021 at 10 m resolution.";
+for 2020 and 2021 at 10 m resolution.\n\
+ 【Click heading to project】";
 
 exports.cropland = "This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
-for 2020 and 2021 at 10 m resolution.";
+for 2020 and 2021 at 10 m resolution.\n\
+ 【Click heading to project】";
 
 exports.forest = "This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
-for 2020 and 2021 at 10 m resolution.";
+for 2020 and 2021 at 10 m resolution.\n\
+ 【Click heading to project】";
 
 exports.ghsl = "";
 
