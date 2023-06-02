@@ -14,8 +14,8 @@ var text = require('users/pinkychow1010/WB_IntraUrban:map_comparison_text'); // 
 // all available data layers imported from functions
 var layer_dict = {
   "EXPOSURE | Relative Wealth Index": data.get_rwi,
-  "EXPOSURE | Critical Infrastructure Spatial Index": data.get_cisi,
-  "EXPOSURE | Population 2021 (LandScan)": data.get_landscan_pop,
+  "EXPOSURE | Critical Infrastructure": data.get_cisi,
+  "EXPOSURE | Population (LandScan)": data.get_landscan_pop,
   "EXPOSURE | Urban Density": data.get_urban_density,
   "EXPOSURE | Cropland Density": data.get_cropland_density,
   "VULNERABILITY | Forest Density": data.get_forest_density,
@@ -25,8 +25,8 @@ var layer_dict = {
 
 var info_dict = {
   "EXPOSURE | Relative Wealth Index": text.rwi,
-  "EXPOSURE | Critical Infrastructure Spatial Index": text.cisi,
-  "EXPOSURE | Population 2021 (LandScan)": text.landscan,
+  "EXPOSURE | Critical Infrastructure": text.cisi,
+  "EXPOSURE | Population (LandScan)": text.landscan,
   "EXPOSURE | Urban Density": text.urban,
   "EXPOSURE | Cropland Density": text.cropland,
   "VULNERABILITY | Forest Density": text.forest,
@@ -36,8 +36,8 @@ var info_dict = {
 
 var url_dict = {
   "EXPOSURE | Relative Wealth Index": "https://gee-community-catalog.org/projects/rwi/",
-  "EXPOSURE | Critical Infrastructure Spatial Index": "https://gee-community-catalog.org/projects/cisi/",
-  "EXPOSURE | Population 2021 (LandScan)": "https://gee-community-catalog.org/projects/landscan/",
+  "EXPOSURE | Critical Infrastructure": "https://gee-community-catalog.org/projects/cisi/",
+  "EXPOSURE | Population (LandScan)": "https://gee-community-catalog.org/projects/landscan/",
   "EXPOSURE | Urban Density": "https://esa-worldcover.org/en",
   "EXPOSURE | Cropland Density": "https://esa-worldcover.org/en",
   "VULNERABILITY | Forest Density": "https://esa-worldcover.org/en",
