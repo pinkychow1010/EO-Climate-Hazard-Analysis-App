@@ -188,6 +188,23 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict) {
     map2.setControlVisibility({zoomControl: false});
     loading_button.style().set({shown: false});
   }
+  
+  var p1_heading = "Hi!";
+  var p2_heading = "Hi!";
+  var p3_heading = "Hi!";
+  
+  var p1_message = "This is the first page";
+  var p2_message = "This is the second page";
+  var p3_message = "This is the third page";
+  
+  function addInstruction() {helper.addThreePage(
+    p1_heading, p1_message,
+    p2_heading, p2_message,
+    p3_heading, p3_message,
+    map1
+    )}
+  
+  addInstruction();
 };
 
 
