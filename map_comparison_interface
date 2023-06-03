@@ -190,8 +190,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     // do chart
     var chart = helper.chart_climate_var(aoi, layer1, layer2, var1_label, var2_label);
     
-    console.log("chart:", chart);
-    console.log(chart !== undefined || chart !== null)
+    console.log("chart:", chart.getInfo());
+
     // in case no missing chart (caused by invalid layers), display chart
     if (chart !== undefined || chart !== null){
       resultPanel.widgets().reset([chart]);
