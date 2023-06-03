@@ -618,3 +618,51 @@ exports.addThreePage = function addThreePage(
       map.add(instructionPanel_p1);
     }
 };
+
+
+exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, var1, var2) {
+  
+  // Sample raster values
+  var zonal = layer1.reduceRegions({
+    collection: vector,
+    scale: 500,
+    reducer:  ee.Reducer.mean().setOutputs([var1]) // define output column name
+  });
+  
+  zonal = layer2.reduceRegions({
+    collection: zonal,
+    scale: 500,
+    reducer:  ee.Reducer.mean().setOutputs([var2]) // define output column name
+  });
+  
+  // Set layout options for the chart
+  var chartStyle = {
+    title: 'Comparison of Climate Risk Variables',
+    hAxis: {
+      title: 'Admin Regions', // x label
+      titleTextStyle: {italic: false, bold: true},
+      gridlines: {color: 'FFFFFF00'}
+    },
+    vAxis: {
+      title: 'Mean Values', // y label
+      titleTextStyle: {italic: false, bold: true},
+      gridlines: {color: '#006C9980'},
+      format: 'short',
+      baselineColor: '#006C9960'
+    },
+    chartArea: {backgroundColor: 'EBEBEB00'}
+  };
+  
+  // Construct chart object
+  var chart =
+      ui.Chart.feature
+          .byFeature({
+            features: zonal.select(['shapeName',var1,var2]),
+            xProperty: 'shapeName',
+            yProperties: [var1,var2] // display multiple variables
+          })
+          .setChartType('ColumnChart'); // bar chart
+  
+  // Display chart
+  return chart.setOptions(chartStyle);
+};
