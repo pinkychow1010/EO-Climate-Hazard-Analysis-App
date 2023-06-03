@@ -55,10 +55,13 @@ representation of the degree of urbanization\n\
 concept into the GHSL data scenario.\n\
 【🖱️ Click heading to view project】";
 
-exports.pdsi = "📖 TerraClimate is a dataset of monthly climate\n\
-and climatic water balance for global\n\
-terrestrial surfaces from 1958-2019. These data\n\
-provide important inputs for ecological and \n\
-hydrological studies at global scales that require\n\
-high spatial resolution and time-varying data. \n\
+exports.pdsi = "📖 This PDSI layer represents relative dryness\n\
+from temperature and precipitation data.\n\
+It is provided by TerraClimate, a dataset\n\
+of monthly climate and climatic water\n\
+balance for global terrestrial surfaces\n\
+from 1958-2019. These data provide important\n\
+inputs for ecological and hydrological studies\n\
+at global scales that require high spatial\n\
+resolution and time-varying data. \n\
 【🖱️ Click heading to view project】";
