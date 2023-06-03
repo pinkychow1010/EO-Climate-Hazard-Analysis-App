@@ -164,6 +164,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
     // waitPanel.widgets().reset([waitMessage]);
     // loading_button.style().set({shown: true});
     var admin_level = adminLevelSelect.getValue(); // get selected country
+    var ds = admin_dict[admin_level]; // dataset for the selected admin level
     
     var country_name = admin0Select.getValue(); // get selected country
     map1.clear(); // clear map
@@ -195,7 +196,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
     var shapeGroup = ee.Feature(selectedAdmin0.first()).get('shapeGroup');
     
     // get details at the admin 2 level
-    var aoi = admin_level.filter(ee.Filter.eq('shapeGroup', shapeGroup));
+    var aoi = ds.filter(ee.Filter.eq('shapeGroup', shapeGroup));
     // var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', shapeGroup));
     
     // ger layer based on user selection, call aoi to get regional raster only
