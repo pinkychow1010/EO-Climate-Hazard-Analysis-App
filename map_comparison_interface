@@ -189,7 +189,18 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     
     // do chart
     var chart = helper.chart_climate_var(aoi, layer1, layer2, var1_label, var2_label);
-    resultPanel.widgets().reset([chart]); 
+    
+    // in case no missing chart (caused by invalid layers), display chart
+    if (chart !== undefined || chart !== null){
+      resultPanel.widgets().reset([chart]);
+    } else {
+      var noChart = ui.Label(
+        "Invalid data layer(s) found. Please make sure both layers are valid.", 
+        style.dark_theme
+        );
+      
+      resultPanel.widgets().reset([noChart]);
+    }
     
     // get choropleth maps for both maps
     helper.zonalInspect(aoi, layer1, map1, "mean", log_dict[var1], var1); // vector, raster, map, reducer, log, output_name
