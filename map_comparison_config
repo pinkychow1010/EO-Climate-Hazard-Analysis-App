@@ -1,7 +1,7 @@
 // Configuration for Map Comparison Tool
 
 // all available data layers imported from functions
-var layer_dict = {
+exports.layer_dict = {
   "EXPOSURE | Relative Wealth Index": data.get_rwi,
   "EXPOSURE | Critical Infrastructure": data.get_cisi,
   "EXPOSURE | Population (LandScan)": data.get_landscan_pop,
@@ -12,7 +12,7 @@ var layer_dict = {
   "HAZARD | Palmer Drought Severity Index": data.get_pdsi
 };
 
-var info_dict = {
+exports.info_dict = {
   "EXPOSURE | Relative Wealth Index": text.rwi,
   "EXPOSURE | Critical Infrastructure": text.cisi,
   "EXPOSURE | Population (LandScan)": text.landscan,
@@ -23,7 +23,7 @@ var info_dict = {
   "HAZARD | Palmer Drought Severity Index": text.pdsi
 };
 
-var url_dict = {
+exports.url_dict = {
   "EXPOSURE | Relative Wealth Index": "https://gee-community-catalog.org/projects/rwi/",
   "EXPOSURE | Critical Infrastructure": "https://gee-community-catalog.org/projects/cisi/",
   "EXPOSURE | Population (LandScan)": "https://gee-community-catalog.org/projects/landscan/",
@@ -34,7 +34,7 @@ var url_dict = {
   "HAZARD | Palmer Drought Severity Index": "https://www.climatologylab.org/terraclimate.html"
 };
 
-var log_dict = {
+exports.log_dict = {
   "EXPOSURE | Relative Wealth Index": 0,
   "EXPOSURE | Critical Infrastructure": 0,
   "EXPOSURE | Population (LandScan)": 1,
@@ -45,7 +45,7 @@ var log_dict = {
   "HAZARD | Palmer Drought Severity Index": 0
 };
 
-var legend_dict = {
+exports.legend_dict = {
   "EXPOSURE | Relative Wealth Index": "No Unit",
   "EXPOSURE | Critical Infrastructure": "No Unit",
   "EXPOSURE | Population (LandScan)": "Count/km2",
