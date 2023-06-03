@@ -71,7 +71,7 @@ var config = require('users/pinkychow1010/WB_IntraUrban:map_comparison_config');
 
 app.comparison_app(
   config.layer_dict, 
-  config,info_dict, 
+  config.info_dict, 
   config.url_dict, 
   config.log_dict, 
   config.legend_dict
