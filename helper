@@ -622,7 +622,7 @@ exports.addThreePage = function addThreePage(
 
 exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, var1, var2) {
   
-  // remove special characters
+  // remove special characters to avoid errors in charting
   var1 = var1.replace(/([^\w ]|_)/g, '');
   var2 = var2.replace(/([^\w ]|_)/g, '');
   
@@ -639,11 +639,9 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     reducer:  ee.Reducer.mean().setOutputs([var2]) // define output column name
   });
   
+  // remove polygons with null values
   zonal = zonal.filter(ee.Filter.notNull([var1])).filter(ee.Filter.notNull([var2]));
-  
-  console.log(zonal);
-  console.log(var1);
-  console.log(var2);
+
   // Set layout options for the chart
   var chartStyle = {
     title: 'Comparison of Climate Risk Variables',
