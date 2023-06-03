@@ -89,7 +89,9 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
 };
 
 
-exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log, output_name, legend_text) {
+exports.zonalInspect = function zonalInspect(
+  vector, raster, map, reducer, log, output_name, legend_text
+  ) {
     
     // import modules
     var palettes = require('users/gena/packages:palettes');
