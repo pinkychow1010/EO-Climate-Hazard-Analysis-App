@@ -622,6 +622,10 @@ exports.addThreePage = function addThreePage(
 
 exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, var1, var2) {
   
+  // remove special characters
+  var1 = var1.replace(/([^\w ]|_)/g, '');
+  var2 = var2.replace(/([^\w ]|_)/g, '');
+  
   // Sample raster values
   var zonal = layer1.reduceRegions({
     collection: vector,
