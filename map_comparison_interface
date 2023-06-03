@@ -126,7 +126,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     var selectedAdmin0 = ADM0.filter(
       ee.Filter.eq('shapeName', admin0Selection)
       );
-    map1.centerObject(selectedAdmin0,5); // zoom to country
+    // map1.centerObject(selectedAdmin0,5); // zoom to country
   };
   
   admin0Select.onChange(admin0Selected); // set up response for drop down
@@ -149,6 +149,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     var country_name = admin0Select.getValue(); // get selected country
     map1.clear(); // clear map
     map2.clear();
+    
+    map1.centerObject(selectedAdmin0,5); // center country
     
     // customized basemap to enhance visuals
     map1.setOptions(undefined, {'Custom': new_basemap});
