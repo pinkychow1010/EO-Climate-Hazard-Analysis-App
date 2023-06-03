@@ -46,4 +46,15 @@ var url_dict = {
   "HAZARD | Palmer Drought Severity Index": "https://www.climatologylab.org/terraclimate.html"
 };
 
-app.comparison_app(layer_dict, info_dict, url_dict);
+var log_dict = {
+  "EXPOSURE | Relative Wealth Index": 0,
+  "EXPOSURE | Critical Infrastructure": 0,
+  "EXPOSURE | Population (LandScan)": 1,
+  "EXPOSURE | Urban Density": 0,
+  "EXPOSURE | Cropland Density": 0,
+  "VULNERABILITY | Forest Density": 0,
+  "VULNERABILITY | Urbanization Degree": 0,
+  "HAZARD | Palmer Drought Severity Index": 0
+};
+
+app.comparison_app(layer_dict, info_dict, url_dict, log_dict);
