@@ -7,7 +7,6 @@
 
 
 // import modules 
-// var data = require('users/pinkychow1010/WB_IntraUrban:get_layer_func'); // customized basemap to enhance visuals 
 var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface'); // customized basemap to enhance visuals 
 var config = require('users/pinkychow1010/WB_IntraUrban:map_comparison_config'); // customized basemap to enhance visuals 
 
