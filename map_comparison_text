@@ -15,33 +15,36 @@ and health). The dataset is generated from\n\
 Open Streetmap (2021). It can be applied to\n\
 explore the current landscape of CI, identify CI\n\
 hotspots, and as exposure input for large-scale\n\
-risk assessments. 【🖱️ Click heading to project】";
+risk assessments. 【🖱️ Click heading to view project】";
 
-exports.landscan = "LandScan is the finest resolution global \n\
-population distribution data available and \n\
-represents an “ambient population” used for \n\
-risk assessment.【🖱️ Click heading to project】";
+exports.landscan = "LandScan High-Definition (HD) is the finest resolution\n\
+global population distribution data available and \n\
+represents an ambient population. It is\n\
+intended to aid in emergency preparedness,\n\
+recovery missions, risk assessments and site\n\
+suitability studies.\n\
+【🖱️ Click heading to view project】";
 
 exports.urban = "This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
 for 2020 and 2021 at 10 m resolution.\n\
- 【🖱️ Click heading to project】";
+ 【🖱️ Click heading to view project】";
 
 exports.cropland = "This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
 for 2020 and 2021 at 10 m resolution.\n\
- 【🖱️ Click heading to project】";
+ 【🖱️ Click heading to view project】";
 
 exports.forest = "This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
 for 2020 and 2021 at 10 m resolution.\n\
- 【🖱️ Click heading to project】";
+ 【🖱️ Click heading to view project】";
 
 exports.ghsl = "The GHS-SMOD is the rural-urban Settlement\n\
 classification MODel adopted by the GHSL.\n\
 It is the representation of the degree\n\
 of urbanization concept into the GHSL\n\
-data scenario. 【🖱️ Click heading to project】";
+data scenario. 【🖱️ Click heading to view project】";
 
 exports.pdsi = "TerraClimate is a dataset of monthly climate\n\
 and climatic water balance for global\n\
@@ -49,4 +52,4 @@ terrestrial surfaces from 1958-2019. These data\n\
 provide important inputs for ecological and \n\
 hydrological studies at global scales that require\n\
 high spatial resolution and time-varying data. \n\
-【🖱️ Click heading to project】";
+【🖱️ Click heading to view project】";
