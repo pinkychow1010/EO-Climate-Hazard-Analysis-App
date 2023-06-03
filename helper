@@ -661,16 +661,21 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     },
     vAxis: {
       0: {
-           title: 'Mean Values' // y label
+          title: 'Mean Values', // y label
+          titleTextStyle: {color: 'gray', italic: false, bold: true},
+          textStyle: {color: 'gray'},
+          gridlines: {color: '#006C9980'},
+          format: 'short',
+          baselineColor: '#006C9960'
           } ,
       1: {
-           title: ''
-          },
-      titleTextStyle: {color: 'gray', italic: false, bold: true},
-      textStyle: {color: 'gray'},
-      gridlines: {color: '#006C9980'},
-      format: 'short',
-      baselineColor: '#006C9960'
+          title: '',
+          titleTextStyle: {color: 'gray', italic: false, bold: true},
+          textStyle: {color: 'gray'},
+          gridlines: {color: '#006C9980'},
+          format: 'short',
+          baselineColor: '#006C9960'
+          }
     },
     chartArea: {backgroundColor: 'EBEBEB00'}
   };
