@@ -12,11 +12,11 @@ var config = require('users/pinkychow1010/WB_IntraUrban:map_comparison_config');
 
 // construct app with predefined parameters
 app.comparison_app(
-  config.layer_dict, 
-  config.info_dict, 
-  config.url_dict, 
-  config.log_dict, 
-  config.legend_dict
+  config.layer_dict, // dictionary for retrieving gridded data layers
+  config.info_dict,  // dictionary for data layer descriptions
+  config.url_dict,  // dictionary for data layer project details URL
+  config.log_dict,  // dictionary for log visualization (binary)
+  config.legend_dict // dictionary for legend text
   );
   
   
