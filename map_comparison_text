@@ -26,29 +26,34 @@ suitability studies.\n\
 【🖱️ Click heading to view project】";
 
 exports.urban = "📖 This urban density layer represents the spatial\n\
-density of urban surface detected from\n\
-satellite imagery. It is extracted from ESA\n\
+density of urban surface detected (% in 5km radius)\n\
+from satellite imagery. It is extracted from ESA\n\
 WorldCover the first global land cover\n\
 products for 2020 and 2021 at 10 m resolution.\n\
  【🖱️ Click heading to view project】";
 
 exports.cropland = "📖 This cropland density layer represents the\n\
 spatial density of agricultural fields detected\n\
-from satellite imagery. This layer is extracted\n\
-from ESA WorldCover the first global land cover\n\
-products for 2020 and 2021 at 10 m resolution.\n\
+(% in 5km radius) from satellite imagery. This\n\
+layer is extracted from ESA WorldCover the\n\
+first global land cover products for 2020\n\
+and 2021 at 10 m resolution.\n\
  【🖱️ Click heading to view project】";
 
-exports.forest = "📖 This layer is extracted from ESA WorldCover\n\
+exports.forest = "📖 This forest density layer represents the\n\
+spatial density of forest detected (% in 5km radius) \n\
+from satellite imagery. This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
 for 2020 and 2021 at 10 m resolution.\n\
  【🖱️ Click heading to view project】";
 
 exports.ghsl = "📖 The GHS-SMOD is the rural-urban Settlement\n\
-classification MODel adopted by the GHSL.\n\
-It is the representation of the degree\n\
-of urbanization concept into the GHSL\n\
-data scenario. 【🖱️ Click heading to view project】";
+classification model adopted by the GHSL.\n\
+The layer values range from 0 (inhabited)\n\
+to 3 (high density clusters). It is the\n\
+representation of the degree of urbanization\n\
+concept into the GHSL data scenario.\n\
+【🖱️ Click heading to view project】";
 
 exports.pdsi = "📖 TerraClimate is a dataset of monthly climate\n\
 and climatic water balance for global\n\
