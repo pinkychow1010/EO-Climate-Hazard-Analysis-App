@@ -640,7 +640,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
   });
   
   // remove polygons with null values
-  zonal = zonal.filter(ee.Filter.notNull([var1])).filter(ee.Filter.notNull([var2]));
+  // zonal = zonal.filter(ee.Filter.notNull([var1])).filter(ee.Filter.notNull([var2]));
 
   // Set layout options for the chart
   var chartStyle = {
