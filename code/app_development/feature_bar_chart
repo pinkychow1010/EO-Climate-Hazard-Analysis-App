@@ -4,35 +4,39 @@
 // ######    Map Comparison Charting     ###### //
 // ############################################ //
 
-
 /**
- * This is a script for comparing layers between national admin regions using a bar chart.
- *
+ * This is a script for comparing population between admin regions (in Karachi, Pakistan) 
+ * using a bar chart with customized formats.
  */
 
+// Here we demonstrate ploting using the landscan population data
 var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
 
 var landscan_2021 = landscan_global.sort('system:time_start',false).first();
 
+// A vector layer for comparison
 var vector = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 
+// Sample raster values
 var zonal = landscan_2021.reduceRegions({
   collection: vector,
   scale: 500,
-  reducer:  ee.Reducer.mean().setOutputs(["mean_pop"])
-})
+  reducer:  ee.Reducer.mean().setOutputs(["mean_pop"]) // define output column name
+});
 
-print(zonal.first())
+// Check out the feature collection
+print(zonal.first());
 
+// Set layout options for the chart
 var chartStyle = {
   title: 'Comparison of Climate Risk Variables',
   hAxis: {
-    title: 'Admin Regions',
+    title: 'Admin Regions', // x label
     titleTextStyle: {italic: false, bold: true},
     gridlines: {color: 'FFFFFF00'}
   },
   vAxis: {
-    title: 'Mean Values',
+    title: 'Mean Values', // y label
     titleTextStyle: {italic: false, bold: true},
     gridlines: {color: '#006C9980'},
     format: 'short',
@@ -41,14 +45,16 @@ var chartStyle = {
   chartArea: {backgroundColor: 'EBEBEB00'}
 };
 
+// Construct chart object
 var chart =
     ui.Chart.feature
         .byFeature({
           features: zonal.select(['TEHSIL','Area','mean_pop']),
           xProperty: 'TEHSIL',
-          yProperties: ['Area','mean_pop']
+          yProperties: ['Area','mean_pop'] // display multiple variables
         })
-        .setChartType('ColumnChart');
-        
+        .setChartType('ColumnChart'); // bar chart
+
+// Display chart
 print(chart.setOptions(chartStyle));
 
