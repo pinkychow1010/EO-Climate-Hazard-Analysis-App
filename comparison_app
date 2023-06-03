@@ -7,9 +7,10 @@
 
 
 // import modules 
-var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface'); // customized basemap to enhance visuals 
-var config = require('users/pinkychow1010/WB_IntraUrban:map_comparison_config'); // customized basemap to enhance visuals 
+var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface'); // app framework
+var config = require('users/pinkychow1010/WB_IntraUrban:map_comparison_config'); // app key params
 
+// construct app with predefined parameters
 app.comparison_app(
   config.layer_dict, 
   config.info_dict, 
