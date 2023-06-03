@@ -193,8 +193,10 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     // in case no missing chart (caused by invalid layers), display chart
     if (chart < 1) {
       var noChart = ui.Label(
-        "Invalid data layer(s) found. Please make sure both layers are valid."
+        "Invalid data layer(s) found. Please make sure both layers are valid for charting.", 
+        style.dark_theme
         );
+      noChart.style().set({color:"#FFFFFF"});
       
       resultPanel.widgets().reset([noChart]);
     } else {
