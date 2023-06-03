@@ -189,19 +189,17 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     
     // do chart
     var chart = helper.chart_climate_var(aoi, layer1, layer2, var1_label, var2_label);
-    
-    console.log("chart:", chart.getInfo());
 
     // in case no missing chart (caused by invalid layers), display chart
-    if (chart !== undefined || chart !== null){
-      resultPanel.widgets().reset([chart]);
-    } else {
+    if (chart < 1) {
       var noChart = ui.Label(
         "Invalid data layer(s) found. Please make sure both layers are valid.", 
         style.dark_theme
         );
       
       resultPanel.widgets().reset([noChart]);
+    } else {
+      resultPanel.widgets().reset([chart]);
     }
     
     // get choropleth maps for both maps
