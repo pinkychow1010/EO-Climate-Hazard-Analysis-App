@@ -651,7 +651,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
             } ,
          1: {
              targetAxisIndex: 1
-            } ,
+            }
         } ,
     hAxis: {
       title: 'Admin Regions', // x label
@@ -660,7 +660,12 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
       gridlines: {color: 'FFFFFF00'}
     },
     vAxis: {
-      title: 'Mean Values', // y label
+      0: {
+           title: 'Mean Values' // y label
+          } ,
+      1: {
+           title: ''
+          },
       titleTextStyle: {color: 'gray', italic: false, bold: true},
       textStyle: {color: 'gray'},
       gridlines: {color: '#006C9980'},
