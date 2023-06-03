@@ -57,4 +57,15 @@ var log_dict = {
   "HAZARD | Palmer Drought Severity Index": 0
 };
 
+var legend_dict = {
+  "EXPOSURE | Relative Wealth Index": "No Unit",
+  "EXPOSURE | Critical Infrastructure": "No Unit",
+  "EXPOSURE | Population (LandScan)": "Count/km2",
+  "EXPOSURE | Urban Density": "%",
+  "EXPOSURE | Cropland Density": "%",
+  "VULNERABILITY | Forest Density": "%",
+  "VULNERABILITY | Urbanization Degree": "No Unit",
+  "HAZARD | Palmer Drought Severity Index": "No Unit"
+};
+
 app.comparison_app(layer_dict, info_dict, url_dict, log_dict);
