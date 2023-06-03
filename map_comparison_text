@@ -1,6 +1,6 @@
 // Description for Datasets
 
-exports.rwi = "Provided by Facebook, the Relative Wealth Index\n\
+exports.rwi = "📖 Provided by Facebook, the Relative Wealth Index\n\
 (RWI) predicts the relative standard of\n\
 living within countries using connectivity data\n\
 and satellite imagery, via deep learning model.\n\
@@ -8,7 +8,7 @@ The RWI has proven useful for identifying pockets\n\
 of poverty and potential beneficiaries\n\
  【🖱️ Click heading to view project】";
 
-exports.cisi = "Critical Infrastructure Spatial Index (CISI) represents\n\
+exports.cisi = "📖 Critical Infrastructure Spatial Index (CISI) represents\n\
 the global spatial intensity of CI (transportation,\n\
 energy, water, waste, telecommunication, education,\n\
 and health). The dataset is generated from\n\
@@ -17,7 +17,7 @@ explore the current landscape of CI, identify CI\n\
 hotspots, and as exposure input for large-scale\n\
 risk assessments. 【🖱️ Click heading to view project】";
 
-exports.landscan = "LandScan High-Definition (HD) is the finest resolution\n\
+exports.landscan = "📖 LandScan High-Definition (HD) is the finest resolution\n\
 global population distribution data available and \n\
 represents an ambient population. It is\n\
 intended to aid in emergency preparedness,\n\
@@ -25,28 +25,32 @@ recovery missions, risk assessments and site\n\
 suitability studies.\n\
 【🖱️ Click heading to view project】";
 
-exports.urban = "This layer is extracted from ESA WorldCover\n\
+exports.urban = "📖 This urban density layer represents the spatial\n\
+density of urban surface detected from\n\
+satellite imagery. It is extracted from ESA\n\
+WorldCover the first global land cover\n\
+products for 2020 and 2021 at 10 m resolution.\n\
+ 【🖱️ Click heading to view project】";
+
+exports.cropland = "📖 This cropland density layer represents the\n\
+spatial density of agricultural fields detected\n\
+from satellite imagery. This layer is extracted\n\
+from ESA WorldCover the first global land cover\n\
+products for 2020 and 2021 at 10 m resolution.\n\
+ 【🖱️ Click heading to view project】";
+
+exports.forest = "📖 This layer is extracted from ESA WorldCover\n\
 the first global land cover products\n\
 for 2020 and 2021 at 10 m resolution.\n\
  【🖱️ Click heading to view project】";
 
-exports.cropland = "This layer is extracted from ESA WorldCover\n\
-the first global land cover products\n\
-for 2020 and 2021 at 10 m resolution.\n\
- 【🖱️ Click heading to view project】";
-
-exports.forest = "This layer is extracted from ESA WorldCover\n\
-the first global land cover products\n\
-for 2020 and 2021 at 10 m resolution.\n\
- 【🖱️ Click heading to view project】";
-
-exports.ghsl = "The GHS-SMOD is the rural-urban Settlement\n\
+exports.ghsl = "📖 The GHS-SMOD is the rural-urban Settlement\n\
 classification MODel adopted by the GHSL.\n\
 It is the representation of the degree\n\
 of urbanization concept into the GHSL\n\
 data scenario. 【🖱️ Click heading to view project】";
 
-exports.pdsi = "TerraClimate is a dataset of monthly climate\n\
+exports.pdsi = "📖 TerraClimate is a dataset of monthly climate\n\
 and climatic water balance for global\n\
 terrestrial surfaces from 1958-2019. These data\n\
 provide important inputs for ecological and \n\
