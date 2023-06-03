@@ -640,7 +640,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
   });
   
   // remove polygons with null values
-  // zonal = zonal.filter(ee.Filter.notNull([var1])).filter(ee.Filter.notNull([var2]));
+  zonal = zonal.filter(ee.Filter.notNull([var1])).filter(ee.Filter.notNull([var2]));
 
   // Set layout options for the chart
   var chartStyle = {
@@ -662,16 +662,21 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     chartArea: {backgroundColor: 'EBEBEB00'}
   };
   
-  // Construct chart object
-  var chart =
-      ui.Chart.feature
-          .byFeature({
-            features: zonal.select(['shapeName',var1,var2]),
-            xProperty: 'shapeName',
-            yProperties: [var1,var2] // display multiple variables
-          })
-          .setChartType('ColumnChart'); // bar chart
-  
-  // Display chart
-  return chart.setOptions(chartStyle);
+  try {
+    // Construct chart object
+    var chart =
+        ui.Chart.feature
+            .byFeature({
+              features: zonal.select(['shapeName',var1,var2]),
+              xProperty: 'shapeName',
+              yProperties: [var1,var2] // display multiple variables
+            })
+            .setChartType('ColumnChart'); // bar chart
+    
+    // Display chart
+    return chart.setOptions(chartStyle);
+    
+  } catch (error) {
+    return null;
+  }
 };
