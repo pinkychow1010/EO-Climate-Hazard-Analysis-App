@@ -89,7 +89,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
 };
 
 
-exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) {
+exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log, output_name) {
     
     // import modules
     var palettes = require('users/gena/packages:palettes');
@@ -118,13 +118,27 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
     }
     
     // sample raster values with vector layer
-    var zonal = raster.reduceRegions({
-      collection: vector,
-      scale: 500,
-      reducer:  reducer_column[reducer]().setOutputs([reducer]) // new property from reducer
-    });
     
-    var attribute = reducer; // set as attribute
+    if (output_name === undefined || output_name === null){
+      
+      var zonal = raster.reduceRegions({
+        collection: vector,
+        scale: 500,
+        reducer:  reducer_column[reducer]().setOutputs([reducer]) // new property from reducer
+      });
+      var attribute = reducer; // set as attribute
+      
+    } else {
+      
+      var zonal = raster.reduceRegions({
+        collection: vector,
+        scale: 500,
+        reducer:  reducer_column[reducer]().setOutputs([output_name]) // new property from reducer
+      });
+      var attribute = output_name; // set as attribute
+      
+    }
+
     
     // initial label for inspector
     var click = ui.Label('Click for info');
