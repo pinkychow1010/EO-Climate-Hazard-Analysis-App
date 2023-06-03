@@ -664,7 +664,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
   
   console.log(zonal.size().getInfo())
   if (zonal.size().getInfo() < 1){
-    return null;
+    return zonal.size().getInfo();
   }
   
   try {
