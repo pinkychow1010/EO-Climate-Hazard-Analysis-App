@@ -644,7 +644,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
 
   // Set layout options for the chart
   var chartStyle = {
-    title: 'Comparison of Climate Risk Variables',
+    title: 'Comparison of Climate Risk Variables (regional mean)',
     series: {
          0: {
              targetAxisIndex: 0
@@ -660,22 +660,12 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
       gridlines: {color: 'FFFFFF00'}
     },
     vAxis: {
-      0: {
-          title: 'Mean Values', // y label
-          titleTextStyle: {color: 'gray', italic: false, bold: true},
-          textStyle: {color: 'gray'},
-          gridlines: {color: '#006C9980'},
-          format: 'short',
-          baselineColor: '#006C9960'
-          } ,
-      1: {
-          title: '',
-          titleTextStyle: {color: 'gray', italic: false, bold: true},
-          textStyle: {color: 'gray'},
-          gridlines: {color: '#006C9980'},
-          format: 'short',
-          baselineColor: '#006C9960'
-          }
+      title: '', // y label
+      titleTextStyle: {color: 'gray', italic: false, bold: true},
+      textStyle: {color: 'gray'},
+      gridlines: {color: '#006C9980'},
+      format: 'short',
+      baselineColor: '#006C9960'
     },
     chartArea: {backgroundColor: 'EBEBEB00'}
   };
