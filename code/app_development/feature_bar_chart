@@ -1,3 +1,15 @@
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ############################################ //
+// ######    Map Comparison Charting     ###### //
+// ############################################ //
+
+
+/**
+ * This is a script for comparing layers between national admin regions using a bar chart.
+ *
+ */
+
 var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
 
 var landscan_2021 = landscan_global.sort('system:time_start',false).first();
