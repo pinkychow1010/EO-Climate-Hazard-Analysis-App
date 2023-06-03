@@ -234,20 +234,25 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
   var p2_heading = "Welcome! 👋";
   var p3_heading = "Welcome! 👋";
   
-  var p1_message = "Want to retrieve climate risk data \n\
-  from space? This climate hazard tool enables\n\
-  you to download and perform \n\
-  further GIS analysis in no time!";
+  var p1_message = "Want to retrieve high-resolution climate\n\
+  risk data from space? This climate hazard\n\
+  tool enables layer downloads and further \n\
+  GIS analysis in no time!";
   
   var p2_message = "To begin with, select a country\n\
   and two data layers which you\n\
   would like to compare side to side.\n\
-  Click start to compute and wait for a minute \n\
+  You could either compare among admin 1\n\
+  or admin 2 regions. Click start to\n\
+  compute and wait for a minute \n\
   for the layers to load on-the-fly.\n\
-  Click layer label to view details\n\
-  of the dataset, including the project website.";
+  You could download the derived table\n\
+  in csv by clicking on small icon located\n\
+  at the top-right corner of the chart.";
   
-  var p3_message = "Let's get started!";
+  var p3_message = "Click layer label to view details\n\
+  of the dataset, including the project website.\n\
+  Let's get started!";
   
   function addInstruction() {helper.addThreePage(
     p1_heading, p1_message,
