@@ -298,10 +298,10 @@ exports.add_popup = function add_popup(title, content, map, url) {
   var msg_style = {
     whiteSpace: 'pre', 
     textAlign: 'center', 
-    padding: '0px 10px 10px 10px',
+    padding: '0px 5px 5px 5px',
     width: '280px',
     color: 'grey',
-    fontSize: '12px'
+    fontSize: '11px'
   };
   
   var hd_style = {
