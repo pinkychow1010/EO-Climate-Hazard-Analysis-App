@@ -11,6 +11,24 @@ var zonal = landscan_2021.reduceRegions({
 })
 
 print(zonal.first())
+
+var chartStyle = {
+  title: 'Comparison of Climate Risk Variables',
+  hAxis: {
+    title: 'Admin Regions',
+    titleTextStyle: {italic: false, bold: true},
+    gridlines: {color: 'FFFFFF00'}
+  },
+  vAxis: {
+    title: 'Mean Values',
+    titleTextStyle: {italic: false, bold: true},
+    gridlines: {color: '#006C9980'},
+    format: 'short',
+    baselineColor: '#006C9960'
+  },
+  chartArea: {backgroundColor: 'EBEBEB00'}
+};
+
 var chart =
     ui.Chart.feature
         .byFeature({
@@ -18,6 +36,7 @@ var chart =
           xProperty: 'TEHSIL',
           yProperties: ['Area','mean_pop']
         })
-        .setChartType('ColumnChart')
-print(chart);
+        .setChartType('ColumnChart');
+        
+print(chart.setOptions(chartStyle));
 
