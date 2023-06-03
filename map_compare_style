@@ -25,7 +25,7 @@ exports.label = {
 };
 
 exports.mainPanel = {
-  width: '240px',
+  width: '280px',
   backgroundColor: 'black'
   };
   
