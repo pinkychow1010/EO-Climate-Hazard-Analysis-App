@@ -116,6 +116,11 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
   loading_button.style().set({color:"#FFFFFF75"});
   mainPanel.add(loading_button);
   
+  var resultPanel = ui.Panel();
+  resultPanel.style().set(style.dark_theme);
+  
+  mainPanel.add(resultPanel);
+  
   // center maps
   map1.setCenter(70,30,5);
   map2.setCenter(70,30,5);
@@ -181,6 +186,9 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     // ger layer based on user selection, call aoi to get regional raster only
     var layer1 = layer_dict[var1](aoi);
     var layer2 = layer_dict[var2](aoi);
+    
+    var chart = helper.chart_climate_var(aoi, layer1, layer2, var1, var2);
+    resultPanel.widgets().reset([chart]);
     
     // get choropleth maps for both maps
     helper.zonalInspect(aoi, layer1, map1, "mean", log_dict[var1], var1); // vector, raster, map, reducer, log, output_name
