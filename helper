@@ -89,7 +89,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
 };
 
 
-exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log, output_name) {
+exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log, output_name, legend_text) {
     
     // import modules
     var palettes = require('users/gena/packages:palettes');
@@ -246,7 +246,8 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log, 
         title,
         null,
         null,
-        size
+        size,
+        legend_text
         );
     } catch(e) {
       // if choropleth map does not run through, it is properly due to missing data
@@ -273,7 +274,8 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log, 
         title,
         map,
         null,
-        size
+        size,
+        legend_text
         );
     } catch(e) {
       // no data case
