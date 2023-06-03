@@ -123,9 +123,9 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
   // Update from country selection
   // function after selection: zoom to country; no computation yet
   var admin0Selected = function(admin0Selection) {
-    var selectedAdmin0 = ADM0.filter(
-      ee.Filter.eq('shapeName', admin0Selection)
-      );
+    // var selectedAdmin0 = ADM0.filter(
+    //   ee.Filter.eq('shapeName', admin0Selection)
+    //   );
     // map1.centerObject(selectedAdmin0,5); // zoom to country
   };
   
@@ -150,6 +150,9 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     map1.clear(); // clear map
     map2.clear();
     
+    var selectedAdmin0 = ADM0.filter(
+      ee.Filter.eq('shapeName', country_name)
+      );
     map1.centerObject(selectedAdmin0,5); // center country
     
     // customized basemap to enhance visuals
