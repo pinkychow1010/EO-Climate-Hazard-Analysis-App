@@ -187,7 +187,6 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict) {
     var layer1 = layer_dict[var1](aoi);
     var layer2 = layer_dict[var2](aoi);
     
-    console.log(aoi);
     var chart = helper.chart_climate_var(aoi, layer1, layer2, var1_label, var2_label);
     resultPanel.widgets().reset([chart]); 
     
