@@ -635,6 +635,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     reducer:  ee.Reducer.mean().setOutputs([var2]) // define output column name
   });
   
+  console.log(zonal);
   // Set layout options for the chart
   var chartStyle = {
     title: 'Comparison of Climate Risk Variables',
