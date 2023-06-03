@@ -645,6 +645,14 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
   // Set layout options for the chart
   var chartStyle = {
     title: 'Comparison of Climate Risk Variables',
+    series: {
+         0: {
+             targetAxisIndex: 0
+            } ,
+         1: {
+             targetAxisIndex: 1 
+            } ,
+        } ,
     hAxis: {
       title: 'Admin Regions', // x label
       textStyle: {color: 'gray'},
