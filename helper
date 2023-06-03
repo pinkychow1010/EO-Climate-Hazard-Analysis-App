@@ -301,7 +301,7 @@ exports.add_popup = function add_popup(title, content, map, url) {
     padding: '0px 10px 10px 10px',
     width: '280px',
     color: 'grey',
-    fontSize: '12px'
+    fontSize: '10px'
   };
   
   var hd_style = {
