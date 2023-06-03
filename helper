@@ -636,6 +636,8 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
   });
   
   console.log(zonal);
+  console.log(var1);
+  console.log(var2);
   // Set layout options for the chart
   var chartStyle = {
     title: 'Comparison of Climate Risk Variables',
