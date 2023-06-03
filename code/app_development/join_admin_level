@@ -27,3 +27,40 @@ print(join.map(function(pair) {
   var f2 = ee.Feature(pair.get('secondary'));
   return f1.set(f2.toDictionary());
 }));
+
+// // Create the primary collection.
+// var primaryFeatures = ee.FeatureCollection([
+//   ee.Feature(null, {foo: 0, label: 'a'}),
+//   ee.Feature(null, {foo: 1, label: 'b'}),
+//   ee.Feature(null, {foo: 1, label: 'c'}),
+//   ee.Feature(null, {foo: 2, label: 'd'}),
+// ]);
+
+// // Create the secondary collection.
+// var secondaryFeatures = ee.FeatureCollection([
+//   ee.Feature(null, {bar: 1, label: 'a'}),
+//   ee.Feature(null, {bar: 1, label: 'b'}),
+//   ee.Feature(null, {bar: 2, label: 'c'}),
+//   ee.Feature(null, {bar: 3, label: 'd'}),
+// ]);
+
+// // Use an equals filter to specify how the collections match.
+// var toyFilter = ee.Filter.equals({
+//   leftField: 'label',
+//   rightField: 'label'
+// });
+
+// // Define the join.
+// var innerJoin = ee.Join.inner();
+
+// // Apply the join.
+// var toyJoin = innerJoin.apply(primaryFeatures, secondaryFeatures, toyFilter);
+
+// // Print the result.
+// print('Inner join toy example:', toyJoin);
+
+// print(toyJoin.map(function(pair) {
+//   var f1 = ee.Feature(pair.get('primary'));
+//   var f2 = ee.Feature(pair.get('secondary'));
+//   return f1.set(f2.toDictionary());
+// }));
