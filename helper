@@ -89,7 +89,9 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
 };
 
 
-exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) {
+exports.zonalInspect = function zonalInspect(
+  vector, raster, map, reducer, log, output_name, legend_text
+  ) {
     
     // import modules
     var palettes = require('users/gena/packages:palettes');
@@ -118,13 +120,27 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
     }
     
     // sample raster values with vector layer
-    var zonal = raster.reduceRegions({
-      collection: vector,
-      scale: 500,
-      reducer:  reducer_column[reducer]().setOutputs([reducer]) // new property from reducer
-    });
     
-    var attribute = reducer; // set as attribute
+    if (output_name === undefined || output_name === null){
+      
+      var zonal = raster.reduceRegions({
+        collection: vector,
+        scale: 500,
+        reducer:  reducer_column[reducer]().setOutputs([reducer]) // new property from reducer
+      });
+      var attribute = reducer; // set as attribute
+      
+    } else {
+      
+      var zonal = raster.reduceRegions({
+        collection: vector,
+        scale: 500,
+        reducer:  reducer_column[reducer]().setOutputs([output_name]) // new property from reducer
+      });
+      var attribute = output_name; // set as attribute
+      
+    }
+
     
     // initial label for inspector
     var click = ui.Label('Click for info');
@@ -232,7 +248,8 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
         title,
         null,
         null,
-        size
+        size,
+        legend_text
         );
     } catch(e) {
       // if choropleth map does not run through, it is properly due to missing data
@@ -259,7 +276,8 @@ exports.zonalInspect = function zonalInspect(vector, raster, map, reducer, log) 
         title,
         map,
         null,
-        size
+        size,
+        legend_text
         );
     } catch(e) {
       // no data case
@@ -542,7 +560,7 @@ exports.addThreePage = function addThreePage(
   // Page 2
   var instructionMessage_p2 = ui.Label(p2_message , msg_style);
     
-  instructionMessage_p2.style().set({fontSize: '13.5px'});
+  // instructionMessage_p2.style().set({fontSize: '13.5px'});
   
   var heading_p2 = ui.Label(p2_heading, hd_style);
   
@@ -603,4 +621,78 @@ exports.addThreePage = function addThreePage(
     } else {
       map.add(instructionPanel_p1);
     }
+};
+
+
+exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, var1, var2) {
+  
+  // remove special characters to avoid errors in charting
+  var1 = var1.replace(/([^\w ]|_)/g, '');
+  var2 = var2.replace(/([^\w ]|_)/g, '');
+  
+  // Sample raster values
+  var zonal = layer1.reduceRegions({
+    collection: vector,
+    scale: 500,
+    reducer:  ee.Reducer.mean().setOutputs([var1]) // define output column name
+  });
+  
+  zonal = layer2.reduceRegions({
+    collection: zonal,
+    scale: 500,
+    reducer:  ee.Reducer.mean().setOutputs([var2]) // define output column name
+  });
+  
+  // remove polygons with null values
+  zonal = zonal.filter(ee.Filter.notNull([var1])).filter(ee.Filter.notNull([var2]));
+
+  // Set layout options for the chart
+  var chartStyle = {
+    title: 'Comparison of Climate Risk Variables (regional mean)',
+    series: {
+         0: {
+             targetAxisIndex: 0
+            } ,
+         1: {
+             targetAxisIndex: 1
+            }
+        } ,
+    hAxis: {
+      title: 'Admin Regions', // x label
+      textStyle: {color: 'gray'},
+      titleTextStyle: {color: 'gray', italic: false, bold: true},
+      gridlines: {color: 'FFFFFF00'}
+    },
+    vAxis: {
+      title: '', // y label
+      titleTextStyle: {color: 'gray', italic: false, bold: true},
+      textStyle: {color: 'gray'},
+      gridlines: {color: '#006C9980'},
+      format: 'short',
+      baselineColor: '#006C9960'
+    },
+    chartArea: {backgroundColor: 'EBEBEB00'}
+  };
+  
+  if (zonal.size().getInfo() < 1){
+    return zonal.size().getInfo();
+  }
+  
+  try {
+    // Construct chart object
+    var chart =
+        ui.Chart.feature
+            .byFeature({
+              features: zonal.select(['shapeName',var1,var2]),
+              xProperty: 'shapeName',
+              yProperties: [var1,var2] // display multiple variables
+            })
+            .setChartType('ColumnChart'); // bar chart
+    
+    // Display chart
+    return chart.setOptions(chartStyle);
+    
+  } catch (error) {
+    return null;
+  }
 };

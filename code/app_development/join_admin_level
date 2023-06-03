@@ -1,0 +1,66 @@
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var ADM1 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1');
+
+var aoi = ADM1.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+print(aoi.first())
+
+var aoi2 = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK'));
+print(aoi2.first())
+
+// Use an equals filter to specify how the collections match.
+var filter = ee.Filter.equals({
+  leftField: 'shapeID',
+  rightField: 'ADM1_shape'
+});
+
+// Define the join.
+var innerJoin = ee.Join.inner();
+
+// Apply the join.
+var join = innerJoin.apply(aoi, aoi2, filter);
+
+print(join);
+
+// Print the result.
+print(join.map(function(pair) {
+  var f1 = ee.Feature(pair.get('primary'));
+  var f2 = ee.Feature(pair.get('secondary'));
+  return f1.set(f2.toDictionary());
+}));
+
+// // Create the primary collection.
+// var primaryFeatures = ee.FeatureCollection([
+//   ee.Feature(null, {foo: 0, label: 'a'}),
+//   ee.Feature(null, {foo: 1, label: 'b'}),
+//   ee.Feature(null, {foo: 1, label: 'c'}),
+//   ee.Feature(null, {foo: 2, label: 'd'}),
+// ]);
+
+// // Create the secondary collection.
+// var secondaryFeatures = ee.FeatureCollection([
+//   ee.Feature(null, {bar: 1, label: 'a'}),
+//   ee.Feature(null, {bar: 1, label: 'b'}),
+//   ee.Feature(null, {bar: 2, label: 'c'}),
+//   ee.Feature(null, {bar: 3, label: 'd'}),
+// ]);
+
+// // Use an equals filter to specify how the collections match.
+// var toyFilter = ee.Filter.equals({
+//   leftField: 'label',
+//   rightField: 'label'
+// });
+
+// // Define the join.
+// var innerJoin = ee.Join.inner();
+
+// // Apply the join.
+// var toyJoin = innerJoin.apply(primaryFeatures, secondaryFeatures, toyFilter);
+
+// // Print the result.
+// print('Inner join toy example:', toyJoin);
+
+// print(toyJoin.map(function(pair) {
+//   var f1 = ee.Feature(pair.get('primary'));
+//   var f2 = ee.Feature(pair.get('secondary'));
+//   return f1.set(f2.toDictionary());
+// }));
