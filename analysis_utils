@@ -53,7 +53,8 @@ var choropleth_map = function choropleth_map(
   title,
   map_object,
   decimal,
-  size
+  size,
+  legend_text
   ) {
   
   if (log === undefined || log === null){var log = 0};
@@ -61,6 +62,7 @@ var choropleth_map = function choropleth_map(
   if (title === undefined || title === null){var title = attribute};
   if (opacity === undefined || opacity === null){var opacity = 1};
   if (palette === undefined || palette === null){var palette = palettes.cmocean.Balance[7]};
+  if (legend_text === undefined || legend_text === null){var legend_text = "Legend"};
   
   var colors = ee.List(palette);
   var zone = ee.FeatureCollection(vector);
@@ -189,7 +191,7 @@ var choropleth_map = function choropleth_map(
   // set up legend with color bar
   var legend = helper.add_colorbar(
     vis, 
-    "Legend " + log_hint.get(toString(log)).getInfo(),
+    legend_text + " " + log_hint.get(toString(log)).getInfo(),
     decimal,
     size
     );
