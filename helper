@@ -650,7 +650,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
              targetAxisIndex: 0
             } ,
          1: {
-             targetAxisIndex: 1 
+             targetAxisIndex: 1
             } ,
         } ,
     hAxis: {
