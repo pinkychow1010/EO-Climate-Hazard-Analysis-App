@@ -68,4 +68,4 @@ var legend_dict = {
   "HAZARD | Palmer Drought Severity Index": "No Unit"
 };
 
-app.comparison_app(layer_dict, info_dict, url_dict, log_dict);
+app.comparison_app(layer_dict, info_dict, url_dict, log_dict, legend_dict);
