@@ -647,12 +647,14 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     title: 'Comparison of Climate Risk Variables',
     hAxis: {
       title: 'Admin Regions', // x label
-      titleTextStyle: {italic: false, bold: true},
+      textStyle: {color: 'gray'},
+      titleTextStyle: {color: 'gray', italic: false, bold: true},
       gridlines: {color: 'FFFFFF00'}
     },
     vAxis: {
       title: 'Mean Values', // y label
-      titleTextStyle: {italic: false, bold: true},
+      titleTextStyle: {color: 'gray', italic: false, bold: true},
+      textStyle: {color: 'gray'},
       gridlines: {color: '#006C9980'},
       format: 'short',
       baselineColor: '#006C9960'
