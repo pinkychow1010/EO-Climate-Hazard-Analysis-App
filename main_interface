@@ -14,24 +14,16 @@ var config = require('users/pinkychow1010/WB_IntraUrban:analysis_tool_config');
 
 app.set_up(); // map initial set up
 
-// Important: change together with app_info_dict
-// app with corresponding functions (not called)
+// predefined functionalities
 var app_action_dict = config.app_action_dict;
-// var app_action_dict = {
-//   'Land use cover ratio': app.landuse_ratio_app,
-//   'Urban heat analysis': app.map_lst_app,
-//   // 'Recent urbanization': app.pop_count,
-//   'Population density': app.pop_count,
-//   'Vegetation cover changes': app.fvc_lst_app,
-//   'Urban heat by land use': app.landuse_lst_app
-// };
+
+// dict for app analysis description
+var app_info_dict = config.app_info_dict;
 
 // Function to switch from main page to app page
 function changeApp(value) {
   var selected_app = selection.getValue(); // get user selection
   main_page.clear(); // remove main page
-  
-  // Map.add(ui.Label({value: selected_app})); // add app title in app page
   app_action_dict[selected_app](); // call function according to action dict
 }
 
@@ -43,17 +35,6 @@ function changeDescription(value) {
   desciption_label.setValue(app_info_dict[value]);
   return(value);
 }
-
-// dict for app analysis description
-var app_info_dict = config.app_info_dict;
-// var app_info_dict = {
-//   'Land use cover ratio': txt.land_use_cover_ratio,
-//   'Urban heat analysis': txt.urban_heat,
-//   // 'Recent urbanization': txt.recent_urbanization,
-//   'Population density': txt.population_density,
-//   'Vegetation cover changes': txt.veg_cover_changes,
-//   'Urban heat by land use': txt.heat_by_lulc
-// };
 
 // Drop-down menu for app selection
 var selection = ui.Select({
