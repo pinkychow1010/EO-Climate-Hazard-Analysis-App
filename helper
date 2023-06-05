@@ -300,7 +300,8 @@ exports.add_popup = function add_popup(title, content, map, url) {
     textAlign: 'center', 
     padding: '0px 5px 5px 5px',
     width:  '70%',//'280px',
-    maxWidth: '280px',
+    minWidth: '280px',
+    maxWidth: '350px',
     color: 'grey',
     fontSize: '11px'
   };
@@ -310,7 +311,8 @@ exports.add_popup = function add_popup(title, content, map, url) {
       textAlign: 'center', 
       padding: '10px 5px 10px 5px',
       width: '70%',//'280px',
-      maxWidth: '280px',
+      minWidth: '280px',
+      maxWidth: '350px',
       fontSize: '18px', 
       fontWeight:'bold'
     };
