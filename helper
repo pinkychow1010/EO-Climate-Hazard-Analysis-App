@@ -531,7 +531,7 @@ exports.addThreePage = function addThreePage(
     whiteSpace: 'pre', 
     textAlign: 'center', 
     padding: '0px 30px 30px 30px',
-    width: '80%',//'400px',
+    width: '90%',//'400px',
     color: 'grey',
     fontSize: '14px'
   };
@@ -540,7 +540,7 @@ exports.addThreePage = function addThreePage(
       whiteSpace: 'pre', 
       textAlign: 'center', 
       padding: '30px 30px 0px 30px',
-      width: '80%',//'400px',
+      width: '90%',//'400px',
       fontSize: '24px', 
       fontWeight:'bold'
     };
@@ -553,7 +553,7 @@ exports.addThreePage = function addThreePage(
   var page_style = {
     border: '5px solid #c9c9c9', 
     position: 'top-center',
-    width: '80%'
+    width: '85%'
   };
   
   // Page 1
