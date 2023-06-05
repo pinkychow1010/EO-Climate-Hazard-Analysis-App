@@ -6,6 +6,7 @@
 
 // This script stores the style settings for the comparison map tool.
 
+// map widgets for app
 exports.mapControl = {
   all: false, 
   layerList: false, 
@@ -16,6 +17,7 @@ exports.mapControl = {
   drawingToolsControl: false
   };
 
+// label styling dict
 exports.label = {
   position: 'bottom-center', 
   fontSize: '16px',
@@ -24,11 +26,13 @@ exports.label = {
   color: 'white'
 };
 
+// side bar styling dict
 exports.mainPanel = {
   width: '250px',
   backgroundColor: 'black'
   };
-  
+
+// app title styling dict
 exports.title = {
     'position':  'top-center',
     'fontSize': '24px',
@@ -39,8 +43,10 @@ exports.title = {
     'padding': '20px 20px 4px 4px',
     };
 
+// dark background
 exports.dark_theme = {'backgroundColor': 'black'};
 
+// button styling dict
 exports.start_button = {
     'width': '120px',
     'backgroundColor': 'black',
@@ -48,6 +54,7 @@ exports.start_button = {
     'padding': '15px 4px 4px 4px'
   };
 
+// styling dict for data layer label
 exports.map_label =   {
     position: 'bottom-center', 
     fontSize: '16px',
