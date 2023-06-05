@@ -10,19 +10,21 @@ var geometry =
 var style = require('users/pinkychow1010/WB_IntraUrban:main_style');
 var txt = require('users/pinkychow1010/WB_IntraUrban:main_text');
 var app = require('users/pinkychow1010/WB_IntraUrban:app_func');
+var config = require('users/pinkychow1010/WB_IntraUrban:analysis_tool_config');
 
 app.set_up(); // map initial set up
 
 // Important: change together with app_info_dict
 // app with corresponding functions (not called)
-var app_action_dict = {
-  'Land use cover ratio': app.landuse_ratio_app,
-  'Urban heat analysis': app.map_lst_app,
-  // 'Recent urbanization': app.pop_count,
-  'Population density': app.pop_count,
-  'Vegetation cover changes': app.fvc_lst_app,
-  'Urban heat by land use': app.landuse_lst_app
-};
+var app_action_dict = config.app_action_dict;
+// var app_action_dict = {
+//   'Land use cover ratio': app.landuse_ratio_app,
+//   'Urban heat analysis': app.map_lst_app,
+//   // 'Recent urbanization': app.pop_count,
+//   'Population density': app.pop_count,
+//   'Vegetation cover changes': app.fvc_lst_app,
+//   'Urban heat by land use': app.landuse_lst_app
+// };
 
 // Function to switch from main page to app page
 function changeApp(value) {
@@ -43,14 +45,15 @@ function changeDescription(value) {
 }
 
 // dict for app analysis description
-var app_info_dict = {
-  'Land use cover ratio': txt.land_use_cover_ratio,
-  'Urban heat analysis': txt.urban_heat,
-  // 'Recent urbanization': txt.recent_urbanization,
-  'Population density': txt.population_density,
-  'Vegetation cover changes': txt.veg_cover_changes,
-  'Urban heat by land use': txt.heat_by_lulc
-};
+var app_info_dict = config.app_info_dict;
+// var app_info_dict = {
+//   'Land use cover ratio': txt.land_use_cover_ratio,
+//   'Urban heat analysis': txt.urban_heat,
+//   // 'Recent urbanization': txt.recent_urbanization,
+//   'Population density': txt.population_density,
+//   'Vegetation cover changes': txt.veg_cover_changes,
+//   'Urban heat by land use': txt.heat_by_lulc
+// };
 
 // Drop-down menu for app selection
 var selection = ui.Select({
