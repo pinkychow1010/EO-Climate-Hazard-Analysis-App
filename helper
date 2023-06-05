@@ -299,29 +299,34 @@ exports.add_popup = function add_popup(title, content, map, url) {
     whiteSpace: 'pre', 
     textAlign: 'center', 
     padding: '0px 5px 5px 5px',
-    width: '280px',
+    width:  '95%',
+    minWidth: '280px',
+    maxWidth: '350px',
     color: 'grey',
-    fontSize: '11px'
+    fontSize: '12px'
   };
   
   var hd_style = {
       whiteSpace: 'pre', 
       textAlign: 'center', 
       padding: '10px 5px 10px 5px',
-      width: '280px',
+      width: '95%',
+      minWidth: '280px',
+      maxWidth: '350px',
       fontSize: '18px', 
       fontWeight:'bold'
     };
   
   var button_style = {
-    padding:'20% 42.5% 20% 42.5%',
+    padding:'10% 42.5% 10% 42.5%',
     position: 'top-center'
   };
   
   var page_style = {
     border: '7px solid #c9c9c9',
     position: 'top-center',
-    width: '380px',
+    width: '90%',
+    maxWidth: '380px',
     height: '450px'
   };
   
@@ -530,18 +535,18 @@ exports.addThreePage = function addThreePage(
   var msg_style = {
     whiteSpace: 'pre', 
     textAlign: 'center', 
-    padding: '0px 50px 50px 50px',
-    width: '400px',
+    padding: '0px 10px 30px 10px',
+    width: '95%',
     color: 'grey',
-    fontSize: '15px'
+    fontSize: '12px'
   };
   
   var hd_style = {
       whiteSpace: 'pre', 
       textAlign: 'center', 
-      padding: '50px 50px 0px 50px',
-      width: '400px',
-      fontSize: '26px', 
+      padding: '30px 30px 0px 30px',
+      width: '95%',
+      fontSize: '24px', 
       fontWeight:'bold'
     };
   
@@ -550,7 +555,11 @@ exports.addThreePage = function addThreePage(
     position: 'top-center'
   };
   
-  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  var page_style = {
+    border: '5px solid #c9c9c9', 
+    position: 'top-center',
+    width: '85%'
+  };
   
   // Page 1
   var instructionMessage = ui.Label(p1_message, msg_style);
@@ -559,9 +568,7 @@ exports.addThreePage = function addThreePage(
   
   // Page 2
   var instructionMessage_p2 = ui.Label(p2_message , msg_style);
-    
-  // instructionMessage_p2.style().set({fontSize: '13.5px'});
-  
+
   var heading_p2 = ui.Label(p2_heading, hd_style);
   
   // Page 3

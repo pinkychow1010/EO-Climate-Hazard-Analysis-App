@@ -18,6 +18,7 @@ exports.layer_dict = {
   "HAZARD | Palmer Drought Severity Index": data.get_pdsi
 };
 
+// descriptions for data layers
 exports.info_dict = {
   "EXPOSURE | Relative Wealth Index": text.rwi,
   "EXPOSURE | Critical Infrastructure": text.cisi,
@@ -29,6 +30,7 @@ exports.info_dict = {
   "HAZARD | Palmer Drought Severity Index": text.pdsi
 };
 
+// project url link for data layers
 exports.url_dict = {
   "EXPOSURE | Relative Wealth Index": "https://gee-community-catalog.org/projects/rwi/",
   "EXPOSURE | Critical Infrastructure": "https://gee-community-catalog.org/projects/cisi/",
@@ -40,6 +42,7 @@ exports.url_dict = {
   "HAZARD | Palmer Drought Severity Index": "https://www.climatologylab.org/terraclimate.html"
 };
 
+// options for log scale data visualization for different data layers
 exports.log_dict = {
   "EXPOSURE | Relative Wealth Index": 0,
   "EXPOSURE | Critical Infrastructure": 0,
@@ -51,6 +54,7 @@ exports.log_dict = {
   "HAZARD | Palmer Drought Severity Index": 0
 };
 
+// data layer unit shown in legends
 exports.legend_dict = {
   "EXPOSURE | Relative Wealth Index": "No Unit",
   "EXPOSURE | Critical Infrastructure": "No Unit",

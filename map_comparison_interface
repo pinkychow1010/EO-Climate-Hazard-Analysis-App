@@ -139,14 +139,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
   
   // Update from country selection
   // function after selection: zoom to country; no computation yet
-  var admin0Selected = function(admin0Selection) {
-    // var selectedAdmin0 = ADM0.filter(
-    //   ee.Filter.eq('shapeName', admin0Selection)
-    //   );
-    // map1.centerObject(selectedAdmin0,5); // zoom to country
-  };
-  
-  admin0Select.onChange(admin0Selected); // set up response for drop down
+  // var admin0Selected = function(admin0Selection) {};
+  // admin0Select.onChange(admin0Selected); // set up response for drop down
   
   // Get all country names and sort them
   var admin0Names = ADM0.aggregate_array('shapeName').sort().distinct();
@@ -230,9 +224,9 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
     map2.setControlVisibility({zoomControl: false});
   }
   
-  var p1_heading = "Welcome! 👋";
-  var p2_heading = "Welcome! 👋";
-  var p3_heading = "Welcome! 👋";
+  var p1_heading = "      Welcome! 👋";
+  var p2_heading = "      Welcome! 👋";
+  var p3_heading = "      Welcome! 👋";
   
   var p1_message = "Want to retrieve high-resolution climate\n\
   risk data from space? This climate hazard\n\
