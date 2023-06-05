@@ -140,10 +140,6 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
   // Update from country selection
   // function after selection: zoom to country; no computation yet
   var admin0Selected = function(admin0Selection) {
-    // var selectedAdmin0 = ADM0.filter(
-    //   ee.Filter.eq('shapeName', admin0Selection)
-    //   );
-    // map1.centerObject(selectedAdmin0,5); // zoom to country
   };
   
   admin0Select.onChange(admin0Selected); // set up response for drop down
