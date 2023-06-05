@@ -563,9 +563,7 @@ exports.addThreePage = function addThreePage(
   
   // Page 2
   var instructionMessage_p2 = ui.Label(p2_message , msg_style);
-    
-  // instructionMessage_p2.style().set({fontSize: '13.5px'});
-  
+
   var heading_p2 = ui.Label(p2_heading, hd_style);
   
   // Page 3
