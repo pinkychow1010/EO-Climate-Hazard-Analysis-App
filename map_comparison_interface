@@ -230,9 +230,9 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
     map2.setControlVisibility({zoomControl: false});
   }
   
-  var p1_heading = " &nbspWelcome! 👋";
-  var p2_heading = " &nbspWelcome! 👋";
-  var p3_heading = " &nbspWelcome! 👋";
+  var p1_heading = "   Welcome! 👋";
+  var p2_heading = "   Welcome! 👋";
+  var p3_heading = "   Welcome! 👋";
   
   var p1_message = "Want to retrieve high-resolution climate\n\
   risk data from space? This climate hazard\n\
