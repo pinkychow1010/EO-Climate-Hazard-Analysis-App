@@ -535,8 +535,8 @@ exports.addThreePage = function addThreePage(
   var msg_style = {
     whiteSpace: 'pre', 
     textAlign: 'center', 
-    padding: '0px 20px 30px 20px',
-    width: '90%',
+    padding: '0px 10px 30px 10px',
+    width: '95%',
     color: 'grey',
     fontSize: '12px'
   };
@@ -545,7 +545,7 @@ exports.addThreePage = function addThreePage(
       whiteSpace: 'pre', 
       textAlign: 'center', 
       padding: '30px 30px 0px 30px',
-      width: '90%',
+      width: '95%',
       fontSize: '24px', 
       fontWeight:'bold'
     };
