@@ -68,7 +68,7 @@ function createPanel(selection, description_label) {
   
   // app main title
   var title = ui.Label({
-    value: 'Climate Hazard Analysis Portal 🌎',
+    value: 'Climate Hazard Analysis Tool',
     style: style.title
   });
   
