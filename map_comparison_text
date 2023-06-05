@@ -1,67 +1,85 @@
 // Description for Datasets
 
-exports.rwi = "📖 Provided by Facebook, the Relative Wealth Index\n\
-(RWI) predicts the relative standard of\n\
-living within countries using connectivity data\n\
-and satellite imagery, via deep learning model.\n\
-The RWI has proven useful for identifying pockets\n\
+exports.rwi = "📖 Provided by Facebook, the Relative \n\
+Wealth Index (RWI) predicts the\n\
+relative standard of living within\n\
+countries using connectivity data\n\
+and satellite imagery, via deep\n\
+learning model. The RWI has\n\
+proven useful for identifying pockets\n\
 of poverty and potential beneficiaries\n\
  【🖱️ Click heading to view project】";
 
-exports.cisi = "📖 Critical Infrastructure Spatial Index (CISI) represents\n\
-the global spatial intensity of CI (transportation,\n\
-energy, water, waste, telecommunication, education,\n\
-and health). The dataset is generated from\n\
-Open Streetmap (2021). It can be applied to\n\
-explore the current landscape of CI, identify CI\n\
-hotspots, and as exposure input for large-scale\n\
-risk assessments. 【🖱️ Click heading to view project】";
+exports.cisi = "📖 Critical Infrastructure Spatial Index\n\
+(CISI) represents the global spatial\n\
+intensity of CI (transportation,\n\
+energy, water, waste, telecommunication,\n\
+education, and health). The dataset\n\
+is generated from Open Streetmap (2021).\n\
+It can be applied to explore the\n\
+current landscape of CI, identify CI\n\
+hotspots, and as exposure input\n\
+for large-scale risk assessments.\n\
+【🖱️ Click heading to view project】";
 
-exports.landscan = "📖 LandScan High-Definition (HD) is the finest resolution\n\
-global population distribution data available and \n\
-represents an ambient population. It is\n\
-intended to aid in emergency preparedness,\n\
-recovery missions, risk assessments and site\n\
+exports.landscan = "📖 LandScan High-Definition (HD) is the\n\
+finest resolution global population\n\
+distribution data available and \n\
+represents an ambient population.\n\
+It is intended to aid in emergency\n\
+preparedness, recovery missions, \n\
+risk assessments and site\n\
 suitability studies.\n\
 【🖱️ Click heading to view project】";
 
-exports.urban = "📖 This urban density layer represents the spatial\n\
-density of urban surface detected (% in 5km radius)\n\
-from satellite imagery. It is extracted from ESA\n\
-WorldCover the first global land cover\n\
-products for 2020 and 2021 at 10 m resolution.\n\
+exports.urban = "📖 This urban density layer represents\n\
+the spatial density of urban\n\
+surface detected (% in 5km radius)\n\
+from satellite imagery. It is\n\
+extracted from ESA WorldCover\n\
+the first global land cover\n\
+products for 2020 and 2021\n\
+at 10 m resolution.\n\
  【🖱️ Click heading to view project】";
 
-exports.cropland = "📖 This cropland density layer represents the\n\
-spatial density of agricultural fields detected\n\
-(% in 5km radius) from satellite imagery. This\n\
-layer is extracted from ESA WorldCover the\n\
-first global land cover products for 2020\n\
+exports.cropland = "📖 This cropland density layer\n\
+represents the spatial density of\n\
+agricultural fields detected\n\
+(% in 5km radius) from satellite\n\
+imagery. This layer is extracted\n\
+from ESA WorldCover the first\n\
+global land cover products for 2020\n\
 and 2021 at 10 m resolution.\n\
  【🖱️ Click heading to view project】";
 
-exports.forest = "📖 This forest density layer represents the\n\
-spatial density of forest detected (% in 5km radius) \n\
-from satellite imagery. This layer is extracted from ESA WorldCover\n\
+exports.forest = "📖 This forest density layer \n\
+represents the spatial density of\n\
+forest detected (% in 5km radius) \n\
+from satellite imagery. This layer\n\
+is extracted from ESA WorldCover\n\
 the first global land cover products\n\
 for 2020 and 2021 at 10 m resolution.\n\
  【🖱️ Click heading to view project】";
 
-exports.ghsl = "📖 The GHS-SMOD is the rural-urban Settlement\n\
-classification model adopted by the GHSL.\n\
-The layer values range from 0 (inhabited)\n\
+exports.ghsl = "📖 The GHS-SMOD is the rural-\n\
+urban Settlement classification model\n\
+adopted by the GHSL. The layer\n\
+values range from 0 (inhabited)\n\
 to 3 (high density clusters). It is the\n\
-representation of the degree of urbanization\n\
-concept into the GHSL data scenario.\n\
+representation of the degree of\n\
+urbanization concept into the\n\
+GHSL data scenario.\n\
 【🖱️ Click heading to view project】";
 
-exports.pdsi = "📖 This PDSI layer represents relative dryness\n\
-from temperature and precipitation data.\n\
-It is provided by TerraClimate, a dataset\n\
-of monthly climate and climatic water\n\
-balance for global terrestrial surfaces\n\
-from 1958-2019. These data provide important\n\
-inputs for ecological and hydrological studies\n\
-at global scales that require high spatial\n\
+exports.pdsi = "📖 This PDSI layer represents\n\
+relative dryness from temperature\n\
+and precipitation data. It is\n\
+provided by TerraClimate, a dataset\n\
+of monthly climate and climatic\n\
+water balance for global terrestrial\n\
+surfaces from 1958-2019. These data\n\
+provide important inputs for ecological\n\
+and hydrological studies at global\n\
+scales that require high spatial\n\
 resolution and time-varying data. \n\
 【🖱️ Click heading to view project】";
