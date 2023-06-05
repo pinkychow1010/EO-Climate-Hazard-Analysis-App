@@ -15,7 +15,7 @@ exports.description = {
 exports.title = {
       color: '#FFFFFF', 
       fontWeight: 'bold', 
-      fontSize: '22px', 
+      fontSize: '24px', 
       whiteSpace: 'pre', 
       textAlign: 'left', 
       padding: '25px 1px 25px 25px'
