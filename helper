@@ -550,7 +550,11 @@ exports.addThreePage = function addThreePage(
     position: 'top-center'
   };
   
-  var page_style = {border: '5px solid #c9c9c9', position: 'top-center'};
+  var page_style = {
+    border: '5px solid #c9c9c9', 
+    position: 'top-center',
+    width: '80%'
+  };
   
   // Page 1
   var instructionMessage = ui.Label(p1_message, msg_style);
