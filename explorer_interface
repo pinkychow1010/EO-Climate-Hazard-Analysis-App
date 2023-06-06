@@ -13,7 +13,8 @@
 // import module
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); // customized basemap to enhance visuals 
 var palettes = require('users/gena/packages:palettes'); // color palettes for color bar
-var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils functions
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+//var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils functions
 var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // functions for implementation of data layers in app
 var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict for explorer styling
 
@@ -255,7 +256,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     
     // add data layer info
     var layerKey = ds_selector.getValue();
-
+    helper.add_popup();
     // helper.add_popup(
     //   'EXPOSURE | Land Use Cover', info_dict[layerKey], null, url_dict[layerKey]
     //   );
