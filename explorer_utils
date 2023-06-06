@@ -31,7 +31,9 @@ exports.resolution_dict = {
   'Landscan Population': 1000,
   'Palmer Drought Severity Index': 2000,
   'Urbanization Degree': 1000,
-  'Relative Wealth Index': 2000
+  'Relative Wealth Index': 2000,
+  'Urban Heat Island Day': 300,
+  'Urban Heat Island Night': 300
 };
 
 // dictionary for filename definitions
@@ -44,7 +46,9 @@ exports.filename_dict = {
   'Landscan Population': 'Population-Landscan-2021',
   'Palmer Drought Severity Index': 'PDSI-median-2010-to-2023',
   'Urbanization Degree': 'GHSL-2015-urbanization-degree',
-  'Relative Wealth Index': 'Facebook-Relative-Wealth-Index'
+  'Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
+  'Urban Heat Island Day': 'Urban-Heat-Island-Day-Yale',
+  'Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale'
 };
 
 // dictionary for resampling algorithms
@@ -57,7 +61,9 @@ exports.reducer_dict = {
   'Landscan Population': ee.Reducer.sum(),
   'Palmer Drought Severity Index': ee.Reducer.mean(),
   'Urbanization Degree': ee.Reducer.mean(),
-  'Relative Wealth Index': ee.Reducer.median()
+  'Relative Wealth Index': ee.Reducer.median(),
+  'Urban Heat Island Day': ee.Reducer.median(),
+  'Urban Heat Island Night': ee.Reducer.median()
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
@@ -70,7 +76,9 @@ exports.layer_dict = {
   'Landscan Population': export_landscan_pop,
   'Palmer Drought Severity Index': export_pdsi,
   'Urbanization Degree': export_urban_degree,
-  'Relative Wealth Index': export_rwi
+  'Relative Wealth Index': export_rwi,
+  'Urban Heat Island Day': export_uhi_day,
+  'Urban Heat Island Night': export_uhi_night
 };
 
 
@@ -79,6 +87,42 @@ exports.layer_dict = {
 //##     EXPORT FUNCTIONS      ##//
 //##                           ##//
 //###############################//
+
+// Urban Heat Island Index Summer Days (Yale)
+function export_uhi_day(aoi) {
+  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
+  .select('Daytime')
+  .filter(ee.Filter.inList('system:index', ["2018"]))
+  .first();
+  
+  var vis = {min:-4, max:6, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+  Map.addLayer(uhi, vis, "UHI Summer Days");
+  
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  
+  Map.centerObject(aoi, 8);
+  return uhi.clip(aoi);
+}
+
+
+// Urban Heat Island Index Summer Nights (Yale)
+function export_uhi_day(aoi) {
+  var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
+  .select('Nighttime')
+  .filter(ee.Filter.inList('system:index', ["2018"]))
+  .first();
+  
+  var vis = {min:-4, max:6, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+  Map.addLayer(uhi, vis, "UHI Summer Nights");
+  
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  
+  Map.centerObject(aoi, 8);
+  return uhi.clip(aoi);
+}
+
 
 // Relative Wealth Index (Facebook)
 function export_rwi(aoi) {
