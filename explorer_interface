@@ -289,7 +289,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     .reduceResolution({
       'reducer':reducer,
       'bestEffort':true
-    }); // debug
+    }); // debug: https://gis.stackexchange.com/questions/366216/reduceresolution-failes-in-google-earth-engine
     // var resampled = image.reduceResolution({
     //     'reducer':reducer,
     //     'bestEffort':true
