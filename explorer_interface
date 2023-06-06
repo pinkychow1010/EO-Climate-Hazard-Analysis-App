@@ -285,9 +285,9 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     var proj = image.projection().getInfo();
     // var crs = proj.crs;
     
-    var resampled = img.reproject({'crs':'EPSG: 4326','scale':2000})
+    var resampled = img.reproject({'crs':'EPSG: 4326','scale':res})
     .reduceResolution({
-      'reducer':ee.Reducer.mean(),
+      'reducer':reducer,
       'bestEffort':true
     }); // debug
     // var resampled = image.reduceResolution({
