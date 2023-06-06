@@ -294,6 +294,7 @@ exports.zonalInspect = function zonalInspect(
 
 
 exports.add_popup = function add_popup(title, content, map, url) {
+
   // set style for elements
   var msg_style = {
     whiteSpace: 'pre', 

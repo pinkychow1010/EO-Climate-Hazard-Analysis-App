@@ -1,5 +1,27 @@
 // Description for Datasets
 
+exports.worldcover = "📖 WorldCover provides the first\n\
+global land cover products for\n\
+2020 and 2021 at 10 m resolution,\n\
+developed and validated in near-real\n\
+time based on Sentinel-1 and Sentinel-2\n\
+data.\n\
+【🖱️ Click heading to view project】";
+ 
+exports.modis = "📖 In the MODIS dataset, The Land\n\
+Surface Temperature (LST) and Emissivity\n\
+daily data are retrieved at 1km pixels\n\
+by the generalized split-window algorithm\n\
+and at 6km grids by the day/night algorithm.\n\
+ 【🖱️ Click heading to view project】";
+ 
+exports.uhi = "📖 This dataset contains summertime\n\
+surface urban heat island (SUHI) intensities\n\
+(unit degree Celsius) for day and night\n\
+for over 10,000 urban clusters\n\
+throughout the world. \n\
+ 【🖱️ Click heading to view project】";
+ 
 exports.rwi = "📖 Provided by Facebook, the Relative \n\
 Wealth Index (RWI) predicts the\n\
 relative standard of living within\n\

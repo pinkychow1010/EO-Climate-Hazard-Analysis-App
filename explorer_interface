@@ -13,7 +13,7 @@
 // import module
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); // customized basemap to enhance visuals 
 var palettes = require('users/gena/packages:palettes'); // color palettes for color bar
-var helper = require('users/pinkychow1010/GEE:WorldBank/helper'); // utils functions
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper'); // utils functions
 var data = require('users/pinkychow1010/WB_IntraUrban:explorer_utils'); // functions for implementation of data layers in app
 var style = require('users/pinkychow1010/WB_IntraUrban:explorer_style'); // dict for explorer styling
 
@@ -28,6 +28,12 @@ var fname_dict = data.filename_dict;
 
 // file name dict adopted to data layers
 var res_dict = data.resolution_dict;
+
+// file name dict adopted to data layers
+var info_dict = data.info_dict;
+
+// file name dict adopted to data layers
+var url_dict = data.url_dict;
 
 /**
  * Data explorer: an interactive dashboard to display spatial data layers for downloads.
@@ -110,6 +116,10 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
       basemap.addCustomBasemap('MutedMonotone'); // add custom basemap
       draw_bounds(filtered); // draw polygon boundary
       rasterLayer = action_call(filtered); // update rasterLayer for export
+      
+      // add data layer info
+      var key_label = layerKey.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
+      helper.add_popup(key_label, info_dict[layerKey], null, url_dict[layerKey]);
     }
   }
   
@@ -244,6 +254,13 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     Map.centerObject(filtered);
     draw_bounds(filtered);
     
+    // add data layer info
+    var layerKey = ds_selector.getValue();
+    var key_label = layerKey.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
+    helper.add_popup(
+      key_label, info_dict[layerKey], null, url_dict[layerKey]
+      );
+      
     // call main action
     var output = action_call(filtered);
     if (typeof(output) !== 'undefined') {rasterLayer = output;}
@@ -268,10 +285,15 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     var proj = image.projection().getInfo();
     // var crs = proj.crs;
     
-    var resampled = image.reduceResolution({
-        'reducer':reducer,
-        'bestEffort':true
-      }).reproject({'crs':'EPSG: 4326','scale':res});
+    var resampled = image.reproject({'crs':'EPSG: 4326','scale':res})
+    .reduceResolution({
+      'reducer':reducer,
+      'bestEffort':true
+    }); // debug: https://gis.stackexchange.com/questions/366216/reduceresolution-failes-in-google-earth-engine
+    // var resampled = image.reduceResolution({
+    //     'reducer':reducer,
+    //     'bestEffort':true
+    //   }).reproject({'crs':'EPSG: 4326','scale':res});
     
     // if (crs === undefined || crs === null){
     //   var wkt = proj.wkt;
