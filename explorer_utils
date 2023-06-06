@@ -41,14 +41,14 @@ exports.filename_dict = {
   'EXPOSURE | Land Use Cover': 'ESA-WorldCover-2020',
   'EXPOSURE | Population Count': 'Population-GPW-2015',
   'EXPOSURE | Urban Density': 'ESA-WorldCover-derived-urban-density',
+  'EXPOSURE | Landscan Population': 'Population-Landscan-2021',
+  'EXPOSURE | Urbanization Degree': 'GHSL-2015-urbanization-degree',
   'HAZARD | Summer Day Temperature': 'MODIS-LST-day',
   'HAZARD | Summer Night Temperature': 'MODIS-LST-night',
-  'EXPOSURE | Landscan Population': 'Population-Landscan-2021',
   'HAZARD | Palmer Drought Severity': 'PDSI-median-2010-to-2023',
-  'EXPOSURE | Urbanization Degree': 'GHSL-2015-urbanization-degree',
-  'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
   'HAZARD | Urban Heat Island Day': 'Urban-Heat-Island-Day-Yale',
-  'HAZARD | Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale'
+  'HAZARD | Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale',
+  'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index'
 };
 
 // dictionary for resampling algorithms
@@ -56,14 +56,14 @@ exports.reducer_dict = {
   'EXPOSURE | Land Use Cover': ee.Reducer.mode(), // retain discrete class
   'EXPOSURE | Population Count': ee.Reducer.sum(), // population count per pixel
   'EXPOSURE | Urban Density': ee.Reducer.mean(), // ratio
+  'EXPOSURE | Landscan Population': ee.Reducer.sum(),
+  'EXPOSURE | Urbanization Degree': ee.Reducer.mean(),
   'HAZARD | Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'HAZARD | Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
-  'EXPOSURE | Landscan Population': ee.Reducer.sum(),
   'HAZARD | Palmer Drought Severity': ee.Reducer.mean(),
-  'EXPOSURE | Urbanization Degree': ee.Reducer.mean(),
-  'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
   'HAZARD | Urban Heat Island Day': ee.Reducer.median(),
-  'HAZARD | Urban Heat Island Night': ee.Reducer.median()
+  'HAZARD | Urban Heat Island Night': ee.Reducer.median(),
+  'VULNERABILITY | Relative Wealth Index': ee.Reducer.median()
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
@@ -71,14 +71,14 @@ exports.layer_dict = {
   'EXPOSURE | Land Use Cover': export_landuse,
   'EXPOSURE | Population Count': export_population,
   'EXPOSURE | Urban Density': export_urban_density,
+  'EXPOSURE | Landscan Population': export_landscan_pop,
+  'EXPOSURE | Urbanization Degree': export_urban_degree,
   'HAZARD | Summer Day Temperature': export_summer_lst,
   'HAZARD | Summer Night Temperature': export_summer_lst_night,
-  'EXPOSURE | Landscan Population': export_landscan_pop,
   'HAZARD | Palmer Drought Severity': export_pdsi,
-  'EXPOSURE | Urbanization Degree': export_urban_degree,
-  'VULNERABILITY | Relative Wealth Index': export_rwi,
   'HAZARD | Urban Heat Island Day': export_uhi_day,
-  'HAZARD | Urban Heat Island Night': export_uhi_night
+  'HAZARD | Urban Heat Island Night': export_uhi_night,
+  'VULNERABILITY | Relative Wealth Index': export_rwi
 };
 
 
