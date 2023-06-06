@@ -38,47 +38,47 @@ exports.resolution_dict = {
 
 // dictionary for filename definitions
 exports.filename_dict = {
-  'Land Use Cover': 'ESA-WorldCover-2020',
-  'Population Count': 'Population-GPW-2015',
-  'Urban Density': 'ESA-WorldCover-derived-urban-density',
-  'Summer Day Temperature': 'MODIS-LST-day',
-  'Summer Night Temperature': 'MODIS-LST-night',
-  'Landscan Population': 'Population-Landscan-2021',
-  'Palmer Drought Severity Index': 'PDSI-median-2010-to-2023',
-  'Urbanization Degree': 'GHSL-2015-urbanization-degree',
-  'Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
-  'Urban Heat Island Day': 'Urban-Heat-Island-Day-Yale',
-  'Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale'
+  'EXPOSURE | Land Use Cover': 'ESA-WorldCover-2020',
+  'EXPOSURE | Population Count': 'Population-GPW-2015',
+  'EXPOSURE | Urban Density': 'ESA-WorldCover-derived-urban-density',
+  'HAZARD | Summer Day Temperature': 'MODIS-LST-day',
+  'HAZARD | Summer Night Temperature': 'MODIS-LST-night',
+  'EXPOSURE | Landscan Population': 'Population-Landscan-2021',
+  'HAZARD | Palmer Drought Severity': 'PDSI-median-2010-to-2023',
+  'EXPOSURE | Urbanization Degree': 'GHSL-2015-urbanization-degree',
+  'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
+  'HAZARD | Urban Heat Island Day': 'Urban-Heat-Island-Day-Yale',
+  'HAZARD | Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale'
 };
 
 // dictionary for resampling algorithms
 exports.reducer_dict = {
-  'Land Use Cover': ee.Reducer.mode(), // retain discrete class
-  'Population Count': ee.Reducer.sum(), // population count per pixel
-  'Urban Density': ee.Reducer.mean(), // ratio
-  'Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
-  'Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
-  'Landscan Population': ee.Reducer.sum(),
-  'Palmer Drought Severity Index': ee.Reducer.mean(),
-  'Urbanization Degree': ee.Reducer.mean(),
-  'Relative Wealth Index': ee.Reducer.median(),
-  'Urban Heat Island Day': ee.Reducer.median(),
-  'Urban Heat Island Night': ee.Reducer.median()
+  'EXPOSURE | Land Use Cover': ee.Reducer.mode(), // retain discrete class
+  'EXPOSURE | Population Count': ee.Reducer.sum(), // population count per pixel
+  'EXPOSURE | Urban Density': ee.Reducer.mean(), // ratio
+  'HAZARD | Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
+  'HAZARD | Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
+  'EXPOSURE | Landscan Population': ee.Reducer.sum(),
+  'HAZARD | Palmer Drought Severity': ee.Reducer.mean(),
+  'EXPOSURE | Urbanization Degree': ee.Reducer.mean(),
+  'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
+  'HAZARD | Urban Heat Island Day': ee.Reducer.median(),
+  'HAZARD | Urban Heat Island Night': ee.Reducer.median()
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
 exports.layer_dict = {
-  'Land Use Cover': export_landuse,
-  'Population Count': export_population,
-  'Urban Density': export_urban_density,
-  'Summer Day Temperature': export_summer_lst,
-  'Summer Night Temperature': export_summer_lst_night,
-  'Landscan Population': export_landscan_pop,
-  'Palmer Drought Severity Index': export_pdsi,
-  'Urbanization Degree': export_urban_degree,
-  'Relative Wealth Index': export_rwi,
-  'Urban Heat Island Day': export_uhi_day,
-  'Urban Heat Island Night': export_uhi_night
+  'EXPOSURE | Land Use Cover': export_landuse,
+  'EXPOSURE | Population Count': export_population,
+  'EXPOSURE | Urban Density': export_urban_density,
+  'HAZARD | Summer Day Temperature': export_summer_lst,
+  'HAZARD | Summer Night Temperature': export_summer_lst_night,
+  'EXPOSURE | Landscan Population': export_landscan_pop,
+  'HAZARD | Palmer Drought Severity': export_pdsi,
+  'EXPOSURE | Urbanization Degree': export_urban_degree,
+  'VULNERABILITY | Relative Wealth Index': export_rwi,
+  'HAZARD | Urban Heat Island Day': export_uhi_day,
+  'HAZARD | Urban Heat Island Night': export_uhi_night
 };
 
 
