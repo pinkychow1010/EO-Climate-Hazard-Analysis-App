@@ -104,10 +104,7 @@ function export_rwi(aoi) {
   Map.add(legend);
   Map.centerObject(aoi, 5);
   
-  var ref = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index")
-  .first().projection();
-  
-  return rwi_raster.clip(aoi).setDefaultProjection(ref);
+  return rwi_raster.clip(aoi).reproject('EPSG: 4326');
 }
 
 
