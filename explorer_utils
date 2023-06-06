@@ -160,7 +160,7 @@ function export_landscan_pop(aoi) {
   }
   
   var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
-  var landscan_2021 = landscan_global.sort('system:time_start',false).first();
+  var landscan_2021 = landscan_global.sort('system:time_start',false).first().clip(aoi);
   addCategoricalLegend(legend, dict, 'Population Sum (1 km2)');
   Map.addLayer(landscan_2021.sldStyle(popcount_intervals), {}, 'Population Count Estimate LANDSCAN HD 2021');
   
