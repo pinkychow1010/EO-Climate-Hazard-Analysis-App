@@ -107,7 +107,7 @@ function export_uhi_day(aoi) {
 
 
 // Urban Heat Island Index Summer Nights (Yale)
-function export_uhi_day(aoi) {
+function export_uhi_night(aoi) {
   var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
   .select('Nighttime')
   .filter(ee.Filter.inList('system:index', ["2018"]))
