@@ -22,7 +22,8 @@ exports.resolution_dict = {
   'Urban Density': 2000,
   'Summer Day Temperature': 1000,
   'Summer Night Temperature': 1000,
-  'Landscan Population': 1000
+  'Landscan Population': 1000,
+  'Palmer Drought Severity Index': 2000
 };
 
 // dictionary for filename definitions
@@ -32,7 +33,8 @@ exports.filename_dict = {
   'Urban Density': 'ESA-WorldCover-derived-urban-density',
   'Summer Day Temperature': 'MODIS-LST-day',
   'Summer Night Temperature': 'MODIS-LST-night',
-  'Landscan Population': 'Population-Landscan-2021'
+  'Landscan Population': 'Population-Landscan-2021',
+  'Palmer Drought Severity Index': 'PDSI-median-2010-to-2023'
 };
 
 // dictionary for resampling algorithms
@@ -42,7 +44,8 @@ exports.reducer_dict = {
   'Urban Density': ee.Reducer.mean(), // ratio
   'Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
-  'Landscan Population': ee.Reducer.sum()
+  'Landscan Population': ee.Reducer.sum(),
+  'Palmer Drought Severity Index': ee.Reducer.mean()
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
@@ -52,10 +55,48 @@ exports.layer_dict = {
   'Urban Density': export_urban_density,
   'Summer Day Temperature': export_summer_lst,
   'Summer Night Temperature': export_summer_lst_night,
-  'Landscan Population': export_landscan_pop
+  'Landscan Population': export_landscan_pop,
+  'Palmer Drought Severity Index': export_pdsi
 };
 
 
+function export_pdsi(aoi) {
+  // return the list of coordinates
+  var centroid = aoi.first().geometry().centroid();
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+  
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  var south = ee.Number(yCoords).lt(0);
+  
+  var shift = south.multiply(6).getInfo();
+  
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+  
+  var yearFilter = ee.Filter.date(ee.Date("2010-01-01"),ee.Date("2023-01-01"));
+  
+  var dataset = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+                    .filter(yearFilter).filter(summerFilter);
+  
+  var drought_index = dataset.select('pdsi').median().multiply(0.01).clip(aoi);
+  
+  var vis = {
+    min: -4.0,
+    max: 5.0,
+    palette: ['red','yellow','green','blue'],
+  };
+  
+  // display layer
+  Map.addLayer(drought_index, vis, 'PDSI long-term median (2010-2023)');
+  Map.centerObject(aoi, 8);
+  
+  // add legend to raster layer
+  var legend = helper.add_colorbar(vis, "PDSI");
+  Map.add(legend);
+  
+  return drought_index;
+}
+
+// Landscan population estimate HD 2021
 function export_landscan_pop(aoi) {
   var popcount_intervals =
   '<RasterSymbolizer>' +
