@@ -33,7 +33,8 @@ exports.resolution_dict = {
   'Urbanization Degree': 1000,
   'Relative Wealth Index': 2000,
   'Urban Heat Island Day': 300,
-  'Urban Heat Island Night': 300
+  'Urban Heat Island Night': 300,
+  'VULNERABILITY | Critical Infrastructure Index': 2000
 };
 
 // dictionary for filename definitions
@@ -48,7 +49,8 @@ exports.filename_dict = {
   'HAZARD | Palmer Drought Severity': 'PDSI-median-2010-to-2023',
   'HAZARD | Urban Heat Island Day': 'Urban-Heat-Island-Day-Yale',
   'HAZARD | Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale',
-  'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index'
+  'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
+  'VULNERABILITY | Critical Infrastructure Index': 'Critical-Infrastructure-Spatial-Index'
 };
 
 // dictionary for resampling algorithms
@@ -63,7 +65,8 @@ exports.reducer_dict = {
   'HAZARD | Palmer Drought Severity': ee.Reducer.mean(),
   'HAZARD | Urban Heat Island Day': ee.Reducer.median(),
   'HAZARD | Urban Heat Island Night': ee.Reducer.median(),
-  'VULNERABILITY | Relative Wealth Index': ee.Reducer.median()
+  'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
+    'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
@@ -78,7 +81,8 @@ exports.layer_dict = {
   'HAZARD | Palmer Drought Severity': export_pdsi,
   'HAZARD | Urban Heat Island Day': export_uhi_day,
   'HAZARD | Urban Heat Island Night': export_uhi_night,
-  'VULNERABILITY | Relative Wealth Index': export_rwi
+  'VULNERABILITY | Relative Wealth Index': export_rwi,
+  'VULNERABILITY | Critical Infrastructure Index': export_cisi
 };
 
 
@@ -87,6 +91,21 @@ exports.layer_dict = {
 //##     EXPORT FUNCTIONS      ##//
 //##                           ##//
 //###############################//
+
+
+// Critical Infrastructure Spatial Index
+function export_cisi(aoi) {
+  var cisi = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
+  
+  var vis = {min:0, max:0.2, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+  Map.addLayer(cisi, vis, "UHI Summer Days");
+  
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  
+  Map.centerObject(aoi, 8);
+  return cisi;
+}
 
 // Urban Heat Island Index Summer Days (Yale)
 function export_uhi_day(aoi) {
