@@ -96,7 +96,7 @@ function export_uhi_day(aoi) {
   .first();
   
   var vis = {min:-4, max:6, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
-  Map.addLayer(uhi, vis, "UHI Summer Days");
+  Map.addLayer(uhi.clip(aoi), vis, "UHI Summer Days");
   
   var legend = helper.add_colorbar(vis, "Index");
   Map.add(legend);
@@ -114,7 +114,7 @@ function export_uhi_night(aoi) {
   .first();
   
   var vis = {min:-4, max:6, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
-  Map.addLayer(uhi, vis, "UHI Summer Nights");
+  Map.addLayer(uhi.clip(aoi), vis, "UHI Summer Nights");
   
   var legend = helper.add_colorbar(vis, "Index");
   Map.add(legend);
