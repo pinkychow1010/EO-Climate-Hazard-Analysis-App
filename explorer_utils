@@ -92,7 +92,6 @@ exports.layer_dict = {
 //##                           ##//
 //###############################//
 
-
 // Critical Infrastructure Spatial Index
 function export_cisi(aoi) {
   var cisi = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
