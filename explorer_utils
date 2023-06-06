@@ -21,6 +21,41 @@ var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 //##                           ##//
 //###############################//
 
+
+// descriptions for data layers
+exports.info_dict = {
+  'EXPOSURE | Land Use Cover': "https://esa-worldcover.org/en",
+  'EXPOSURE | Population Count': text.ghsl,
+  'EXPOSURE | Urban Density': text.urban,
+  'EXPOSURE | Urbanization Degree': text.ghsl,
+  'EXPOSURE | Landscan Population': text.landscan,
+  'HAZARD | Summer Day Temperature': text.modis,
+  'HAZARD | Summer Night Temperature': text.modis,
+  'HAZARD | Palmer Drought Severity Index': text.pdsi,
+  'HAZARD | Urban Heat Island Day': text.uhi,
+  'HAZARD | Urban Heat Island Night': text.uhi,
+  'VULNERABILITY | Relative Wealth Index': text.rwi,
+  'VULNERABILITY | Critical Infrastructure Index': text.cisi
+};
+
+
+// project url link for data layers
+exports.url_dict = {
+  'EXPOSURE | Land Use Cover': "https://esa-worldcover.org/en",
+  'EXPOSURE | Population Count': "https://ghsl.jrc.ec.europa.eu/ghs_pop.php",
+  'EXPOSURE | Urban Density': "https://esa-worldcover.org/en",
+  'EXPOSURE | Urbanization Degree': "https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php",
+  'EXPOSURE | Landscan Population': "https://sdi.eea.europa.eu/catalogue/srv/api/records/39e6a1fb-5217-4e22-ab2e-68d50d11faeb",
+  'HAZARD | Summer Day Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
+  'HAZARD | Summer Night Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
+  'HAZARD | Palmer Drought Severity Index': "https://www.climatologylab.org/terraclimate.html",
+  'HAZARD | Urban Heat Island Day': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
+  'HAZARD | Urban Heat Island Night': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
+  'VULNERABILITY | Relative Wealth Index': "https://dataforgood.facebook.com/dfg/tools/relative-wealth-index",
+  'VULNERABILITY | Critical Infrastructure Index': "https://www.nature.com/articles/s41597-022-01218-4"
+};
+
+
 // dictionary for default resolution
 exports.resolution_dict = {
   'Land Use Cover': 10,
