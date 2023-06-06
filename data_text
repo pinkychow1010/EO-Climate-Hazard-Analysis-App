@@ -1,5 +1,25 @@
 // Description for Datasets
 
+exports.modis = "📖 Provided by Facebook, the Relative \n\
+Wealth Index (RWI) predicts the\n\
+relative standard of living within\n\
+countries using connectivity data\n\
+and satellite imagery, via deep\n\
+learning model. The RWI has\n\
+proven useful for identifying pockets\n\
+of poverty and potential beneficiaries\n\
+ 【🖱️ Click heading to view project】";
+ 
+exports.uhi = "📖 Provided by Facebook, the Relative \n\
+Wealth Index (RWI) predicts the\n\
+relative standard of living within\n\
+countries using connectivity data\n\
+and satellite imagery, via deep\n\
+learning model. The RWI has\n\
+proven useful for identifying pockets\n\
+of poverty and potential beneficiaries\n\
+ 【🖱️ Click heading to view project】";
+ 
 exports.rwi = "📖 Provided by Facebook, the Relative \n\
 Wealth Index (RWI) predicts the\n\
 relative standard of living within\n\
