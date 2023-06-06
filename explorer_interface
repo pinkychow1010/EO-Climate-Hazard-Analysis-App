@@ -257,7 +257,7 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     var layerKey = ds_selector.getValue();
 
     helper.add_popup(
-      layerKey, info_dict[layerKey], null, url_dict[layerKey]
+      'EXPOSURE | Land Use Cover', info_dict[layerKey], null, url_dict[layerKey]
       );
       
     // call main action
