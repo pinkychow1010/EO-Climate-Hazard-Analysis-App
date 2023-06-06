@@ -15,6 +15,12 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
 var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
+//###############################//
+//##                           ##//
+//##       CONFIGURATIONS      ##//
+//##                           ##//
+//###############################//
+
 // dictionary for default resolution
 exports.resolution_dict = {
   'Land Use Cover': 10,
@@ -58,6 +64,13 @@ exports.layer_dict = {
   'Landscan Population': export_landscan_pop,
   'Palmer Drought Severity Index': export_pdsi
 };
+
+
+//###############################//
+//##                           ##//
+//##     EXPORT FUNCTIONS      ##//
+//##                           ##//
+//###############################//
 
 // Palmer Drought Severity Index 
 function export_pdsi(aoi) {
