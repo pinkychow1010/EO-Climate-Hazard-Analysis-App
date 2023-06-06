@@ -104,7 +104,10 @@ function export_rwi(aoi) {
   Map.add(legend);
   Map.centerObject(aoi, 5);
   
-  return rwi_raster.clip(aoi);
+  var ref = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index")
+  .first().projection();
+  
+  return rwi_raster.clip(aoi).setDefaultProjection(ref);
 }
 
 
@@ -129,7 +132,9 @@ function export_urban_degree(aoi) {
   var legend = helper.add_colorbar(vis, "Degree");
   Map.add(legend);
   
-  return degreeOfUrbanization;
+  var ref = ee.ImageCollection('JRC/GHSL/P2016/SMOD_POP_GLOBE_V1').first().projection();
+
+  return degreeOfUrbanization.setDefaultProjection(ref);
 }
 
 
