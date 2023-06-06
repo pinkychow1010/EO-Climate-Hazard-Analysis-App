@@ -13,8 +13,7 @@
 // import module
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
-var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
-var text = require('users/pinkychow1010/WB_IntraUrban:data_text');
+var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
 
 //###############################//
 //##                           ##//
@@ -22,53 +21,19 @@ var text = require('users/pinkychow1010/WB_IntraUrban:data_text');
 //##                           ##//
 //###############################//
 
-// descriptions for data layers
-exports.info_dict = {
-  'EXPOSURE | Land Use Cover': text.worldcover,
-  'EXPOSURE | Population Count': text.ghsl,
-  'EXPOSURE | Urban Density': text.urban,
-  'EXPOSURE | Urbanization Degree': text.ghsl,
-  'EXPOSURE | Landscan Population': text.landscan,
-  'HAZARD | Summer Day Temperature': text.modis,
-  'HAZARD | Summer Night Temperature': text.modis,
-  'HAZARD | Palmer Drought Severity Index': text.pdsi,
-  'HAZARD | Urban Heat Island Day': text.uhi,
-  'HAZARD | Urban Heat Island Night': text.uhi,
-  'VULNERABILITY | Relative Wealth Index': text.rwi,
-  'VULNERABILITY | Critical Infrastructure Index': text.cisi
-};
-
-
-// project url link for data layers
-exports.url_dict = {
-  'EXPOSURE | Land Use Cover': "https://esa-worldcover.org/en",
-  'EXPOSURE | Population Count': "https://ghsl.jrc.ec.europa.eu/ghs_pop.php",
-  'EXPOSURE | Urban Density': "https://esa-worldcover.org/en",
-  'EXPOSURE | Urbanization Degree': "https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php",
-  'EXPOSURE | Landscan Population': "https://sdi.eea.europa.eu/catalogue/srv/api/records/39e6a1fb-5217-4e22-ab2e-68d50d11faeb",
-  'HAZARD | Summer Day Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
-  'HAZARD | Summer Night Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
-  'HAZARD | Palmer Drought Severity Index': "https://www.climatologylab.org/terraclimate.html",
-  'HAZARD | Urban Heat Island Day': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
-  'HAZARD | Urban Heat Island Night': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
-  'VULNERABILITY | Relative Wealth Index': "https://dataforgood.facebook.com/dfg/tools/relative-wealth-index",
-  'VULNERABILITY | Critical Infrastructure Index': "https://www.nature.com/articles/s41597-022-01218-4"
-};
-
-
 // dictionary for default resolution
 exports.resolution_dict = {
-  'EXPOSURE | Land Use Cover': 10,
-  'EXPOSURE | Population Count': 38,
-  'EXPOSURE | Urban Density': 2000,
-  'EXPOSURE | Urbanization Degree': 1000,
-  'EXPOSURE | Landscan Population': 1000,
-  'HAZARD | Summer Day Temperature': 1000,
-  'HAZARD | Summer Night Temperature': 1000,
-  'HAZARD | Palmer Drought Severity Index': 2000,
-  'HAZARD | Urban Heat Island Day': 300,
-  'HAZARD | Urban Heat Island Night': 300,
-  'VULNERABILITY | Relative Wealth Index': 2000,
+  'Land Use Cover': 10,
+  'Population Count': 38,
+  'Urban Density': 2000,
+  'Summer Day Temperature': 1000,
+  'Summer Night Temperature': 1000,
+  'Landscan Population': 1000,
+  'Palmer Drought Severity Index': 2000,
+  'Urbanization Degree': 1000,
+  'Relative Wealth Index': 2000,
+  'Urban Heat Island Day': 300,
+  'Urban Heat Island Night': 300,
   'VULNERABILITY | Critical Infrastructure Index': 2000
 };
 
@@ -787,7 +752,8 @@ exports.addWelcomePanel = function addWelcomePanel() {
     \n👥 Population Count ➜ Global Human Settlement Population Grid 2015\
     \n🌃 Urban Density ➜ Urban ratio derived from World Cover\
     \n🌞 Summer Day Temperature ➜ MODIS day Land Surface Temperature\
-    \n🌙 Summer Night Temperature ➜ MODIS night Land Surface Temperature'
+    \n🌙 Summer Night Temperature ➜ MODIS night Land Surface Temperature\
+    \n and more!'
     , msg_style);
     
   instructionMessage_p2.style().set({fontSize: '13.5px'});
@@ -795,7 +761,7 @@ exports.addWelcomePanel = function addWelcomePanel() {
   var heading_p2 = ui.Label('\n\n👋 Welcome!', hd_style);
   
   // Page 3
-  var instructionMessage_p3 = ui.Label('You can download documentation below\n to view more layer details: ⬇️', msg_style);
+  var instructionMessage_p3 = ui.Label('Click displayed label to view dataset details.\nYou can also download documentation below ⬇️', msg_style);
     
   instructionMessage_p3.style().set({padding: '0px 50px 20px 50px'});
   
