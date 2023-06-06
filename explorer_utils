@@ -76,6 +76,35 @@ exports.layer_dict = {
 //##                           ##//
 //###############################//
 
+// Relative Wealth Index (Facebook)
+function export_rwi(aoi) {
+  var rwi = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
+
+  var aoi_rwi = rwi.filterBounds(aoi).map(
+    function(point) {
+    return point.buffer(2000);
+  });
+  
+  var rwi_raster = aoi_rwi.filter(ee.Filter.notNull(['rwi']))
+    .reduceToImage({
+      properties: ['rwi'],
+      reducer: ee.Reducer.mean(),
+  });
+  
+  // display layer
+  var vis = {min: -1, max: 1.5, palette: ['red','orange','yellow','green','blue']};
+  Map.addLayer(rwi_raster.clip(aoi), vis,  "Relative Wealth Index (facebook)");
+  
+  // add legend to raster layer
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  Map.centerObject(aoi, 5);
+  
+  return rwi_raster.clip(aoi);
+}
+
+
+
 // Urbanization Degree GHSL
 function export_urban_degree(aoi) {
   var dataset = ee.ImageCollection('JRC/GHSL/P2016/SMOD_POP_GLOBE_V1')
