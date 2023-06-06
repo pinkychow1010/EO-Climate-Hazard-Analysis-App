@@ -29,6 +29,12 @@ var fname_dict = data.filename_dict;
 // file name dict adopted to data layers
 var res_dict = data.resolution_dict;
 
+// file name dict adopted to data layers
+var info_dict = data.info_dict;
+
+// file name dict adopted to data layers
+var url_dict = data.url_dict;
+
 /**
  * Data explorer: an interactive dashboard to display spatial data layers for downloads.
  * 
