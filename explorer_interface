@@ -116,6 +116,9 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
       basemap.addCustomBasemap('MutedMonotone'); // add custom basemap
       draw_bounds(filtered); // draw polygon boundary
       rasterLayer = action_call(filtered); // update rasterLayer for export
+      
+      // add data layer info
+      helper.add_popup(layerKey, info_dict[layerKey], null, url_dict[layerKey]);
     }
   }
   
