@@ -59,7 +59,7 @@ exports.layer_dict = {
   'Palmer Drought Severity Index': export_pdsi
 };
 
-
+// Palmer Drought Severity Index 
 function export_pdsi(aoi) {
   // return the list of coordinates
   var centroid = aoi.first().geometry().centroid();
