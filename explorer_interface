@@ -285,10 +285,15 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     var proj = image.projection().getInfo();
     // var crs = proj.crs;
     
-    var resampled = image.reduceResolution({
-        'reducer':reducer,
-        'bestEffort':true
-      }).reproject({'crs':'EPSG: 4326','scale':res});
+    var resampled = img.reproject({'crs':'EPSG: 4326','scale':2000})
+    .reduceResolution({
+      'reducer':ee.Reducer.mean(),
+      'bestEffort':true
+    }); // debug
+    // var resampled = image.reduceResolution({
+    //     'reducer':reducer,
+    //     'bestEffort':true
+    //   }).reproject({'crs':'EPSG: 4326','scale':res});
     
     // if (crs === undefined || crs === null){
     //   var wkt = proj.wkt;
