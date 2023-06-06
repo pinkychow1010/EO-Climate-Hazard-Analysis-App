@@ -29,7 +29,8 @@ exports.resolution_dict = {
   'Summer Day Temperature': 1000,
   'Summer Night Temperature': 1000,
   'Landscan Population': 1000,
-  'Palmer Drought Severity Index': 2000
+  'Palmer Drought Severity Index': 2000,
+  'Urbanization Degree': 1000
 };
 
 // dictionary for filename definitions
@@ -40,7 +41,8 @@ exports.filename_dict = {
   'Summer Day Temperature': 'MODIS-LST-day',
   'Summer Night Temperature': 'MODIS-LST-night',
   'Landscan Population': 'Population-Landscan-2021',
-  'Palmer Drought Severity Index': 'PDSI-median-2010-to-2023'
+  'Palmer Drought Severity Index': 'PDSI-median-2010-to-2023',
+  'Urbanization Degree': 'GHSL-2015-urbanization-degree'
 };
 
 // dictionary for resampling algorithms
@@ -51,7 +53,8 @@ exports.reducer_dict = {
   'Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'Landscan Population': ee.Reducer.sum(),
-  'Palmer Drought Severity Index': ee.Reducer.mean()
+  'Palmer Drought Severity Index': ee.Reducer.mean(),
+  'Urbanization Degree': ee.Reducer.mean()
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
@@ -62,7 +65,8 @@ exports.layer_dict = {
   'Summer Day Temperature': export_summer_lst,
   'Summer Night Temperature': export_summer_lst_night,
   'Landscan Population': export_landscan_pop,
-  'Palmer Drought Severity Index': export_pdsi
+  'Palmer Drought Severity Index': export_pdsi,
+  'Urbanization Degree': export_urban_degree
 };
 
 
