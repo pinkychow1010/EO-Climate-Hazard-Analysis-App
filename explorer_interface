@@ -118,7 +118,8 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
       rasterLayer = action_call(filtered); // update rasterLayer for export
       
       // add data layer info
-      helper.add_popup(layerKey, info_dict[layerKey], null, url_dict[layerKey]);
+      var key_label = layerKey.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
+      helper.add_popup(key_label, info_dict[layerKey], null, url_dict[layerKey]);
     }
   }
   
@@ -255,8 +256,9 @@ exports.data_explorer = function data_download_app(title_name) { //(reducer, tit
     
     // add data layer info
     var layerKey = ds_selector.getValue();
+    var key_label = layerKey.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
     helper.add_popup(
-      layerKey, info_dict[layerKey], null, url_dict[layerKey]
+      key_label, info_dict[layerKey], null, url_dict[layerKey]
       );
       
     // call main action
