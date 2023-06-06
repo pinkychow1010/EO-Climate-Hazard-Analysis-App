@@ -24,7 +24,7 @@ var text = require('users/pinkychow1010/WB_IntraUrban:data_text');
 
 // descriptions for data layers
 exports.info_dict = {
-  'EXPOSURE | Land Use Cover': "https://esa-worldcover.org/en",
+  'EXPOSURE | Land Use Cover': text.worldcover,
   'EXPOSURE | Population Count': text.ghsl,
   'EXPOSURE | Urban Density': text.urban,
   'EXPOSURE | Urbanization Degree': text.ghsl,
