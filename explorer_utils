@@ -102,7 +102,7 @@ exports.reducer_dict = {
   'HAZARD | Urban Heat Island Day': ee.Reducer.median(),
   'HAZARD | Urban Heat Island Night': ee.Reducer.median(),
   'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
-    'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
+  'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
 };
 
 // dictionary for action labels and corresponding functions (call map layer display + return layer for export)
