@@ -93,7 +93,9 @@ function export_pdsi(aoi) {
   var legend = helper.add_colorbar(vis, "PDSI");
   Map.add(legend);
   
-  return drought_index;
+  var ref = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE').first().projection();
+  
+  return drought_index.setDefaultProjection(ref);
 }
 
 // Landscan population estimate HD 2021
