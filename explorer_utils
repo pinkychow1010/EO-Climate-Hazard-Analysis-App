@@ -148,8 +148,8 @@ function export_landscan_pop(aoi) {
     };
     
     // Get the list of palette colors and class names from the image.
-    var palette = dict['colors'];
-    var names = dict['names'];
+    var palette = dict.colors;
+    var names = dict.names;
     loading.style().set('shown', false);
     
     for (var i = 0; i < names.length; i++) {
