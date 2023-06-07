@@ -13,7 +13,7 @@
 // import module
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
 var palettes = require('users/gena/packages:palettes');
-var helper = require('users/pinkychow1010/GEE:WorldBank/helper');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper'); // utils functions
 var text = require('users/pinkychow1010/WB_IntraUrban:data_text');
 
 //###############################//
@@ -133,7 +133,7 @@ function export_cisi(aoi) {
   var cisi = ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
   
   var vis = {min:0, max:0.2, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
-  Map.addLayer(cisi, vis, "UHI Summer Days");
+  Map.addLayer(cisi, vis, "Critical Infrastructure Spatial Index");
   
   var legend = helper.add_colorbar(vis, "Index");
   Map.add(legend);
