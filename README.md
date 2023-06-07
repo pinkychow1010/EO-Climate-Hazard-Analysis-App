@@ -11,6 +11,10 @@
 
 [This toolbox](https://sites.google.com/view/intraurban/home) serves as the bridge in between to provide users with derived information about climate hazards **without the need for preprocessing, modelling, and big data storage**. It is intended for scholars worldwide, who would like to explore climate hazards in the urban environment. It is also designed for individuals planning to perform **further analysis and visualization** of the geospatial datasets.
 
+🖱️ You can check out the available features [here](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/4).
+
+<br>
+
 [![](https://github.com/pinkychow1010/pinkychow1010.github.io/blob/master/assets/images/analysis.gif)](https://sites.google.com/view/intraurban/home)
 
 <br>
