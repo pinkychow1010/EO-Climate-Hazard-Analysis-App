@@ -1,0 +1,44 @@
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/bf0c6433e8576db6afcec47b50f36d42  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// ######################################## //
+// ###### Enhanced Vegetation Index  ###### //
+// ######################################## //
+
+/**
+ * This is an example script for visualizing EVI
+ * for an area of interest.
+ * 
+ */
+ 
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+Map.setOptions("Hybrid");
+Map.centerObject(aoi, 5);
+
+var dataset = ee.ImageCollection('MODIS/061/MOD13Q1')
+  .filter(ee.Filter.date('2023-01-01', '2023-05-01'))
+  .median()
+  .multiply(0.0001)
+  .clip(aoi);
+
+var evi = dataset.select('EVI');
+var eviVis = {
+  min: 0.0,
+  max: 0.5,
+  palette: [
+    'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
+    '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
+    '012E01', '011D01', '011301'
+  ],
+};
+
+Map.addLayer(evi, eviVis, 'EVI');
