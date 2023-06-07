@@ -12,7 +12,13 @@
 
 [This toolbox](https://sites.google.com/view/intraurban/home) serves as the bridge in between to provide users with derived information about climate hazards **without the need for preprocessing, modelling, and big data storage**. It is intended for scholars worldwide, who would like to explore climate hazards in the urban environment. It is also designed for individuals planning to perform **further analysis and visualization** of the geospatial datasets.
 
-🖱️ You can check out the available features [here](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/4).
+🖱️ You can check out some of the available features below:
+
+[Data Explorer](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/4)
+
+[Analysis Tool](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/5)
+
+[Comparison Tool](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/6)
 
 <br>
 
@@ -22,9 +28,9 @@
 
 ## **In Progress Items**
 
-- Comparison map tool where users can compare admin 2 level regions for different data layers
+- Integration of multiple vegetation indices, drought indices ([1](https://developers.google.com/earth-engine/datasets/catalog/UTOKYO_WTLAB_KBDI_v1) & [2](https://gee-community-catalog.org/projects/hitisae/)), and [climate projection layers](https://datacatalog.worldbank.org/search/dataset/0040194/Global-extreme-heat-hazard)
 
-- Integration of [RWI (Relative Wealth Index)](https://dataforgood.facebook.com/dfg/tools/relative-wealth-index), [UHI Index (Urban Heat Island)](https://www.sciencedirect.com/science/article/abs/pii/S0303243418304653), [GHSL](https://ghsl.jrc.ec.europa.eu/ghs_pop.php), [LandScan](https://landscan.ornl.gov/) and [CISI (Critical Infrastructure Spatial Index)](https://gee-community-catalog.org/projects/cisi/)
+- Support heat wave detection in the analysis tool
 
 <br>
 
@@ -180,9 +186,12 @@ Below is a partial list of features available for the toolbox. This toolbox is c
 
 * Download landuse cover for any global administrative boundaries (level 2) in customized resolution up to 10m
 * Download smoothed daily land surface temperature (.csv) derived from MODIS for global administrative boundaries
-* Address UHI hotspots for global administrative boundaries
+* Address UHI hotspots for global administrative boundaries using UHI intensity index (day time and night time)
 * Locate vegetation change hotspots for global administrative boundaries
 * Download urban and population density map for global administrative boundaries
+* Compare admin 2 level regions for different data layers such as population, relative wealth, and drought indices in a choropleth map
+* Inspect spatial distribution of climate risk-vulnerability using state-of-the-art datasets: [Relative Wealth Index](https://dataforgood.facebook.com/dfg/tools/relative-wealth-index) & [Critical Infrastructure Spatial Index](https://gee-community-catalog.org/projects/cisi/)
+
 
 <br>
 
