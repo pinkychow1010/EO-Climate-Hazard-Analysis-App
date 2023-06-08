@@ -59,7 +59,7 @@ function get_thermal_idx(aoi, index, stat){
   };
   
   var ds = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/"+index);
-  var img = NET
+  var img = ds
   .filter(ee.Filter.date(ee.Date('2015-06-01'), ee.Date('2019-10-01')))
   .filter(ee.Filter.calendarRange(6, 9, 'month'))
   .select(band_dict[stat])
@@ -67,10 +67,25 @@ function get_thermal_idx(aoi, index, stat){
   
   var palette = ["blue","white","yellow","red"];
   
-  Map.setOptions("Hybrid");
   Map.centerObject(aoi, 5);
   
-  Map.addLayer(img, {min:20,max:27,palette:palette,opacity:0.8}, idx_dict[index]);
+  var max = img.reduceRegion({
+    reducer: ee.Reducer.max(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+  
+  var min = img.reduceRegion({
+    reducer: ee.Reducer.min(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+
+  Map.addLayer(img, {min:min,max:max,palette:palette,opacity:0.8}, idx_dict[index]);
   return img;
 }
 
