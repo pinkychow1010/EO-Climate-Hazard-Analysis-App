@@ -1,5 +1,14 @@
 // Description for Datasets
 
+exports.hitisae = "📖 HiTiSAE is a gridded product\n\
+that contains widely adopted\n\
+human thermal-stress indices\n\
+(ESI, HI, Humidex, WBGT, WBT,\n\
+WCT, AT, NET), derived from\n\
+ECMWF ERA5-Land and ERA5 reanalysis\n\
+products, over South and East Asia\n\
+in 2019 summer.";
+
 exports.worldcover = "📖 WorldCover provides the first\n\
 global land cover products for\n\
 2020 and 2021 at 10 m resolution,\n\
