@@ -74,7 +74,7 @@ function get_thermal_idx(aoi, index, stat){
   return img;
 }
 
-get_thermal_idx(aoi, "UCTI", "mean");
+get_thermal_idx(aoi, "UTCI", "mean");
 
 
 // // B1: Min, B2: Mean and B3: Maximum
