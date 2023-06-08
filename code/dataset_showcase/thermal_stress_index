@@ -45,9 +45,10 @@ function get_thermal_idx(aoi, index, stat){
   
   var ds = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/"+index);
   var img = NET
+  .filter(ee.Filter.date(ee.Date('2015-06-01'), ee.Date('2019-10-01')))
   .filter(ee.Filter.calendarRange(6, 9, 'month'))
   .select(band_dict[stat])
-  .limit(1, 'system:time_start', false).first().clip(aoi); // Dec 31, 2019
+  .limit(1, 'system:time_start', false).median().clip(aoi); // summer mean between 2015 to 2019
   
   var palette = ["blue","white","yellow","red"];
   
