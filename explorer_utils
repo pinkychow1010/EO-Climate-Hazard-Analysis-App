@@ -52,6 +52,9 @@ exports.url_dict = {
   'HAZARD | Palmer Drought Severity Index': "https://www.climatologylab.org/terraclimate.html",
   'HAZARD | Urban Heat Island Day': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
   'HAZARD | Urban Heat Island Night': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
+  'HAZARD | Apparent Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Apparent Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Apparent Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
   'VULNERABILITY | Relative Wealth Index': "https://dataforgood.facebook.com/dfg/tools/relative-wealth-index",
   'VULNERABILITY | Critical Infrastructure Index': "https://www.nature.com/articles/s41597-022-01218-4"
 };
