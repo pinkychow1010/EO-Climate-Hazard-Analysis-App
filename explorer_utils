@@ -145,15 +145,18 @@ exports.layer_dict = {
 
 // Thermal Stress Index
 function export_AT_mean(aoi) {
-  get_thermal_idx(aoi, "AT", "mean");
+  var img = get_thermal_idx(aoi, "AT", "mean");
+  return img;
 }
 
 function export_AT_min(aoi) {
-  get_thermal_idx(aoi, "AT", "min");
+  var img = get_thermal_idx(aoi, "AT", "min");
+  return img;
 }
 
 function export_AT_max(aoi) {
-  get_thermal_idx(aoi, "AT", "max");
+  var img = get_thermal_idx(aoi, "AT", "max");
+  return img;
 }
 
 
