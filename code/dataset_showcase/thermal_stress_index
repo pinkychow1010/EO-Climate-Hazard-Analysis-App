@@ -17,12 +17,12 @@
  * This is an example script for visualizing thermal stress index for area of interest
  */
 
-var AT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/AT"); //
-var ESI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/ESI");
-var MRT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/MRT");
-var UTCI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI");
-var UTCI2 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI2");
-var UTCI3 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI3");
+var AT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/AT"); // apparent temperature
+var ESI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/ESI"); // environment stress index
+var MRT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/MRT"); // mean radiant temperature
+var UTCI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI"); // universal thermal climate index
+var UTCI2 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI2"); // UTCI for indoor environment
+var UTCI3 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI3"); // UTCI for outdoor shaded space
 var HI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/HI"); // heat index
 var Humidex = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/Humidex"); // humidity index
 var WBGT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBGT"); //  wet-bulb globe temperature
@@ -30,20 +30,48 @@ var WBT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBT"); // we
 var WCT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WCT"); // wind chill temperature
 var NET = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/NET"); // net effective temperature
 
-// B1: Min, B2: Mean and B3: Maximum
-var NET_mean = NET
-.filter(ee.Filter.calendarRange(6, 9, 'month'))
-.select('b2')
-.limit(1, 'system:time_start', false).first(); // Dec 31, 2019
-
-print(NET_mean);
-
-var palette = ["blue","white","yellow","red"];
-
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
 
-Map.setOptions("Hybrid");
-Map.centerObject(aoi, 5);
 
-Map.addLayer(NET_mean.clip(aoi), {min:20,max:30,palette:palette}, "NET mean")
+function get_thermal_idx(aoi, index, stat){
+  
+  // B1: Min, B2: Mean and B3: Maximum
+  var band_dict = {
+    "min": "b1",
+    "mean": "b2",
+    "max": "b3"
+  };
+  
+  var ds = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/"+index);
+  var img = NET
+  .filter(ee.Filter.calendarRange(6, 9, 'month'))
+  .select(band_dict[stat])
+  .limit(1, 'system:time_start', false).first().clip(aoi); // Dec 31, 2019
+  
+  var palette = ["blue","white","yellow","red"];
+  
+  Map.setOptions("Hybrid");
+  Map.centerObject(aoi, 5);
+  
+  Map.addLayer(img, {min:20,max:27,palette:palette}, index);
+  return img;
+}
+
+get_thermal_idx(aoi, "UCTI", "mean");
+
+
+// // B1: Min, B2: Mean and B3: Maximum
+// var NET_mean = NET
+// .filter(ee.Filter.calendarRange(6, 9, 'month'))
+// .select('b2')
+// .limit(1, 'system:time_start', false).first(); // Dec 31, 2019
+
+// print(NET_mean);
+
+// var palette = ["blue","white","yellow","red"];
+
+// Map.setOptions("Hybrid");
+// Map.centerObject(aoi, 5);
+
+// Map.addLayer(NET_mean.clip(aoi), {min:20,max:27,palette:palette}, "NET mean")
