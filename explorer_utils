@@ -35,6 +35,12 @@ exports.info_dict = {
   'HAZARD | Palmer Drought Severity Index': text.pdsi,
   'HAZARD | Urban Heat Island Day': text.uhi,
   'HAZARD | Urban Heat Island Night': text.uhi,
+  'HAZARD | Apparent Temperature Mean': text.hitisae,
+  'HAZARD | Apparent Temperature Min': text.hitisae,
+  'HAZARD | Apparent Temperature Max': text.hitisae,
+  'HAZARD | Mean Radiant Temperature Mean': text.hitisae,
+  'HAZARD | Mean Radiant Temperature Min': text.hitisae,
+  'HAZARD | Mean Radiant Temperature Max': text.hitisae,
   'VULNERABILITY | Relative Wealth Index': text.rwi,
   'VULNERABILITY | Critical Infrastructure Index': text.cisi
 };
@@ -55,6 +61,9 @@ exports.url_dict = {
   'HAZARD | Apparent Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
   'HAZARD | Apparent Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
   'HAZARD | Apparent Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Mean Radiant Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Mean Radiant Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Mean Radiant Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
   'VULNERABILITY | Relative Wealth Index': "https://dataforgood.facebook.com/dfg/tools/relative-wealth-index",
   'VULNERABILITY | Critical Infrastructure Index': "https://www.nature.com/articles/s41597-022-01218-4"
 };
@@ -75,6 +84,9 @@ exports.resolution_dict = {
   'HAZARD | Apparent Temperature Mean': 2000,
   'HAZARD | Apparent Temperature Min': 2000,
   'HAZARD | Apparent Temperature Max': 2000,
+  'HAZARD | Mean Radiant Temperature Mean': 2000,
+  'HAZARD | Mean Radiant Temperature Min': 2000,
+  'HAZARD | Mean Radiant Temperature Max': 2000,
   'VULNERABILITY | Relative Wealth Index': 2000,
   'VULNERABILITY | Critical Infrastructure Index': 2000
 };
@@ -94,6 +106,9 @@ exports.filename_dict = {
   'HAZARD | Apparent Temperature Mean': 'Apparent-Temperature-Mean',
   'HAZARD | Apparent Temperature Min': 'Apparent-Temperature-Min',
   'HAZARD | Apparent Temperature Max': 'Apparent-Temperature-Max',
+  'HAZARD | Mean Radiant Temperature Mean': 'Mean-Radiant-Temperature-Mean',
+  'HAZARD | Mean Radiant Temperature Min': 'Mean-Radiant-Temperature-Min',
+  'HAZARD | Mean Radiant Temperature Max': 'Mean-Radiant-Temperature-Max',
   'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
   'VULNERABILITY | Critical Infrastructure Index': 'Critical-Infrastructure-Spatial-Index'
 };
@@ -113,6 +128,9 @@ exports.reducer_dict = {
   'HAZARD | Apparent Temperature Mean': ee.Reducer.mean(),
   'HAZARD | Apparent Temperature Min': ee.Reducer.mean(),
   'HAZARD | Apparent Temperature Max': ee.Reducer.mean(),
+  'HAZARD | Mean Radiant Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Mean Radiant Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Mean Radiant Temperature Max': ee.Reducer.mean(),
   'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
   'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
 };
@@ -132,6 +150,9 @@ exports.layer_dict = {
   'HAZARD | Apparent Temperature Mean': export_AT_mean,
   'HAZARD | Apparent Temperature Min': export_AT_min,
   'HAZARD | Apparent Temperature Max': export_AT_max,
+  'HAZARD | Mean Radiant Temperature Mean': export_MRT_mean,
+  'HAZARD | Mean Radiant Temperature Min': export_MRT_min,
+  'HAZARD | Mean Radiant Temperature Max': export_MRT_max,
   'VULNERABILITY | Relative Wealth Index': export_rwi,
   'VULNERABILITY | Critical Infrastructure Index': export_cisi
 };
@@ -144,6 +165,21 @@ exports.layer_dict = {
 //###############################//
 
 // Thermal Stress Index
+function export_UTCI_mean(aoi) {
+  var img = get_thermal_idx(aoi, "UTCI", "mean");
+  return img;
+}
+
+function export_UTCI_min(aoi) {
+  var img = get_thermal_idx(aoi, "UTCI", "min");
+  return img;
+}
+
+function export_UTCI_max(aoi) {
+  var img = get_thermal_idx(aoi, "UTCI", "max");
+  return img;
+}
+
 function export_AT_mean(aoi) {
   var img = get_thermal_idx(aoi, "AT", "mean");
   return img;
@@ -156,6 +192,36 @@ function export_AT_min(aoi) {
 
 function export_AT_max(aoi) {
   var img = get_thermal_idx(aoi, "AT", "max");
+  return img;
+}
+
+function export_MRT_mean(aoi) {
+  var img = get_thermal_idx(aoi, "MRT", "mean");
+  return img;
+}
+
+function export_MRT_min(aoi) {
+  var img = get_thermal_idx(aoi, "MRT", "min");
+  return img;
+}
+
+function export_MRT_max(aoi) {
+  var img = get_thermal_idx(aoi, "MRT", "max");
+  return img;
+}
+
+function export_ESI_mean(aoi) {
+  var img = get_thermal_idx(aoi, "ESI", "mean");
+  return img;
+}
+
+function export_ESI_min(aoi) {
+  var img = get_thermal_idx(aoi, "ESI", "min");
+  return img;
+}
+
+function export_ESI_max(aoi) {
+  var img = get_thermal_idx(aoi, "ESI", "max");
   return img;
 }
 
