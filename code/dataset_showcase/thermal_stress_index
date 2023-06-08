@@ -14,9 +14,7 @@
 // ############################################################ //
 
 /**
- * This is an example script for visualizing urban clusters
- * for an area of interest.
- * 
+ * This is an example script for visualizing thermal stress index for area of interest
  */
 
 var AT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/AT"); //
@@ -25,9 +23,9 @@ var MRT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/MRT");
 var UTCI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI");
 var UTCI2 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI2");
 var UTCI3 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI3");
-var HI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/HI");
-var Humidex = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/Humidex");
-var WBGT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBGT"); // 
+var HI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/HI"); // heat index
+var Humidex = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/Humidex"); // humidity index
+var WBGT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBGT"); //  wet-bulb globe temperature
 var WBT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBT"); // wet bulb temperature
 var WCT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WCT"); // wind chill temperature
 var NET = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/NET"); // net effective temperature
