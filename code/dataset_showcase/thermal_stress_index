@@ -33,7 +33,6 @@ var NET = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/NET"); // ne
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
 
-
 function get_thermal_idx(aoi, index, stat){
   
   // B1: Min, B2: Mean and B3: Maximum
@@ -41,6 +40,22 @@ function get_thermal_idx(aoi, index, stat){
     "min": "b1",
     "mean": "b2",
     "max": "b3"
+  };
+  
+  // names for index
+  var idx_dict = {
+    "AT": "Apparent Temperature (AT)",
+    "ESI": "Environment Stress Index (ESI)",
+    "MRT": "Mean Radiant Temperature (MRT)",
+    "UTCI": "Universal Thermal Climate Index (UTCI)",
+    "UTCI2": "UTCI for indoor environment",
+    "UTCI3": "UTCI for outdoor shaded space",
+    "HI": "Heat Index (HI)",
+    "Humidex": "Humidity Index (Humidex)",
+    "WBGT": "Wet-bulb Globe Temperature (WBGT)",
+    "WBT": "Wet Bulb Temperature (WBT)",
+    "WCT": "Wind Chill Temperature (WCCT)",
+    "NET": "Net Effective Temperature (NET)"
   };
   
   var ds = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/"+index);
@@ -55,7 +70,7 @@ function get_thermal_idx(aoi, index, stat){
   Map.setOptions("Hybrid");
   Map.centerObject(aoi, 5);
   
-  Map.addLayer(img, {min:20,max:27,palette:palette,opacity:0.8}, index);
+  Map.addLayer(img, {min:20,max:27,palette:palette,opacity:0.8}, idx_dict[index]);
   return img;
 }
 
