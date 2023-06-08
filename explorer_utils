@@ -59,17 +59,20 @@ exports.url_dict = {
 
 // dictionary for default resolution
 exports.resolution_dict = {
-  'Land Use Cover': 10,
-  'Population Count': 38,
-  'Urban Density': 2000,
-  'Summer Day Temperature': 1000,
-  'Summer Night Temperature': 1000,
-  'Landscan Population': 1000,
-  'Palmer Drought Severity Index': 2000,
-  'Urbanization Degree': 1000,
-  'Relative Wealth Index': 2000,
-  'Urban Heat Island Day': 300,
-  'Urban Heat Island Night': 300,
+  'EXPOSURE | Land Use Cover': 10,
+  'EXPOSURE | Population Count': 38,
+  'EXPOSURE | Urban Density': 2000,
+  'EXPOSURE | Landscan Population': 1000,
+  'EXPOSURE | Urbanization Degree': 1000,
+  'HAZARD | Summer Day Temperature': 1000,
+  'HAZARD | Summer Night Temperature': 1000,
+  'HAZARD | Palmer Drought Severity Index': 2000,
+  'HAZARD | Urban Heat Island Day': 300,
+  'HAZARD | Urban Heat Island Night': 300,
+  'HAZARD | Apparent Temperature Mean': 2000,
+  'HAZARD | Apparent Temperature Min': 2000,
+  'HAZARD | Apparent Temperature Max': 2000,
+  'VULNERABILITY | Relative Wealth Index': 2000,
   'VULNERABILITY | Critical Infrastructure Index': 2000
 };
 
@@ -85,6 +88,9 @@ exports.filename_dict = {
   'HAZARD | Palmer Drought Severity': 'PDSI-median-2010-to-2023',
   'HAZARD | Urban Heat Island Day': 'Urban-Heat-Island-Day-Yale',
   'HAZARD | Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale',
+  'HAZARD | Apparent Temperature Mean': 'Apparent-Temperature-Mean',
+  'HAZARD | Apparent Temperature Min': 'Apparent-Temperature-Min',
+  'HAZARD | Apparent Temperature Max': 'Apparent-Temperature-Max',
   'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
   'VULNERABILITY | Critical Infrastructure Index': 'Critical-Infrastructure-Spatial-Index'
 };
@@ -101,6 +107,9 @@ exports.reducer_dict = {
   'HAZARD | Palmer Drought Severity': ee.Reducer.mean(),
   'HAZARD | Urban Heat Island Day': ee.Reducer.median(),
   'HAZARD | Urban Heat Island Night': ee.Reducer.median(),
+  'HAZARD | Apparent Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Apparent Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Apparent Temperature Max': ee.Reducer.mean(),
   'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
   'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
 };
@@ -117,6 +126,9 @@ exports.layer_dict = {
   'HAZARD | Palmer Drought Severity': export_pdsi,
   'HAZARD | Urban Heat Island Day': export_uhi_day,
   'HAZARD | Urban Heat Island Night': export_uhi_night,
+  'HAZARD | Apparent Temperature Mean': export_AT_mean,
+  'HAZARD | Apparent Temperature Min': export_AT_min,
+  'HAZARD | Apparent Temperature Max': export_AT_max,
   'VULNERABILITY | Relative Wealth Index': export_rwi,
   'VULNERABILITY | Critical Infrastructure Index': export_cisi
 };
@@ -127,6 +139,79 @@ exports.layer_dict = {
 //##     EXPORT FUNCTIONS      ##//
 //##                           ##//
 //###############################//
+
+// Thermal Stress Index
+function export_AT_mean(aoi) {
+  get_thermal_idx(aoi, "AT", "mean");
+}
+
+function export_AT_min(aoi) {
+  get_thermal_idx(aoi, "AT", "min");
+}
+
+function export_AT_max(aoi) {
+  get_thermal_idx(aoi, "AT", "max");
+}
+
+
+function get_thermal_idx(aoi, index, stat){
+  
+  // B1: Min, B2: Mean and B3: Maximum
+  var band_dict = {
+    "min": "b1",
+    "mean": "b2",
+    "max": "b3"
+  };
+  
+  // names for index
+  var idx_dict = {
+    "AT": "Apparent Temperature (AT)",
+    "ESI": "Environment Stress Index (ESI)",
+    "MRT": "Mean Radiant Temperature (MRT)",
+    "UTCI": "Universal Thermal Climate Index (UTCI)",
+    "UTCI2": "UTCI for indoor environment",
+    "UTCI3": "UTCI for outdoor shaded space",
+    "HI": "Heat Index (HI)",
+    "Humidex": "Humidity Index (Humidex)",
+    "WBGT": "Wet-bulb Globe Temperature (WBGT)",
+    "WBT": "Wet Bulb Temperature (WBT)",
+    "WCT": "Wind Chill Temperature (WCCT)",
+    "NET": "Net Effective Temperature (NET)"
+  };
+  
+  var ds = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/"+index);
+  var img = ds
+  .filter(ee.Filter.date(ee.Date('2015-06-01'), ee.Date('2019-10-01')))
+  .filter(ee.Filter.calendarRange(6, 9, 'month'))
+  .select(band_dict[stat])
+  .limit(1, 'system:time_start', false).median().clip(aoi); // summer mean between 2015 to 2019
+  
+  var max = img.reduceRegion({
+    reducer: ee.Reducer.max(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+  
+  var min = img.reduceRegion({
+    reducer: ee.Reducer.min(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+  
+  var vis = {min:min, max:max, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+  Map.addLayer(img, vis, idx_dict[index]);
+  
+  var legend = helper.add_colorbar(vis, index);
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+
+  return img;
+}
+
 
 // Critical Infrastructure Spatial Index
 function export_cisi(aoi) {
