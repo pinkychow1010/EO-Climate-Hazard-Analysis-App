@@ -1,0 +1,50 @@
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/201f070cdd0379baeb3d08cfd65be8d9  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// ######################################## //
+// ######    GHSL Urban cluster      ###### //
+// ######################################## //
+
+/**
+ * This is an example script for visualizing urban clusters
+ * for an area of interest.
+ * 
+ */
+
+var AT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/AT"); //
+var ESI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/ESI");
+var MRT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/MRT");
+var UTCI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI");
+var UTCI2 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI2");
+var UTCI3 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI3");
+var HI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/HI");
+var Humidex = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/Humidex");
+var WBGT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBGT"); // 
+var WBT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBT"); // wet bulb temperature
+var WCT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WCT"); // wind chill temperature
+var NET = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/NET"); // net effective temperature
+
+// B1: Min, B2: Mean and B3: Maximum
+var NET_mean = NET
+.filter(ee.Filter.calendarRange(6, 9, 'month'))
+.select('b2')
+.limit(1, 'system:time_start', false).first(); // Dec 31, 2019
+
+print(NET_mean);
+
+var palette = ["blue","white","yellow","red"];
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+Map.setOptions("Hybrid");
+Map.centerObject(aoi, 5);
+
+Map.addLayer(NET_mean.clip(aoi), {min:20,max:30,palette:palette}, "NET mean")
