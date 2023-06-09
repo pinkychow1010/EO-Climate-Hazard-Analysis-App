@@ -1,0 +1,43 @@
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/c3148aaa0a61e588e6d0763f7ac90b53  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// ############################################## //
+// ######    Keetch-Byram Drought Index    ###### //
+// ############################################## //
+
+/**
+ * 
+ * This is an example script for visualizing KBDI drought index in Pakistan
+ */
+ 
+var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
+  .select('KBDI')
+  .filterDate('2022-05-01', '2022-06-01');
+
+var bandViz = {
+  min: 300,
+  max: 700,
+  palette: [
+    'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
+  ],
+  opacity: 0.7
+};
+
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+Map.setOptions("Hybrid");
+Map.centerObject(aoi, 5);
+
+var img = collection.max().clip(aoi);
+var drought = img.gt(200);
+
+Map.addLayer(img.updateMask(drought), bandViz, 'Keetch-Byram Drought Index');
