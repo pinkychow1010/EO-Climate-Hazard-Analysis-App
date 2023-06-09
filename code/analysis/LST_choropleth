@@ -152,6 +152,14 @@ var abadis_vis = {
 Map.addLayer(abadis.filterBounds(geometry), abadis_vis, 'Informal Settlements');
 
 
+//
+var dataset = ee.ImageCollection('ESA/WorldCover/v100').first();
+var visualization = {
+  bands: ['Map'],
+};
+
+Map.addLayer(dataset.clip(geometry), visualization, 'Landcover');
+
 // #################################
 // ######## Define Functions #######
 // #################################
