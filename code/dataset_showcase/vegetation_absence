@@ -14,7 +14,8 @@ var reduceNeighborhood = urban_mask.reduceNeighborhood(
 var urban_threshold = reduceNeighborhood.gt(10);
 
 // import Terra MODIS Vegetation Continuous Fields (VCF) product
-var dataset = ee.ImageCollection('MODIS/006/MOD44B').first();
+var dataset = ee.ImageCollection('MODIS/006/MOD44B')
+.limit(1, 'system:time_start', false).first();
 
 // set up visualization params
 var visualization = {
