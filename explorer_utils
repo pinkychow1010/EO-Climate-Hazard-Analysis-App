@@ -243,7 +243,7 @@ function export_vcf(aoi) { // function name export_*
   };
   
   Map.centerObject(dataset, 8);
-  Map.addLayer(dataset, vis, "Index"); // add layer to map
+  Map.addLayer(dataset, vis, "%"); // add layer to map
   
   var legend = helper.add_colorbar(vis, "Index");
   Map.add(legend);
