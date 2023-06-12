@@ -225,8 +225,9 @@ exports.layer_dict = {
 // Enhanced Vegetation Index (EVI)
 function export_evi(aoi) {
   
+  var summer = helper.get_summmer(aoi);
   var dataset = ee.ImageCollection('MODIS/061/MOD13Q1')
-    .filter(helper.get_summmer(aoi))
+    .filter(summer)
     .filter(ee.Filter.date('2022-01-01', '2023-01-01'))
     .median()
     .multiply(0.0001)
