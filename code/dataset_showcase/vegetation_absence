@@ -30,4 +30,3 @@ Map.centerObject(dataset, 8);
 Map.addLayer(dataset.updateMask(urban_threshold), visualization, 'Vegetation Absense Ratio');
 
 
-
