@@ -41,6 +41,12 @@ exports.info_dict = {
   'HAZARD | Mean Radiant Temperature Mean': text.hitisae,
   'HAZARD | Mean Radiant Temperature Min': text.hitisae,
   'HAZARD | Mean Radiant Temperature Max': text.hitisae,
+  'HAZARD | Wet Bulb Temperature Mean': text.hitisae,
+  'HAZARD | Wet Bulb Temperature Min': text.hitisae,
+  'HAZARD | Wet Bulb Temperature Max': text.hitisae,
+  'HAZARD | Wet Bulb Globe Temperature Mean': text.hitisae,
+  'HAZARD | Wet Bulb Globe Temperature Min': text.hitisae,
+  'HAZARD | Wet Bulb Globe Temperature Max': text.hitisae,
   'VULNERABILITY | Relative Wealth Index': text.rwi,
   'VULNERABILITY | Critical Infrastructure Index': text.cisi
 };
