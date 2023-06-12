@@ -1,5 +1,13 @@
 // Description for Datasets
 
+exports.evi = "📖 The MOD13Q1 V6.1 product Vegetation\n\
+Index value at a per pixel basis.\n\
+The Enhanced Vegetation Index (EVI)\n\
+minimizes canopy background variations\n\
+and maintains sensitivity over dense\n\
+vegetation conditions."
+
+
 exports.hitisae = "📖 HiTiSAE is a gridded product\n\
 that contains widely adopted\n\
 human thermal-stress indices\n\
