@@ -5,7 +5,9 @@ Index value at a per pixel basis.\n\
 The Enhanced Vegetation Index (EVI)\n\
 minimizes canopy background variations\n\
 and maintains sensitivity over dense\n\
-vegetation conditions."
+vegetation conditions. This layer\n\
+shows median value for 2022 summer.\n\
+【🖱️ Click heading to view project】";
 
 
 exports.hitisae = "📖 HiTiSAE is a gridded product\n\
@@ -15,7 +17,8 @@ human thermal-stress indices\n\
 WCT, AT, NET), derived from\n\
 ECMWF ERA5-Land and ERA5 reanalysis\n\
 products, over South and East Asia\n\
-in 2019 summer.";
+in 2019 summer.\n\
+【🖱️ Click heading to view project】";
 
 exports.worldcover = "📖 WorldCover provides the first\n\
 global land cover products for\n\
