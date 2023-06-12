@@ -235,8 +235,6 @@ function export_vcf(aoi) { // function name export_*
     .limit(1, 'system:time_start', false).first()
     .clip(aoi).select('Percent_NonVegetated');
   
-  dataset = dataset.updateMask(dataset.gt(50)); // ###
-  
   // set up visualization params
   var vis = {
     min: 10.0,
