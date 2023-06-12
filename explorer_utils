@@ -961,7 +961,7 @@ function export_landuse(aoi) {
   }
   Map.add(legend);
   
-  return lulc;
+  return lulc.int();
 }
 
 // define function for extract dense urban areas
