@@ -200,6 +200,22 @@ exports.layer_dict = {
 //##                           ##//
 //###############################//
 
+// *** Layout ***
+// Name of Data Layer
+// function export_name(aoi) { // function name export_*
+//   var layer = ee.Image("data-layer").clip(aoi); // regional raster image (not collection)
+  
+//   // predefined visualization params
+//   var vis = {min:minVal, max:maxVal, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+//   Map.addLayer(layer, vis, "Index"); // add layer to map
+  
+//   var legend = helper.add_colorbar(vis, "Index");
+//   Map.add(legend); // always add legend
+//   Map.centerObject(aoi, 8); // always center object
+  
+//   return layer; // return image for user export
+// }
+
 // Thermal Stress Index
 
 // WBT
