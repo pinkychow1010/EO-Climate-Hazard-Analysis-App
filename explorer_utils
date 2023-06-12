@@ -30,6 +30,7 @@ exports.info_dict = {
   'EXPOSURE | Urban Density': text.urban,
   'EXPOSURE | Urbanization Degree': text.ghsl,
   'EXPOSURE | Landscan Population': text.landscan,
+  'EXPOSURE | Enhanced Vegetation Index': text.evi,
   'HAZARD | Summer Day Temperature': text.modis,
   'HAZARD | Summer Night Temperature': text.modis,
   'HAZARD | Palmer Drought Severity Index': text.pdsi,
@@ -59,6 +60,7 @@ exports.url_dict = {
   'EXPOSURE | Urban Density': "https://esa-worldcover.org/en",
   'EXPOSURE | Urbanization Degree': "https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php",
   'EXPOSURE | Landscan Population': "https://sdi.eea.europa.eu/catalogue/srv/api/records/39e6a1fb-5217-4e22-ab2e-68d50d11faeb",
+  'EXPOSURE | Enhanced Vegetation Index': "https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD13Q1",
   'HAZARD | Summer Day Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
   'HAZARD | Summer Night Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
   'HAZARD | Palmer Drought Severity Index': "https://www.climatologylab.org/terraclimate.html",
@@ -88,6 +90,7 @@ exports.resolution_dict = {
   'EXPOSURE | Urban Density': 2000,
   'EXPOSURE | Landscan Population': 1000,
   'EXPOSURE | Urbanization Degree': 1000,
+  'EXPOSURE | Enhanced Vegetation Index': 250,
   'HAZARD | Summer Day Temperature': 1000,
   'HAZARD | Summer Night Temperature': 1000,
   'HAZARD | Palmer Drought Severity Index': 2000,
@@ -116,6 +119,7 @@ exports.filename_dict = {
   'EXPOSURE | Urban Density': 'ESA-WorldCover-derived-urban-density',
   'EXPOSURE | Landscan Population': 'Population-Landscan-2021',
   'EXPOSURE | Urbanization Degree': 'GHSL-2015-urbanization-degree',
+  'EXPOSURE | Enhanced Vegetation Index': 'Enhanced-Vegetation-Index-2022-summer',
   'HAZARD | Summer Day Temperature': 'MODIS-LST-day',
   'HAZARD | Summer Night Temperature': 'MODIS-LST-night',
   'HAZARD | Palmer Drought Severity': 'PDSI-median-2010-to-2023',
@@ -144,6 +148,7 @@ exports.reducer_dict = {
   'EXPOSURE | Urban Density': ee.Reducer.mean(), // ratio
   'EXPOSURE | Landscan Population': ee.Reducer.sum(),
   'EXPOSURE | Urbanization Degree': ee.Reducer.mean(),
+  'EXPOSURE | Enhanced Vegetation Index': ee.Reducer.median(),
   'HAZARD | Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'HAZARD | Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'HAZARD | Palmer Drought Severity': ee.Reducer.mean(),
@@ -172,6 +177,7 @@ exports.layer_dict = {
   'EXPOSURE | Urban Density': export_urban_density,
   'EXPOSURE | Landscan Population': export_landscan_pop,
   'EXPOSURE | Urbanization Degree': export_urban_degree,
+  'EXPOSURE | Enhanced Vegetation Index': export_evi,
   'HAZARD | Summer Day Temperature': export_summer_lst,
   'HAZARD | Summer Night Temperature': export_summer_lst_night,
   'HAZARD | Palmer Drought Severity': export_pdsi,
