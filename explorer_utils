@@ -64,6 +64,12 @@ exports.url_dict = {
   'HAZARD | Mean Radiant Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
   'HAZARD | Mean Radiant Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
   'HAZARD | Mean Radiant Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Globe Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Globe Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Globe Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
   'VULNERABILITY | Relative Wealth Index': "https://dataforgood.facebook.com/dfg/tools/relative-wealth-index",
   'VULNERABILITY | Critical Infrastructure Index': "https://www.nature.com/articles/s41597-022-01218-4"
 };
@@ -87,6 +93,12 @@ exports.resolution_dict = {
   'HAZARD | Mean Radiant Temperature Mean': 2000,
   'HAZARD | Mean Radiant Temperature Min': 2000,
   'HAZARD | Mean Radiant Temperature Max': 2000,
+  'HAZARD | Wet Bulb Temperature Mean': 2000,
+  'HAZARD | Wet Bulb Temperature Min': 2000,
+  'HAZARD | Wet Bulb Temperature Max': 2000,
+  'HAZARD | Wet Bulb Globe Temperature Mean': 2000,
+  'HAZARD | Wet Bulb Globe Temperature Min': 2000,
+  'HAZARD | Wet Bulb Globe Temperature Max': 2000,
   'VULNERABILITY | Relative Wealth Index': 2000,
   'VULNERABILITY | Critical Infrastructure Index': 2000
 };
