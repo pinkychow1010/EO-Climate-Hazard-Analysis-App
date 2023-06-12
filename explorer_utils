@@ -249,7 +249,7 @@ function export_vcf(aoi) { // function name export_*
   Map.add(legend);
   Map.centerObject(aoi, 8);
   
-  return dataset;
+  return dataset.int8();
 }
 
 
