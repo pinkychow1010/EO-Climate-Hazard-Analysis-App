@@ -232,11 +232,11 @@ exports.layer_dict = {
 function export_vcf(aoi) { // function name export_*
   // import dataset
   var dataset = ee.ImageCollection('MODIS/006/MOD44B')
-    .limit(1, 'system:time_start', false).first().clip(aoi);
+    .limit(1, 'system:time_start', false).first()
+    .clip(aoi).select('Percent_NonVegetated');
   
   // set up visualization params
   var vis = {
-    bands: ['Percent_NonVegetated'], // focused band
     min: 10.0,
     max: 100.0,
     palette: ['074b03', '0a9501', 'bbe029', 'yellow', 'red']
