@@ -1,0 +1,108 @@
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+//▄▀▄▀▄                                                                                                                                          ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE                                                                                ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                                                                                          ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/?scriptPath=users%2Fpinkychow1010%2FWB_IntraUrban%3Acode%2Fdataset_showcase%2Fthermal_stress_index  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                                                                                          ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// ############################################################ //
+// ######    High-spatial-resolution Thermal-stress      ###### //
+// ######   Indices over South and East Asia (HiTiSAE)   ###### //
+// ############################################################ //
+
+/**
+ * This is an example script for visualizing thermal stress index for area of interest
+ */
+
+var AT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/AT"); // apparent temperature
+var ESI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/ESI"); // environment stress index
+var MRT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/MRT"); // mean radiant temperature
+var UTCI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI"); // universal thermal climate index
+var UTCI2 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI2"); // UTCI for indoor environment
+var UTCI3 = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI3"); // UTCI for outdoor shaded space
+var HI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/HI"); // heat index
+var Humidex = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/Humidex"); // humidity index
+var WBGT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBGT"); //  wet-bulb globe temperature
+var WBT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WBT"); // wet bulb temperature
+var WCT = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/WCT"); // wind chill temperature
+var NET = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/NET"); // net effective temperature
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+function get_thermal_idx(aoi, index, stat){
+  
+  // B1: Min, B2: Mean and B3: Maximum
+  var band_dict = {
+    "min": "b1",
+    "mean": "b2",
+    "max": "b3"
+  };
+  
+  // names for index
+  var idx_dict = {
+    "AT": "Apparent Temperature (AT)",
+    "ESI": "Environment Stress Index (ESI)",
+    "MRT": "Mean Radiant Temperature (MRT)",
+    "UTCI": "Universal Thermal Climate Index (UTCI)",
+    "UTCI2": "UTCI for indoor environment",
+    "UTCI3": "UTCI for outdoor shaded space",
+    "HI": "Heat Index (HI)",
+    "Humidex": "Humidity Index (Humidex)",
+    "WBGT": "Wet-bulb Globe Temperature (WBGT)",
+    "WBT": "Wet Bulb Temperature (WBT)",
+    "WCT": "Wind Chill Temperature (WCCT)",
+    "NET": "Net Effective Temperature (NET)"
+  };
+  
+  var ds = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/"+index);
+  var img = ds
+  .filter(ee.Filter.date(ee.Date('2015-06-01'), ee.Date('2019-10-01')))
+  .filter(ee.Filter.calendarRange(6, 9, 'month'))
+  .select(band_dict[stat])
+  .limit(1, 'system:time_start', false).median().clip(aoi); // summer mean between 2015 to 2019
+  
+  var palette = ["blue","white","yellow","red"];
+  
+  Map.centerObject(aoi, 5);
+  
+  var max = img.reduceRegion({
+    reducer: ee.Reducer.max(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+  
+  var min = img.reduceRegion({
+    reducer: ee.Reducer.min(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+
+  Map.addLayer(img, {min:min,max:max,palette:palette,opacity:0.8}, idx_dict[index]);
+  return img;
+}
+
+get_thermal_idx(aoi, "AT", "mean");
+
+
+// // B1: Min, B2: Mean and B3: Maximum
+// var NET_mean = NET
+// .filter(ee.Filter.calendarRange(6, 9, 'month'))
+// .select('b2')
+// .limit(1, 'system:time_start', false).first(); // Dec 31, 2019
+
+// print(NET_mean);
+
+// var palette = ["blue","white","yellow","red"];
+
+// Map.setOptions("Hybrid");
+// Map.centerObject(aoi, 5);
+
+// Map.addLayer(NET_mean.clip(aoi), {min:20,max:27,palette:palette}, "NET mean")

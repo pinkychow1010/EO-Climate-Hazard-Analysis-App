@@ -30,11 +30,25 @@ exports.info_dict = {
   'EXPOSURE | Urban Density': text.urban,
   'EXPOSURE | Urbanization Degree': text.ghsl,
   'EXPOSURE | Landscan Population': text.landscan,
+  'EXPOSURE | Enhanced Vegetation Index': text.evi,
+  'EXPOSURE | Vegetation Continuous Fields': text.vcf,
   'HAZARD | Summer Day Temperature': text.modis,
   'HAZARD | Summer Night Temperature': text.modis,
   'HAZARD | Palmer Drought Severity Index': text.pdsi,
   'HAZARD | Urban Heat Island Day': text.uhi,
   'HAZARD | Urban Heat Island Night': text.uhi,
+  'HAZARD | Apparent Temperature Mean': text.hitisae,
+  'HAZARD | Apparent Temperature Min': text.hitisae,
+  'HAZARD | Apparent Temperature Max': text.hitisae,
+  'HAZARD | Mean Radiant Temperature Mean': text.hitisae,
+  'HAZARD | Mean Radiant Temperature Min': text.hitisae,
+  'HAZARD | Mean Radiant Temperature Max': text.hitisae,
+  'HAZARD | Wet Bulb Temperature Mean': text.hitisae,
+  'HAZARD | Wet Bulb Temperature Min': text.hitisae,
+  'HAZARD | Wet Bulb Temperature Max': text.hitisae,
+  'HAZARD | Wet Bulb Globe Temperature Mean': text.hitisae,
+  'HAZARD | Wet Bulb Globe Temperature Min': text.hitisae,
+  'HAZARD | Wet Bulb Globe Temperature Max': text.hitisae,
   'VULNERABILITY | Relative Wealth Index': text.rwi,
   'VULNERABILITY | Critical Infrastructure Index': text.cisi
 };
@@ -47,11 +61,25 @@ exports.url_dict = {
   'EXPOSURE | Urban Density': "https://esa-worldcover.org/en",
   'EXPOSURE | Urbanization Degree': "https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php",
   'EXPOSURE | Landscan Population': "https://sdi.eea.europa.eu/catalogue/srv/api/records/39e6a1fb-5217-4e22-ab2e-68d50d11faeb",
+  'EXPOSURE | Enhanced Vegetation Index': "https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD13Q1",
+  'EXPOSURE | Vegetation Continuous Fields': 'https://developers.google.com/earth-engine/datasets/catalog/MODIS_006_MOD44B',
   'HAZARD | Summer Day Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
   'HAZARD | Summer Night Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
   'HAZARD | Palmer Drought Severity Index': "https://www.climatologylab.org/terraclimate.html",
   'HAZARD | Urban Heat Island Day': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
   'HAZARD | Urban Heat Island Night': "https://yceo.yale.edu/research/global-surface-uhi-explorer",
+  'HAZARD | Apparent Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Apparent Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Apparent Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Mean Radiant Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Mean Radiant Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Mean Radiant Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Globe Temperature Mean': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Globe Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
+  'HAZARD | Wet Bulb Globe Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
   'VULNERABILITY | Relative Wealth Index': "https://dataforgood.facebook.com/dfg/tools/relative-wealth-index",
   'VULNERABILITY | Critical Infrastructure Index': "https://www.nature.com/articles/s41597-022-01218-4"
 };
@@ -59,17 +87,31 @@ exports.url_dict = {
 
 // dictionary for default resolution
 exports.resolution_dict = {
-  'Land Use Cover': 10,
-  'Population Count': 38,
-  'Urban Density': 2000,
-  'Summer Day Temperature': 1000,
-  'Summer Night Temperature': 1000,
-  'Landscan Population': 1000,
-  'Palmer Drought Severity Index': 2000,
-  'Urbanization Degree': 1000,
-  'Relative Wealth Index': 2000,
-  'Urban Heat Island Day': 300,
-  'Urban Heat Island Night': 300,
+  'EXPOSURE | Land Use Cover': 10,
+  'EXPOSURE | Population Count': 38,
+  'EXPOSURE | Urban Density': 2000,
+  'EXPOSURE | Landscan Population': 1000,
+  'EXPOSURE | Urbanization Degree': 1000,
+  'EXPOSURE | Enhanced Vegetation Index': 250,
+  'EXPOSURE | Vegetation Continuous Fields': 250,
+  'HAZARD | Summer Day Temperature': 1000,
+  'HAZARD | Summer Night Temperature': 1000,
+  'HAZARD | Palmer Drought Severity Index': 2000,
+  'HAZARD | Urban Heat Island Day': 300,
+  'HAZARD | Urban Heat Island Night': 300,
+  'HAZARD | Apparent Temperature Mean': 2000,
+  'HAZARD | Apparent Temperature Min': 2000,
+  'HAZARD | Apparent Temperature Max': 2000,
+  'HAZARD | Mean Radiant Temperature Mean': 2000,
+  'HAZARD | Mean Radiant Temperature Min': 2000,
+  'HAZARD | Mean Radiant Temperature Max': 2000,
+  'HAZARD | Wet Bulb Temperature Mean': 2000,
+  'HAZARD | Wet Bulb Temperature Min': 2000,
+  'HAZARD | Wet Bulb Temperature Max': 2000,
+  'HAZARD | Wet Bulb Globe Temperature Mean': 2000,
+  'HAZARD | Wet Bulb Globe Temperature Min': 2000,
+  'HAZARD | Wet Bulb Globe Temperature Max': 2000,
+  'VULNERABILITY | Relative Wealth Index': 2000,
   'VULNERABILITY | Critical Infrastructure Index': 2000
 };
 
@@ -80,11 +122,25 @@ exports.filename_dict = {
   'EXPOSURE | Urban Density': 'ESA-WorldCover-derived-urban-density',
   'EXPOSURE | Landscan Population': 'Population-Landscan-2021',
   'EXPOSURE | Urbanization Degree': 'GHSL-2015-urbanization-degree',
+  'EXPOSURE | Enhanced Vegetation Index': 'Enhanced-Vegetation-Index-2022-summer',
+  'EXPOSURE | Vegetation Continuous Fields': 'MODIS-Vegetation-Continuous-Fields-Current-Year',
   'HAZARD | Summer Day Temperature': 'MODIS-LST-day',
   'HAZARD | Summer Night Temperature': 'MODIS-LST-night',
   'HAZARD | Palmer Drought Severity': 'PDSI-median-2010-to-2023',
   'HAZARD | Urban Heat Island Day': 'Urban-Heat-Island-Day-Yale',
   'HAZARD | Urban Heat Island Night': 'Urban-Heat-Island-Night-Yale',
+  'HAZARD | Apparent Temperature Mean': 'Apparent-Temperature-Mean',
+  'HAZARD | Apparent Temperature Min': 'Apparent-Temperature-Min',
+  'HAZARD | Apparent Temperature Max': 'Apparent-Temperature-Max',
+  'HAZARD | Mean Radiant Temperature Mean': 'Mean-Radiant-Temperature-Mean',
+  'HAZARD | Mean Radiant Temperature Min': 'Mean-Radiant-Temperature-Min',
+  'HAZARD | Mean Radiant Temperature Max': 'Mean-Radiant-Temperature-Max',
+  'HAZARD | Wet Bulb Temperature Mean': 'Wet-Bulb-Temperature-Mean',
+  'HAZARD | Wet Bulb Temperature Min': 'Wet-Bulb-Temperature-Min',
+  'HAZARD | Wet Bulb Temperature Max': 'Wet-Bulb-Temperature-Max',
+  'HAZARD | Wet Bulb Globe Temperature Mean': 'Wet-Bulb-Globe-Temperature-Mean',
+  'HAZARD | Wet Bulb Globe Temperature Min': 'Wet-Bulb-Globe-Temperature-Min',
+  'HAZARD | Wet Bulb Globe Temperature Max': 'Wet-Bulb-Globe-Temperature-Max',
   'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
   'VULNERABILITY | Critical Infrastructure Index': 'Critical-Infrastructure-Spatial-Index'
 };
@@ -96,11 +152,25 @@ exports.reducer_dict = {
   'EXPOSURE | Urban Density': ee.Reducer.mean(), // ratio
   'EXPOSURE | Landscan Population': ee.Reducer.sum(),
   'EXPOSURE | Urbanization Degree': ee.Reducer.mean(),
+  'EXPOSURE | Enhanced Vegetation Index': ee.Reducer.median(),
+  'EXPOSURE | Vegetation Continuous Fields': ee.Reducer.median(),
   'HAZARD | Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'HAZARD | Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'HAZARD | Palmer Drought Severity': ee.Reducer.mean(),
   'HAZARD | Urban Heat Island Day': ee.Reducer.median(),
   'HAZARD | Urban Heat Island Night': ee.Reducer.median(),
+  'HAZARD | Apparent Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Apparent Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Apparent Temperature Max': ee.Reducer.mean(),
+  'HAZARD | Mean Radiant Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Mean Radiant Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Mean Radiant Temperature Max': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Temperature Max': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Globe Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Globe Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Globe Temperature Max': ee.Reducer.mean(),
   'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
   'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
 };
@@ -112,11 +182,25 @@ exports.layer_dict = {
   'EXPOSURE | Urban Density': export_urban_density,
   'EXPOSURE | Landscan Population': export_landscan_pop,
   'EXPOSURE | Urbanization Degree': export_urban_degree,
+  'EXPOSURE | Enhanced Vegetation Index': export_evi,
+  'EXPOSURE | Vegetation Continuous Fields': export_vcf,
   'HAZARD | Summer Day Temperature': export_summer_lst,
   'HAZARD | Summer Night Temperature': export_summer_lst_night,
   'HAZARD | Palmer Drought Severity': export_pdsi,
   'HAZARD | Urban Heat Island Day': export_uhi_day,
   'HAZARD | Urban Heat Island Night': export_uhi_night,
+  'HAZARD | Apparent Temperature Mean': export_AT_mean,
+  'HAZARD | Apparent Temperature Min': export_AT_min,
+  'HAZARD | Apparent Temperature Max': export_AT_max,
+  'HAZARD | Mean Radiant Temperature Mean': export_MRT_mean,
+  'HAZARD | Mean Radiant Temperature Min': export_MRT_min,
+  'HAZARD | Mean Radiant Temperature Max': export_MRT_max,
+  'HAZARD | Wet Bulb Temperature Mean': export_WBT_mean,
+  'HAZARD | Wet Bulb Temperature Min': export_WBT_min,
+  'HAZARD | Wet Bulb Temperature Max': export_WBT_max,
+  'HAZARD | Wet Bulb Globe Temperature Mean': export_WBGT_mean,
+  'HAZARD | Wet Bulb Globe Temperature Min': export_WBGT_min,
+  'HAZARD | Wet Bulb Globe Temperature Max': export_WBGT_max,
   'VULNERABILITY | Relative Wealth Index': export_rwi,
   'VULNERABILITY | Critical Infrastructure Index': export_cisi
 };
@@ -127,6 +211,234 @@ exports.layer_dict = {
 //##     EXPORT FUNCTIONS      ##//
 //##                           ##//
 //###############################//
+
+// *** Layout ***
+// Name of Data Layer
+// function export_name(aoi) { // function name export_*
+//   var layer = ee.Image("data-layer").clip(aoi); // regional raster image (not collection)
+  
+//   // predefined visualization params
+//   var vis = {min:minVal, max:maxVal, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+//   Map.addLayer(layer, vis, "Index"); // add layer to map
+  
+//   var legend = helper.add_colorbar(vis, "Index");
+//   Map.add(legend); // always add legend
+//   Map.centerObject(aoi, 8); // always center object
+  
+//   return layer; // return image for user export
+// }
+
+// Terra MODIS Vegetation Continuous Fields (VCF) product
+function export_vcf(aoi) { // function name export_*
+  // import dataset
+  var dataset = ee.ImageCollection('MODIS/006/MOD44B')
+    .limit(1, 'system:time_start', false).first()
+    .clip(aoi).select('Percent_NonVegetated');
+  
+  // set up visualization params
+  var vis = {
+    min: 10.0,
+    max: 100.0,
+    palette: ['074b03', '0a9501', 'bbe029', 'yellow', 'red']
+  };
+  
+  Map.centerObject(dataset, 8);
+  Map.addLayer(dataset, vis, "%"); // add layer to map
+  
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+  
+  return dataset.int8();
+}
+
+
+// Enhanced Vegetation Index (EVI)
+function export_evi(aoi) {
+  
+  var summer = helper.get_summer(aoi);
+  var dataset = ee.ImageCollection('MODIS/061/MOD13Q1')
+    .filter(summer)
+    .filter(ee.Filter.date('2022-01-01', '2023-01-01'))
+    .median()
+    .multiply(0.0001)
+    .clip(aoi);
+  
+  var evi = dataset.select('EVI');
+  var eviVis = {
+    min: 0.0,
+    max: 0.5,
+    palette: [
+      'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
+      '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
+      '012E01', '011D01', '011301'
+    ],
+  };
+  
+  Map.addLayer(evi, eviVis, "Enhanced Vegetation Index");
+  
+  var legend = helper.add_colorbar(eviVis, "Index");
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+  
+  return evi;
+}
+
+// WBT
+function export_WBT_mean(aoi) {
+  var img = get_thermal_idx(aoi, "WBT", "mean");
+  return img;
+}
+
+function export_WBT_min(aoi) {
+  var img = get_thermal_idx(aoi, "WBT", "min");
+  return img;
+}
+
+function export_WBT_max(aoi) {
+  var img = get_thermal_idx(aoi, "WBT", "max");
+  return img;
+}
+
+// WBGT
+function export_WBGT_mean(aoi) {
+  var img = get_thermal_idx(aoi, "WBGT", "mean");
+  return img;
+}
+
+function export_WBGT_min(aoi) {
+  var img = get_thermal_idx(aoi, "WBGT", "min");
+  return img;
+}
+
+function export_WBGT_max(aoi) {
+  var img = get_thermal_idx(aoi, "WBGT", "max");
+  return img;
+}
+
+// UTCI
+function export_UTCI_mean(aoi) {
+  var img = get_thermal_idx(aoi, "UTCI", "mean");
+  return img;
+}
+
+function export_UTCI_min(aoi) {
+  var img = get_thermal_idx(aoi, "UTCI", "min");
+  return img;
+}
+
+function export_UTCI_max(aoi) {
+  var img = get_thermal_idx(aoi, "UTCI", "max");
+  return img;
+}
+
+// AT
+function export_AT_mean(aoi) {
+  var img = get_thermal_idx(aoi, "AT", "mean");
+  return img;
+}
+
+function export_AT_min(aoi) {
+  var img = get_thermal_idx(aoi, "AT", "min");
+  return img;
+}
+
+function export_AT_max(aoi) {
+  var img = get_thermal_idx(aoi, "AT", "max");
+  return img;
+}
+
+// MRT
+function export_MRT_mean(aoi) {
+  var img = get_thermal_idx(aoi, "MRT", "mean");
+  return img;
+}
+
+function export_MRT_min(aoi) {
+  var img = get_thermal_idx(aoi, "MRT", "min");
+  return img;
+}
+
+function export_MRT_max(aoi) {
+  var img = get_thermal_idx(aoi, "MRT", "max");
+  return img;
+}
+
+// ESI
+function export_ESI_mean(aoi) {
+  var img = get_thermal_idx(aoi, "ESI", "mean");
+  return img;
+}
+
+function export_ESI_min(aoi) {
+  var img = get_thermal_idx(aoi, "ESI", "min");
+  return img;
+}
+
+function export_ESI_max(aoi) {
+  var img = get_thermal_idx(aoi, "ESI", "max");
+  return img;
+}
+
+// generic function for extracting thermal index data
+function get_thermal_idx(aoi, index, stat){
+  
+  // B1: Min, B2: Mean and B3: Maximum
+  var band_dict = {
+    "min": "b1",
+    "mean": "b2",
+    "max": "b3"
+  };
+  
+  // names for index
+  var idx_dict = {
+    "AT": "Apparent Temperature (AT)",
+    "ESI": "Environment Stress Index (ESI)",
+    "MRT": "Mean Radiant Temperature (MRT)",
+    "UTCI": "Universal Thermal Climate Index (UTCI)",
+    "UTCI2": "UTCI for indoor environment",
+    "UTCI3": "UTCI for outdoor shaded space",
+    "HI": "Heat Index (HI)",
+    "Humidex": "Humidity Index (Humidex)",
+    "WBGT": "Wet-bulb Globe Temperature (WBGT)",
+    "WBT": "Wet Bulb Temperature (WBT)",
+    "WCT": "Wind Chill Temperature (WCCT)",
+    "NET": "Net Effective Temperature (NET)"
+  };
+  
+  var ds = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/"+index);
+  var img = ds
+  .filter(ee.Filter.date(ee.Date('2015-06-01'), ee.Date('2019-10-01')))
+  .filter(ee.Filter.calendarRange(6, 9, 'month'))
+  .select(band_dict[stat])
+  .limit(1, 'system:time_start', false).median().clip(aoi); // summer mean between 2015 to 2019
+  
+  var max = img.reduceRegion({
+    reducer: ee.Reducer.max(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+  
+  var min = img.reduceRegion({
+    reducer: ee.Reducer.min(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get(band_dict[stat]).getInfo();
+  
+  var vis = {min:min, max:max, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+  Map.addLayer(img, vis, idx_dict[index]);
+  
+  var legend = helper.add_colorbar(vis, index);
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+
+  return img;
+}
+
 
 // Critical Infrastructure Spatial Index
 function export_cisi(aoi) {
@@ -680,7 +992,7 @@ function export_landuse(aoi) {
   }
   Map.add(legend);
   
-  return lulc;
+  return lulc.int8();
 }
 
 // define function for extract dense urban areas

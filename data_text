@@ -1,5 +1,33 @@
 // Description for Datasets
 
+exports.vcf = "📖 The Terra MODIS Vegetation\n\
+Continuous Fields (VCF) product is\n\
+a sub-pixel-level representation of\n\
+surface vegetation cover estimates\n\
+globally. This layer shows values of\n\
+the current year.\n\
+【🖱️ Click heading to view project】";
+
+exports.evi = "📖 The MOD13Q1 V6.1 product Vegetation\n\
+Index value at a per pixel basis.\n\
+The Enhanced Vegetation Index (EVI)\n\
+minimizes canopy background variations\n\
+and maintains sensitivity over dense\n\
+vegetation conditions. This layer\n\
+shows median value for 2022 summer.\n\
+【🖱️ Click heading to view project】";
+
+
+exports.hitisae = "📖 HiTiSAE is a gridded product\n\
+that contains widely adopted\n\
+human thermal-stress indices\n\
+(ESI, HI, Humidex, WBGT, WBT,\n\
+WCT, AT, NET), derived from\n\
+ECMWF ERA5-Land and ERA5 reanalysis\n\
+products, over South and East Asia\n\
+in 2019 summer.\n\
+【🖱️ Click heading to view project】";
+
 exports.worldcover = "📖 WorldCover provides the first\n\
 global land cover products for\n\
 2020 and 2021 at 10 m resolution,\n\

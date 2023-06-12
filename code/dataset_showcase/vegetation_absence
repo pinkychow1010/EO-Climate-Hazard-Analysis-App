@@ -1,0 +1,33 @@
+// get land cover data
+var lulc = ee.ImageCollection('ESA/WorldCover/v200').first();
+
+// extract urban class
+var urban_mask = lulc.eq(50);
+
+// calculate urban density
+var reduceNeighborhood = urban_mask.reduceNeighborhood(
+  ee.Reducer.mean(), 
+  ee.Kernel.circle(5000, 'meters')
+).multiply(100).toByte();
+
+// focus on dense urban areas (> 10 %)
+var urban_threshold = reduceNeighborhood.gt(10);
+
+// import Terra MODIS Vegetation Continuous Fields (VCF) product
+var dataset = ee.ImageCollection('MODIS/006/MOD44B')
+.limit(1, 'system:time_start', false).first();
+
+// set up visualization params
+var visualization = {
+  bands: ['Percent_NonVegetated'], // focused band
+  min: 10.0,
+  max: 100.0,
+  palette: ['074b03', '0a9501', 'bbe029', 'yellow', 'red']
+};
+
+Map.centerObject(dataset, 8);
+
+// display non-vegetation ratio in urban clusters
+Map.addLayer(dataset.updateMask(urban_threshold), visualization, 'Vegetation Absense Ratio');
+
+

@@ -1,0 +1,38 @@
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ################################# //
+// ######    Dashboard        ###### //
+// ######     Tile Export     ###### //
+// ################################# //
+
+// irregular geometry of aoi
+var geometry = ee.FeatureCollection(
+  "projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset"
+  ).geometry().dissolve();
+
+// data layer
+var img = ee.ImageCollection('ESA/WorldCover/v200').first();
+print(img.projection())
+
+// create grid covering geometry
+var features = geometry.coveringGrid(img.projection(),20000)
+
+var list = features.toList(10);
+print(ee.Feature(list.get(1)));
+
+print(features.first().geometry())
+
+// display tiles
+Map.addLayer(features)
+
+// get download link for each tile
+var i = 0;
+
+for(i=0;i<10;i++){
+  print(
+  img.getDownloadURL({
+    name: 'test_img',
+    region: ee.Feature(list.get(i)).geometry(),
+    scale: 30
+  }));
+}

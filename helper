@@ -4,8 +4,24 @@
 // ###  Analysis Helper Tool #### //
 // ############################## //
 
+exports.get_summer = function get_summer(aoi) {
+  var centroid = aoi.first().geometry().centroid();
+  var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
+  
+  var yCoords = ee.List(listCoords).getInfo()[1];
+  var south = ee.Number(yCoords).lt(0);
+  
+  var shift = south.multiply(6).getInfo();
+  
+  var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+  return summerFilter;
+};
+
 //LEGEND (Vertical, Gradient, position can be changed intuitvely)
 //Source: https://mygeoblog.com/2017/03/02/creating-a-gradient-legend/
+
+// vis shall contains only min, max and palette
+// other properties might lead to unexpected behaviors
 
 exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
   
