@@ -246,7 +246,7 @@ function export_evi(aoi) {
   
   Map.addLayer(evi, eviVis, "Enhanced Vegetation Index");
   
-  var legend = helper.add_colorbar(vis, "Index");
+  var legend = helper.add_colorbar(eviVis, "Index");
   Map.add(legend);
   Map.centerObject(aoi, 8);
   
