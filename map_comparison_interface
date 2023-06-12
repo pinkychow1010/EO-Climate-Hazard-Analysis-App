@@ -178,8 +178,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
     var var2 = var2_selection.getValue();
     
     // remove category label if applicable (only name of the dataset)
-    var var1_label = var1.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
-    var var2_label = var2.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"");
+    var var1_label = var1.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"")+"👆";
+    var var2_label = var2.replace(/.*(?=\|)/g, '').replace(/[|]/g,"").replace(/^\s/g,"")+"👆";
     
     // use layer selection to control displayed labels
     helper.add_popup(var1_label, info_dict[var1], map1, url_dict[var1]);
