@@ -31,6 +31,7 @@ exports.info_dict = {
   'EXPOSURE | Urbanization Degree': text.ghsl,
   'EXPOSURE | Landscan Population': text.landscan,
   'EXPOSURE | Enhanced Vegetation Index': text.evi,
+  'EXPOSURE | Vegetation Continuous Fields': text.vcf,
   'HAZARD | Summer Day Temperature': text.modis,
   'HAZARD | Summer Night Temperature': text.modis,
   'HAZARD | Palmer Drought Severity Index': text.pdsi,
@@ -61,6 +62,7 @@ exports.url_dict = {
   'EXPOSURE | Urbanization Degree': "https://ghsl.jrc.ec.europa.eu/ghs_smod2023.php",
   'EXPOSURE | Landscan Population': "https://sdi.eea.europa.eu/catalogue/srv/api/records/39e6a1fb-5217-4e22-ab2e-68d50d11faeb",
   'EXPOSURE | Enhanced Vegetation Index': "https://developers.google.com/earth-engine/datasets/catalog/MODIS_061_MOD13Q1",
+  'EXPOSURE | Vegetation Continuous Fields': 'https://developers.google.com/earth-engine/datasets/catalog/MODIS_006_MOD44B',
   'HAZARD | Summer Day Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
   'HAZARD | Summer Night Temperature': "https://modis.gsfc.nasa.gov/data/dataprod/mod11.php",
   'HAZARD | Palmer Drought Severity Index': "https://www.climatologylab.org/terraclimate.html",
@@ -91,6 +93,7 @@ exports.resolution_dict = {
   'EXPOSURE | Landscan Population': 1000,
   'EXPOSURE | Urbanization Degree': 1000,
   'EXPOSURE | Enhanced Vegetation Index': 250,
+  'EXPOSURE | Vegetation Continuous Fields': 250,
   'HAZARD | Summer Day Temperature': 1000,
   'HAZARD | Summer Night Temperature': 1000,
   'HAZARD | Palmer Drought Severity Index': 2000,
@@ -120,6 +123,7 @@ exports.filename_dict = {
   'EXPOSURE | Landscan Population': 'Population-Landscan-2021',
   'EXPOSURE | Urbanization Degree': 'GHSL-2015-urbanization-degree',
   'EXPOSURE | Enhanced Vegetation Index': 'Enhanced-Vegetation-Index-2022-summer',
+  'EXPOSURE | Vegetation Continuous Fields': 'MODIS-Vegetation-Continuous-Fields-Current-Year',
   'HAZARD | Summer Day Temperature': 'MODIS-LST-day',
   'HAZARD | Summer Night Temperature': 'MODIS-LST-night',
   'HAZARD | Palmer Drought Severity': 'PDSI-median-2010-to-2023',
@@ -149,6 +153,7 @@ exports.reducer_dict = {
   'EXPOSURE | Landscan Population': ee.Reducer.sum(),
   'EXPOSURE | Urbanization Degree': ee.Reducer.mean(),
   'EXPOSURE | Enhanced Vegetation Index': ee.Reducer.median(),
+  'EXPOSURE | Vegetation Continuous Fields': ee.Reducer.median(),
   'HAZARD | Summer Day Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'HAZARD | Summer Night Temperature': ee.Reducer.median(), // median to prevent influence from outliners
   'HAZARD | Palmer Drought Severity': ee.Reducer.mean(),
@@ -178,6 +183,7 @@ exports.layer_dict = {
   'EXPOSURE | Landscan Population': export_landscan_pop,
   'EXPOSURE | Urbanization Degree': export_urban_degree,
   'EXPOSURE | Enhanced Vegetation Index': export_evi,
+  'EXPOSURE | Vegetation Continuous Fields': export_vcf,
   'HAZARD | Summer Day Temperature': export_summer_lst,
   'HAZARD | Summer Night Temperature': export_summer_lst_night,
   'HAZARD | Palmer Drought Severity': export_pdsi,
@@ -221,6 +227,31 @@ exports.layer_dict = {
   
 //   return layer; // return image for user export
 // }
+
+// Terra MODIS Vegetation Continuous Fields (VCF) product
+function export_vcf(aoi) { // function name export_*
+  // import dataset
+  var dataset = ee.ImageCollection('MODIS/006/MOD44B')
+    .limit(1, 'system:time_start', false).first().clip(aoi);
+  
+  // set up visualization params
+  var vis = {
+    bands: ['Percent_NonVegetated'], // focused band
+    min: 10.0,
+    max: 100.0,
+    palette: ['074b03', '0a9501', 'bbe029', 'yellow', 'red']
+  };
+  
+  Map.centerObject(dataset, 8);
+  Map.addLayer(dataset, vis, "Index"); // add layer to map
+  
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+  
+  return dataset;
+}
+
 
 // Enhanced Vegetation Index (EVI)
 function export_evi(aoi) {
