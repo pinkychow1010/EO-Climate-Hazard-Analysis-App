@@ -124,7 +124,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
   start_button.style().set(style.start_button);
   mainPanel.add(start_button);
   
-  var loading_button = ui.Label("Processing takes up to 1-2 min", style.dark_theme);
+  var loading_button = ui.Label("⌛ Processing takes up to 1-2 min", style.dark_theme);
   loading_button.style().set({color:"#FFFFFF75"});
   mainPanel.add(loading_button);
   
