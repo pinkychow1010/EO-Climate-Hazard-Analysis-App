@@ -216,7 +216,35 @@ exports.layer_dict = {
 //   return layer; // return image for user export
 // }
 
-// Thermal Stress Index
+// Enhanced Vegetation Index (EVI)
+function export_evi(aoi) {
+  
+  var dataset = ee.ImageCollection('MODIS/061/MOD13Q1')
+    .filter(helper.get_summmer(aoi))
+    .filter(ee.Filter.date('2022-01-01', '2023-01-01'))
+    .median()
+    .multiply(0.0001)
+    .clip(aoi);
+  
+  var evi = dataset.select('EVI');
+  var eviVis = {
+    min: 0.0,
+    max: 0.5,
+    palette: [
+      'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
+      '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
+      '012E01', '011D01', '011301'
+    ],
+  };
+  
+  Map.addLayer(evi, eviVis, "Enhanced Vegetation Index");
+  
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+  
+  return evi;
+}
 
 // WBT
 function export_WBT_mean(aoi) {
