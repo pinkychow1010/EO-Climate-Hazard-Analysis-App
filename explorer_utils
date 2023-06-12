@@ -165,6 +165,40 @@ exports.layer_dict = {
 //###############################//
 
 // Thermal Stress Index
+
+// WBT
+function export_WBT_mean(aoi) {
+  var img = get_thermal_idx(aoi, "WBT", "mean");
+  return img;
+}
+
+function export_WBT_min(aoi) {
+  var img = get_thermal_idx(aoi, "WBT", "min");
+  return img;
+}
+
+function export_WBT_max(aoi) {
+  var img = get_thermal_idx(aoi, "WBT", "max");
+  return img;
+}
+
+// WBGT
+function export_WBGT_mean(aoi) {
+  var img = get_thermal_idx(aoi, "WBGT", "mean");
+  return img;
+}
+
+function export_WBGT_min(aoi) {
+  var img = get_thermal_idx(aoi, "WBGT", "min");
+  return img;
+}
+
+function export_WBGT_max(aoi) {
+  var img = get_thermal_idx(aoi, "WBGT", "max");
+  return img;
+}
+
+// UTCI
 function export_UTCI_mean(aoi) {
   var img = get_thermal_idx(aoi, "UTCI", "mean");
   return img;
@@ -180,6 +214,7 @@ function export_UTCI_max(aoi) {
   return img;
 }
 
+// AT
 function export_AT_mean(aoi) {
   var img = get_thermal_idx(aoi, "AT", "mean");
   return img;
@@ -195,6 +230,7 @@ function export_AT_max(aoi) {
   return img;
 }
 
+// MRT
 function export_MRT_mean(aoi) {
   var img = get_thermal_idx(aoi, "MRT", "mean");
   return img;
@@ -210,6 +246,7 @@ function export_MRT_max(aoi) {
   return img;
 }
 
+// ESI
 function export_ESI_mean(aoi) {
   var img = get_thermal_idx(aoi, "ESI", "mean");
   return img;
@@ -225,7 +262,7 @@ function export_ESI_max(aoi) {
   return img;
 }
 
-
+// generic function for extracting thermal index data
 function get_thermal_idx(aoi, index, stat){
   
   // B1: Min, B2: Mean and B3: Maximum
