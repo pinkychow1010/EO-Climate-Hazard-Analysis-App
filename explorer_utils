@@ -109,6 +109,12 @@ exports.filename_dict = {
   'HAZARD | Mean Radiant Temperature Mean': 'Mean-Radiant-Temperature-Mean',
   'HAZARD | Mean Radiant Temperature Min': 'Mean-Radiant-Temperature-Min',
   'HAZARD | Mean Radiant Temperature Max': 'Mean-Radiant-Temperature-Max',
+  'HAZARD | Wet Bulb Temperature Mean': 'Wet-Bulb-Temperature-Mean',
+  'HAZARD | Wet Bulb Temperature Min': 'Wet-Bulb-Temperature-Min',
+  'HAZARD | Wet Bulb Temperature Max': 'Wet-Bulb-Temperature-Max',
+  'HAZARD | Wet Bulb Globe Temperature Mean': 'Wet-Bulb-Globe-Temperature-Mean',
+  'HAZARD | Wet Bulb Globe Temperature Min': 'Wet-Bulb-Globe-Temperature-Min',
+  'HAZARD | Wet Bulb Globe Temperature Max': 'Wet-Bulb-Globe-Temperature-Max',
   'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
   'VULNERABILITY | Critical Infrastructure Index': 'Critical-Infrastructure-Spatial-Index'
 };
@@ -131,6 +137,12 @@ exports.reducer_dict = {
   'HAZARD | Mean Radiant Temperature Mean': ee.Reducer.mean(),
   'HAZARD | Mean Radiant Temperature Min': ee.Reducer.mean(),
   'HAZARD | Mean Radiant Temperature Max': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Temperature Max': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Globe Temperature Mean': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Globe Temperature Min': ee.Reducer.mean(),
+  'HAZARD | Wet Bulb Globe Temperature Max': ee.Reducer.mean(),
   'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
   'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
 };
@@ -153,6 +165,12 @@ exports.layer_dict = {
   'HAZARD | Mean Radiant Temperature Mean': export_MRT_mean,
   'HAZARD | Mean Radiant Temperature Min': export_MRT_min,
   'HAZARD | Mean Radiant Temperature Max': export_MRT_max,
+  'HAZARD | Wet Bulb Temperature Mean': export_WBT_mean,
+  'HAZARD | Wet Bulb Temperature Min': export_WBT_min,
+  'HAZARD | Wet Bulb Temperature Max': export_WBT_max,
+  'HAZARD | Wet Bulb Globe Temperature Mean': export_WBGT_mean,
+  'HAZARD | Wet Bulb Globe Temperature Min': export_WBGT_min,
+  'HAZARD | Wet Bulb Globe Temperature Max': export_WBGT_max,
   'VULNERABILITY | Relative Wealth Index': export_rwi,
   'VULNERABILITY | Critical Infrastructure Index': export_cisi
 };
