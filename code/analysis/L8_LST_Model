@@ -1,55 +1,13 @@
-/**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = 
-    /* color: #98ff00 */
-    /* shown: false */
-    /* displayProperties: [
-      {
-        "type": "rectangle"
-      }
-    ] */
-    ee.Geometry.Polygon(
-        [[[115.8017312987085, 40.30757906540068],
-          [115.8017312987085, 39.50063099580998],
-          [117.19974155261475, 39.50063099580998],
-          [117.19974155261475, 40.30757906540068]]], null, false);
-/***** End of imports. If edited, may not auto-convert in the playground. *****/
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
 
 // area of interest
-// var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 var abadis = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
-
 Map.centerObject(geometry, 12);
 
 var landsat = get_l8_summer("2020-01-01","2023-01-01",geometry);
-
-// // Check summer months based on geo-coordinates
-// var yearFilter = ee.Filter.date(
-//   ee.Date("2020-01-01"), ee.Date("2023-01-01")
-//   );
-
-// var summerFilter = helper.get_summer(geometry);
-
-// print(summerFilter);
-
-// var landsat = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
-//   .map(maskL8sr)
-//   .filter(yearFilter)
-//   .filter(summerFilter)
-//   .filter(ee.Filter.lt('CLOUD_COVER', 30))
-//   .median()
-//   .clip(geometry);
-
-
-// var b3 = landsat.select(['SR_B3']).multiply(0.0000275).add(-0.2).rename('B3');
-// var b4 = landsat.select(['SR_B4']).multiply(0.0000275).add(-0.2).rename('B4');
-// var b5 = landsat.select(['SR_B5']).multiply(0.0000275).add(-0.2).rename('B5');
-// var b10 = landsat.select(['ST_B10']).multiply(0.00341802).add(149).rename('B10');
-
-// landsat = landsat.addBands(b3).addBands(b4).addBands(b5).addBands(b10);
-// print(landsat);
 
 var viz = {
   bands: ['B5', 'B4', 'B3'],
@@ -61,11 +19,13 @@ var viz = {
 Map.addLayer(landsat,viz,"L8");
 
 var lst = calc_ls_lst(landsat);
-
 Map.addLayer(lst, {min:25, max:40, palette: palette, opacity:0.7}, "LST");
 Map.setOptions("Hybrid");
 
 function get_l8_summer(start, end, geometry){
+    // ###################################
+    // # Preprocess landsat summer data ##
+    // ###################################
   // Check summer months based on geo-coordinates
   var yearFilter = ee.Filter.date(
     ee.Date(start), ee.Date(end)
@@ -101,7 +61,7 @@ function calc_ls_lst(landsat) {
     //select thermal band 10(with brightness tempereature), no calculation 
     var thermal= landsat.select('B10')
     
-    Map.addLayer(thermal,{min:280,max:320,palette:palette},"THERMAL");
+    // Map.addLayer(thermal,{min:280,max:320,palette:palette},"THERMAL");
     
     // find the min and max of NDVI
     var min_ndvi = ee.Number(ndvi.reduceRegion({
