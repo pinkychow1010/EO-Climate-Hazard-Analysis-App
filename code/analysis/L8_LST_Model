@@ -56,34 +56,34 @@ function calc_ls_lst(landsat) {
     // #################################
     // https://gis.stackexchange.com/questions/314374/calculating-lst-from-landsat-8-in-google-earth-engine
     // ndvi    
-    var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
+    // var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
 
     //select thermal band 10(with brightness tempereature), no calculation 
     var thermal= landsat.select('B10')
     
     Map.addLayer(thermal,{min:280,max:320,palette:palette},"THERMAL");
     
-    // find the min and max of NDVI
-    var min_ndvi = ee.Number(ndvi.reduceRegion({
-      reducer: ee.Reducer.min(),
-      geometry: geometry,
-      scale: 30,
-      maxPixels: 1e9
-      }
-      ).values().get(0));
+    // // find the min and max of NDVI
+    // var min_ndvi = ee.Number(ndvi.reduceRegion({
+    //   reducer: ee.Reducer.min(),
+    //   geometry: geometry,
+    //   scale: 30,
+    //   maxPixels: 1e9
+    //   }
+    //   ).values().get(0));
     
-    var max_ndvi = ee.Number(ndvi.reduceRegion({
-      reducer: ee.Reducer.max(),
-      geometry: geometry,
-      scale: 30,
-      maxPixels: 1e9
-      }
-      ).values().get(0));
+    // var max_ndvi = ee.Number(ndvi.reduceRegion({
+    //   reducer: ee.Reducer.max(),
+    //   geometry: geometry,
+    //   scale: 30,
+    //   maxPixels: 1e9
+    //   }
+    //   ).values().get(0));
     
-    // Fractional Vegetation
-    var fv = (ndvi.subtract(min_ndvi).divide(max_ndvi.subtract(min_ndvi)))
-      .pow(ee.Number(2))
-      .rename('FV'); 
+    // // Fractional Vegetation
+    // var fv = (ndvi.subtract(min_ndvi).divide(max_ndvi.subtract(min_ndvi)))
+    //   .pow(ee.Number(2))
+    //   .rename('FV'); 
     
     // Emissivity
     var EM = landsat.select('ST_EMIS').multiply(0.0001).rename('EMM');
