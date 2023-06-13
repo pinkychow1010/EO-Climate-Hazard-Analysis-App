@@ -228,6 +228,70 @@ exports.layer_dict = {
 //   return layer; // return image for user export
 // }
 
+// Landsat 8 Surface Temperature
+function export_l8_st(aoi) {
+  var yearFilter = ee.Filter.date(ee.Date("2022-01-01"), ee.Date("2023-01-01"));
+  var summerFilter = helper.get_summer(aoi);
+  
+  var landsat = ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    .map(maskL8sr)
+    .filter(yearFilter)
+    .filter(summerFilter)
+    .filter(ee.Filter.lt('CLOUD_COVER', 30))
+    .median()
+    .clip(aoi);
+
+  var b10 = landsat.select(['ST_B10'])
+  .multiply(0.00341802).add(149)
+  .subtract(273.15)
+  .rename('LST');
+  
+  // predefined visualization params
+  var max = b10.reduceRegion({
+    reducer: ee.Reducer.max(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get('LST').getInfo();
+  
+  var min = b10.reduceRegion({
+    reducer: ee.Reducer.min(),
+    geometry: aoi.geometry(),
+    crs: 'EPSG:4326',
+    scale: 1000,
+    maxPixels: 1e9
+  }).get('LST').getInfo();
+  
+  var vis = {min:min, max:max, palette:['#000004','#57106e','#bc3754','#f98e09','#fcffa4']}; //inferno
+  Map.addLayer(b10, vis, "Landsat 8 median LST (summer 2022)"); // add layer to map
+  
+  var legend = helper.add_colorbar(vis, "Celsius");
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+  
+  return b10;
+}
+
+function maskL8sr(col) {
+  // #################################
+  // ###  Landsat 8 cloud mask   #####
+  // #################################
+  
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  
+  // Get the pixel QA band.
+  var qa = col.select("QA_PIXEL");
+  
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+                 .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return col.updateMask(mask);
+}
+
+
 // Terra MODIS Vegetation Continuous Fields (VCF) product
 function export_vcf(aoi) { // function name export_*
   // import dataset
