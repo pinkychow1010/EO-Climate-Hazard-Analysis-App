@@ -1,6 +1,6 @@
 // Description for Datasets
 
-exports.vcf = "📖 This dataset contains\n\
+exports.lst = "📖 This dataset contains\n\
 atmospherically corrected surface\n\
 reflectance and land surface\n\
 temperature derived from the data\n\
