@@ -34,7 +34,7 @@ var modis_lst = ee.ImageCollection('MODIS/061/MOD11A1')
                   .multiply(0.02)
                   .subtract(273.15)
                   .clip(geometry);
-Map.addLayer(modis_lst, {min:35, max:40, palette:palette},"MODIS LST");       
+Map.addLayer(modis_lst, {min:35, max:40, palette:['blue','white','yellow','red']},"MODIS DAY LST");       
   
   
 var landsat = get_l8_summer("2022-01-01","2023-01-01",geometry);
@@ -48,8 +48,8 @@ var viz = {
 
 Map.addLayer(
   landsat.select('B10').subtract(273.15),
-  {min:35, max:45, palette:['blue','white','red']},
-  "LST"
+  {min:30, max:45, palette:['blue','white','yellow','red']},
+  "LANDSAT LST"
   );
 Map.setOptions("Hybrid");
 
