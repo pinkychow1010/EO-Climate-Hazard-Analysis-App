@@ -8,7 +8,7 @@ exports.get_summer = function get_summer(aoi) {
   
   try {
     var centroid = aoi.geometry().centroid({'maxError': 1});
-  } catch {
+  } catch (exception) {
     var centroid = aoi.centroid({'maxError': 1});
   }
   // var centroid = aoi.geometry().centroid();
@@ -20,6 +20,7 @@ exports.get_summer = function get_summer(aoi) {
   var shift = south.multiply(6).getInfo();
   
   var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+  
   return summerFilter;
 };
 
