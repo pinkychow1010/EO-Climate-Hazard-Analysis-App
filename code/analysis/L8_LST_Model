@@ -7,6 +7,20 @@ var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/kar
 var abadis = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 Map.centerObject(geometry, 12);
 
+var yearFilter = ee.Filter.date(
+    ee.Date("2020-01-01"), ee.Date("2023-01-01")
+    );
+var summerFilter = helper.get_summer(geometry);
+var modis_lst = ee.ImageCollection('MODIS/061/MOD11A1')
+                  .filter(yearFilter)
+                  .filter(summerFilter)
+                  .select('LST_Day_1km')
+                  .median()
+                  .multiply(0.02)
+                  .subtract(273.15);
+Map.addLayer(modis_lst, {min:35, max:50, palette:palette},"MODIS LST");       
+  
+  
 var landsat = get_l8_summer("2020-01-01","2023-01-01",geometry);
 
 var viz = {
