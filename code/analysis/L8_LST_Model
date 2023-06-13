@@ -59,8 +59,7 @@ function calc_ls_lst(landsat) {
     // var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
 
     //select thermal band 10(with brightness tempereature), no calculation 
-    var thermal= landsat.select('B10')
-    
+    var thermal= landsat.select('B10');
     Map.addLayer(thermal,{min:280,max:320,palette:palette},"THERMAL");
     
     // // find the min and max of NDVI
