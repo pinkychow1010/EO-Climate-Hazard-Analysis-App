@@ -1,0 +1,100 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #0b4a8b */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.37354266471769, 25.382916140501667],
+          [66.37354266471769, 24.691119672124497],
+          [67.74683368034269, 24.691119672124497],
+          [67.74683368034269, 25.382916140501667]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
+var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
+
+// area of interest
+var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var abadis = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
+Map.centerObject(geometry, 12);
+
+var yearFilter = ee.Filter.date(
+    ee.Date("2022-01-01"), ee.Date("2023-01-01")
+    );
+var summerFilter = helper.get_summer(geometry);
+var modis_lst = ee.ImageCollection('MODIS/061/MOD11A1')
+                  .filter(yearFilter)
+                  .filter(summerFilter)
+                  .select('LST_Day_1km')
+                  .median()
+                  .multiply(0.02)
+                  .subtract(273.15)
+                  .clip(geometry);
+Map.addLayer(modis_lst, {min:35, max:40, palette:['blue','white','yellow','red']},"MODIS DAY LST");       
+  
+  
+var landsat = get_l8_summer("2022-01-01","2023-01-01",geometry);
+
+var viz = {
+  bands: ['B5', 'B4', 'B3'],
+  min: 0,
+  max: 1,
+  gamma: [0.95, 1.1, 1]
+};
+
+Map.addLayer(
+  landsat.select('B10').subtract(273.15),
+  {min:30, max:45, palette:['blue','white','yellow','red']},
+  "LANDSAT LST"
+  );
+Map.setOptions("Hybrid");
+
+function get_l8_summer(start, end, geometry){
+  // ###################################
+  // # Preprocess landsat summer data ##
+  // ###################################
+  // Check summer months based on geo-coordinates
+  var yearFilter = ee.Filter.date(
+    ee.Date(start), ee.Date(end)
+    );
+  
+  var summerFilter = helper.get_summer(geometry);
+  
+  var landsat = ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    .map(maskL8sr)
+    .filter(yearFilter)
+    .filter(summerFilter)
+    .filter(ee.Filter.lt('CLOUD_COVER', 30))
+    .median()
+    .clip(geometry);
+
+  var b3 = landsat.select(['SR_B3']).multiply(0.0000275).add(-0.2).rename('B3');
+  var b4 = landsat.select(['SR_B4']).multiply(0.0000275).add(-0.2).rename('B4');
+  var b5 = landsat.select(['SR_B5']).multiply(0.0000275).add(-0.2).rename('B5');
+  var b10 = landsat.select(['ST_B10']).multiply(0.00341802).add(149).rename('B10');
+  
+  landsat = landsat.addBands(b3).addBands(b4).addBands(b5).addBands(b10);
+  return landsat;
+}
+
+function maskL8sr(col) {
+  // #################################
+  // ###  Landsat 8 cloud mask   #####
+  // #################################
+  
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  
+  // Get the pixel QA band.
+  var qa = col.select("QA_PIXEL");
+  
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+                 .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return col.updateMask(mask);
+}
