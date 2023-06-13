@@ -86,7 +86,8 @@ function calc_ls_lst(landsat) {
       .rename('FV'); 
     
     // Emissivity
-    var EM = fv.multiply(ee.Number(0.004)).add(ee.Number(0.986)).rename('EMM');
+    var EM = landsat.select('ST_EMIS').multiply(0.0001).rename('EMM');
+    //fv.multiply(ee.Number(0.004)).add(ee.Number(0.986)).rename('EMM');
     
     Map.addLayer(EM,{min:0.9,max:1,palette:palette},"EM");
     
