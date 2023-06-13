@@ -9,7 +9,8 @@ without rain and vice versa.\n\
 This index measure meteorological\n\
 drought, with scale ranges from 0\n\
 (no moisture deficit) to 800\n\
-(extreme drought).\n\
+(extreme drought). This layer\n\
+is limited to Asian Pacific counties.\n\
 【🖱️ Click heading to view project】";
 
 exports.lst = "📖 This dataset contains\n\
