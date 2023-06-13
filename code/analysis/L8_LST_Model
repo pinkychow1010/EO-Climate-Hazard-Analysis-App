@@ -61,8 +61,9 @@ Map.addLayer(landsat,viz,"L8");
 
 var lst = calc_ls_lst(landsat);
 
-Map.addLayer(lst, {min:25, max:40, palette: palette}, "LST");
-    
+Map.addLayer(lst, {min:25, max:40, palette: palette, opacity:0.7}, "LST");
+Map.setOptions("Hybrid");
+
 function calc_ls_lst(landsat) {
     // #################################
     // # calculating LST from landsat ##
