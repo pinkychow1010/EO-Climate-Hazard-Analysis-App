@@ -1,5 +1,18 @@
 // Description for Datasets
 
+exports.kbdi = "📖 Keetch-Byram Drought\n\
+Index (KBDI) is a continuous\n\
+reference scale for estimating the\n\
+dryness of the soil and duff layers.\n\
+The index increases for each day\n\
+without rain and vice versa.\n\
+This index measure meteorological\n\
+drought, with scale ranges from 0\n\
+(no moisture deficit) to 800\n\
+(extreme drought). This layer\n\
+is limited to Asian Pacific counties.\n\
+【🖱️ Click heading to view project】";
+
 exports.lst = "📖 This dataset contains\n\
 atmospherically corrected surface\n\
 reflectance and land surface\n\
