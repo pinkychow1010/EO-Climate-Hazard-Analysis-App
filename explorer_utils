@@ -234,6 +234,31 @@ exports.layer_dict = {
 //   return layer; // return image for user export
 // }
 
+// Keetch-Byram Drought Index (KBDI)
+function export_kbdi(aoi) {
+  var layer = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
+  .select('KBDI')
+  .limit(1, 'system:time_start', false)
+  .first()
+  .clip(aoi); // latest image for kbdi drought index
+  
+  var vis = {
+    min: 0,
+    max: 800,
+    palette: [
+      '001a4d', '003cb3', '80aaff', '336600', 
+      'cccc00', 'cc9900', 'cc6600', '660033'
+    ]
+  };
+  Map.addLayer(layer, vis, "Index");
+  
+  var legend = helper.add_colorbar(vis, "Index");
+  Map.add(legend);
+  Map.centerObject(aoi, 8);
+  
+  return layer;
+}
+
 // Landsat 8 Surface Temperature
 function export_l8_st(aoi) {
   var yearFilter = ee.Filter.date(ee.Date("2022-01-01"), ee.Date("2023-01-01"));
