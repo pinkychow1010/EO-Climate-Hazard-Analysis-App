@@ -19,7 +19,7 @@ var viz = {
 Map.addLayer(landsat,viz,"L8");
 
 var lst = calc_ls_lst(landsat);
-Map.addLayer(lst, {min:25, max:40, palette: palette, opacity:0.7}, "LST");
+Map.addLayer(lst, {min:30, max:50, palette: palette, opacity:0.7}, "LST");
 Map.setOptions("Hybrid");
 
 function get_l8_summer(start, end, geometry){
@@ -61,7 +61,7 @@ function calc_ls_lst(landsat) {
     //select thermal band 10(with brightness tempereature), no calculation 
     var thermal= landsat.select('B10')
     
-    // Map.addLayer(thermal,{min:280,max:320,palette:palette},"THERMAL");
+    Map.addLayer(thermal,{min:280,max:320,palette:palette},"THERMAL");
     
     // find the min and max of NDVI
     var min_ndvi = ee.Number(ndvi.reduceRegion({
@@ -88,7 +88,7 @@ function calc_ls_lst(landsat) {
     // Emissivity
     var EM = fv.multiply(ee.Number(0.004)).add(ee.Number(0.986)).rename('EMM');
     
-    // Map.addLayer(EM,{min:0,max:1,palette:palette},"EM");
+    Map.addLayer(EM,{min:0.9,max:1,palette:palette},"EM");
     
     // LST in Celsius Degree bring -273.15
     var LST = thermal.expression(
