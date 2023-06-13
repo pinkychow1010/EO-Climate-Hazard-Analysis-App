@@ -50,6 +50,7 @@ exports.info_dict = {
   'HAZARD | Wet Bulb Globe Temperature Min': text.hitisae,
   'HAZARD | Wet Bulb Globe Temperature Max': text.hitisae,
   'HAZARD | Land Surface Temperature': text.lst,
+  'HAZARD | Keetch-Byram Drought Index': text.kbdi,
   'VULNERABILITY | Relative Wealth Index': text.rwi,
   'VULNERABILITY | Critical Infrastructure Index': text.cisi
 };
@@ -82,6 +83,7 @@ exports.url_dict = {
   'HAZARD | Wet Bulb Globe Temperature Min': 'https://gee-community-catalog.org/projects/hitisae/',
   'HAZARD | Wet Bulb Globe Temperature Max': 'https://gee-community-catalog.org/projects/hitisae/',
   'HAZARD | Land Surface Temperature': 'https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1_L2',
+  'HAZARD | Keetch-Byram Drought Index': 'https://developers.google.com/earth-engine/datasets/catalog/UTOKYO_WTLAB_KBDI_v1#description',
   'VULNERABILITY | Relative Wealth Index': "https://dataforgood.facebook.com/dfg/tools/relative-wealth-index",
   'VULNERABILITY | Critical Infrastructure Index': "https://www.nature.com/articles/s41597-022-01218-4"
 };
@@ -114,6 +116,7 @@ exports.resolution_dict = {
   'HAZARD | Wet Bulb Globe Temperature Min': 2000,
   'HAZARD | Wet Bulb Globe Temperature Max': 2000,
   'HAZARD | Land Surface Temperature': 30,
+  'HAZARD | Keetch-Byram Drought Index': 2000,
   'VULNERABILITY | Relative Wealth Index': 2000,
   'VULNERABILITY | Critical Infrastructure Index': 2000
 };
@@ -145,6 +148,7 @@ exports.filename_dict = {
   'HAZARD | Wet Bulb Globe Temperature Min': 'Wet-Bulb-Globe-Temperature-Min',
   'HAZARD | Wet Bulb Globe Temperature Max': 'Wet-Bulb-Globe-Temperature-Max',
   'HAZARD | Land Surface Temperature': 'Land-Surface-Temperature-2022-Summer-Day',
+  'HAZARD | Keetch-Byram Drought Index': 'Latest-Keetch-Byram-Drought-Index',
   'VULNERABILITY | Relative Wealth Index': 'Facebook-Relative-Wealth-Index',
   'VULNERABILITY | Critical Infrastructure Index': 'Critical-Infrastructure-Spatial-Index'
 };
@@ -176,6 +180,7 @@ exports.reducer_dict = {
   'HAZARD | Wet Bulb Globe Temperature Min': ee.Reducer.mean(),
   'HAZARD | Wet Bulb Globe Temperature Max': ee.Reducer.mean(),
   'HAZARD | Land Surface Temperature': ee.Reducer.median(),
+  'HAZARD | Keetch-Byram Drought Index': ee.Reducer.median(),
   'VULNERABILITY | Relative Wealth Index': ee.Reducer.median(),
   'VULNERABILITY | Critical Infrastructure Index': ee.Reducer.mean()
 };
@@ -207,6 +212,7 @@ exports.layer_dict = {
   'HAZARD | Wet Bulb Globe Temperature Min': export_WBGT_min,
   'HAZARD | Wet Bulb Globe Temperature Max': export_WBGT_max,
   'HAZARD | Land Surface Temperature': export_l8_st,
+  'HAZARD | Keetch-Byram Drought Index': export_kbdi,
   'VULNERABILITY | Relative Wealth Index': export_rwi,
   'VULNERABILITY | Critical Infrastructure Index': export_cisi
 };
