@@ -5,7 +5,13 @@
 // ############################## //
 
 exports.get_summer = function get_summer(aoi) {
-  var centroid = aoi.geometry().centroid();
+  
+  try {
+    var centroid = aoi.geometry().centroid({'maxError': 1});
+  } catch {
+    var centroid = aoi.centroid({'maxError': 1});
+  }
+  // var centroid = aoi.geometry().centroid();
   var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
   
   var yCoords = ee.List(listCoords).getInfo()[1];
