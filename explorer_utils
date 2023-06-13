@@ -248,6 +248,10 @@ function export_kbdi(aoi) {
   .first()
   .clip(aoi); // latest image for kbdi drought index
   
+  layer = layer.rename(
+  'KBDI_'+layer.get('system:index').getInfo()
+  );
+  
   var vis = {
     min: 0,
     max: 800,
