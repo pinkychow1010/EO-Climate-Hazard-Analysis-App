@@ -17,7 +17,8 @@ var modis_lst = ee.ImageCollection('MODIS/061/MOD11A1')
                   .select('LST_Day_1km')
                   .median()
                   .multiply(0.02)
-                  .subtract(273.15);
+                  .subtract(273.15)
+                  .clip(geometry);
 Map.addLayer(modis_lst, {min:35, max:50, palette:palette},"MODIS LST");       
   
   
