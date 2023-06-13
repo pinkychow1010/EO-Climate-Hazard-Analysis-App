@@ -18,8 +18,10 @@ var viz = {
 
 Map.addLayer(landsat,viz,"L8");
 
-var lst = calc_ls_lst(landsat);
-Map.addLayer(lst, {min:30, max:50, palette: palette, opacity:0.7}, "LST");
+Map.addLayer(landsat.select('B10').subtract(273.15),{min:35, max:50, palette:palette},"LST");
+
+// var lst = calc_ls_lst(landsat);
+// Map.addLayer(lst, {min:30, max:50, palette: palette, opacity:0.7}, "LST");
 Map.setOptions("Hybrid");
 
 function get_l8_summer(start, end, geometry){
