@@ -1,16 +1,17 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #0b4a8b */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[114.64746844596765, 41.02895944058707],
-          [114.64746844596765, 40.684116145379065],
-          [115.14185321159265, 40.684116145379065],
-          [115.14185321159265, 41.02895944058707]]], null, false);
+        [[[131.69824969596766, 43.43630762109398],
+          [131.69824969596766, 43.10433163676032],
+          [132.19263446159266, 43.10433163676032],
+          [132.19263446159266, 43.43630762109398]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
@@ -22,12 +23,12 @@ var abadis = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karac
 Map.centerObject(geometry, 12);
 
 var yearFilter = ee.Filter.date(
-    ee.Date("2020-01-01"), ee.Date("2023-01-01")
+    ee.Date("2022-01-01"), ee.Date("2022-05-01")
     );
 var summerFilter = helper.get_summer(geometry);
 var modis_lst = ee.ImageCollection('MODIS/061/MOD11A1')
                   .filter(yearFilter)
-                  .filter(summerFilter)
+                  // .filter(summerFilter)
                   .select('LST_Day_1km')
                   .median()
                   .multiply(0.02)
@@ -36,7 +37,7 @@ var modis_lst = ee.ImageCollection('MODIS/061/MOD11A1')
 Map.addLayer(modis_lst, {min:35, max:50, palette:palette},"MODIS LST");       
   
   
-var landsat = get_l8_summer("2020-01-01","2023-01-01",geometry);
+var landsat = get_l8_summer("2022-01-01","2022-05-01",geometry);
 
 var viz = {
   bands: ['B5', 'B4', 'B3'],
@@ -64,10 +65,10 @@ function get_l8_summer(start, end, geometry){
   
   var summerFilter = helper.get_summer(geometry);
   
-  var landsat = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
+  var landsat = ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")//ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
     .map(maskL8sr)
     .filter(yearFilter)
-    .filter(summerFilter)
+    // .filter(summerFilter)
     .filter(ee.Filter.lt('CLOUD_COVER', 30))
     .median()
     .clip(geometry);
