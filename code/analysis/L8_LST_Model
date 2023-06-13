@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #0b4a8b */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[131.69824969596766, 43.43630762109398],
-          [131.69824969596766, 43.10433163676032],
-          [132.19263446159266, 43.10433163676032],
-          [132.19263446159266, 43.43630762109398]]], null, false);
+        [[[116.16358172721769, 40.0605626738197],
+          [116.16358172721769, 39.71071506768442],
+          [116.65796649284269, 39.71071506768442],
+          [116.65796649284269, 40.0605626738197]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
