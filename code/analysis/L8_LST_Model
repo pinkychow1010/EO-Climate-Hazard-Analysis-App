@@ -36,6 +36,7 @@ var landsat = ee.ImageCollection("LANDSAT/LC08/C02/T1_L2")
   .map(maskL8sr)
   .filter(yearFilter)
   .filter(summerFilter)
+  .filter(ee.Filter.lt('CLOUD_COVER', 30))
   .median()
   .clip(geometry);
 
@@ -71,7 +72,7 @@ function calc_ls_lst(landsat) {
     var ndvi = landsat.normalizedDifference(['B5', 'B4']).rename('NDVI');
 
     //select thermal band 10(with brightness tempereature), no calculation 
-    var thermal= landsat.select('B10')//.multiply(0.1);
+    var thermal= landsat.select('B10')
     
     Map.addLayer(thermal,{min:280,max:320,palette:palette},"THERMAL");
     
