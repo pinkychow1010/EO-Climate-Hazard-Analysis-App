@@ -18,7 +18,7 @@ var analysis = require('users/pinkychow1010/WB_IntraUrban:analysis_utils');
 var palette = ["fee5d9","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","99000d"];
 
 // area of interest
-// var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
+var geometry = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_union_council_subset");
 var abadis = ee.FeatureCollection("projects/ee-pinkychow1010/assets/WB_GEE/karachi_katchi_abadis");
 Map.centerObject(geometry, 12);
 
@@ -45,8 +45,6 @@ var viz = {
   max: 1,
   gamma: [0.95, 1.1, 1]
 };
-
-// Map.addLayer(landsat,viz,"L8");
 
 Map.addLayer(landsat.select('B10').subtract(273.15),{min:35, max:45, palette:['blue','white','red']},"LST");
 
