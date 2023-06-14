@@ -440,7 +440,14 @@ exports.add_popup = function add_popup(title, content, map, url) {
     }
 };
 
-
+/**
+ * Add one pager pop up panel
+ * 
+ * @param  {str}  p1_heading     Heading for each page
+ * @param  {str}  p1_message     Message for each page
+ * @param  {map}  ui.Map             Map object which pop up panel will be displayed
+ * @return {null}                    Panel will be added on map object, return null
+ */
 exports.addOnePage = function addOnePage(
   p1_heading, p1_message, map
   ) {
@@ -498,6 +505,14 @@ exports.addOnePage = function addOnePage(
     }
 };
 
+/**
+ * Add two pager pop up panel
+ * 
+ * @param  {str}  p[1-2]_heading     Heading for each page
+ * @param  {str}  p[1-2]_message     Message for each page
+ * @param  {map}  ui.Map             Map object which pop up panel will be displayed
+ * @return {null}                    Panel will be added on map object, return null
+ */
 exports.addTwoPage = function addTwoPage(
   p1_heading, p1_message,
   p2_heading, p2_message,
