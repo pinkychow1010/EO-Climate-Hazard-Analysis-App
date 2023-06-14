@@ -4,6 +4,18 @@
 // ###  Analysis Helper Tool #### //
 // ############################## //
 
+exports.color = {
+  'reds': ["fff5f0","fee0d2","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","a50f15","67000d"],
+  'spectral': ["9e0142","d53e4f","f46d43","fdae61","fee08b","ffffbf","e6f598","abdda4","66c2a5","3288bd","5e4fa2"],
+  'coolwarm': ['#3B4CC0', '#6F91F2', '#A9C5FC', '#DDDDDD', '#F6B69B', '#E6745B', '#B40426'],
+  'warmcool': ['#B40426', '#E6745B', '#F6B69B', '#DDDDDD', '#A9C5FC', '#6F91F2', '#3B4CC0'],
+  'jet': ['#00007F', '#002AFF', '#00D4FF', '#7FFF7F', '#FFD400', '#FF2A00', '#7F0000'],
+  'magma': ['#000004', '#2C105C', '#711F81', '#B63679', '#EE605E', '#FDAE78', '#FCFDBF'],
+  'inferno': ['#000004', '#320A5A', '#781B6C', '#BB3654', '#EC6824', '#FBB41A', '#FCFFA4'],
+  'plasma': ['#0D0887', '#5B02A3', '#9A179B', '#CB4678', '#EB7852', '#FBB32F', '#F0F921'],
+  'viridis': ['#440154', '#433982', '#30678D', '#218F8B', '#36B677', '#8ED542', '#FDE725']
+};
+
 exports.get_summer = function get_summer(aoi) {
   
   try {
