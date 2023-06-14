@@ -4,6 +4,11 @@
 // ###  Analysis Helper Tool #### //
 // ############################## //
 
+/**
+ * Color palette for data visualization
+ * User can reverse the palette list using .reverse()
+ * e.g. color.jet.reverse()
+ */
 exports.color = {
   'reds': ["fff5f0","fee0d2","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","a50f15","67000d"],
   'spectral': ["9e0142","d53e4f","f46d43","fdae61","fee08b","ffffbf","e6f598","abdda4","66c2a5","3288bd","5e4fa2"],
@@ -16,6 +21,12 @@ exports.color = {
   'viridis': ['#440154', '#433982', '#30678D', '#218F8B', '#36B677', '#8ED542', '#FDE725']
 };
 
+
+/**
+ * Get temperol filter for local summer months
+ * @param  {geometry}     aoi geolocation
+ * @return {summerFilter} summer filter for the input location
+ */
 exports.get_summer = function get_summer(aoi) {
   
   try {
@@ -23,7 +34,7 @@ exports.get_summer = function get_summer(aoi) {
   } catch (exception) {
     var centroid = aoi.centroid({'maxError': 1});
   }
-  // var centroid = aoi.geometry().centroid();
+
   var listCoords = ee.Array.cat(centroid.coordinates(), 0); 
   
   var yCoords = ee.List(listCoords).getInfo()[1];
@@ -36,12 +47,20 @@ exports.get_summer = function get_summer(aoi) {
   return summerFilter;
 };
 
-//LEGEND (Vertical, Gradient, position can be changed intuitvely)
-//Source: https://mygeoblog.com/2017/03/02/creating-a-gradient-legend/
 
+/**
+ * Add color bar legend for image layer
+ * Source: https://mygeoblog.com/2017/03/02/creating-a-gradient-legend/
+ * 
+ * @param  {dict}    vis       Visualization params including min, max, and palette
+ * @param  {str}     title     Legend title
+ * @param  {int}     decimal   Decimal to round legend numerical labels
+ * @param  {str}     size      One of "small", "medium", "large". Use to define legend panel size
+ * @return {panel}   legendpos Legend panel to be added on the map object
+ */
+ 
 // vis shall contains only min, max and palette
 // other properties might lead to unexpected behaviors
-
 exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
   
   if (decimal === undefined || decimal === null){var decimal = 2};
@@ -123,7 +142,17 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
   return legendpos;
 };
 
-
+/**
+ * Compute choropleth map with interactive inspector tool
+ * 
+ * @param  {featureCollection}  vector      Multipolygons for computing zonal statistics
+ * @param  {ee.Image}           raster      Image layer for computing zonal statistics
+ * @param  {ui.Map}             map         Map object which pop up panel will be displayed
+ * @param  {int}                log         Map object which pop up panel will be displayed
+ * @param  {str}                output_name Name of new property
+ * @param  {str}                legend_text Legend title
+ * @return {null}                           Choropleth map and inspector will be added on map object, return null
+ */
 exports.zonalInspect = function zonalInspect(
   vector, raster, map, reducer, log, output_name, legend_text
   ) {
@@ -327,7 +356,14 @@ exports.zonalInspect = function zonalInspect(
 };
 
 
-
+/**
+ * Add pop up panel
+ * 
+ * @param  {str}  title       Heading
+ * @param  {str}  content     Message
+ * @param  {map}  ui.Map      Map object which pop up panel will be displayed
+ * @return {null}             Panel will be added on map object, return null
+ */
 exports.add_popup = function add_popup(title, content, map, url) {
 
   // set style for elements
@@ -422,7 +458,14 @@ exports.add_popup = function add_popup(title, content, map, url) {
     }
 };
 
-
+/**
+ * Add one pager pop up panel
+ * 
+ * @param  {str}  p1_heading     Heading for each page
+ * @param  {str}  p1_message     Message for each page
+ * @param  {map}  ui.Map             Map object which pop up panel will be displayed
+ * @return {null}                    Panel will be added on map object, return null
+ */
 exports.addOnePage = function addOnePage(
   p1_heading, p1_message, map
   ) {
@@ -480,6 +523,14 @@ exports.addOnePage = function addOnePage(
     }
 };
 
+/**
+ * Add two pager pop up panel
+ * 
+ * @param  {str}  p[1-2]_heading     Heading for each page
+ * @param  {str}  p[1-2]_message     Message for each page
+ * @param  {map}  ui.Map             Map object which pop up panel will be displayed
+ * @return {null}                    Panel will be added on map object, return null
+ */
 exports.addTwoPage = function addTwoPage(
   p1_heading, p1_message,
   p2_heading, p2_message,
@@ -560,6 +611,14 @@ exports.addTwoPage = function addTwoPage(
     }
 };
 
+/**
+ * Add three pager pop up panel
+ * 
+ * @param  {str}  p[1-3]_heading     Heading for each page
+ * @param  {str}  p[1-3]_message     Message for each page
+ * @param  {map}  ui.Map             Map object which pop up panel will be displayed
+ * @return {null}                    Panel will be added on map object, return null
+ */
 exports.addThreePage = function addThreePage(
   p1_heading, p1_message,
   p2_heading, p2_message,
@@ -666,7 +725,15 @@ exports.addThreePage = function addThreePage(
     }
 };
 
-
+/**
+ * Plotting two climate variables for each feature in the vector feature collection in a bar chart
+ * 
+ * @param  {featureCollection}  vector     Vector layer with multiple polygons for zonal mean calculation
+ * @param  {ee.Image}           layer1     Image for first climate variable
+ * @param  {ee.Image}           layer2     Image for second climate variable
+ * @param  {str}                var1       Variable 1 name for chart display
+ * @return {ui.Chart}           var2       Variable 2 name for chart display
+ */
 exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, var1, var2) {
   
   // remove special characters to avoid errors in charting
@@ -717,6 +784,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     chartArea: {backgroundColor: 'EBEBEB00'}
   };
   
+  // return 0 in case of no data
   if (zonal.size().getInfo() < 1){
     return zonal.size().getInfo();
   }
@@ -736,6 +804,6 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     return chart.setOptions(chartStyle);
     
   } catch (error) {
-    return null;
+    return null; // if chart cannot plot successfully return null
   }
 };
