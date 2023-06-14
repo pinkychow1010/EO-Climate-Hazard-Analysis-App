@@ -2,32 +2,34 @@
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/201f070cdd0379baeb3d08cfd65be8d9  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/d358891d3b33d7ed4c5387d89070d67c  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
 
 
-// ######################################## //
-// ######    GHSL Urban cluster      ###### //
-// ######################################## //
+// ############################################### //
+// ######    CMIP 6 Climate Projection      ###### //
+// ############################################### //
 
 /**
- * This is an example script for visualizing urban clusters
- * for an area of interest.
- * 
+ * This is an example script for visualizing changing 
+ * climate variables for Pakistan. 
  */
 
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
 
+// air temperature in 2000
 var dataset_2000 = ee.ImageCollection('NASA/GDDP-CMIP6')
                   .filter(ee.Filter.date('2000-05-01', '2000-05-02'));
-                  
+
+// in 2100
 var dataset_2100 = ee.ImageCollection('NASA/GDDP-CMIP6')
                   .filter(ee.Filter.date('2100-05-01', '2100-05-02'));
-                  
-// not all model has all bands
+
+// get ensemble mean from all model        
+// note that not all model has all bands
 var airTemperature_2000 = dataset_2000.select('tas').mean();
 var airTemperature_2100 = dataset_2100.select('tas').mean();
 var tempDiff = airTemperature_2100.subtract(airTemperature_2000);
@@ -39,13 +41,17 @@ var vis = {
   opacity: 0.9
 };
 
+// set layout
 Map.centerObject(aoi, 6);
 Map.setOptions("Hybrid");
 
+// display historical references
 Map.addLayer(airTemperature_2000.clip(aoi), vis, 'Air Temperature (2000)');
-    
+
+// projected temperature
 Map.addLayer(airTemperature_2100.clip(aoi), vis, 'Air Temperature (2100)');
-    
+
+// temperature differences
 Map.addLayer(tempDiff.clip(aoi), {
   min:3, max:4.5, 
   palette:['white','yellow','orange','red','black'],
