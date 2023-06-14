@@ -17,6 +17,10 @@
  * climate variables for Pakistan. 
  */
 
+// import module
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+
+// add area of interest
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
 
@@ -37,7 +41,7 @@ var tempDiff = airTemperature_2100.subtract(airTemperature_2000);
 var vis = {
   min: 240,
   max: 310,
-  palette: ['blue', 'purple', 'cyan', 'green', 'yellow', 'red'],
+  palette: c.jet,
   opacity: 0.9
 };
 
@@ -54,7 +58,7 @@ Map.addLayer(airTemperature_2100.clip(aoi), vis, 'Air Temperature (2100)');
 // temperature differences
 Map.addLayer(tempDiff.clip(aoi), {
   min:3, max:4.5, 
-  palette:['white','yellow','orange','red','black'],
+  palette:c.reds,//['white','yellow','orange','red','black'],
   opacity: 0.9
 },
     'Temperature Differences (2000-2100)');
