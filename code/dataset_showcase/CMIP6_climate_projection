@@ -1,0 +1,54 @@
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/201f070cdd0379baeb3d08cfd65be8d9  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// ######################################## //
+// ######    GHSL Urban cluster      ###### //
+// ######################################## //
+
+/**
+ * This is an example script for visualizing urban clusters
+ * for an area of interest.
+ * 
+ */
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+var dataset_2000 = ee.ImageCollection('NASA/GDDP-CMIP6')
+                  .filter(ee.Filter.date('2000-05-01', '2000-05-02'));
+                  
+var dataset_2100 = ee.ImageCollection('NASA/GDDP-CMIP6')
+                  .filter(ee.Filter.date('2100-05-01', '2100-05-02'));
+                  
+// not all model has all bands
+var airTemperature_2000 = dataset_2000.select('tas').mean();
+var airTemperature_2100 = dataset_2100.select('tas').mean();
+var tempDiff = airTemperature_2100.subtract(airTemperature_2000);
+
+var vis = {
+  min: 240,
+  max: 310,
+  palette: ['blue', 'purple', 'cyan', 'green', 'yellow', 'red'],
+  opacity: 0.9
+};
+
+Map.centerObject(aoi, 6);
+Map.setOptions("Hybrid");
+
+Map.addLayer(airTemperature_2000.clip(aoi), vis, 'Air Temperature (2000)');
+    
+Map.addLayer(airTemperature_2100.clip(aoi), vis, 'Air Temperature (2100)');
+    
+Map.addLayer(tempDiff.clip(aoi), {
+  min:3, max:4.5, 
+  palette:['white','yellow','orange','red','black'],
+  opacity: 0.9
+},
+    'Temperature Differences (2000-2100)');
