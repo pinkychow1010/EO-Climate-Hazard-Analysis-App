@@ -58,7 +58,7 @@ Map.addLayer(airTemperature_2100.clip(aoi), vis, 'Air Temperature (2100)');
 // temperature differences
 Map.addLayer(tempDiff.clip(aoi), {
   min:3, max:4.5, 
-  palette:c.reds,//['white','yellow','orange','red','black'],
+  palette:c.reds,
   opacity: 0.9
 },
     'Temperature Differences (2000-2100)');
