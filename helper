@@ -684,7 +684,15 @@ exports.addThreePage = function addThreePage(
     }
 };
 
-
+/**
+ * Plotting two climate variables for each feature in the vector feature collection in a bar chart
+ * 
+ * @param  {featureCollection}  vector     Vector layer with multiple polygons for zonal mean calculation
+ * @param  {ee.Image}           layer1     Image for first climate variable
+ * @param  {ee.Image}           layer2     Image for second climate variable
+ * @param  {str}                var1       Variable 1 name for chart display
+ * @return {ui.Chart}           var2       Variable 2 name for chart display
+ */
 exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, var1, var2) {
   
   // remove special characters to avoid errors in charting
@@ -735,6 +743,7 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     chartArea: {backgroundColor: 'EBEBEB00'}
   };
   
+  // return 0 in case of no data
   if (zonal.size().getInfo() < 1){
     return zonal.size().getInfo();
   }
@@ -754,6 +763,6 @@ exports.chart_climate_var = function chart_climate_var(vector, layer1, layer2, v
     return chart.setOptions(chartStyle);
     
   } catch (error) {
-    return null;
+    return null; // if chart cannot plot successfully return null
   }
 };
