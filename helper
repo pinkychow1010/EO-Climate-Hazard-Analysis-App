@@ -345,7 +345,14 @@ exports.zonalInspect = function zonalInspect(
 };
 
 
-
+/**
+ * Add pop up panel
+ * 
+ * @param  {str}  title       Heading
+ * @param  {str}  content     Message
+ * @param  {map}  ui.Map      Map object which pop up panel will be displayed
+ * @return {null}             Panel will be added on map object, return null
+ */
 exports.add_popup = function add_popup(title, content, map, url) {
 
   // set style for elements
