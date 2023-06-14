@@ -41,7 +41,7 @@ var tempDiff = airTemperature_2100.subtract(airTemperature_2000);
 var vis = {
   min: 240,
   max: 310,
-  palette: c.jet,
+  palette: c.spectral.reverse(),
   opacity: 0.9
 };
 
