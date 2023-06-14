@@ -4,6 +4,11 @@
 // ###  Analysis Helper Tool #### //
 // ############################## //
 
+/**
+ * Color palette for data visualization
+ * User can reverse the palette list using .reverse()
+ * e.g. color.jet.reverse()
+ */
 exports.color = {
   'reds': ["fff5f0","fee0d2","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","a50f15","67000d"],
   'spectral': ["9e0142","d53e4f","f46d43","fdae61","fee08b","ffffbf","e6f598","abdda4","66c2a5","3288bd","5e4fa2"],
@@ -16,6 +21,11 @@ exports.color = {
   'viridis': ['#440154', '#433982', '#30678D', '#218F8B', '#36B677', '#8ED542', '#FDE725']
 };
 
+/**
+ * Get temperol filter for local summer months
+ * @param  {geometry}     aoi geolocation
+ * @return {summerFilter} summer filter for the input location
+ */
 exports.get_summer = function get_summer(aoi) {
   
   try {
@@ -36,12 +46,20 @@ exports.get_summer = function get_summer(aoi) {
   return summerFilter;
 };
 
-//LEGEND (Vertical, Gradient, position can be changed intuitvely)
-//Source: https://mygeoblog.com/2017/03/02/creating-a-gradient-legend/
 
+/**
+ * Add color bar legend for image layer
+ * Source: https://mygeoblog.com/2017/03/02/creating-a-gradient-legend/
+ * 
+ * @param  {dict}    vis       Visualization params including min, max, and palette
+ * @param  {str}     title     Legend title
+ * @param  {int}     decimal   Decimal to round legend numerical labels
+ * @param  {str}     size      One of "small", "medium", "large". Use to define legend panel size
+ * @return {panel}   legendpos Legend panel to be added on the map object
+ */
+ 
 // vis shall contains only min, max and palette
 // other properties might lead to unexpected behaviors
-
 exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
   
   if (decimal === undefined || decimal === null){var decimal = 2};
