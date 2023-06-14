@@ -141,7 +141,17 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
   return legendpos;
 };
 
-
+/**
+ * Compute choropleth map with interactive inspector tool
+ * 
+ * @param  {featureCollection}  vector      Multipolygons for computing zonal statistics
+ * @param  {ee.Image}           raster      Image layer for computing zonal statistics
+ * @param  {ui.Map}             map         Map object which pop up panel will be displayed
+ * @param  {int}                log         Map object which pop up panel will be displayed
+ * @param  {str}                output_name Name of new property
+ * @param  {str}                legend_text Legend title
+ * @return {null}                           Choropleth map and inspector will be added on map object, return null
+ */
 exports.zonalInspect = function zonalInspect(
   vector, raster, map, reducer, log, output_name, legend_text
   ) {
