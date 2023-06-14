@@ -2,7 +2,7 @@
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/86d53893f911ccb7fc9dbc120ccfe9f3  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/bfb09511f043c19193e713eaea949688  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -30,12 +30,15 @@ var dataset_2000 = ee.ImageCollection('NASA/GDDP-CMIP6')
 
 // in 2100
 var dataset_2100 = ee.ImageCollection('NASA/GDDP-CMIP6')
-                  .filter(ee.Filter.date('2100-05-01', '2100-05-02'));
+                  .filter(ee.Filter.date('2100-05-01', '2100-05-02'))
+                  .filter(ee.Filter.eq('scenario', 'ssp585'));
+
+print(dataset_2100)
 
 // get ensemble mean from all model        
 // note that not all model has all bands
 var airTemperature_2000 = dataset_2000.select('tas').mean();
-var airTemperature_2100 = dataset_2100.select('tas').mean();
+var airTemperature_2100 = dataset_2100.select('tas').mean(); // scanerio ssp585
 var tempDiff = airTemperature_2100.subtract(airTemperature_2000);
 
 var vis = {
@@ -57,7 +60,7 @@ Map.addLayer(airTemperature_2100.clip(aoi), vis, 'Air Temperature (2100)');
 
 // temperature differences
 Map.addLayer(tempDiff.clip(aoi), {
-  min:3, max:4.5, 
+  min:4.5, max:6.5, 
   palette:c.reds,
   opacity: 0.9
 },
