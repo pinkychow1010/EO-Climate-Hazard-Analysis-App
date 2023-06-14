@@ -21,6 +21,7 @@ exports.color = {
   'viridis': ['#440154', '#433982', '#30678D', '#218F8B', '#36B677', '#8ED542', '#FDE725']
 };
 
+
 /**
  * Get temperol filter for local summer months
  * @param  {geometry}     aoi geolocation
