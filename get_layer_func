@@ -60,6 +60,8 @@ exports.get_urban_degree = function get_urban_degree(aoi) {
   return degreeOfUrbanization;
 };
 
+// get urban heat island index daytime
+// https://developers.google.com/earth-engine/datasets/catalog/YALE_YCEO_UHI_Summer_UHI_yearly_pixel_v4
 exports.get_uhi_day = function get_uhi_day(aoi) {
   var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
   .select('Daytime')
@@ -68,6 +70,8 @@ exports.get_uhi_day = function get_uhi_day(aoi) {
   return uhi.clip(aoi);
 };
 
+// get urban heat island index nighttime
+// https://developers.google.com/earth-engine/datasets/catalog/YALE_YCEO_UHI_Summer_UHI_yearly_pixel_v4
 exports.get_uhi_night = function get_uhi_night(aoi) {
   var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
   .select('Nighttime')
@@ -76,6 +80,8 @@ exports.get_uhi_night = function get_uhi_night(aoi) {
   return uhi.clip(aoi);
 };
 
+// get density of forest class within 5 km radius in Land Cover
+// https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
 exports.get_forest_density = function get_forest_density(aoi) {
   
   var bbox = aoi.geometry();
@@ -96,6 +102,8 @@ exports.get_forest_density = function get_forest_density(aoi) {
   return reduceNeighborhood;
 };
 
+// get density of cropland class within 5 km radius in Land Cover
+// https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
 exports.get_cropland_density = function get_cropland_density(aoi) {
   
   var bbox = aoi.geometry();
@@ -116,6 +124,9 @@ exports.get_cropland_density = function get_cropland_density(aoi) {
   return reduceNeighborhood;
 };
 
+
+// get density of urban class within 5 km radius in Land Cover
+// https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
 exports.get_urban_density = function get_urban_density(aoi) {
   
   var bbox = aoi.geometry();
@@ -136,10 +147,15 @@ exports.get_urban_density = function get_urban_density(aoi) {
   return reduceNeighborhood;
 };
 
+
+// get critical infrastructure spatial index
+// https://www.nature.com/articles/s41597-022-01218-4
 exports.get_cisi = function get_cisi(aoi) {
   return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
 };
 
+// get relative wealth index
+// https://dataforgood.facebook.com/dfg/tools/relative-wealth-index
 exports.get_rwi = function get_rwi(aoi) {
   // get RWI data layer from community project (Layer 2)
   var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");
