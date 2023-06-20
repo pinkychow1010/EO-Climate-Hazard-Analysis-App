@@ -8,10 +8,6 @@
 /**
  * This is a script for comparing layers between national admin regions.
  * 
- * To do: 
- * - <del> add data layer control </del>
- * - add welcome panel with instructions
- * - provide more urban heat relevant layers
  *
  */
 
@@ -22,6 +18,26 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 
+
+/**
+ * Comparison Map: App which composes of a main panel with several widgets
+ * User can control the panel to visualize choropleth map for two different climate variables
+ * 
+ * This function is used to construct the variable comparison app
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @fires   add main panel with variable and location selections, add welcome instruction message
+ *
+ * @param {dict}   layer_dict      A dict with data layer as keys and get dataset functions as values.
+ * @param {dict}   info_dict       A dict with data layer as keys and data layer descriptions as values.
+ * @param {dict}   url_dict        A dict with data layer as keys and project url as values.
+ * @param {dict}   log_dict        A dict with data layer as keys and log visualization options as values.
+ * @param {dict}   legend_dict     A dict with data layer as keys and legend titles as values.
+ *
+ * @return {null} null.
+ *
+ */
 exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, legend_dict) {
   // import project data layers for admin level selections
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
