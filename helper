@@ -8,6 +8,10 @@
  * Color palette for data visualization
  * User can reverse the palette list using .reverse()
  * e.g. color.jet.reverse()
+ * 
+ * Example usage:
+ * var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+ * var palette = c.magma
  */
 exports.color = {
   'reds': ["fff5f0","fee0d2","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","a50f15","67000d"],
