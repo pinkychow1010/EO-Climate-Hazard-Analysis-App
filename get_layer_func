@@ -10,6 +10,30 @@
  * to be fired once data layer is selected by users
  */
 
+// get Global Extreme Heat Hazard
+// https://gee-community-catalog.org/projects/heat-hazard/
+
+// 100 year return period
+exports.get_heat_100y = function get_heat_100y(aoi) {
+  var global_extreme_heat_hazard = ee.ImageCollection("projects/sat-io/open-datasets/WORLD-BANK/global-ext-heat-hazard");
+  var heat_100y = global_extreme_heat_hazard.filter(ee.Filter.eq('id_no', "intensity_returnperiod100y")).first();
+  return heat_100y.clip(aoi);
+};
+
+// 20 year return period
+exports.get_heat_20y = function get_heat_20y(aoi) {
+  var global_extreme_heat_hazard = ee.ImageCollection("projects/sat-io/open-datasets/WORLD-BANK/global-ext-heat-hazard");
+  var heat_20y = global_extreme_heat_hazard.filter(ee.Filter.eq('id_no', "intensity_returnperiod20y")).first();
+  return heat_20y.clip(aoi);
+};
+
+// 5 year return period
+exports.get_heat_5y = function get_heat_5y(aoi) {
+  var global_extreme_heat_hazard = ee.ImageCollection("projects/sat-io/open-datasets/WORLD-BANK/global-ext-heat-hazard");
+  var heat_5y = global_extreme_heat_hazard.filter(ee.Filter.eq('id_no', "intensity_returnperiod5y")).first();
+  return heat_5y.clip(aoi);
+};
+
 // get Landscan latest population layer (2021)
 // https://gee-community-catalog.org/projects/landscan/?h=landscan
 exports.get_landscan_pop = function get_landscan_pop(aoi) {
