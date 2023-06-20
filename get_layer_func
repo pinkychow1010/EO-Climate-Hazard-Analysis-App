@@ -9,12 +9,16 @@
  * This script contains functions to get different geospatial layers
  */
 
+// get Landscan latest population layer (2021)
+// https://gee-community-catalog.org/projects/landscan/?h=landscan
 exports.get_landscan_pop = function get_landscan_pop(aoi) {
   var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
   var landscan_2021 = landscan_global.sort('system:time_start',false).first();
   return landscan_2021.clip(aoi);
 };
 
+// get Palmer Drought Severity Index (historical average between 2010 and 2023)
+// https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE
 exports.get_pdsi = function get_pdsi(aoi) {
   // return the list of coordinates
   var centroid = aoi.first().geometry().centroid();
