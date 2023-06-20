@@ -38,7 +38,7 @@ var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources');
  * @return {null} null.
  *
  */
-exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, legend_dict) {
+exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, legend_dict, color_dict) {
   // import project data layers for admin level selections
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
@@ -231,8 +231,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
     
     // get choropleth maps for both maps
     // vector, raster, map, reducer, log, output_name, legend_text
-    helper.zonalInspect(aoi, layer1, map1, "mean", log_dict[var1], var1, legend_dict[var1]);
-    helper.zonalInspect(aoi, layer2, map2, "mean", log_dict[var2], var2, legend_dict[var2]); 
+    helper.zonalInspect(aoi, layer1, map1, "mean", log_dict[var1], var1, legend_dict[var1], color_dict[var1]);
+    helper.zonalInspect(aoi, layer2, map2, "mean", log_dict[var2], var2, legend_dict[var2], color_dict[var2]); 
     
     // set map control
     map1.setControlVisibility(mapControl);
