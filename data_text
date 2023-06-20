@@ -1,5 +1,13 @@
 // Description for Datasets
 
+exports.heat_hazard = "📖 Extreme Heat hazard\n\
+is classified based on an existing\n\
+and widely accepted heat stress\n\
+indicator, the Wet Bulb Globe\n\
+Temperature (WBGT, in °C), more\n\
+specifically the daily maximum WGBT.\n\
+【🖱️ Click heading to view project】";
+
 exports.kbdi = "📖 Keetch-Byram Drought\n\
 Index (KBDI) is a continuous\n\
 reference scale for estimating the\n\
