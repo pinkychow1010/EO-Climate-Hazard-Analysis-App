@@ -41,6 +41,8 @@ exports.get_pdsi = function get_pdsi(aoi) {
   return drought_index;
 };
 
+// get MODIS temperature difference between daytime and nighttime
+// https://developers.google.com/earth-engine/datasets/catalog/OpenLandMap_CLM_CLM_LST_MOD11A2-DAYNIGHT_M_v01
 exports.get_temp_diff = function get_temp_diff(aoi) {
   var temp_diff = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAYNIGHT_M/v01")
   .reduce('mean')
