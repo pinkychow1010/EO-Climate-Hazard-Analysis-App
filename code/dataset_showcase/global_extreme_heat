@@ -1,0 +1,29 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var global_extreme_heat_hazard = ee.ImageCollection("projects/sat-io/open-datasets/WORLD-BANK/global-ext-heat-hazard");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+var palette = c.reds;
+
+// print(global_extreme_heat_hazard);
+
+var heat_100y = global_extreme_heat_hazard
+.filter(ee.Filter.eq('id_no', "intensity_returnperiod100y"))
+.first();
+
+var heat_20y = global_extreme_heat_hazard
+.filter(ee.Filter.eq('id_no', "intensity_returnperiod20y"))
+.first();
+
+var heat_5y = global_extreme_heat_hazard
+.filter(ee.Filter.eq('id_no', "intensity_returnperiod5y"))
+.first();
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+Map.setOptions("Hybrid");
+Map.centerObject(aoi, 5);
+
+Map.addLayer(heat_100y.clip(aoi),{min:25,max:40,palette:palette},'Extreme Heat Hazard (100y return)')
+Map.addLayer(heat_20y.clip(aoi),{min:25,max:40,palette:palette},'Extreme Heat Hazard (20y return)')
+Map.addLayer(heat_5y.clip(aoi),{min:25,max:40,palette:palette},'Extreme Heat Hazard (5y return)')

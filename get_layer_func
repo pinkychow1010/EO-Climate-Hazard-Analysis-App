@@ -7,14 +7,43 @@
 
 /**
  * This script contains functions to get different geospatial layers
+ * to be fired once data layer is selected by users
  */
 
+// get Global Extreme Heat Hazard
+// https://gee-community-catalog.org/projects/heat-hazard/
+
+// 100 year return period
+exports.get_heat_100y = function get_heat_100y(aoi) {
+  var global_extreme_heat_hazard = ee.ImageCollection("projects/sat-io/open-datasets/WORLD-BANK/global-ext-heat-hazard");
+  var heat_100y = global_extreme_heat_hazard.filter(ee.Filter.eq('id_no', "intensity_returnperiod100y")).first();
+  return heat_100y.clip(aoi);
+};
+
+// 20 year return period
+exports.get_heat_20y = function get_heat_20y(aoi) {
+  var global_extreme_heat_hazard = ee.ImageCollection("projects/sat-io/open-datasets/WORLD-BANK/global-ext-heat-hazard");
+  var heat_20y = global_extreme_heat_hazard.filter(ee.Filter.eq('id_no', "intensity_returnperiod20y")).first();
+  return heat_20y.clip(aoi);
+};
+
+// 5 year return period
+exports.get_heat_5y = function get_heat_5y(aoi) {
+  var global_extreme_heat_hazard = ee.ImageCollection("projects/sat-io/open-datasets/WORLD-BANK/global-ext-heat-hazard");
+  var heat_5y = global_extreme_heat_hazard.filter(ee.Filter.eq('id_no', "intensity_returnperiod5y")).first();
+  return heat_5y.clip(aoi);
+};
+
+// get Landscan latest population layer (2021)
+// https://gee-community-catalog.org/projects/landscan/?h=landscan
 exports.get_landscan_pop = function get_landscan_pop(aoi) {
   var landscan_global = ee.ImageCollection("projects/sat-io/open-datasets/ORNL/LANDSCAN_GLOBAL");
   var landscan_2021 = landscan_global.sort('system:time_start',false).first();
   return landscan_2021.clip(aoi);
 };
 
+// get Palmer Drought Severity Index (historical average between 2010 and 2023)
+// https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE
 exports.get_pdsi = function get_pdsi(aoi) {
   // return the list of coordinates
   var centroid = aoi.first().geometry().centroid();
@@ -37,6 +66,8 @@ exports.get_pdsi = function get_pdsi(aoi) {
   return drought_index;
 };
 
+// get MODIS temperature difference between daytime and nighttime
+// https://developers.google.com/earth-engine/datasets/catalog/OpenLandMap_CLM_CLM_LST_MOD11A2-DAYNIGHT_M_v01
 exports.get_temp_diff = function get_temp_diff(aoi) {
   var temp_diff = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAYNIGHT_M/v01")
   .reduce('mean')
@@ -44,6 +75,8 @@ exports.get_temp_diff = function get_temp_diff(aoi) {
   return temp_diff.clip(aoi);
 };
 
+// get GHSL urbanization degree
+// https://developers.google.com/earth-engine/datasets/catalog/JRC_GHSL_P2016_SMOD_POP_GLOBE_V1
 exports.get_urban_degree = function get_urban_degree(aoi) {
   var dataset = ee.ImageCollection('JRC/GHSL/P2016/SMOD_POP_GLOBE_V1')
                   .filter(ee.Filter.date('2015-01-01', '2015-12-31'));
@@ -51,6 +84,8 @@ exports.get_urban_degree = function get_urban_degree(aoi) {
   return degreeOfUrbanization;
 };
 
+// get urban heat island index daytime
+// https://developers.google.com/earth-engine/datasets/catalog/YALE_YCEO_UHI_Summer_UHI_yearly_pixel_v4
 exports.get_uhi_day = function get_uhi_day(aoi) {
   var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
   .select('Daytime')
@@ -59,6 +94,8 @@ exports.get_uhi_day = function get_uhi_day(aoi) {
   return uhi.clip(aoi);
 };
 
+// get urban heat island index nighttime
+// https://developers.google.com/earth-engine/datasets/catalog/YALE_YCEO_UHI_Summer_UHI_yearly_pixel_v4
 exports.get_uhi_night = function get_uhi_night(aoi) {
   var uhi = ee.ImageCollection('YALE/YCEO/UHI/Summer_UHI_yearly_pixel/v4')
   .select('Nighttime')
@@ -67,6 +104,8 @@ exports.get_uhi_night = function get_uhi_night(aoi) {
   return uhi.clip(aoi);
 };
 
+// get density of forest class within 5 km radius in Land Cover
+// https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
 exports.get_forest_density = function get_forest_density(aoi) {
   
   var bbox = aoi.geometry();
@@ -87,6 +126,8 @@ exports.get_forest_density = function get_forest_density(aoi) {
   return reduceNeighborhood;
 };
 
+// get density of cropland class within 5 km radius in Land Cover
+// https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
 exports.get_cropland_density = function get_cropland_density(aoi) {
   
   var bbox = aoi.geometry();
@@ -107,6 +148,9 @@ exports.get_cropland_density = function get_cropland_density(aoi) {
   return reduceNeighborhood;
 };
 
+
+// get density of urban class within 5 km radius in Land Cover
+// https://developers.google.com/earth-engine/datasets/catalog/ESA_WorldCover_v200
 exports.get_urban_density = function get_urban_density(aoi) {
   
   var bbox = aoi.geometry();
@@ -127,10 +171,15 @@ exports.get_urban_density = function get_urban_density(aoi) {
   return reduceNeighborhood;
 };
 
+
+// get critical infrastructure spatial index
+// https://www.nature.com/articles/s41597-022-01218-4
 exports.get_cisi = function get_cisi(aoi) {
   return ee.Image("projects/sat-io/open-datasets/CISI/global_CISI").clip(aoi);
 };
 
+// get relative wealth index
+// https://dataforgood.facebook.com/dfg/tools/relative-wealth-index
 exports.get_rwi = function get_rwi(aoi) {
   // get RWI data layer from community project (Layer 2)
   var rwi_ds = ee.FeatureCollection("projects/sat-io/open-datasets/facebook/relative_wealth_index");

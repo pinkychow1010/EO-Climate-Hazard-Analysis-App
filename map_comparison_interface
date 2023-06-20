@@ -8,10 +8,6 @@
 /**
  * This is a script for comparing layers between national admin regions.
  * 
- * To do: 
- * - <del> add data layer control </del>
- * - add welcome panel with instructions
- * - provide more urban heat relevant layers
  *
  */
 
@@ -22,7 +18,27 @@ var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var style = require('users/pinkychow1010/WB_IntraUrban:map_compare_style'); // dict for app styling
 var basemap = require('users/pinkychow1010/WB_IntraUrban:basemap_resources'); 
 
-exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, legend_dict) {
+
+/**
+ * Comparison Map: App which composes of a main panel with several widgets
+ * User can control the panel to visualize choropleth map for two different climate variables
+ * 
+ * This function is used to construct the variable comparison app
+ * 
+ * @author Ka Hei Chow.
+ *
+ * @fires   add main panel with variable and location selections, add welcome instruction message
+ *
+ * @param {dict}   layer_dict      A dict with data layer as keys and get dataset functions as values.
+ * @param {dict}   info_dict       A dict with data layer as keys and data layer descriptions as values.
+ * @param {dict}   url_dict        A dict with data layer as keys and project url as values.
+ * @param {dict}   log_dict        A dict with data layer as keys and log visualization options as values.
+ * @param {dict}   legend_dict     A dict with data layer as keys and legend titles as values.
+ *
+ * @return {null} null.
+ *
+ */
+exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, legend_dict, color_dict) {
   // import project data layers for admin level selections
   var ADM0 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM0");
   var ADM1 = ee.FeatureCollection("projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM1");
@@ -85,7 +101,7 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
   
   dropdownPanel.add(admin0Select); // add country drop down
   
-  // admin level
+  // admin level for user selection for choropleth map display
   var admin_dict = {
     "Admin 1 Level": ADM1,
     "Admin 2 Level": ADM2
@@ -215,8 +231,8 @@ exports.comparison_app = function(layer_dict, info_dict, url_dict, log_dict, leg
     
     // get choropleth maps for both maps
     // vector, raster, map, reducer, log, output_name, legend_text
-    helper.zonalInspect(aoi, layer1, map1, "mean", log_dict[var1], var1, legend_dict[var1]);
-    helper.zonalInspect(aoi, layer2, map2, "mean", log_dict[var2], var2, legend_dict[var2]); 
+    helper.zonalInspect(aoi, layer1, map1, "mean", log_dict[var1], var1, legend_dict[var1], color_dict[var1]);
+    helper.zonalInspect(aoi, layer2, map2, "mean", log_dict[var2], var2, legend_dict[var2], color_dict[var2]); 
     
     // set map control
     map1.setControlVisibility(mapControl);

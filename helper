@@ -8,6 +8,10 @@
  * Color palette for data visualization
  * User can reverse the palette list using .reverse()
  * e.g. color.jet.reverse()
+ * 
+ * Example usage:
+ * var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+ * var palette = c.magma
  */
 exports.color = {
   'reds': ["fff5f0","fee0d2","fcbba1","fc9272","fb6a4a","ef3b2c","cb181d","a50f15","67000d"],
@@ -154,7 +158,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
  * @return {null}                           Choropleth map and inspector will be added on map object, return null
  */
 exports.zonalInspect = function zonalInspect(
-  vector, raster, map, reducer, log, output_name, legend_text
+  vector, raster, map, reducer, log, output_name, legend_text, palette
   ) {
     
     // import modules
@@ -163,6 +167,7 @@ exports.zonalInspect = function zonalInspect(
     
     if (reducer === undefined || reducer === null){var reducer = "mean"};
     if (log === undefined || log === null){var log = 0};
+    if (palette === undefined || palette === null){var palette = palettes.colorbrewer.RdBu[6]};
     
     var reducer_column = {
       "mean": ee.Reducer.mean,
@@ -291,7 +296,7 @@ exports.zonalInspect = function zonalInspect(
       }
     };
 
-  var palette = palettes.colorbrewer.RdBu[6]; // color map
+  // var palette = palettes.colorbrewer.RdBu[6]; // color map
   // var log = 0; // option for log scale
   var class_n = 6; // number of class/ bins
   var title = "Layer Mean"; // layer name
