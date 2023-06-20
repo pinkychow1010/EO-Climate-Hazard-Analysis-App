@@ -17,7 +17,7 @@ app.comparison_app(
   config.url_dict,  // dictionary for data layer project details URL
   config.log_dict,  // dictionary for log visualization (binary)
   config.legend_dict, // dictionary for legend text
-  config.color_dict
+  config.color_dict // dictionary for color maps
   );
   
   
