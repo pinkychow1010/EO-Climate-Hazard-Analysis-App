@@ -24,7 +24,10 @@ exports.layer_dict = {
   "EXPOSURE | Cropland Density": data.get_cropland_density,
   "VULNERABILITY | Forest Density": data.get_forest_density,
   "VULNERABILITY | Urbanization Degree": data.get_urban_degree,
-  "HAZARD | Palmer Drought Severity Index": data.get_pdsi
+  "HAZARD | Palmer Drought Severity Index": data.get_pdsi,
+  "HAZARD | Extreme Heat 100y return": data.get_heat_100y,
+  "HAZARD | Extreme Heat 20y return": data.get_heat_20y,
+  "HAZARD | Extreme Heat 5y return": data.get_heat_5y
 };
 
 // descriptions for data layers
@@ -36,7 +39,10 @@ exports.info_dict = {
   "EXPOSURE | Cropland Density": text.cropland,
   "VULNERABILITY | Forest Density": text.forest,
   "VULNERABILITY | Urbanization Degree": text.ghsl,
-  "HAZARD | Palmer Drought Severity Index": text.pdsi
+  "HAZARD | Palmer Drought Severity Index": text.pdsi,
+  "HAZARD | Extreme Heat 100y return": text.pdsi,
+  "HAZARD | Extreme Heat 20y return": text.pdsi,
+  "HAZARD | Extreme Heat 5y return": text.pdsi
 };
 
 // project url link for data layers
@@ -48,7 +54,10 @@ exports.url_dict = {
   "EXPOSURE | Cropland Density": "https://esa-worldcover.org/en",
   "VULNERABILITY | Forest Density": "https://esa-worldcover.org/en",
   "VULNERABILITY | Urbanization Degree": "https://ghsl.jrc.ec.europa.eu/",
-  "HAZARD | Palmer Drought Severity Index": "https://www.climatologylab.org/terraclimate.html"
+  "HAZARD | Palmer Drought Severity Index": "https://www.climatologylab.org/terraclimate.html",
+  "HAZARD | Extreme Heat 100y return": "https://gee-community-catalog.org/projects/heat-hazard/",
+  "HAZARD | Extreme Heat 20y return": "https://gee-community-catalog.org/projects/heat-hazard/",
+  "HAZARD | Extreme Heat 5y return": "https://gee-community-catalog.org/projects/heat-hazard/"
 };
 
 // options for log scale data visualization for different data layers
@@ -60,7 +69,10 @@ exports.log_dict = {
   "EXPOSURE | Cropland Density": 0,
   "VULNERABILITY | Forest Density": 0,
   "VULNERABILITY | Urbanization Degree": 0,
-  "HAZARD | Palmer Drought Severity Index": 0
+  "HAZARD | Palmer Drought Severity Index": 0,
+  "HAZARD | Extreme Heat 100y return": 0,
+  "HAZARD | Extreme Heat 20y return": 0,
+  "HAZARD | Extreme Heat 5y return": 0
 };
 
 // data layer unit shown in legends
@@ -72,5 +84,8 @@ exports.legend_dict = {
   "EXPOSURE | Cropland Density": "%",
   "VULNERABILITY | Forest Density": "%",
   "VULNERABILITY | Urbanization Degree": "No Unit",
-  "HAZARD | Palmer Drought Severity Index": "No Unit"
+  "HAZARD | Palmer Drought Severity Index": "No Unit",
+  "HAZARD | Extreme Heat 100y return": "°C",
+  "HAZARD | Extreme Heat 20y return": "°C",
+  "HAZARD | Extreme Heat 5y return": "°C"
 };
