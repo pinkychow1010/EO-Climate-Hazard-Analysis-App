@@ -40,9 +40,9 @@ exports.info_dict = {
   "VULNERABILITY | Forest Density": text.forest,
   "VULNERABILITY | Urbanization Degree": text.ghsl,
   "HAZARD | Palmer Drought Severity Index": text.pdsi,
-  "HAZARD | Extreme Heat 100y return": text.pdsi,
-  "HAZARD | Extreme Heat 20y return": text.pdsi,
-  "HAZARD | Extreme Heat 5y return": text.pdsi
+  "HAZARD | Extreme Heat 100y return": text.heat_hazard,
+  "HAZARD | Extreme Heat 20y return": text.heat_hazard,
+  "HAZARD | Extreme Heat 5y return": text.heat_hazard
 };
 
 // project url link for data layers
