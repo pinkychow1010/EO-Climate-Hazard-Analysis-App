@@ -14,6 +14,7 @@ var data = require('users/pinkychow1010/WB_IntraUrban:get_layer_func'); // custo
 var app = require('users/pinkychow1010/WB_IntraUrban:map_comparison_interface'); // customized basemap to enhance visuals 
 var text = require('users/pinkychow1010/WB_IntraUrban:data_text'); // customized basemap to enhance visuals 
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper'); // customized basemap to enhance visuals 
+var palettes = require('users/gena/packages:palettes');
 
 // all available data layers imported from functions
 exports.layer_dict = {
@@ -28,6 +29,21 @@ exports.layer_dict = {
   "HAZARD | Extreme Heat 100y return": data.get_heat_100y,
   "HAZARD | Extreme Heat 20y return": data.get_heat_20y,
   "HAZARD | Extreme Heat 5y return": data.get_heat_5y
+};
+
+// palettes for data layers
+exports.color_dict = {
+  "EXPOSURE | Relative Wealth Index": palettes.colorbrewer.RdBu[6],
+  "EXPOSURE | Critical Infrastructure": palettes.colorbrewer.RdBu[6],
+  "EXPOSURE | Population (LandScan)": palettes.colorbrewer.YlOrBr[6],
+  "EXPOSURE | Urban Density": palettes.colorbrewer.YlOrBr[6],
+  "EXPOSURE | Cropland Density": palettes.colorbrewer.YlOrBr[6],
+  "VULNERABILITY | Forest Density": palettes.colorbrewer.YlGn[6],
+  "VULNERABILITY | Urbanization Degree": palettes.colorbrewer.YlOrBr[6],
+  "HAZARD | Palmer Drought Severity Index": palettes.colorbrewer.Reds[6],
+  "HAZARD | Extreme Heat 100y return": palettes.colorbrewer.Reds[6],
+  "HAZARD | Extreme Heat 20y return": palettes.colorbrewer.Reds[6],
+  "HAZARD | Extreme Heat 5y return": palettes.colorbrewer.Reds[6]
 };
 
 // descriptions for data layers
