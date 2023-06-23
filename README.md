@@ -13,11 +13,11 @@
 
 🖱️ You can check out some of the available features below:
 
-[Data Explorer](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/4)
+[🔍 Data Explorer](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/4)
 
-[Analysis Tool](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/5)
+[👨🏻‍💻 Analysis Tool](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/5)
 
-[Comparison Tool](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/6)
+[📏 Comparison Tool](https://github.com/pinkychow1010/EO-Climate-Hazard-Analysis-App/discussions/6)
 
 <br>
 
@@ -33,7 +33,7 @@
 
 <br>
 
-## **Analysis Task**
+## **Analysis Tool**
 
 The toolbox allow users to easily download analysis-ready data layers, such as urban heat intensity and urbanisation trends within political-administrative boundaries worldwide. Users can download the results in CSV or GeoTIFF format for further GIS analysis.
 
@@ -64,6 +64,14 @@ How do different land cover type spatially distributed? What are the most domine
 * **Population / Urban Density**
 
 Where do the majority of the population live in the city?
+
+<br>
+
+## **Comparison Tool**
+
+With the comparison tool users can examine different climate hazard factors (eg. relative wealth index, forest density) for any country on-the-fly.
+
+[![](https://user-images.githubusercontent.com/57500332/248237422-1cab2337-f4a4-4b44-889e-26f40f4bc2e5.gif)](https://sites.google.com/view/intraurban/home)
 
 <br>
 
