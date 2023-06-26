@@ -24,7 +24,8 @@ var end =  '</ColorMap>' +
 
 var groups = "";
 
-var List = [0,1,2,3,4]//ee.List.sequence(0, colors.length);
+
+var List = ee.List.sequence(0, colors.length-1).getInfo();
 print(List);
 
 var i=0;
