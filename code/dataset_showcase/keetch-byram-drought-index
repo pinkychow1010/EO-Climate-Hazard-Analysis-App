@@ -33,7 +33,16 @@ var bandViz = {
   palette: [
     'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
   ],
-  //opacity: 0.8
+  opacity: 0.3
+};
+
+var droughtViz = {
+  min: 300,
+  max: 700,
+  palette: [
+    'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
+  ],
+  opacity: 0.9
 };
 
 
@@ -47,7 +56,7 @@ var img = collection.max().clip(aoi);
 var drought = img.gt(200);
 
 Map.addLayer(img, bandViz, 'Keetch-Byram Drought Index');
-Map.addLayer(img.updateMask(drought), bandViz, 'Drought Alert');
+Map.addLayer(img.updateMask(drought), droughtViz, 'Drought Alert');
 draw_bounds(aoi);
 
 var legend = helper.add_colorbar(bandViz, "KBDI", 0);
