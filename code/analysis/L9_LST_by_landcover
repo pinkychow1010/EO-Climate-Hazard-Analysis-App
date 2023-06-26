@@ -93,6 +93,17 @@ map1.addLayer(lst, {min:35, max:45, palette:palette}, "Landsat 9 LST");
 map2.addLayer(ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox), {}, "Land Use Class");
 var linker = ui.Map.Linker([map1, map2]);
 
+var style = {width: '400px', height: '200px', location: 'bottom-center'};
+
+var map1_label = ui.Label("L9 LST");
+var map2_label = ui.Label("Land Cover");
+
+map1_label.style().set(style);
+map2_label.style().set(style);
+
+map1.add(map1_label);
+map2.add(map2_label);
+
 // generate bar chart
 var chart = reduce_by_lulc(
   lst, 
