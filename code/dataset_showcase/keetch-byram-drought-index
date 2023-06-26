@@ -17,6 +17,8 @@
  * This is an example script for visualizing KBDI drought index in Pakistan
  */
 
+helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+
 var newDate = new Date();
 var today = ee.Date(newDate);
 var previous = today.advance(-14, 'day');
@@ -46,3 +48,5 @@ var drought = img.gt(200);
 
 Map.addLayer(img, bandViz, 'Keetch-Byram Drought Index');
 Map.addLayer(img.updateMask(drought), bandViz, 'Drought Alert');
+
+helper.add_color_bar(bandViz, "KBDI", 0);
