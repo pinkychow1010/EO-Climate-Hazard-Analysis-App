@@ -39,6 +39,8 @@ List = List.map(function(n) {
   
   console.log(line);
   i =+ 1;
+  console.log(i);
+  
   return groups += line;
 });
 
