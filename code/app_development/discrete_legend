@@ -44,6 +44,26 @@ List = List.map(function(n) {
   return groups = groups + line; //groups += line;
 });
 
+print(List);
+
+// var collect = function(n) {
+//   var colors_ee = ee.List(colors);
+//   var color = colors_ee.get(i);
+  
+//   var bins_ee = ee.List(bins);
+//   var bin = bins_ee.get(i);
+//   var line = '<ColorMapEntry color="' + color.getInfo() + '" quantity="' + bin.getInfo() + '" label=""/>';
+  
+//   console.log(line);
+//   i = i + 1;
+//   console.log(i);
+//   return groups = groups + line; //groups += line;
+// };
+
+// groups = ee.List(List.iterate(collect, groups));
+
+print(groups);
+
 var intervals = start + groups + end;
 print(intervals);
 
