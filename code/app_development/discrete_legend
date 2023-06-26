@@ -161,4 +161,5 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
 
 var styled_img = collection.sldStyle(intervals);
 
-Map.addLayer(styled_img, {}, 'Keetch-Byram Drought Index')
+Map.addLayer(styled_img, {}, 'Keetch-Byram Drought Index');
+Map.setOptions("Hybrid");
