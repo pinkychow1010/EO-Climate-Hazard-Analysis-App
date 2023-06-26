@@ -18,7 +18,7 @@ var bbox =
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/fa8698853665be49670a336559bc1126  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/9917c0bca3dc4ebdc2ec1502a9624b38  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -32,7 +32,10 @@ var bbox =
 // ################################# //
 
 /**
- * This is a test function where user can explore Landsat LST by Land Use Class.
+ * Landsat 9 provides very high resolution land surface temperature information 
+ * compared to MODIS sensors.
+ * 
+ * This is a test function where user can explore Landsat 9 LST by Land Use Class.
  * The output will be a bar chart, where mean temperature will be computed for 
  * different land use cover, illustrating the impact of landuse on urban heat.
  */
