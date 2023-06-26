@@ -1,0 +1,233 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var bbox = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      },
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.MultiPolygon(
+        [[[[73.58874858296777, 31.563949988152476],
+           [73.58874858296777, 31.563949988152476],
+           [73.58874858296777, 31.563949988152476],
+           [73.58874858296777, 31.563949988152476]]],
+         [[[74.13257182515527, 31.79768026574801],
+           [74.13257182515527, 31.47029331823731],
+           [74.58850444234277, 31.47029331823731],
+           [74.58850444234277, 31.79768026574801]]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/9917c0bca3dc4ebdc2ec1502a9624b38  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ################################# //
+// ######    Landsat LST      ###### //
+// ######     by Land Cover   ###### //
+// ################################# //
+
+/**
+ * Landsat 9 provides very high resolution land surface temperature information 
+ * compared to MODIS sensors.
+ * 
+ * This is a test function where user can explore Landsat 9 LST by Land Use Class.
+ * The output will be a bar chart, where mean temperature will be computed for 
+ * different land use cover, illustrating the impact of landuse on urban heat.
+ */
+ 
+// Define config for visualization
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var palette = helper.color.coolwarm;
+
+// split panel
+var map1 = ui.Map();
+var map2 = ui.Map();
+
+var splitPanel = ui.SplitPanel({
+  firstPanel: map1,
+  secondPanel: map2,
+  orientation: 'horizontal',
+  wipe: true
+});
+
+// Remove the default map from the root panel.
+ui.root.clear();
+
+// Add our split panel to the root panel.
+ui.root.add(splitPanel);
+
+// temporal filter
+var yearFilter = ee.Filter.date(
+    ee.Date("2022-01-01"), ee.Date("2023-01-01")
+    );
+var summerFilter = helper.get_summer(bbox);
+
+// get LST
+var landsat = ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    .map(maskCloud)
+    .filter(yearFilter)
+    .filter(summerFilter)
+    .filter(ee.Filter.lt('CLOUD_COVER', 30))
+    .median()
+    .clip(bbox);
+
+// transformation
+var b10 = landsat.select(['ST_B10'])
+.multiply(0.00341802)
+.add(149)
+.subtract(273.15)
+.rename('B10');
+
+landsat = landsat.addBands(b10);
+var lst = landsat.select(['B10']);
+
+// Data Visualization
+map1.centerObject(bbox, 11);
+map1.setOptions("Hybrid");
+
+map2.centerObject(bbox, 11);
+map2.setOptions("Hybrid");
+
+map1.addLayer(lst, {min:39, max:49, palette:palette}, "Landsat 9 LST");
+map2.addLayer(ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox), {}, "Land Use Class");
+var linker = ui.Map.Linker([map1, map2]);
+
+// add labels
+var map1_label = ui.Label("L9 LST");
+var map2_label = ui.Label("Land Cover");
+
+var style = {width: '200px', height: '50px', fontSize: '26px'};
+map1_label.style().set(style);
+map2_label.style().set(style);
+
+map1.add(map1_label);
+map2.add(map2_label);
+
+// generate bar chart
+var chart = reduce_by_lulc(
+  lst, 
+  bbox, 
+  "Land Surface Temperature by Land Use Class (2020)"
+  );
+
+print(chart);
+
+//###############
+//## FUNCTIONS ##
+//###############
+
+function maskCloud(col) {
+  // #################################
+  // ###  Landsat 8 cloud mask   #####
+  // #################################
+  
+  // Bits 3 and 5 are cloud shadow and cloud, respectively.
+  var cloudShadowBitMask = (1 << 3);
+  var cloudsBitMask = (1 << 5);
+  
+  // Get the pixel QA band.
+  var qa = col.select("QA_PIXEL");
+  
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
+                .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+  return col.updateMask(mask);
+}
+
+function reduce_by_lulc(image, bbox, title) {
+    // #################################
+    // # plot band by land use class  ##
+    // #################################
+    
+    var lulc = ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox);
+    var combine_bands = image.addBands(lulc);
+    
+    // Grouped a mean reducer: LST by land cover category.
+    var means = combine_bands.reduceRegion({
+      reducer: ee.Reducer.mean().group({
+        groupField: 1,
+        groupName: 'landUseClass',
+      }),
+      geometry: bbox,
+      scale: 1000,
+      maxPixels: 1e8
+    });
+    
+    // Helper function: Convert number to string
+    function toString(number) {
+      return ee.Number(number).format('%d')
+    }
+    
+    // Create a dict for look up class names
+    var lookup_names = ee.Dictionary.fromLists(
+      ee.List(lulc.get('Map_class_values')).map(toString),
+      lulc.get('Map_class_names')
+    );
+    
+    // Create a dict for look up class colors
+    var lookup_palette = ee.Dictionary.fromLists(
+      ee.List(lulc.get('Map_class_values')).map(toString),
+      lulc.get('Map_class_palette')
+    );
+    
+    function createChartSliceDictionary(fc) {
+      return ee.List(fc.aggregate_array("landcover_class_palette"))
+        .map(function(p) {
+          return {
+            'color': p
+          };
+        }).getInfo();
+    }
+    
+    // Create feature without geometry
+    function createFeature(stats) {
+      var stats_dict = ee.Dictionary(stats);
+      var class_number = stats_dict.get('landUseClass');
+      var result = {
+        landcover_class_number: class_number,
+        landcover_class_name: lookup_names.get(class_number),
+        landcover_class_palette: lookup_palette.get(class_number),
+        mean: stats_dict.get('mean')
+      };
+      return ee.Feature(null, result); // Creates a feature without a geometry.
+    }
+    
+    // Object to list of group info
+    var stats = ee.List(means.get('groups'));
+    
+    // Convert list to feature collection
+    var by_lulc = ee.FeatureCollection(stats.map(createFeature));
+
+    // Create bar chart
+    var landcover_summary_chart = ui.Chart.feature.byFeature({
+        features: by_lulc.sort('mean', false),
+        xProperty: 'landcover_class_name',
+        yProperties: ['mean']
+      })
+      .setChartType('BarChart')
+      .setOptions({
+        title: title,
+        slices: createChartSliceDictionary(by_lulc),
+        sliceVisibilityThreshold: 0 // Don't group small slices.
+      });
+    
+    var chartStyle = {
+      title: title,
+      colors: ['blue']
+    };
+    
+    return landcover_summary_chart.setOptions(chartStyle);
+}
+
+
