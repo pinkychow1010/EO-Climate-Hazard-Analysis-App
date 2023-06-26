@@ -1,6 +1,7 @@
 var bins = ["0", "200", "400", "600", "800"];
 
 var labels = [
+    "No Haard",
     "Low Hazard",
     "Water Deficit",
     "Drought",
