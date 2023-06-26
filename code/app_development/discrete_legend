@@ -150,13 +150,14 @@ var today = ee.Date(newDate);
 var previous = today.advance(-14, 'day');
 
 // get dataset
+var landMask = ee.Image('MODIS/MOD44W/MOD44W_005_2000_02_24').select('water_mask').eq(0);
+
 var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous, today)
-  .first();
+  .first()
+  .updateMask(landMask);
 
-
-// Map.addLayer(collection, {}, 'Ref')
 
 var styled_img = collection.sldStyle(intervals);
 
