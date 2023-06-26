@@ -24,7 +24,9 @@ var end =  '</ColorMap>' +
 
 var groups = "";
 
-var List = ee.List.sequence(0, colors.length);
+var List = ee.List.sequence(0, colors.length+1);
+print(List);
+
 var i=0;
 
 List = List.map(function(n) {
@@ -34,6 +36,7 @@ List = List.map(function(n) {
   var bins_ee = ee.List(bins);
   var bin = bins_ee.get(i);
   var line = '<ColorMapEntry color="' + color.getInfo() + '" quantity="' + bin.getInfo() + '" label=""/>';
+  console.log(line)
   i =+ 1;
   return groups += line;
 });
