@@ -39,7 +39,7 @@ List = List.map(function(n) {
 });
 
 var intervals = start + groups + end;
-print(intervals);
+// print(intervals);
 
 // var intervals =
 // '<RasterSymbolizer>' +
