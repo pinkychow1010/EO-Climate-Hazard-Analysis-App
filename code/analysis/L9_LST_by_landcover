@@ -1,17 +1,23 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var bbox = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
+      {
+        "type": "rectangle"
+      },
       {
         "type": "rectangle"
       }
     ] */
-    ee.Geometry.Polygon(
-        [[[66.63646281636656, 25.176993102013775],
-          [66.63646281636656, 24.749961561376768],
-          [67.44533122456968, 24.749961561376768],
-          [67.44533122456968, 25.176993102013775]]], null, false);
+    ee.Geometry.MultiPolygon(
+        [[[[73.58874858296777, 31.563949988152476],
+           [73.58874858296777, 31.563949988152476],
+           [73.58874858296777, 31.563949988152476],
+           [73.58874858296777, 31.563949988152476]]],
+         [[[74.13257182515527, 31.79768026574801],
+           [74.13257182515527, 31.47029331823731],
+           [74.58850444234277, 31.47029331823731],
+           [74.58850444234277, 31.79768026574801]]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
@@ -44,6 +50,7 @@ var bbox =
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var palette = helper.color.coolwarm;
 
+// split panel
 var map1 = ui.Map();
 var map2 = ui.Map();
 
@@ -60,11 +67,13 @@ ui.root.clear();
 // Add our split panel to the root panel.
 ui.root.add(splitPanel);
 
+// temporal filter
 var yearFilter = ee.Filter.date(
     ee.Date("2022-01-01"), ee.Date("2023-01-01")
     );
 var summerFilter = helper.get_summer(bbox);
 
+// get LST
 var landsat = ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
     .map(maskCloud)
     .filter(yearFilter)
@@ -73,6 +82,7 @@ var landsat = ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
     .median()
     .clip(bbox);
 
+// transformation
 var b10 = landsat.select(['ST_B10'])
 .multiply(0.00341802)
 .add(149)
@@ -89,15 +99,15 @@ map1.setOptions("Hybrid");
 map2.centerObject(bbox, 11);
 map2.setOptions("Hybrid");
 
-map1.addLayer(lst, {min:35, max:45, palette:palette}, "Landsat 9 LST");
+map1.addLayer(lst, {min:39, max:49, palette:palette}, "Landsat 9 LST");
 map2.addLayer(ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox), {}, "Land Use Class");
 var linker = ui.Map.Linker([map1, map2]);
 
-var style = {width: '400px', height: '200px', location: 'bottom-center'};
-
+// add labels
 var map1_label = ui.Label("L9 LST");
 var map2_label = ui.Label("Land Cover");
 
+var style = {width: '200px', height: '50px', fontSize: '26px'};
 map1_label.style().set(style);
 map2_label.style().set(style);
 
@@ -113,6 +123,9 @@ var chart = reduce_by_lulc(
 
 print(chart);
 
+//###############
+//## FUNCTIONS ##
+//###############
 
 function maskCloud(col) {
   // #################################
@@ -128,7 +141,7 @@ function maskCloud(col) {
   
   // Both flags should be set to zero, indicating clear conditions.
   var mask = qa.bitwiseAnd(cloudShadowBitMask).eq(0)
-                 .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
+                .and(qa.bitwiseAnd(cloudsBitMask).eq(0));
   return col.updateMask(mask);
 }
 
