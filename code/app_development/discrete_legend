@@ -31,7 +31,7 @@ var i=0;
 
 List = List.map(function(n) {
   var colors_ee = ee.List(colors);
-  var color = colors_ee.get(i);
+  var color = colors_ee.get(n);
   
   var bins_ee = ee.List(bins);
   var bin = bins_ee.get(i);
