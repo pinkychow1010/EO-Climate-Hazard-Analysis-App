@@ -41,7 +41,7 @@ List = List.map(function(n) {
   i = i + 1;
   console.log(i);
   
-  return groups += line;
+  return groups = groups + line; //groups += line;
 });
 
 var intervals = start + groups + end;
@@ -126,7 +126,7 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .first();
 
 
-Map.addLayer(collection, {}, 'Ref')
+// Map.addLayer(collection, {}, 'Ref')
 
 var styled_img = collection.sldStyle(intervals);
 
