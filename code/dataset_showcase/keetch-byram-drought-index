@@ -59,7 +59,7 @@ Map.addLayer(img, bandViz, 'Keetch-Byram Drought Index');
 Map.addLayer(img.updateMask(drought), droughtViz, 'Drought Alert');
 draw_bounds(aoi);
 
-var legend = helper.add_colorbar(bandViz, "KBDI", 0);
+var legend = helper.add_colorbar(droughtViz, "KBDI", 0);
 Map.add(legend);
 
 function draw_bounds(geometry){
