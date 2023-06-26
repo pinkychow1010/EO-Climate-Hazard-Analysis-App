@@ -17,7 +17,7 @@
  * This is an example script for visualizing KBDI drought index in Pakistan
  */
 
-helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 
 var newDate = new Date();
 var today = ee.Date(newDate);
