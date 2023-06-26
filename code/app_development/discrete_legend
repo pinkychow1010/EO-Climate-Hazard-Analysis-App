@@ -33,13 +33,13 @@ List = List.map(function(n) {
   
   var bins_ee = ee.List(bins);
   var bin = bins_ee.get(i);
-  var line = '<ColorMapEntry color=' + color.getInfo() + " quantity=" + bin.getInfo() + ' label=""/>';
+  var line = '<ColorMapEntry color="' + color.getInfo() + '" quantity="' + bin.getInfo() + '" label=""/>';
   i =+ 1;
   return groups += line;
 });
 
 var intervals = start + groups + end;
-// print(intervals);
+print(intervals);
 
 // var intervals =
 // '<RasterSymbolizer>' +
@@ -129,7 +129,7 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous, today)
   .first();
-  
+
 var styled_img = collection.sldStyle(intervals);
 
 Map.addLayer(styled_img, {}, 'Keetch-Byram Drought Index')
