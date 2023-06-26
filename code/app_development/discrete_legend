@@ -36,7 +36,8 @@ List = List.map(function(n) {
   var bins_ee = ee.List(bins);
   var bin = bins_ee.get(i);
   var line = '<ColorMapEntry color="' + color.getInfo() + '" quantity="' + bin.getInfo() + '" label=""/>';
-  console.log(line)
+  
+  console.log(line);
   i =+ 1;
   return groups += line;
 });
