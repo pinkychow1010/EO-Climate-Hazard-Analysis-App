@@ -21,21 +21,30 @@
  * 
  */
 
+// import module
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 
+// get last 10 days
 var newDate = new Date();
 var today = ee.Date(newDate);
 var previous = today.advance(-14, 'day');
 
+// get dataset
 var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous, today);
 
+// define vis params
 var bandViz = {
   min: 300,
   max: 700,
   palette: [
-    'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
+    "#CCCCCC",
+    "#FEFF2C",
+    "#FF6625",
+    "#CC001A",
+    "#730009"
+  //  'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
   ],
   opacity: 0.3
 };
@@ -44,27 +53,133 @@ var droughtViz = {
   min: 300,
   max: 700,
   palette: [
-    'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
+    "#CCCCCC",
+    "#FEFF2C",
+    "#FF6625",
+    "#CC001A",
+    "#730009"
+    //'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
   ],
   opacity: 0.9
 };
 
-
+// define area of interest
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
 
 Map.setOptions("Hybrid");
 Map.centerObject(aoi, 5);
 
+// define drought conditions
 var img = collection.max().clip(aoi);
 var drought = img.gt(200);
 
-Map.addLayer(img, bandViz, 'Keetch-Byram Drought Index');
-Map.addLayer(img.updateMask(drought), droughtViz, 'Drought Alert');
+// display layers
+// Map.addLayer(img, bandViz, 'Keetch-Byram Drought Index');
+// Map.addLayer(img.updateMask(drought), droughtViz, 'Drought Alert');
+// draw_bounds(aoi);
+
+// var legend = helper.add_colorbar(droughtViz, "KBDI", 0);
+// Map.add(legend);
+
+var intervals =
+'<RasterSymbolizer>' +
+' <ColorMap type="intervals" extended="false" >' +
+    '<ColorMapEntry color="#CCCCCC" quantity="0" label="No Data"/>' +
+    '<ColorMapEntry color="#FEFF2C" quantity="200" label="Population Count (Estimate)"/>' +
+    '<ColorMapEntry color="#FF6625" quantity="400" label="Population Count (Estimate)"/>' +
+    '<ColorMapEntry color="#CC001A" quantity="600" label="Population Count (Estimate)"/>' +
+    '<ColorMapEntry color="#730009" quantity="800" label="Population Count (Estimate)"/>' +
+  '</ColorMap>' +
+'</RasterSymbolizer>';
+
+// Define a dictionary which will be used to make legend and visualize image on map
+var dict = {
+  "names": [
+    "No Hazard",
+    "Low Hazard",
+    "Water Deficit",
+    "Drought",
+    "Severe Drought"
+  ],
+  "colors": [
+    "#CCCCCC",
+    "#FEFF2C",
+    "#FF6625",
+    "#CC001A",
+    "#730009"
+  ]};
+  
+  // Create a panel to hold the legend widget
+var legend = ui.Panel({
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px'
+  }
+});
+
+addCategoricalLegend(legend, dict, 'KBDI');
+
+// display layers
+img = img.select('KBDI');
+Map.addLayer(img.sldStyle(intervals), {}, 'Keetch-Byram Drought Index');
+Map.addLayer(img.updateMask(drought).sldStyle(intervals), {}, 'Drought Alert');
 draw_bounds(aoi);
 
-var legend = helper.add_colorbar(droughtViz, "KBDI", 0);
-Map.add(legend);
+// Function to generate the legend
+function addCategoricalLegend(panel, dict, title) {
+  
+  // Create and add the legend title.
+  var legendTitle = ui.Label({
+    value: title,
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 4px 0',
+      padding: '0'
+    }
+  });
+  panel.add(legendTitle);
+  
+  var loading = ui.Label('Loading legend...', {margin: '2px 0 4px 0'});
+  panel.add(loading);
+  
+  // Creates and styles 1 row of the legend.
+  var makeRow = function(color, name) {
+    // Create the label that is actually the colored box.
+    var colorBox = ui.Label({
+      style: {
+        backgroundColor: color,
+        // Use padding to give the box height and width.
+        padding: '8px',
+        margin: '0 0 4px 0'
+      }
+    });
+  
+    // Create the label filled with the description text.
+    var description = ui.Label({
+      value: name,
+      style: {margin: '0 0 4px 6px'}
+    });
+  
+    return ui.Panel({
+      widgets: [colorBox, description],
+      layout: ui.Panel.Layout.Flow('horizontal')
+    });
+  };
+  
+  // Get the list of palette colors and class names from the image.
+  var palette = dict.colors;
+  var names = dict.names;
+  loading.style().set('shown', false);
+  
+  for (var i = 0; i < names.length; i++) {
+    panel.add(makeRow(palette[i], names[i]));
+  }
+  
+  Map.add(panel);
+}
+
 
 function draw_bounds(geometry){
   var empty = ee.Image().byte();
