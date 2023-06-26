@@ -118,3 +118,18 @@ for (var i = 0; i < names.length; i++) {
 }
 
 Map.add(panel);
+
+// get last 10 days
+var newDate = new Date();
+var today = ee.Date(newDate);
+var previous = today.advance(-14, 'day');
+
+// get dataset
+var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
+  .select('KBDI')
+  .filterDate(previous, today)
+  .first();
+  
+var styled_img = collection.sldStyle(intervals);
+
+Map.addLayer(styled_img, {}, 'Keetch-Byram Drought Index')
