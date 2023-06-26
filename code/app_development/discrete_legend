@@ -41,17 +41,6 @@ List = List.map(function(n) {
 var intervals = start + groups + end;
 print(intervals);
 
-// var intervals =
-// '<RasterSymbolizer>' +
-// ' <ColorMap type="intervals" extended="false" >' +
-//     '<ColorMapEntry color="#CCCCCC" quantity="0" label="No Data"/>' +
-//     '<ColorMapEntry color="#FEFF2C" quantity="200" label="Population Count (Estimate)"/>' +
-//     '<ColorMapEntry color="#FF6625" quantity="400" label="Population Count (Estimate)"/>' +
-//     '<ColorMapEntry color="#CC001A" quantity="600" label="Population Count (Estimate)"/>' +
-//     '<ColorMapEntry color="#730009" quantity="800" label="Population Count (Estimate)"/>' +
-//   '</ColorMap>' +
-// '</RasterSymbolizer>';
-
 // Define a dictionary which will be used to make legend and visualize image on map
 var dict = {
   "names": labels,
@@ -129,6 +118,9 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous, today)
   .first();
+
+
+Map.addLayer(collection, {}, 'Ref')
 
 var styled_img = collection.sldStyle(intervals);
 
