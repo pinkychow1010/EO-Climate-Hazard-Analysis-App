@@ -1,0 +1,123 @@
+var bins = ["0", "200", "400", "600", "800"];
+
+var labels = [
+    "No Haard",
+    "Low Hazard",
+    "Water Deficit",
+    "Drought",
+    "Severe Drought"
+  ];
+  
+var colors = [
+    "#CCCCCC",
+    "#FEFF2C",
+    "#FF6625",
+    "#CC001A",
+    "#730009"
+  ];
+
+var start = '<RasterSymbolizer>' +
+' <ColorMap type="intervals" extended="false" >';
+
+var end =  '</ColorMap>' +
+'</RasterSymbolizer>';
+
+var groups = "";
+
+var List = ee.List.sequence(0, colors.length);
+var i=0;
+
+List = List.map(function(n) {
+  var colors_ee = ee.List(colors);
+  var color = colors_ee.get(i);
+  
+  var bins_ee = ee.List(bins);
+  var bin = bins_ee.get(i);
+  var line = '<ColorMapEntry color=' + color.getInfo() + " quantity=" + bin.getInfo() + ' label=""/>';
+  i =+ 1;
+  return groups += line;
+});
+
+var intervals = start + groups + end;
+// print(intervals);
+
+// var intervals =
+// '<RasterSymbolizer>' +
+// ' <ColorMap type="intervals" extended="false" >' +
+//     '<ColorMapEntry color="#CCCCCC" quantity="0" label="No Data"/>' +
+//     '<ColorMapEntry color="#FEFF2C" quantity="200" label="Population Count (Estimate)"/>' +
+//     '<ColorMapEntry color="#FF6625" quantity="400" label="Population Count (Estimate)"/>' +
+//     '<ColorMapEntry color="#CC001A" quantity="600" label="Population Count (Estimate)"/>' +
+//     '<ColorMapEntry color="#730009" quantity="800" label="Population Count (Estimate)"/>' +
+//   '</ColorMap>' +
+// '</RasterSymbolizer>';
+
+// Define a dictionary which will be used to make legend and visualize image on map
+var dict = {
+  "names": labels,
+  "colors": colors
+};
+  
+  // Create a panel to hold the legend widget
+var legend = ui.Panel({
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px'
+  }
+});
+
+// Function to generate the legend
+function addCategoricalLegend(panel, dict, title) {
+  
+  // Create and add the legend title.
+  var legendTitle = ui.Label({
+    value: title,
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 4px 0',
+      padding: '0'
+    }
+  });
+  panel.add(legendTitle);
+  
+  var loading = ui.Label('Loading legend...', {margin: '2px 0 4px 0'});
+  panel.add(loading);
+  
+  // Creates and styles 1 row of the legend.
+  var makeRow = function(color, name) {
+    // Create the label that is actually the colored box.
+    var colorBox = ui.Label({
+      style: {
+        backgroundColor: color,
+        // Use padding to give the box height and width.
+        padding: '8px',
+        margin: '0 0 4px 0'
+      }
+    });
+  
+    // Create the label filled with the description text.
+    var description = ui.Label({
+      value: name,
+      style: {margin: '0 0 4px 6px'}
+    });
+  
+    return ui.Panel({
+      widgets: [colorBox, description],
+      layout: ui.Panel.Layout.Flow('horizontal')
+    });
+  };
+  
+  // Get the list of palette colors and class names from the image.
+  var palette = dict.colors;
+  var names = dict.names;
+  loading.style().set('shown', false);
+  
+  for (var i = 0; i < names.length; i++) {
+    panel.add(makeRow(palette[i], names[i]));
+  }
+  
+  Map.add(panel);
+}
+
+addCategoricalLegend(legend, dict, 'KBDI');
