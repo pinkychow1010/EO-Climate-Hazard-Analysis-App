@@ -48,6 +48,18 @@ var drought = img.gt(200);
 
 Map.addLayer(img, bandViz, 'Keetch-Byram Drought Index');
 Map.addLayer(img.updateMask(drought), bandViz, 'Drought Alert');
+draw_bounds(aoi);
 
 var legend = helper.add_colorbar(bandViz, "KBDI", 0);
 Map.add(legend);
+
+function draw_bounds(geometry){
+  var empty = ee.Image().byte();
+  var outlines = empty.paint({
+    featureCollection: geometry,
+    color: 'red',
+    width: 2
+  });
+  var palette = ['FF0000', '00FF00', '0000FF'];
+  Map.addLayer(outlines, {palette: palette}, 'Boundary');  
+}
