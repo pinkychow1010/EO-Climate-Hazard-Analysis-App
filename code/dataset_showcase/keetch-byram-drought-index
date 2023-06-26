@@ -86,10 +86,10 @@ var intervals =
 '<RasterSymbolizer>' +
 ' <ColorMap type="intervals" extended="false" >' +
     '<ColorMapEntry color="#CCCCCC" quantity="0" label="No Data"/>' +
-    '<ColorMapEntry color="#FEFF2C" quantity="200" label="Population Count (Estimate)"/>' +
-    '<ColorMapEntry color="#FF6625" quantity="400" label="Population Count (Estimate)"/>' +
-    '<ColorMapEntry color="#CC001A" quantity="600" label="Population Count (Estimate)"/>' +
-    '<ColorMapEntry color="#730009" quantity="800" label="Population Count (Estimate)"/>' +
+    '<ColorMapEntry color="#FEFF2C" quantity="200" label="Drought Hazard"/>' +
+    '<ColorMapEntry color="#FF6625" quantity="400" label="Drought Hazard"/>' +
+    '<ColorMapEntry color="#CC001A" quantity="600" label="Drought Hazard"/>' +
+    '<ColorMapEntry color="#730009" quantity="800" label="Drought Hazard"/>' +
   '</ColorMap>' +
 '</RasterSymbolizer>';
 
