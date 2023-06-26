@@ -44,6 +44,22 @@ var bbox =
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 var palette = helper.color.coolwarm;
 
+var map1 = ui.Map();
+var map2 = ui.Map();
+
+var splitPanel = ui.SplitPanel({
+  firstPanel: map1,
+  secondPanel: map2,
+  orientation: 'horizontal',
+  wipe: true
+});
+
+// Remove the default map from the root panel.
+ui.root.clear();
+
+// Add our split panel to the root panel.
+ui.root.add(splitPanel);
+
 var yearFilter = ee.Filter.date(
     ee.Date("2022-01-01"), ee.Date("2023-01-01")
     );
@@ -67,10 +83,15 @@ landsat = landsat.addBands(b10);
 var lst = landsat.select(['B10']);
 
 // Data Visualization
-Map.centerObject(bbox, 9);
-Map.setOptions("Hybrid");
-Map.addLayer(lst, {min:33, max:43, palette:palette}, "Landsat 9 LST");
-Map.addLayer(ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox), {}, "Land Use Class");
+map1.centerObject(bbox, 11);
+map1.setOptions("Hybrid");
+
+map2.centerObject(bbox, 11);
+map2.setOptions("Hybrid");
+
+map1.addLayer(lst, {min:35, max:45, palette:palette}, "Landsat 9 LST");
+map2.addLayer(ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox), {}, "Land Use Class");
+var linker = ui.Map.Linker([map1, map2]);
 
 // generate bar chart
 var chart = reduce_by_lulc(
