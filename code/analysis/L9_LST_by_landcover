@@ -8,10 +8,10 @@ var bbox =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.72572673238218, 25.077526544529235],
-          [66.72572673238218, 24.776148851377716],
-          [67.44533122456968, 24.776148851377716],
-          [67.44533122456968, 25.077526544529235]]], null, false);
+        [[[66.63646281636656, 25.176993102013775],
+          [66.63646281636656, 24.749961561376768],
+          [67.44533122456968, 24.749961561376768],
+          [67.44533122456968, 25.176993102013775]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
@@ -42,7 +42,7 @@ var bbox =
  
 // Define config for visualization
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
-var palette = helper.color.reds;
+var palette = helper.color.coolwarm;
 
 var yearFilter = ee.Filter.date(
     ee.Date("2022-01-01"), ee.Date("2023-01-01")
@@ -69,8 +69,8 @@ var lst = landsat.select(['B10']);
 // Data Visualization
 Map.centerObject(bbox, 9);
 Map.setOptions("Hybrid");
-Map.addLayer(lst, {min:30, max:45, palette:palette}, "LST");
-Map.addLayer(ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox), {}, "LULC");
+Map.addLayer(lst, {min:33, max:43, palette:palette}, "Landsat 9 LST");
+Map.addLayer(ee.ImageCollection("ESA/WorldCover/v200").first().clip(bbox), {}, "Land Use Class");
 
 // generate bar chart
 var chart = reduce_by_lulc(
