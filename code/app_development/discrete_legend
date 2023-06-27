@@ -9,19 +9,20 @@ var palettes = require('users/gena/packages:palettes');
 //   ];
 var colors = palettes.colorbrewer.RdBu[5]; // color palette
 
+// transform color code to #RRGGBB
 var color_arr = [];
 var color;
 
 for (var i in colors) {
-  color = colors[i]
+  color = colors[i];
   if (color.length < 7) {
     color = "#" + color;
     color_arr.push(color);
   }
 }
-print(color_arr)
+print(color_arr);
 
-colors = color_arr;
+colors = color_arr; // update color palette
 var bins = ["0", "200", "400", "600", "800"]; // bin bounds
 var labels = [ // category labels
     "No Hazard",
