@@ -1,3 +1,19 @@
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/dc2f43dc57092e7d20bb47b0ff56d687  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ################################# //
+// ######  Discrete Class     ###### //
+// ###### Data Visualization  ###### //
+// ################################# //
+
+
 // Define a function for visualizing raster with discrete classes
 // users can customize class labels for value intervals
 function create_color_category(colors, bins, labels, title) {
@@ -103,10 +119,12 @@ function create_color_category(colors, bins, labels, title) {
   return [panel, intervals]; // return a list of legend panel and styling string (ee.Image.sldStyle)
 }
 
+// define color palette
 var palettes = require('users/gena/packages:palettes');
+var colors = palettes.colorbrewer.RdBu[5].reverse();
 
-var colors = palettes.colorbrewer.RdBu[5].reverse(); // color palette
 var bins = ["0", "200", "400", "600", "800"]; // bin bounds
+
 var labels = [ // category labels
       "No Hazard",
       "Limited Water Deficit",
@@ -115,10 +133,12 @@ var labels = [ // category labels
       "Severe Drought"
     ];
 
+// apply function to get legend panel and styling string
 var out = create_color_category(colors, bins, labels, "KB Drought Index");
 var panel = out[0];
 var intervals = out[1];
 
+// add legend to map
 Map.add(panel);
 
 // get last 10 days
@@ -155,6 +175,14 @@ var styled_img = collection.sldStyle(intervals);
 Map.addLayer(styled_img, {}, 'Keetch-Byram Drought Index (last 2 weeks)');
 
 Map.setOptions("Hybrid");
+
+
+
+
+
+
+
+
 
 // ########NON MODULAR######
 // var palettes = require('users/gena/packages:palettes');
