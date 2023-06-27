@@ -1,6 +1,8 @@
 // Auto color category
 function create_color_category(colors, min, max, title) {
   
+  if (title === undefined || title === null){var title = "Legend"};
+  
   // create bins
   var steps = (max-min)/colors.length;
   var bins = []
@@ -121,7 +123,9 @@ function create_color_category(colors, min, max, title) {
 
 var palettes = require('users/gena/packages:palettes');
 var colors = palettes.colorbrewer.RdBu[5].reverse();
-var out = create_color_category(colors, 0, 300, "Legend");
+
+var out = create_color_category(colors, 0, 300);
 
 var panel = out[0]; var intervals = out[1];
+
 Map.add(panel);
