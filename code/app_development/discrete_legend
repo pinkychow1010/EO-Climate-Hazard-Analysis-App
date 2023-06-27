@@ -153,14 +153,17 @@ var landMask = ee.Image('MODIS/MOD44W/MOD44W_005_2000_02_24').select('water_mask
 var previous4w = today.advance(-28, 'day');
 var previous2w = today.advance(-14, 'day');
 
+// get image
 var collection_before = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous4w, previous2w)
   .first()
   .updateMask(landMask);
 
+// style image
 var styled_img_before = collection_before.sldStyle(intervals);
 
+// add map layer
 Map.addLayer(styled_img_before, {}, 'Keetch-Byram Drought Index (4 weeks before)');
 
 // last 2 weeks
@@ -170,10 +173,13 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .first()
   .updateMask(landMask);
 
+// style image
 var styled_img = collection.sldStyle(intervals);
 
+// add map layer
 Map.addLayer(styled_img, {}, 'Keetch-Byram Drought Index (last 2 weeks)');
 
+// set basemap
 Map.setOptions("Hybrid");
 
 
