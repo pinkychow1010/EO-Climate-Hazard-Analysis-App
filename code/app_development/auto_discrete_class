@@ -5,23 +5,16 @@ function create_color_category(colors, min, max, title) {
   
   // create bins
   var steps = (max-min)/colors.length;
-  print(steps)
-  var bins = []
+  var labels = []; var bins = [];
+  
   for (var n in colors) {
-    print(n)
     var low = min+(n*steps);
     var high = min+(n*steps)+steps;
+    bins.push(low);
     
     var label = String(low) + " - " + String(high);
-    bins.push(label);
+    labels.push(label);
   }
-  print(bins)
-  
-  var labels = [];
-  for (var n in bins) {
-    labels.push(bins[n]);
-  }
-  print(labels)
   
   // transform color code to #RRGGBB
   var color_arr = [];
@@ -132,3 +125,12 @@ var out = create_color_category(colors, 0, 300);
 var panel = out[0]; var intervals = out[1];
 
 Map.add(panel);
+
+var col = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
+  .select('KBDI')
+  .first();
+
+// style image
+var img = col.sldStyle(intervals);
+Map.addLayer(img);
+Map.setCenter(97, 68, 5);
