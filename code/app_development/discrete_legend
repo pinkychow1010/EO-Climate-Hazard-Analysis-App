@@ -176,6 +176,8 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
 // style image
 var styled_img = collection.sldStyle(intervals);
 
+print(intervals);
+
 // add map layer
 Map.addLayer(styled_img, {}, 'Keetch-Byram Drought Index (last 2 weeks)');
 
