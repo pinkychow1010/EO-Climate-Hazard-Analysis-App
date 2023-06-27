@@ -5,10 +5,13 @@ function create_color_category(colors, min, max, title) {
   
   // create bins
   var steps = (max-min)/colors.length;
+  print(steps)
   var bins = []
   for (var n in colors) {
-    var low = min+((n)*steps);
-    var high = min+((n+1)*steps);
+    print(n)
+    var low = min+(n*steps);
+    var high = min+(n*steps)+steps;
+    
     var label = String(low) + " - " + String(high);
     bins.push(label);
   }
@@ -122,7 +125,7 @@ function create_color_category(colors, min, max, title) {
 }
 
 var palettes = require('users/gena/packages:palettes');
-var colors = palettes.colorbrewer.RdBu[5].reverse();
+var colors = palettes.colorbrewer.RdBu[3].reverse();
 
 var out = create_color_category(colors, 0, 300);
 
