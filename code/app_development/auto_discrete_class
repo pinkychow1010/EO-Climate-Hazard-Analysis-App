@@ -8,14 +8,14 @@ function create_color_category(colors, min, max, title) {
   var bins = []; var labels = []; 
   
   for (var n in colors) {
-    var low = min+(n*steps);
+    //var low = min+(n*steps);
     var high = min+(n*steps)+steps;
-    bins.push(low);
+    bins.push(high);
+    //bins.push(low);
     
-    var label = String(low) + " - " + String(high);
+    var label = String(low);// + " - " + String(high);
     labels.push(label);
   }
-  bins.push(max);
   
   print("BINS: ", bins); print("LABELS: ", labels);
   
@@ -41,6 +41,7 @@ function create_color_category(colors, min, max, title) {
   
   var groups = "";
   var List = ee.List.sequence(0, colors.length-1).getInfo();
+  print("LIST: ", List);
   
   var i=0; // loop through each color and bin to create string for each class
   for (var i in List) {
@@ -51,6 +52,7 @@ function create_color_category(colors, min, max, title) {
   }
   // complete styling string
   var intervals = start + groups + end;
+  print("INTERVALS: ", intervals);
   
   // Define a dictionary which will be used to make legend and visualize image on map
   var dict = {
