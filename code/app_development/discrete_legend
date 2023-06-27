@@ -7,7 +7,7 @@ var palettes = require('users/gena/packages:palettes');
 //     "#CC001A",
 //     "#730009"
 //   ];
-var colors = palettes.colorbrewer.RdBu[5]; // color palette
+var colors = palettes.colorbrewer.RdBu[5].reverse(); // color palette
 
 // transform color code to #RRGGBB
 var color_arr = [];
