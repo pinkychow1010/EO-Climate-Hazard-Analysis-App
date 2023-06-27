@@ -15,6 +15,9 @@ function create_color_category(colors, min, max, title) {
     var label = String(low) + " - " + String(high);
     labels.push(label);
   }
+  bins.push(max);
+  
+  print("BINS: ", bins); print("LABELS: ", labels);
   
   // transform color code to #RRGGBB
   var color_arr = [];
