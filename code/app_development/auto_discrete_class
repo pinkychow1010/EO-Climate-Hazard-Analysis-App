@@ -118,9 +118,9 @@ function create_color_category(colors, min, max, title) {
 }
 
 var palettes = require('users/gena/packages:palettes');
-var colors = palettes.colorbrewer.RdBu[3].reverse();
+var colors = palettes.colorbrewer.RdBu[4].reverse();
 
-var out = create_color_category(colors, 0, 300);
+var out = create_color_category(colors, 0, 800);
 
 var panel = out[0]; var intervals = out[1];
 
@@ -133,4 +133,4 @@ var col = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
 // style image
 var img = col.sldStyle(intervals);
 Map.addLayer(img);
-Map.setCenter(97, 68, 5);
+Map.setCenter(92, 40, 5);
