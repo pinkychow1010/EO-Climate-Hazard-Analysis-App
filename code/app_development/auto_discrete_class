@@ -8,12 +8,12 @@ function create_color_category(colors, min, max, title) {
   var bins = []; var labels = []; 
   
   for (var n in colors) {
-    //var low = min+(n*steps);
+    var low = min+(n*steps);
     var high = min+(n*steps)+steps;
     bins.push(high);
     //bins.push(low);
     
-    var label = String(low);// + " - " + String(high);
+    var label = String(low) + " - " + String(high);
     labels.push(label);
   }
   
