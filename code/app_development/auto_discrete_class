@@ -5,7 +5,7 @@ function create_color_category(colors, min, max, title) {
   
   // create bins
   var steps = (max-min)/colors.length;
-  var labels = []; var bins = [];
+  var bins = []; var labels = []; 
   
   for (var n in colors) {
     var low = min+(n*steps);
