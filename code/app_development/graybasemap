@@ -6,7 +6,7 @@ var grayscale_basemap = [
   stylers: [ { saturation: -100} ,{ lightness: 50 } ]
   },{ // Dial down the label darkness.
   elementType: 'labels',
-  stylers: [ { lightness: 50 } ]
+  stylers: [ { lightness: 70 } ]
   },{ // Simplify the road geometries.
   featureType: 'road',
   elementType: 'geometry',
