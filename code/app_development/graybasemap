@@ -63,3 +63,27 @@ var eviVis = {
 
 Map.addLayer(evi, eviVis, 'EVI');
 Map.setOptions('Gray', {'Gray': grayscale_basemap});
+
+var srtm = ee.Image("USGS/SRTMGL1_003");
+var lines = ee.List.sequence(0, 4000, 200);
+
+var contourlines = lines.map(function(line) {
+var mycontour = srtm
+.convolve(ee.Kernel.gaussian(5, 3))
+.subtract(ee.Image.constant(line)).zeroCrossing()
+.multiply(ee.Image.constant(line)).toFloat();
+ 
+return mycontour.mask(mycontour);
+})
+ 
+contourlines = ee.ImageCollection(contourlines).mosaic()
+ 
+Map.addLayer(contourlines, 
+  {
+    min: 0, 
+    max: 5000, 
+    width: 0.1, 
+    palette:'gray', 
+    opacity: 0.2
+  }, 
+  'contours')
