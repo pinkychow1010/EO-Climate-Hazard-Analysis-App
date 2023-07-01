@@ -156,6 +156,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
   // console.log(reduced_dataset_dict[month]); // >> undefined
   // console.log(reduced_dataset_dict[month.getInfo()]); // >> error
   
+  // undefined
   var threshold = ee.Image.constant(reduced_dataset_dict[month]).rename('p95').double();
   image = image.addBands(threshold);
   return image;
