@@ -262,7 +262,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
   var monthBand = ee.Image.constant(month).uint16().rename('month');
   image = image.addBands(monthBand);
   
-  var threshold = ee.Image.constant(reduced_dataset[month].double()).rename('p95').double();
+  var threshold = ee.Image.constant(reduced_dataset[month-1].double()).rename('p95').double();
   image = image.addBands(threshold);
   return image;
 });
