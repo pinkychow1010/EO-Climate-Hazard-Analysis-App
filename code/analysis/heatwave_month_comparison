@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[67.47922202812562, 25.619202874468535],
-          [67.47922202812562, 24.504607230282744],
-          [69.06125327812562, 24.504607230282744],
-          [69.06125327812562, 25.619202874468535]]], null, false);
+        [[[66.49045249687562, 25.639013704539856],
+          [66.49045249687562, 24.804151379518302],
+          [67.63303062187562, 24.804151379518302],
+          [67.63303062187562, 25.639013704539856]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
@@ -51,7 +50,7 @@ var join = ee.Join.saveAll({
 var timeField = 'system:time_start';
 
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 5,
+  difference: 1000 * 60 * 60 * 24 * 3,
   leftField: timeField, 
   rightField: timeField
 });
@@ -81,7 +80,7 @@ var smoothed_deg = smoothed.map(function(image) {
 
 print("smoothed_deg", smoothed_deg);
 
-Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
+Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 3 Days');
 
 // return the list of coordinates
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
