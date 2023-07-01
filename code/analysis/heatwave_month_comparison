@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -34,7 +35,7 @@ var geometry =
  * using MODIS compared to long-term average (90th percentile)
  */
 
-var startdate = ee.Date.fromYMD(2010,1,1);
+var startdate = ee.Date.fromYMD(2022,1,1);//ee.Date.fromYMD(2010,1,1);
 var enddate = ee.Date.fromYMD(2022,12,31);
 
 // Filter data
@@ -146,7 +147,7 @@ var threshold_band = reduced_dataset_dict.map(function (i) {
     return ee.Image.constant(i).rename('p95').double();
   });
 // print(threshold_band);
-  
+Map.addLayer(threshold_band[0],{}, "thres");
   
 smoothed_deg = smoothed_deg.map(function(image) {
   // month 1 to 12th
@@ -159,8 +160,12 @@ smoothed_deg = smoothed_deg.map(function(image) {
 
 // print(smoothed_deg);
 
+print(smoothed_deg.select(['LST_Day_1km_1','p95']).first());
+
+Map.addLayer(smoothed_deg.select('p95').first(), {}, "p95 band");
+
 var chart = ui.Chart.image.series({
-  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
+  imageCollection: smoothed_deg.select(['p95']),//smoothed_deg.select(['LST_Day_1km_1','p95']),
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000
