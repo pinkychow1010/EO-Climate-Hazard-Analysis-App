@@ -58,7 +58,7 @@ var join = ee.Join.saveAll({
 var timeField = 'system:time_start';
 
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 5,
+  difference: 1000 * 60 * 60 * 24 * 3,
   leftField: timeField, 
   rightField: timeField
 });
@@ -88,7 +88,7 @@ var smoothed_deg = smoothed.map(function(image) {
 
 // print("smoothed_deg", smoothed_deg);
 
-Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
+Map.addLayer(smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), {}, 'Lowest LST in 3 Days');
 
 // return the list of coordinates
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
