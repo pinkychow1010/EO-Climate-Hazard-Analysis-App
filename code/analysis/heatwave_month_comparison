@@ -51,7 +51,7 @@ var join = ee.Join.saveAll({
 var timeField = 'system:time_start';
 
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 3,
+  difference: 1000 * 60 * 60 * 24 * 5,
   leftField: timeField, 
   rightField: timeField
 });
@@ -81,7 +81,7 @@ var smoothed_deg = smoothed.map(function(image) {
 
 // print("smoothed_deg", smoothed_deg);
 
-Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 3 Days');
+Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
 
 // return the list of coordinates
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
@@ -97,12 +97,12 @@ var south = yMin.add(yMax).divide(2).lt(0);
 var shift = south.multiply(6).getInfo();
 
 // get historical temperature data
-// var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
-// .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
-// .select('tmmx');
-var lst = ee.ImageCollection("ECMWF/ERA5/MONTHLY")
-  .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
-  .select('maximum_2m_air_temperature');
+var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+.filter(ee.Filter.date('1980-01-01', '2011-01-01'))
+.select('tmmx');
+// var lst = ee.ImageCollection("ECMWF/ERA5/MONTHLY")
+//   .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
+//   .select('maximum_2m_air_temperature');
 
 // print(lst);
 
@@ -117,7 +117,7 @@ var get_month_lst = function(month) {
     ee.Filter.calendarRange(month, month, 'month')
     );
   // convert to celsius
-  var composite = filtered.reduce(ee.Reducer.percentile([95])).add(-272.15);//.multiply(0.1);
+  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);//add(-272.15);//
   // format output
   var month_lst = composite.rename('lst').set('month', month);
   
