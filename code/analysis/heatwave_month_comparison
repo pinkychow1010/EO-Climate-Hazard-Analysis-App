@@ -39,7 +39,14 @@ var startdate = ee.Date.fromYMD(2015,1,1);
 var enddate = ee.Date.fromYMD(2022,12,31);
 
 // Filter data
+var maskClouds = function(image) {
+  var QA = image.select('QC_Day');
+  var bitMask = 1 << 10;
+  return image.updateMask(QA.bitwiseAnd(bitMask).eq(0));
+}; 
+
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
+  .map(maskClouds)
   .select('LST_Day_1km')
   .filterBounds(geometry)
   .filterDate(startdate, enddate);
