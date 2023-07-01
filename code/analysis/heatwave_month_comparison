@@ -1,0 +1,278 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #d63000 */ee.Geometry.Point([67.88938006626496, 25.023358580989804]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/3f3cec52629419a5f0f454fb839972b7  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ################################### //
+// ###### Long-term Temperature ###### //
+// ######   Average by DOY   ###### //
+// ################################### //
+
+/**
+ * 
+ */
+
+// get MODIS dataset (Night Time Temperature)
+var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+.filter(ee.Filter.date('1980-01-01', '2011-01-01'))
+.select('tmmx');
+
+print(lst);
+
+// get month sequence
+var month = ee.List.sequence(1, 12);
+
+// function for extract monthly temperature
+var get_month_lst = function(month) {
+  
+  // temperal filtering
+  var filtered = lst.filter(
+    ee.Filter.calendarRange(month, month, 'month')
+    );
+  // convert to celsius
+  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);
+  // format output
+  var month_lst = composite.rename('lst').set('month', month);
+  
+  return month_lst;
+};
+
+// compute month temperature for the whole time series
+var composites = ee.ImageCollection.fromImages(
+  month.map(get_month_lst)
+  );
+
+print(composites);
+
+composites
+
+// define parameters for monthly linechart
+var chartParam = {
+  title: 'Monthly Historical Mean LST',
+  pointSize: 2,
+  lineWidth: 1.5,
+  //curveType: 'function',
+  series: {
+    0: {curveType: 'function'},  // apply smoothing function to 1st line series
+    },
+  explorer: {}, // allow panning and zooming
+  dataOpacity: 0.85,
+  hAxis: {title: 'Months',
+    titleTextStyle: {italic: false, bold: true},
+    ticks: [1,2,3,4,5,6,7,8,9,10,11,12]
+  },
+  vAxis: {
+    title: 'Land surface Temperature (°C)', // y label
+    titleTextStyle: {italic: false, bold: true},
+    gridlines: {color: '#7E3517',opacity: 0.5}
+  },
+  chartArea: {backgroundColor: 'EBEBEB'}
+};
+
+// set up input data and linechart
+var chart = ui.Chart.image.seriesByRegion({
+  imageCollection: composites,
+  regions: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 500,
+  xProperty: 'month',
+  seriesProperty: ee.String(
+    'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
+    )
+});
+
+// format linechart and display
+var formatted = chart.setChartType('AreaChart').setOptions(chartParam)
+print(formatted);
+
+
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/25037f8b94d28d3282a9f0417a3ea917  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ##################################### //
+// ######    Historical Heatwaves ###### //
+// ######       Detection         ###### //
+// ##################################### //
+
+/**
+ * Using 5 day moving window to detect abnormal heat anomaly (heatwave)
+ * using MODIS compared to long-term average (90th percentile)
+ */
+
+var startdate = ee.Date.fromYMD(2010,1,1);
+var enddate = ee.Date.fromYMD(2022,12,31);
+
+// Filter data
+var collection = ee.ImageCollection('MODIS/006/MOD11A1')
+  .select('LST_Day_1km')
+  .filterBounds(geometry)
+  .filterDate(startdate, enddate);
+  
+var join = ee.Join.saveAll({
+  matchesKey: 'images'
+});
+
+var timeField = 'system:time_start';
+
+var diffFilter = ee.Filter.maxDifference({
+  difference: 1000 * 60 * 60 * 24 * 5,
+  leftField: timeField, 
+  rightField: timeField
+});
+
+var threeNeighborJoin = join.apply({
+  primary: collection, 
+  secondary: collection, 
+  condition: diffFilter
+})
+
+var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
+  var collection = ee.ImageCollection.fromImages(image.get('images'));
+  return ee.Image(image).addBands(collection.min())
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+}));
+
+var smoothed_deg = smoothed.map(function(image) {
+  return image.multiply(0.02).subtract(273.15)
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+}) 
+
+print("smoothed_deg", smoothed_deg);
+
+Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
+
+// return the list of coordinates
+var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
+
+// get the Y-coordinates
+var yCoords = listCoords.slice(1, 1, 2)
+
+// reduce the arrays
+var yMin = yCoords.reduce('min', [0]).get([0,0])
+var yMax = yCoords.reduce('max', [0]).get([0,0])
+
+var south = yMin.add(yMax).divide(2).lt(0);
+var shift = south.multiply(6).getInfo();
+
+// var summerFilter = ee.Filter.calendarRange(5+shift, 9+shift, "month");
+                  
+// var ds = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+// .filter(ee.Filter.date('1980-01-01', '2011-01-01'));
+
+// print(ds);
+
+// var max = ds.select('tmmx')
+// .filter(summerFilter)
+// .reduce(ee.Reducer.percentile([95]), 300)
+// .clip(geometry)
+// .multiply(0.1)
+// .reduceRegion({
+//   reducer: ee.Reducer.median(),
+//   geometry: geometry,
+//   scale: 1000
+// })
+// .get('tmmx_p95');
+
+// get MODIS dataset (Night Time Temperature)
+var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+.filter(ee.Filter.date('1980-01-01', '2011-01-01'))
+.select('tmmx');
+
+print(lst);
+
+// get month sequence
+var month = ee.List.sequence(1, 12);
+
+// function for extract monthly temperature
+var get_month_lst = function(month) {
+  
+  // temperal filtering
+  var filtered = lst.filter(
+    ee.Filter.calendarRange(month, month, 'month')
+    );
+  // convert to celsius
+  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);
+  // format output
+  var month_lst = composite.rename('lst').set('month', month);
+  
+  return month_lst;
+};
+
+// https://gis.stackexchange.com/questions/372828/get-feature-values-from-imagecollection-to-list
+// compute month temperature for the whole time series
+var composites = ee.ImageCollection.fromImages(month.map(get_month_lst));
+
+print(composites);
+
+var lst_list = ee.List([]);
+
+function reduce_dataset_region(image, list) {
+      var local_image = image.reduceRegion({
+        reducer: ee.Reducer.mean(),
+        geometry: geometry,
+        scale: 20 
+      }
+    );
+    return ee.List(list).add(local_image.get('lst'));
+}
+
+var reduced_dataset = composites.iterate(reduce_dataset_region, lst_list);
+var reduced_dataset_dict = reduced_dataset.getInfo();
+
+// print(reduced_dataset_dict);
+// var threshold = ee.Image.constant(max).rename('p95').double();
+
+smoothed_deg = smoothed_deg.map(function(image) {
+  var month = image.date().getRelative('year', 'year');
+  var monthBand = ee.Image.constant(month).uint16().rename('month');
+  image = image.addBands(monthBand);
+  var threshold = ee.Image.constant(reduced_dataset_dict[month]).rename('p95').double();
+  image = image.addBands(threshold);
+  return image
+});
+
+print(smoothed_deg);
+
+var chart = ui.Chart.image.series({
+  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: 'LST Time Series',
+      interpolateNulls: true,
+      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
+      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      explorer: {}
+    })
+print(chart);
+
+
+
