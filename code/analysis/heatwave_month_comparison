@@ -142,42 +142,37 @@ var reduced_dataset_dict = reduced_dataset.getInfo();
 
 // print(reduced_dataset_dict);
 
+var threshold_band = reduced_dataset_dict.map(function (i) {
+    return ee.Image.constant(i).rename('p95').double();
+  });
+print(threshold_band);
+  
+  
 smoothed_deg = smoothed_deg.map(function(image) {
   // month 1 to 12th
   var month = image.date().getRelative('month', 'year');
   var monthBand = ee.Image.constant(month).uint16().rename('month');
   image = image.addBands(monthBand);
-
-  // get historical temperature as threshold based on month of year
-  // does not work
-  // console.log(month); // cannot print
-  // console.log(reduced_dataset_dict); // es expected
-  // console.log(reduced_dataset_dict[ee.Number(month)]); // >> undefined
-  // console.log(reduced_dataset_dict[month]); // >> undefined
-  // console.log(reduced_dataset_dict[month.getInfo()]); // >> error
-  
-  // undefined
-  var threshold = ee.Image.constant(reduced_dataset_dict[month]).rename('p95').double();
-  image = image.addBands(threshold);
+  image = image.addBands(ee.Image(threshold_band[month]).rename('p95').double());
   return image;
 });
 
-// print(smoothed_deg);
+print(smoothed_deg);
 
-// var chart = ui.Chart.image.series({
-//   imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
-//   region: geometry,
-//   reducer: ee.Reducer.median(),
-//   scale: 1000
-// }).setOptions({
-//       lineWidth: 1,
-//       title: 'LST Time Series',
-//       interpolateNulls: true,
-//       vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
-//       hAxis: {title: 'Time', format: 'YYYY-MMM'},
-//       explorer: {}
-//     })
-// print(chart);
+var chart = ui.Chart.image.series({
+  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: 'LST Time Series',
+      interpolateNulls: true,
+      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
+      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      explorer: {}
+    })
+print(chart);
 
 
 
