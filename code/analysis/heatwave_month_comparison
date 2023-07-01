@@ -1,100 +1,109 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var geometry = /* color: #d63000 */ee.Geometry.Point([67.88938006626496, 25.023358580989804]);
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[67.47922202812562, 25.619202874468535],
+          [67.47922202812562, 24.504607230282744],
+          [69.06125327812562, 24.504607230282744],
+          [69.06125327812562, 25.619202874468535]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
-//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
-//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
-//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/3f3cec52629419a5f0f454fb839972b7  ▄▀▄▀▄▀▄
-//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+// //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+// //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+// //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+// //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+// //▄▀▄▀▄  https://code.earthengine.google.com/3f3cec52629419a5f0f454fb839972b7  ▄▀▄▀▄▀▄
+// //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+// //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
 
 
-// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+// // released under Open Source GPL License Copyright © 2023 Ka Hei Chow
 
-// ################################### //
-// ###### Long-term Temperature ###### //
-// ######   Average by DOY   ###### //
-// ################################### //
+// // ################################### //
+// // ###### Long-term Temperature ###### //
+// // ######   Average by DOY   ###### //
+// // ################################### //
 
-/**
- * 
- */
+// /**
+// * 
+// */
 
-// get MODIS dataset (Night Time Temperature)
-var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
-.filter(ee.Filter.date('1980-01-01', '2011-01-01'))
-.select('tmmx');
+// // get MODIS dataset (Night Time Temperature)
+// var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
+// .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
+// .select('tmmx');
 
-print(lst);
+// print(lst);
 
-// get month sequence
-var month = ee.List.sequence(1, 12);
+// // get month sequence
+// var month = ee.List.sequence(1, 12);
 
-// function for extract monthly temperature
-var get_month_lst = function(month) {
+// // function for extract monthly temperature
+// var get_month_lst = function(month) {
   
-  // temperal filtering
-  var filtered = lst.filter(
-    ee.Filter.calendarRange(month, month, 'month')
-    );
-  // convert to celsius
-  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);
-  // format output
-  var month_lst = composite.rename('lst').set('month', month);
+//   // temperal filtering
+//   var filtered = lst.filter(
+//     ee.Filter.calendarRange(month, month, 'month')
+//     );
+//   // convert to celsius
+//   var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);
+//   // format output
+//   var month_lst = composite.rename('lst').set('month', month);
   
-  return month_lst;
-};
+//   return month_lst;
+// };
 
-// compute month temperature for the whole time series
-var composites = ee.ImageCollection.fromImages(
-  month.map(get_month_lst)
-  );
+// // compute month temperature for the whole time series
+// var composites = ee.ImageCollection.fromImages(
+//   month.map(get_month_lst)
+//   );
 
-print(composites);
+// print(composites);
 
-composites
+// // define parameters for monthly linechart
+// var chartParam = {
+//   title: 'Monthly Historical Mean LST',
+//   pointSize: 2,
+//   lineWidth: 1.5,
+//   //curveType: 'function',
+//   series: {
+//     0: {curveType: 'function'},  // apply smoothing function to 1st line series
+//     },
+//   explorer: {}, // allow panning and zooming
+//   dataOpacity: 0.85,
+//   hAxis: {title: 'Months',
+//     titleTextStyle: {italic: false, bold: true},
+//     ticks: [1,2,3,4,5,6,7,8,9,10,11,12]
+//   },
+//   vAxis: {
+//     title: 'Land surface Temperature (°C)', // y label
+//     titleTextStyle: {italic: false, bold: true},
+//     gridlines: {color: '#7E3517',opacity: 0.5}
+//   },
+//   chartArea: {backgroundColor: 'EBEBEB'}
+// };
 
-// define parameters for monthly linechart
-var chartParam = {
-  title: 'Monthly Historical Mean LST',
-  pointSize: 2,
-  lineWidth: 1.5,
-  //curveType: 'function',
-  series: {
-    0: {curveType: 'function'},  // apply smoothing function to 1st line series
-    },
-  explorer: {}, // allow panning and zooming
-  dataOpacity: 0.85,
-  hAxis: {title: 'Months',
-    titleTextStyle: {italic: false, bold: true},
-    ticks: [1,2,3,4,5,6,7,8,9,10,11,12]
-  },
-  vAxis: {
-    title: 'Land surface Temperature (°C)', // y label
-    titleTextStyle: {italic: false, bold: true},
-    gridlines: {color: '#7E3517',opacity: 0.5}
-  },
-  chartArea: {backgroundColor: 'EBEBEB'}
-};
+// // set up input data and linechart
+// var chart = ui.Chart.image.seriesByRegion({
+//   imageCollection: composites,
+//   regions: geometry,
+//   reducer: ee.Reducer.median(),
+//   scale: 500,
+//   xProperty: 'month',
+//   seriesProperty: ee.String(
+//     'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
+//     )
+// });
 
-// set up input data and linechart
-var chart = ui.Chart.image.seriesByRegion({
-  imageCollection: composites,
-  regions: geometry,
-  reducer: ee.Reducer.median(),
-  scale: 500,
-  xProperty: 'month',
-  seriesProperty: ee.String(
-    'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
-    )
-});
-
-// format linechart and display
-var formatted = chart.setChartType('AreaChart').setOptions(chartParam)
-print(formatted);
+// // format linechart and display
+// var formatted = chart.setChartType('AreaChart').setOptions(chartParam)
+// print(formatted);
 
 
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
@@ -236,7 +245,7 @@ function reduce_dataset_region(image, list) {
       var local_image = image.reduceRegion({
         reducer: ee.Reducer.mean(),
         geometry: geometry,
-        scale: 20 
+        scale: 2000 
       }
     );
     return ee.List(list).add(local_image.get('lst'));
@@ -252,9 +261,10 @@ smoothed_deg = smoothed_deg.map(function(image) {
   var month = image.date().getRelative('year', 'year');
   var monthBand = ee.Image.constant(month).uint16().rename('month');
   image = image.addBands(monthBand);
-  var threshold = ee.Image.constant(reduced_dataset_dict[month]).rename('p95').double();
+  
+  var threshold = ee.Image.constant(reduced_dataset[month].double()).rename('p95').double();
   image = image.addBands(threshold);
-  return image
+  return image;
 });
 
 print(smoothed_deg);
