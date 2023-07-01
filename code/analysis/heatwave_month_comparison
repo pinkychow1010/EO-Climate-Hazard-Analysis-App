@@ -143,12 +143,17 @@ var reduced_dataset_dict = reduced_dataset.getInfo();
 // print(reduced_dataset_dict);
 
 smoothed_deg = smoothed_deg.map(function(image) {
+  // month 1 to 12th
   var month = image.date().getRelative('month', 'year');
   var monthBand = ee.Image.constant(month).uint16().rename('month');
   image = image.addBands(monthBand);
   
-  // !!!!
-  console.log(reduced_dataset_dict[ee.Number(month)]);
+  // get historical temperature as threshold based on month of year
+  // does not work
+  console.log(reduced_dataset_dict) // es expected
+  console.log(reduced_dataset_dict[ee.Number(month)]); // >> undefined
+  console.log(reduced_dataset_dict[month]); // >> undefined
+  
   var threshold = ee.Image.constant(reduced_dataset_dict[month]).rename('p95').double();
   image = image.addBands(threshold);
   return image;
