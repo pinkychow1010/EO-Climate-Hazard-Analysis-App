@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -31,8 +32,10 @@ var addRH = function(image) {
   return image.addBands(relativeHumidity);
 };
 
-var rh = ds.map(addRH);
+var rh = ds.map(addRH).select('RH');
 print(rh);
+
+Map.addLayer(rh.first().clip(geometry));
 
 var chart = ui.Chart.image.series({
   imageCollection: rh,
@@ -43,7 +46,7 @@ var chart = ui.Chart.image.series({
       lineWidth: 1,
       title: 'Relative Humidity',
       interpolateNulls: true,
-      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
+      vAxis: {title: 'Temperature',viewWindow: {min: 0, max: 1}},
       hAxis: {title: 'Time', format: 'YYYY-MMM'},
       explorer: {}
     });
