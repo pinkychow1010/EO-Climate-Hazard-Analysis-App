@@ -1,0 +1,47 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.93841127214932, 25.04539679421568],
+          [66.93841127214932, 24.756411938144417],
+          [67.18011049089932, 24.756411938144417],
+          [67.18011049089932, 25.04539679421568]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var image = ee.ImageCollection('NASA/GLDAS/V20/NOAH/G025/T3H');
+
+// https://earthscience.stackexchange.com/questions/2360/how-do-i-convert-specific-humidity-to-relative-humidity/2361#2361
+var relativeHumidity = image.expression(
+  '0.263 * p * q * (exp(17.67 * (T - T0) / (T - 29.65))) ** -1', {
+    T: image.select('Tair_f_inst'),
+    T0: 273.16,
+    p: image.select('Psurf_f_inst'),
+    q: image.select('Qair_f_inst')
+  }
+).float();
+
+var startdate = ee.Date.fromYMD(2015,1,1);
+var enddate = ee.Date.fromYMD(2022,12,31);
+
+var rh = relativeHumidity
+  .filterBounds(geometry)
+  .filterDate(startdate, enddate);
+
+var chart = ui.Chart.image.series({
+  imageCollection: rh,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: 'Max UTCI',
+      interpolateNulls: true,
+      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
+      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      explorer: {}
+    });
+print(chart);
