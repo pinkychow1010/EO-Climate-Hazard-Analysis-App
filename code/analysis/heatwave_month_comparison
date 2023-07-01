@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -34,7 +35,7 @@ var geometry =
  * using MODIS compared to long-term average (90th percentile)
  */
 
-var startdate = ee.Date.fromYMD(2010,1,1);
+var startdate = ee.Date.fromYMD(2015,1,1);
 var enddate = ee.Date.fromYMD(2022,12,31);
 
 // Filter data
@@ -113,7 +114,7 @@ var get_month_lst = function(month) {
     ee.Filter.calendarRange(month, month, 'month')
     );
   // convert to celsius
-  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);
+  var composite = filtered.reduce(ee.Reducer.percentile([97])).multiply(0.1);
   // format output
   var month_lst = composite.rename('lst').set('month', month);
   
@@ -129,7 +130,7 @@ var lst_list = ee.List([]);
 
 function reduce_dataset_region(image, list) {
       var local_image = image.reduceRegion({
-        reducer: ee.Reducer.mean(),
+        reducer: ee.Reducer.median(),
         geometry: geometry,
         scale: 2000 
       }
@@ -146,7 +147,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
   var monthBand = ee.Image.constant(month).uint16().rename('month');
   image = image.addBands(monthBand);
 
-  var threshold = ee.Image.constant(ee.List(reduced_dataset.get(month))).rename('p95').double();
+  var threshold = ee.Image.constant(ee.List(reduced_dataset.get(month))).rename('p97').double();
   image = image.addBands(threshold);
   return image;
 });
@@ -154,7 +155,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
 print(smoothed_deg);
 
 var chart = ui.Chart.image.series({
-  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
+  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p97']),
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000
