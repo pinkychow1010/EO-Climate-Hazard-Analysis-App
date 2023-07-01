@@ -254,9 +254,6 @@ function reduce_dataset_region(image, list) {
 var reduced_dataset = composites.iterate(reduce_dataset_region, lst_list);
 var reduced_dataset_dict = reduced_dataset.getInfo();
 
-// print(reduced_dataset_dict);
-// var threshold = ee.Image.constant(max).rename('p95').double();
-
 smoothed_deg = smoothed_deg.map(function(image) {
   var month = image.date().getRelative('year', 'year');
   var monthBand = ee.Image.constant(month).uint16().rename('month');
