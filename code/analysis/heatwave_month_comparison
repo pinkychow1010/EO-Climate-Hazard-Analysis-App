@@ -17,7 +17,7 @@ var geometry =
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/0142c7f0ea03ce2a7a8fb0bb5ecce968  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/25037f8b94d28d3282a9f0417a3ea917  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -32,7 +32,7 @@ var geometry =
 
 /**
  * Using 5 day moving window to detect abnormal heat anomaly (heatwave)
- * using MODIS compared to long-term average (95th percentile)
+ * using MODIS compared to long-term average (90th percentile)
  */
 
 var startdate = ee.Date.fromYMD(2010,1,1);
@@ -141,23 +141,12 @@ function reduce_dataset_region(image, list) {
 var reduced_dataset = ee.List(composites.iterate(reduce_dataset_region, lst_list));
 var reduced_dataset_dict = reduced_dataset.getInfo();
 
-// print(reduced_dataset_dict);
-
 smoothed_deg = smoothed_deg.map(function(image) {
   // month 1 to 12th
   var month = image.date().getRelative('month', 'year');
   var monthBand = ee.Image.constant(month).uint16().rename('month');
   image = image.addBands(monthBand);
 
-  // get historical temperature as threshold based on month of year
-  // does not work
-  // console.log(month); // cannot print
-  // console.log(reduced_dataset_dict); // es expected
-  // console.log(reduced_dataset_dict[ee.Number(month)]); // >> undefined
-  // console.log(reduced_dataset_dict[month]); // >> undefined
-  // console.log(reduced_dataset_dict[month.getInfo()]); // >> error
-  
-  // undefined
   var threshold = ee.Image.constant(ee.List(reduced_dataset.get(month))).rename('p95').double();
   image = image.addBands(threshold);
   return image;
@@ -177,7 +166,5 @@ var chart = ui.Chart.image.series({
       vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
       hAxis: {title: 'Time', format: 'YYYY-MMM'},
       explorer: {}
-    })
+    });
 print(chart);
-
-
