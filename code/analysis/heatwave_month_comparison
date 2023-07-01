@@ -59,7 +59,7 @@ var threeNeighborJoin = join.apply({
   primary: collection, 
   secondary: collection, 
   condition: diffFilter
-})
+});
 
 var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
   var collection = ee.ImageCollection.fromImages(image.get('images'));
@@ -76,9 +76,9 @@ var smoothed_deg = smoothed.map(function(image) {
         source: image,
         properties: ['system:time_start']
       });
-}) 
+});
 
-print("smoothed_deg", smoothed_deg);
+// print("smoothed_deg", smoothed_deg);
 
 Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
 
@@ -86,11 +86,11 @@ Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 5 Days');
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
 
 // get the Y-coordinates
-var yCoords = listCoords.slice(1, 1, 2)
+var yCoords = listCoords.slice(1, 1, 2);
 
 // reduce the arrays
-var yMin = yCoords.reduce('min', [0]).get([0,0])
-var yMax = yCoords.reduce('max', [0]).get([0,0])
+var yMin = yCoords.reduce('min', [0]).get([0,0]);
+var yMax = yCoords.reduce('max', [0]).get([0,0]);
 
 var south = yMin.add(yMax).divide(2).lt(0);
 var shift = south.multiply(6).getInfo();
@@ -100,7 +100,7 @@ var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
 .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
 .select('tmmx');
 
-print(lst);
+// print(lst);
 
 // get month sequence
 var month = ee.List.sequence(1, 12);
@@ -123,7 +123,7 @@ var get_month_lst = function(month) {
 // https://gis.stackexchange.com/questions/372828/get-feature-values-from-imagecollection-to-list
 // compute month temperature for the whole time series
 var composites = ee.ImageCollection.fromImages(month.map(get_month_lst));
-print(composites);
+// print(composites);
 
 var lst_list = ee.List([]);
 
@@ -145,7 +145,7 @@ var reduced_dataset_dict = reduced_dataset.getInfo();
 var threshold_band = reduced_dataset_dict.map(function (i) {
     return ee.Image.constant(i).rename('p95').double();
   });
-print(threshold_band);
+// print(threshold_band);
   
   
 smoothed_deg = smoothed_deg.map(function(image) {
@@ -157,7 +157,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
   return image;
 });
 
-print(smoothed_deg);
+// print(smoothed_deg);
 
 var chart = ui.Chart.image.series({
   imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
