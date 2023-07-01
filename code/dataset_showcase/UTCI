@@ -21,13 +21,13 @@ var UTCI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI")
   .filterDate(startdate, enddate);
 
 var chart = ui.Chart.image.series({
-  imageCollection: UTCI.select(['b3']),
+  imageCollection: UTCI.select(['b1']),
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000
 }).setOptions({
       lineWidth: 1,
-      title: 'Max UTCI',
+      title: 'Heat Stress Index',
       interpolateNulls: true,
       vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
       hAxis: {title: 'Time', format: 'YYYY-MMM'},
