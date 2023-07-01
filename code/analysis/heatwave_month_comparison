@@ -232,7 +232,7 @@ var shift = south.multiply(6).getInfo();
 // get historical temperature data
 var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
 .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
-.select('tmin');
+.select('tmmn');
 
 print(lst);
 
