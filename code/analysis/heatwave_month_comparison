@@ -57,10 +57,10 @@ var diffFilter = ee.Filter.maxDifference({
 });
 
 var threeNeighborJoin = join.apply({
-  primary: collection, 
+  primary: collection,
   secondary: collection, 
   condition: diffFilter
-})
+});
 
 var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
   var collection = ee.ImageCollection.fromImages(image.get('images'));
