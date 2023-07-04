@@ -1,0 +1,66 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.77361635027432, 25.13494385932101],
+          [66.77361635027432, 24.826228806538644],
+          [67.36138490496182, 24.826228806538644],
+          [67.36138490496182, 25.13494385932101]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+var startdate = ee.Date.fromYMD(2015,1,1);
+var enddate = ee.Date.fromYMD(2022,12,31);
+
+// load the image collection
+var ds = ee.ImageCollection("ECMWF/ERA5/DAILY")//ee.ImageCollection("ECMWF/ERA5/MONTHLY")
+  .filterBounds(geometry)
+  .filterDate(startdate, enddate);
+
+//https://earthscience.stackexchange.com/questions/24156/era5-single-level-calculate-relative-humidity
+var addRH = function(image) {
+  var relativeHumidity = image.expression(
+  '(6.1078*exp(17.1*Td/(235+Td)))/(6.1078*exp(17.1*T/(235+T)))', {
+    T: image.select('maximum_2m_air_temperature'),
+    Td: image.select('dewpoint_2m_temperature')
+  }
+).float().rename("RH");
+  return image.addBands(relativeHumidity);
+};
+
+var rh = ds.map(addRH).select('RH');
+
+// var ds = ds.map(function(img) {
+//   var rh = img.expression(
+//     'exp((17.269 * Td)/(273.3 + Td) - (17.269 * Ta)/(237.3 + Ta))', 
+//     {
+//     'Td': img.select('dewpoint_2m_temperature'),
+//     'Ta': img.select('mean_2m_air_temperature')
+//     }
+//     ).rename('RH');
+//   return img.addBands(rh);
+// });
+
+// var rh = ds.select('RH');
+print(rh);
+
+Map.addLayer(rh.first().clip(geometry));
+
+var chart = ui.Chart.image.series({
+  imageCollection: rh,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: 'Relative Humidity',
+      interpolateNulls: true,
+      vAxis: {title: 'Temperature',viewWindow: {min: 0, max: 1}},
+      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      explorer: {}
+    });
+print(chart);

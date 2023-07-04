@@ -1,0 +1,36 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[66.61500669531874, 25.224300994699025],
+          [66.61500669531874, 24.546601141135277],
+          [67.49391294531874, 24.546601141135277],
+          [67.49391294531874, 25.224300994699025]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+var startdate = ee.Date.fromYMD(2015,1,1);
+var enddate = ee.Date.fromYMD(2022,12,31);
+
+var UTCI = ee.ImageCollection("projects/sat-io/open-datasets/HITISEA/UTCI")
+  .filterBounds(geometry)
+  .filterDate(startdate, enddate);
+
+var chart = ui.Chart.image.series({
+  imageCollection: UTCI.select(['b1']),
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: 'Heat Stress Index',
+      interpolateNulls: true,
+      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
+      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      explorer: {}
+    });
+print(chart);

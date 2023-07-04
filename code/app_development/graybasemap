@@ -1,0 +1,89 @@
+// Custom Basemap
+// credits: https://mygeoblog.com/2017/04/20/gray-basemap-in-gee/
+
+var grayscale_basemap = [
+  {   // Dial down the map saturation.
+  stylers: [ { saturation: -100} ,{ lightness: 50 } ]
+  },{ // Dial down the label darkness.
+  elementType: 'labels',
+  stylers: [ { lightness: 70 } ]
+  },{ // Simplify the road geometries.
+  featureType: 'road',
+  elementType: 'geometry',
+  stylers: [ { visibility: 'simplified' } ]
+  },{ // Turn off road labels.
+  featureType: 'road',
+  elementType: 'labels',
+  stylers: [ { visibility: 'off' } ]
+  },{ // Turn off all icons.
+  elementType: 'labels.icon',
+  stylers: [ { visibility: 'off' } ]
+  },{ // Turn off all POIs.
+  featureType: 'poi',
+  elementType: 'all',
+  stylers: [ { visibility: 'off' }]
+  }
+];
+
+ 
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+Map.centerObject(aoi, 5);
+
+// // draw admin boundary selected by user
+// function draw_bounds(geometry){
+//   var empty = ee.Image().byte();
+//   var outlines = empty.paint({
+//     featureCollection: geometry,
+//     color: 'gray',
+//     width: 5
+//   });
+//   Map.addLayer(outlines, {palette: "gray"}, 'Boundary');  
+// }
+
+// draw_bounds(aoi);
+
+var dataset = ee.ImageCollection('MODIS/061/MOD13Q1')
+  .filter(ee.Filter.date('2023-01-01', '2023-05-01'))
+  .median()
+  .multiply(0.0001)
+  .clip(aoi);
+
+var evi = dataset.select('EVI');
+var eviVis = {
+  min: 0.0,
+  max: 0.5,
+  palette: [
+    'FFFFFF', 'CE7E45', 'DF923D', 'F1B555', 'FCD163', '99B718', '74A901',
+    '66A000', '529400', '3E8601', '207401', '056201', '004C00', '023B01',
+    '012E01', '011D01', '011301'
+  ],
+};
+
+Map.addLayer(evi, eviVis, 'EVI');
+Map.setOptions('Gray', {'Gray': grayscale_basemap});
+
+var srtm = ee.Image("USGS/SRTMGL1_003");
+var lines = ee.List.sequence(0, 4000, 200);
+
+var contourlines = lines.map(function(line) {
+var mycontour = srtm
+.convolve(ee.Kernel.gaussian(5, 3))
+.subtract(ee.Image.constant(line)).zeroCrossing()
+.multiply(ee.Image.constant(line)).toFloat();
+ 
+return mycontour.mask(mycontour);
+})
+ 
+contourlines = ee.ImageCollection(contourlines).mosaic()
+ 
+Map.addLayer(contourlines, 
+  {
+    min: 0, 
+    max: 5000, 
+    width: 0.1, 
+    palette:'gray', 
+    opacity: 0.2
+  }, 
+  'contours')
