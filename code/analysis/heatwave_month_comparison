@@ -1,17 +1,16 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.98758384453187, 24.95863337825142],
-          [66.98758384453187, 24.806644556279828],
-          [67.11941978203187, 24.806644556279828],
-          [67.11941978203187, 24.95863337825142]]], null, false);
+        [[[68.20157310234437, 25.50770579381622],
+          [68.20157310234437, 25.284401092508876],
+          [68.47485801445374, 25.284401092508876],
+          [68.47485801445374, 25.50770579381622]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
@@ -171,7 +170,7 @@ function reduce_dataset_region(image, list) {
 var reduced_dataset = ee.List(composites.iterate(reduce_dataset_region, lst_list));
 var reduced_dataset_dict = reduced_dataset.getInfo();
 
-// map function to compute 95th percentile from TERRACLIMATE for aoi (area of interest: Karachi)
+// map function to compute 95th percentile from TERRACLIMATE for aoi (area of interest: Hyderabad)
 smoothed_deg = smoothed_deg.map(function(image) {
   // month 1 to 12th
   var month = image.date().getRelative('month', 'year');
@@ -201,7 +200,7 @@ var textStyle = {
 
 // compute chart
 
-// ️ Historical Heatwaves in Karachi, Pakistan
+// ️ Historical Heatwaves in Hyderabad, Pakistan
 var chart = ui.Chart.image.series({
   imageCollection: smoothed_deg,
   region: geometry,
@@ -209,7 +208,7 @@ var chart = ui.Chart.image.series({
   scale: 1000
 }).setOptions({
       lineWidth: 1,
-      title: '🌡️ Historical Heatwaves in Karachi, Pakistan',
+      title: '🌡️ Historical Heatwaves in Hyderabad, Pakistan',
       interpolateNulls: true,
       vAxis: {title: 'MODIS LST (°C)',gridlines: {color: '#36454F'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
