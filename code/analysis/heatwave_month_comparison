@@ -212,3 +212,43 @@ var chart = ui.Chart.image.series({
     });
 
 print(chart);
+
+var diff = smoothed_deg.map(function(image) {
+  var min = image.select('Daytime LST 5 day min');
+  var ref = image.select('95th Percentile 1980-2010');
+  var diff = min.subtract(ref).rename('difference');
+  return diff.copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+});
+
+var chart = ui.Chart.image.series({
+  imageCollection: diff,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: '🌡Temperature Abnormal Anomaly',
+      interpolateNulls: true,
+      vAxis: {title: 'LST Difference (°C)',gridlines: {color: 'red'}, viewWindow: {min: -15, max: 15}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {lineWidth: 0.8, color: 'red'},
+      explorer: {}
+    });
+
+print(chart);
+
+
+
+
+
+
+
+
+
+
+
+
