@@ -216,7 +216,7 @@ var chart = ui.Chart.image.series({
       chartArea: {backgroundColor: '#000000'},
     series: {
       0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
-      1: {lineWidth: 0.8, color: 'red'}
+      1: {pointSize: 2.5, lineWidth: 0.8, color: 'red'}
     },
       explorer: {}
     });
@@ -225,7 +225,7 @@ print(chart);
 
 // Temperature differences compared to historical statistics
 var diff = smoothed_deg.map(function(image) {
-  var min = image.select('Daytime LST 5 day min');
+  var min = image.select('Daytime LST 3 day min');
   var ref = image.select('95th Percentile 1980-2010');
   var diff = min.subtract(ref).rename('difference');
   return diff.copyProperties({
