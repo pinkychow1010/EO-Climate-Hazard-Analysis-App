@@ -34,8 +34,8 @@ var geometry =
  * using MODIS compared to long-term average (90th percentile)
  */
 
-var startdate = ee.Date.fromYMD(2015,1,1);
-var enddate = ee.Date.fromYMD(2022,12,31);
+var startdate = ee.Date.fromYMD(2010,1,1);
+var enddate = ee.Date.fromYMD(2023,6,1);
 
 // Filter data
 var maskClouds = function(image) {
