@@ -34,7 +34,7 @@ var geometry =
  * using MODIS compared to long-term average (90th percentile)
  */
 
-var startdate = ee.Date.fromYMD(2010,1,1);
+var startdate = ee.Date.fromYMD(2000,1,1);
 var enddate = ee.Date.fromYMD(2023,6,1);
 
 // Filter data
@@ -57,7 +57,7 @@ var join = ee.Join.saveAll({
 var timeField = 'system:time_start';
 
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 3,
+  difference: 1000 * 60 * 60 * 24 * 5,
   leftField: timeField, 
   rightField: timeField
 });
@@ -165,7 +165,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
 smoothed_deg = smoothed_deg.map(function(image) {
   return image
   .select(['LST_Day_1km_1','p95'])
-  .rename(['Daytime LST 3 day min','95th Percentile 1980-2010']);
+  .rename(['Daytime LST 5 day min','95th Percentile 1980-2010']);
 });
 
 var textStyle = {
