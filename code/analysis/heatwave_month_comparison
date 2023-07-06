@@ -169,7 +169,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
 });
 
 var textStyle = {
-  color: 'grey',
+  color: 'black',
   fontName: 'arial',
   fontSize: 16,
   bold: true,
@@ -185,8 +185,8 @@ var chart = ui.Chart.image.series({
       lineWidth: 1,
       title: '🌡️ Historical Heatwaves in Karachi, Pakistan',
       interpolateNulls: true,
-      vAxis: {title: 'MODIS LST (°C)',gridlines: {color: 'black'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
-      hAxis: {title: 'Time', gridlines: {color: 'black'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      vAxis: {title: 'MODIS LST (°C)',gridlines: {color: '#36454F'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
       chartArea: {backgroundColor: '#000000'},
     series: {
       0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
