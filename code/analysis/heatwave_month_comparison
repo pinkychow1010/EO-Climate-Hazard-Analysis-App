@@ -91,7 +91,9 @@ var smoothed_deg = smoothed.map(function(image) {
 
 // Visualizing Lowest Land Surface Temperature for consecutive 5 Days
 var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
- 
+
+Map.setOptions("Hybrid");
+
 Map.addLayer(
   smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), 
   {min: 26, max: 30, palette: c.magma},
