@@ -8,16 +8,16 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.49045249687562, 25.639013704539856],
-          [66.49045249687562, 24.804151379518302],
-          [67.63303062187562, 24.804151379518302],
-          [67.63303062187562, 25.639013704539856]]], null, false);
+        [[[68.20157310234437, 25.50770579381622],
+          [68.20157310234437, 25.284401092508876],
+          [68.47485801445374, 25.284401092508876],
+          [68.47485801445374, 25.50770579381622]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/25037f8b94d28d3282a9f0417a3ea917  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/88ef18ae136e8c681c4d5c42b7881cc9  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -32,85 +32,100 @@ var geometry =
 
 /**
  * Using 5 day moving window to detect abnormal heat anomaly (heatwave)
- * using MODIS compared to long-term average (90th percentile)
+ * using MODIS compared to long-term average (95th percentile)
  */
 
-var startdate = ee.Date.fromYMD(2015,1,1);
-var enddate = ee.Date.fromYMD(2022,12,31);
+var startdate = ee.Date.fromYMD(2010,1,1); // start of analysis time frame 
+var enddate = ee.Date.fromYMD(2023,6,1); // end of analysis time frame
 
-// Filter data
+// Filter MODIS data by cloud coverage
 var maskClouds = function(image) {
   var QA = image.select('QC_Day');
   var bitMask = 1 << 10;
   return image.updateMask(QA.bitwiseAnd(bitMask).eq(0));
 }; 
 
+// Get MODIS LST data layer
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .map(maskClouds)
   .select('LST_Day_1km')
   .filterBounds(geometry)
   .filterDate(startdate, enddate);
-  
+
 var join = ee.Join.saveAll({
   matchesKey: 'images'
 });
 
 var timeField = 'system:time_start';
 
+// Moving window filter
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 3,
+  difference: 1000 * 60 * 60 * 24 * 3, // 3 days
   leftField: timeField, 
   rightField: timeField
 });
 
+// Apply moving window
 var threeNeighborJoin = join.apply({
   primary: collection,
   secondary: collection, 
   condition: diffFilter
 });
 
+// Extract filtered temperature for collection
 var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
   var collection = ee.ImageCollection.fromImages(image.get('images'));
-  return ee.Image(image).addBands(collection.min())
+  return ee.Image(image).addBands(collection.min()) // moving window minimum
   .copyProperties({
         source: image,
         properties: ['system:time_start']
       });
 }));
 
+// Apply scale factor and offset for collection
 var smoothed_deg = smoothed.map(function(image) {
   return image.multiply(0.02).subtract(273.15)
   .copyProperties({
         source: image,
         properties: ['system:time_start']
       });
-}) 
+});
 
-// print("smoothed_deg", smoothed_deg);
+// Visualizing Lowest Land Surface Temperature for consecutive 3 Days
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
 
-Map.addLayer(smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), {}, 'Lowest LST in 3 Days');
+// Basemap
+Map.setOptions("Hybrid");
+
+// Display LST layer
+Map.addLayer(
+  smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), 
+  {min: 26, max: 30, palette: c.magma},
+  'Lowest LST in 3 Days (First Image)'
+  );
 
 // return the list of coordinates
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
 
 // get the Y-coordinates
-var yCoords = listCoords.slice(1, 1, 2)
+var yCoords = listCoords.slice(1, 1, 2);
 
 // reduce the arrays
-var yMin = yCoords.reduce('min', [0]).get([0,0])
-var yMax = yCoords.reduce('max', [0]).get([0,0])
+var yMin = yCoords.reduce('min', [0]).get([0,0]);
+var yMax = yCoords.reduce('max', [0]).get([0,0]);
 
 var south = yMin.add(yMax).divide(2).lt(0);
 var shift = south.multiply(6).getInfo();
 
-// get historical temperature data
+// get historical temperature data (From TERRACLIMATE)
 var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
 .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
 .select('tmmx');
+
+// ERA Reanalysis Data
 // var lst = ee.ImageCollection("ECMWF/ERA5/MONTHLY")
 //   .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
 //   .select('maximum_2m_air_temperature');
-
 // print(lst);
 
 // get month sequence
@@ -118,13 +133,12 @@ var month = ee.List.sequence(1, 12);
 
 // function for extract monthly temperature
 var get_month_lst = function(month) {
-  
   // temperal filtering
   var filtered = lst.filter(
     ee.Filter.calendarRange(month, month, 'month')
     );
   // convert to celsius
-  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);//add(-272.15);//
+  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);//add(-272.15);//for ERA only
   // format output
   var month_lst = composite.rename('lst').set('month', month);
   
@@ -138,9 +152,14 @@ var composites = ee.ImageCollection.fromImages(month.map(get_month_lst));
 
 var lst_list = ee.List([]);
 
-function reduce_dataset_region(image, list) {
-      var local_image = image.reduceRegion({
-        reducer: ee.Reducer.median(),
+// function to compute regional median
+function reduce_dataset_region(image, list) { 
+      var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+        .first()
+        .clip(geometry);
+      var urban_mask = lulc.eq(50);
+      var local_image = image.updateMask(urban_mask).reduceRegion({
+        reducer: ee.Reducer.percentile([90]),
         geometry: geometry,
         scale: 2000 
       }
@@ -148,9 +167,11 @@ function reduce_dataset_region(image, list) {
     return ee.List(list).add(local_image.get('lst'));
 }
 
+// regional median for each month (apply reduce_dataset_region function)
 var reduced_dataset = ee.List(composites.iterate(reduce_dataset_region, lst_list));
 var reduced_dataset_dict = reduced_dataset.getInfo();
 
+// map function to compute 95th percentile from TERRACLIMATE for aoi (area of interest: Hyderabad)
 smoothed_deg = smoothed_deg.map(function(image) {
   // month 1 to 12th
   var month = image.date().getRelative('month', 'year');
@@ -163,151 +184,82 @@ smoothed_deg = smoothed_deg.map(function(image) {
 });
 
 // print(smoothed_deg);
+smoothed_deg = smoothed_deg.map(function(image) {
+  return image
+  .select(['LST_Day_1km_1','p95'])
+  .rename(['Daytime LST 3 day min','95th Percentile 1980-2010']);
+});
 
+// ploting style
+var textStyle = {
+  color: 'black',
+  fontName: 'arial',
+  fontSize: 16,
+  bold: true,
+  italic: false
+};
+
+// compute chart
+
+// ️ Historical Heatwaves in Hyderabad, Pakistan
 var chart = ui.Chart.image.series({
-  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
+  imageCollection: smoothed_deg,
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000
 }).setOptions({
       lineWidth: 1,
-      title: 'LST Day Time',
+      title: '🌡️ Historical Heatwaves in Hyderabad, Pakistan',
       interpolateNulls: true,
-      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
-      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      vAxis: {title: 'MODIS LST (°C)',gridlines: {color: '#36454F'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {
+      0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
+      1: {pointSize: 2.5, lineWidth: 0.8, color: 'red'}
+    },
       explorer: {}
     });
+
 print(chart);
 
-// ################################################################
+// Temperature differences compared to historical statistics
+var diff = smoothed_deg.map(function(image) {
+  var min = image.select('Daytime LST 3 day min');
+  var ref = image.select('95th Percentile 1980-2010');
+  var diff = min.subtract(ref).rename('difference');
+  return diff.copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+});
 
-// // Filter data
-// var collection = ee.ImageCollection('MODIS/006/MOD11A1')
-//   .select('LST_Night_1km')
-//   .filterBounds(geometry)
-//   .filterDate(startdate, enddate);
-  
-// var join = ee.Join.saveAll({
-//   matchesKey: 'images'
-// });
+var chart = ui.Chart.image.series({
+  imageCollection: diff,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000
+}).setOptions({
+      lineWidth: 1,
+      title: '🌡Temperature Abnormal Anomaly',
+      interpolateNulls: true,
+      vAxis: {title: 'LST Difference (°C)',gridlines: {color: 'red'}, viewWindow: {min: -15, max: 15}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {lineWidth: 0.8, color: 'red'},
+      explorer: {}
+    });
 
-// var timeField = 'system:time_start';
+print(chart);
 
-// var diffFilter = ee.Filter.maxDifference({
-//   difference: 1000 * 60 * 60 * 24 * 3,
-//   leftField: timeField, 
-//   rightField: timeField
-// });
 
-// var threeNeighborJoin = join.apply({
-//   primary: collection,
-//   secondary: collection, 
-//   condition: diffFilter
-// });
 
-// var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
-//   var collection = ee.ImageCollection.fromImages(image.get('images'));
-//   return ee.Image(image).addBands(collection.min())
-//   .copyProperties({
-//         source: image,
-//         properties: ['system:time_start']
-//       });
-// }));
 
-// var smoothed_deg = smoothed.map(function(image) {
-//   return image.multiply(0.02).subtract(273.15)
-//   .copyProperties({
-//         source: image,
-//         properties: ['system:time_start']
-//       });
-// }) 
 
-// // print("smoothed_deg", smoothed_deg);
 
-// // Map.addLayer(smoothed_deg.first().clip(geometry), {}, 'Lowest LST in 3 Days');
 
-// // return the list of coordinates
-// var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
 
-// // get the Y-coordinates
-// var yCoords = listCoords.slice(1, 1, 2)
 
-// // reduce the arrays
-// var yMin = yCoords.reduce('min', [0]).get([0,0])
-// var yMax = yCoords.reduce('max', [0]).get([0,0])
 
-// var south = yMin.add(yMax).divide(2).lt(0);
-// var shift = south.multiply(6).getInfo();
 
-// // get historical temperature data
-// var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
-// .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
-// .select('tmmn');
 
-// print(lst);
-
-// // get month sequence
-// var month = ee.List.sequence(1, 12);
-
-// // function for extract monthly temperature
-// var get_month_lst = function(month) {
-  
-//   // temperal filtering
-//   var filtered = lst.filter(
-//     ee.Filter.calendarRange(month, month, 'month')
-//     );
-//   // convert to celsius
-//   var composite = filtered.reduce(ee.Reducer.percentile([97])).multiply(0.1);
-//   // format output
-//   var month_lst = composite.rename('lst').set('month', month);
-  
-//   return month_lst;
-// };
-
-// // https://gis.stackexchange.com/questions/372828/get-feature-values-from-imagecollection-to-list
-// // compute month temperature for the whole time series
-// var composites = ee.ImageCollection.fromImages(month.map(get_month_lst));
-// print(composites);
-
-// var lst_list = ee.List([]);
-
-// function reduce_dataset_region(image, list) {
-//       var local_image = image.reduceRegion({
-//         reducer: ee.Reducer.median(),
-//         geometry: geometry,
-//         scale: 2000 
-//       }
-//     );
-//     return ee.List(list).add(local_image.get('lst'));
-// }
-
-// var reduced_dataset = ee.List(composites.iterate(reduce_dataset_region, lst_list));
-// var reduced_dataset_dict = reduced_dataset.getInfo();
-
-// smoothed_deg = smoothed_deg.map(function(image) {
-//   // month 1 to 12th
-//   var month = image.date().getRelative('month', 'year');
-//   var monthBand = ee.Image.constant(month).uint16().rename('month');
-//   image = image.addBands(monthBand);
-
-//   var threshold = ee.Image.constant(ee.List(reduced_dataset.get(month))).rename('p97').double();
-//   image = image.addBands(threshold);
-//   return image;
-// });
-
-// print(smoothed_deg);
-
-// var chart = ui.Chart.image.series({
-//   imageCollection: smoothed_deg.select(['LST_Night_1km_1','p97']),
-//   region: geometry,
-//   reducer: ee.Reducer.median(),
-//   scale: 1000
-// }).setOptions({
-//       lineWidth: 1,
-//       title: 'LST Night Time',
-//       interpolateNulls: true,
-//       vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
-//       hAxis: {title: 'Time', format: 'YYYY-MMM'},
-//       explorer: {}
-//     });
-// print(chart);
