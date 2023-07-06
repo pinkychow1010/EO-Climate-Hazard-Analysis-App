@@ -196,6 +196,8 @@ var textStyle = {
 };
 
 // compute chart
+
+// ️ Historical Heatwaves in Karachi, Pakistan
 var chart = ui.Chart.image.series({
   imageCollection: smoothed_deg,
   region: geometry,
@@ -217,6 +219,7 @@ var chart = ui.Chart.image.series({
 
 print(chart);
 
+// Temperature differences compared to historical statistics
 var diff = smoothed_deg.map(function(image) {
   var min = image.select('Daytime LST 5 day min');
   var ref = image.select('95th Percentile 1980-2010');
