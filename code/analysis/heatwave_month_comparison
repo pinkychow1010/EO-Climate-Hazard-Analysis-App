@@ -31,37 +31,40 @@ var geometry =
 
 /**
  * Using 5 day moving window to detect abnormal heat anomaly (heatwave)
- * using MODIS compared to long-term average (90th percentile)
+ * using MODIS compared to long-term average (95th percentile)
  */
 
-var startdate = ee.Date.fromYMD(2000,1,1);
-var enddate = ee.Date.fromYMD(2023,6,1);
+var startdate = ee.Date.fromYMD(2010,1,1); // start of analysis time frame 
+var enddate = ee.Date.fromYMD(2023,6,1); // end of analysis time frame
 
-// Filter data
+// Filter MODIS data by cloud coverage
 var maskClouds = function(image) {
   var QA = image.select('QC_Day');
   var bitMask = 1 << 10;
   return image.updateMask(QA.bitwiseAnd(bitMask).eq(0));
 }; 
 
+// Get MODIS LST data layer
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .map(maskClouds)
   .select('LST_Day_1km')
   .filterBounds(geometry)
   .filterDate(startdate, enddate);
-  
+
 var join = ee.Join.saveAll({
   matchesKey: 'images'
 });
 
 var timeField = 'system:time_start';
 
+// Moving window filter
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 5,
+  difference: 1000 * 60 * 60 * 24 * 5, // 5 days
   leftField: timeField, 
   rightField: timeField
 });
 
+// Apply moving window
 var threeNeighborJoin = join.apply({
   primary: collection,
   secondary: collection, 
@@ -70,7 +73,7 @@ var threeNeighborJoin = join.apply({
 
 var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
   var collection = ee.ImageCollection.fromImages(image.get('images'));
-  return ee.Image(image).addBands(collection.min())
+  return ee.Image(image).addBands(collection.min()) // moving window minimum
   .copyProperties({
         source: image,
         properties: ['system:time_start']
@@ -85,9 +88,8 @@ var smoothed_deg = smoothed.map(function(image) {
       });
 }) 
 
-// print("smoothed_deg", smoothed_deg);
-
-Map.addLayer(smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), {}, 'Lowest LST in 3 Days');
+// Visualizing Lowest Land Surface Temperature for consecutive 5 Days
+Map.addLayer(smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), {}, 'Lowest LST in 5 Days');
 
 // return the list of coordinates
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
@@ -102,14 +104,15 @@ var yMax = yCoords.reduce('max', [0]).get([0,0])
 var south = yMin.add(yMax).divide(2).lt(0);
 var shift = south.multiply(6).getInfo();
 
-// get historical temperature data
+// get historical temperature data (From TERRACLIMATE)
 var lst = ee.ImageCollection('IDAHO_EPSCOR/TERRACLIMATE')
 .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
 .select('tmmx');
+
+// ERA Reanalysis Data
 // var lst = ee.ImageCollection("ECMWF/ERA5/MONTHLY")
 //   .filter(ee.Filter.date('1980-01-01', '2011-01-01'))
 //   .select('maximum_2m_air_temperature');
-
 // print(lst);
 
 // get month sequence
@@ -117,13 +120,12 @@ var month = ee.List.sequence(1, 12);
 
 // function for extract monthly temperature
 var get_month_lst = function(month) {
-  
   // temperal filtering
   var filtered = lst.filter(
     ee.Filter.calendarRange(month, month, 'month')
     );
   // convert to celsius
-  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);//add(-272.15);//
+  var composite = filtered.reduce(ee.Reducer.percentile([95])).multiply(0.1);//add(-272.15);//for ERA only
   // format output
   var month_lst = composite.rename('lst').set('month', month);
   
@@ -137,7 +139,8 @@ var composites = ee.ImageCollection.fromImages(month.map(get_month_lst));
 
 var lst_list = ee.List([]);
 
-function reduce_dataset_region(image, list) {
+// function to compute regional median
+function reduce_dataset_region(image, list) { 
       var local_image = image.reduceRegion({
         reducer: ee.Reducer.median(),
         geometry: geometry,
@@ -147,9 +150,11 @@ function reduce_dataset_region(image, list) {
     return ee.List(list).add(local_image.get('lst'));
 }
 
+// regional median for each month (apply reduce_dataset_region function)
 var reduced_dataset = ee.List(composites.iterate(reduce_dataset_region, lst_list));
 var reduced_dataset_dict = reduced_dataset.getInfo();
 
+// map function to compute 95th percentile from TERRACLIMATE for aoi (area of interest: Karachi)
 smoothed_deg = smoothed_deg.map(function(image) {
   // month 1 to 12th
   var month = image.date().getRelative('month', 'year');
@@ -168,6 +173,7 @@ smoothed_deg = smoothed_deg.map(function(image) {
   .rename(['Daytime LST 5 day min','95th Percentile 1980-2010']);
 });
 
+// ploting style
 var textStyle = {
   color: 'black',
   fontName: 'arial',
@@ -176,6 +182,7 @@ var textStyle = {
   italic: false
 };
 
+// compute chart
 var chart = ui.Chart.image.series({
   imageCollection: smoothed_deg,
   region: geometry,
