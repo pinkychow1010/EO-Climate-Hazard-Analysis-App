@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -153,7 +154,11 @@ var lst_list = ee.List([]);
 
 // function to compute regional median
 function reduce_dataset_region(image, list) { 
-      var local_image = image.reduceRegion({
+      var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+        .first()
+        .clip(geometry);
+      var urban_mask = lulc.eq(50);
+      var local_image = image.updateMask(urban_mask).reduceRegion({
         reducer: ee.Reducer.median(),
         geometry: geometry,
         scale: 2000 
