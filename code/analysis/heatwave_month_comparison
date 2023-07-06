@@ -60,7 +60,7 @@ var timeField = 'system:time_start';
 
 // Moving window filter
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 3, // 5 days
+  difference: 1000 * 60 * 60 * 24 * 5, // 5 days
   leftField: timeField, 
   rightField: timeField
 });
