@@ -60,7 +60,7 @@ var timeField = 'system:time_start';
 
 // Moving window filter
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 5, // 5 days
+  difference: 1000 * 60 * 60 * 24 * 3, // 5 days
   leftField: timeField, 
   rightField: timeField
 });
@@ -159,7 +159,7 @@ function reduce_dataset_region(image, list) {
         .clip(geometry);
       var urban_mask = lulc.eq(50);
       var local_image = image.updateMask(urban_mask).reduceRegion({
-        reducer: ee.Reducer.median(),
+        reducer: ee.Reducer.percentile([90]),
         geometry: geometry,
         scale: 2000 
       }
