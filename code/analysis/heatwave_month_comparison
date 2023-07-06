@@ -241,7 +241,7 @@ var chart = ui.Chart.image.series({
   scale: 1000
 }).setOptions({
       lineWidth: 1,
-      title: '🌡Temperature Abnormal Anomaly',
+      title: '🌡Anomaly of Temperature Differences',
       interpolateNulls: true,
       vAxis: {title: 'LST Difference (°C)',gridlines: {color: 'red'}, viewWindow: {min: -15, max: 15}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
