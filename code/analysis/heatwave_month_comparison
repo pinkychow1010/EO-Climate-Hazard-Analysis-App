@@ -7,10 +7,10 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[66.49045249687562, 25.639013704539856],
-          [66.49045249687562, 24.804151379518302],
-          [67.63303062187562, 24.804151379518302],
-          [67.63303062187562, 25.639013704539856]]], null, false);
+        [[[66.85300132500062, 25.122869180670044],
+          [66.85300132500062, 24.873941362646352],
+          [67.22104331718812, 24.873941362646352],
+          [67.22104331718812, 25.122869180670044]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
@@ -86,7 +86,7 @@ var smoothed_deg = smoothed.map(function(image) {
         source: image,
         properties: ['system:time_start']
       });
-}) 
+});
 
 // Visualizing Lowest Land Surface Temperature for consecutive 5 Days
 Map.addLayer(smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), {}, 'Lowest LST in 5 Days');
@@ -95,11 +95,11 @@ Map.addLayer(smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), {}, 'L
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
 
 // get the Y-coordinates
-var yCoords = listCoords.slice(1, 1, 2)
+var yCoords = listCoords.slice(1, 1, 2);
 
 // reduce the arrays
-var yMin = yCoords.reduce('min', [0]).get([0,0])
-var yMax = yCoords.reduce('max', [0]).get([0,0])
+var yMin = yCoords.reduce('min', [0]).get([0,0]);
+var yMax = yCoords.reduce('max', [0]).get([0,0]);
 
 var south = yMin.add(yMax).divide(2).lt(0);
 var shift = south.multiply(6).getInfo();
@@ -201,4 +201,5 @@ var chart = ui.Chart.image.series({
     },
       explorer: {}
     });
+
 print(chart);
