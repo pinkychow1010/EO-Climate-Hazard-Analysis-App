@@ -1,7 +1,6 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
-    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -163,18 +162,36 @@ smoothed_deg = smoothed_deg.map(function(image) {
 });
 
 // print(smoothed_deg);
+smoothed_deg = smoothed_deg.map(function(image) {
+  return image
+  .select(['LST_Day_1km_1','p95'])
+  .rename(['Daytime LST 3 day min','95th Percentile 1980-2010']);
+});
+
+var textStyle = {
+  color: 'grey',
+  fontName: 'arial',
+  fontSize: 16,
+  bold: true,
+  italic: false
+};
 
 var chart = ui.Chart.image.series({
-  imageCollection: smoothed_deg.select(['LST_Day_1km_1','p95']),
+  imageCollection: smoothed_deg,
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000
 }).setOptions({
       lineWidth: 1,
-      title: 'LST Day Time',
+      title: '🌡️ Historical Heatwaves in Karachi, Pakistan',
       interpolateNulls: true,
-      vAxis: {title: 'Temperature',viewWindow: {min: 10, max: 50}},
-      hAxis: {title: 'Time', format: 'YYYY-MMM'},
+      vAxis: {title: 'MODIS LST (°C)',gridlines: {color: 'black'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Time', gridlines: {color: 'black'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {
+      0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
+      1: {lineWidth: 0.8, color: 'red'}
+    },
       explorer: {}
     });
 print(chart);
