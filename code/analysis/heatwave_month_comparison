@@ -1,6 +1,7 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var geometry = 
     /* color: #d63000 */
+    /* shown: false */
     /* displayProperties: [
       {
         "type": "rectangle"
@@ -89,7 +90,13 @@ var smoothed_deg = smoothed.map(function(image) {
 });
 
 // Visualizing Lowest Land Surface Temperature for consecutive 5 Days
-Map.addLayer(smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), {}, 'Lowest LST in 5 Days');
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+ 
+Map.addLayer(
+  smoothed_deg.select('LST_Day_1km_1').first().clip(geometry), 
+  {min: 26, max: 30, palette: c.magma},
+  'Lowest LST in 5 Days (First Image)'
+  );
 
 // return the list of coordinates
 var listCoords = ee.Array.cat(geometry.coordinates(), 1); 
