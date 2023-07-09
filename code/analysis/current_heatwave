@@ -39,7 +39,7 @@ var geometry =
 var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
 var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
 
-var startdate = ee.Date.fromYMD(2023,6,1);
+var startdate = ee.Date.fromYMD(2023,6,20);
 var enddate = ee.Date.fromYMD(2023,7,9);
 
 // Filter data
@@ -55,7 +55,7 @@ var join = ee.Join.saveAll({
 var timeField = 'system:time_start';
 
 var diffFilter = ee.Filter.maxDifference({
-  difference: 1000 * 60 * 60 * 24 * 5,
+  difference: 1000 * 60 * 60 * 24 * 10,
   leftField: timeField, 
   rightField: timeField
 });
@@ -93,8 +93,8 @@ var max_temp = smoothed_deg.select(['LST_Day_1km_1']).max().clip(aoi);
 var heatwave = max_temp.gt(35);
 
 Map.addLayer(max_temp.updateMask(heatwave).updateMask(cluster), 
-  {min:35, max:45, palette:['white','yellow','orange','red']}, 
-  'Lowest LST in 5 Days');
+  {min:35, max:43, palette:['white','yellow','orange','red']}, 
+  'Lowest LST in 10 Days');
 
 
 // Custom Basemap
