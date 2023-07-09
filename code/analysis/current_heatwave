@@ -126,3 +126,16 @@ var grayscale_basemap = [
 
 Map.centerObject(aoi, 7);
 Map.setOptions('Gray', {'Gray': grayscale_basemap});
+
+// draw admin boundary selected by user
+function draw_bounds(geometry){
+  var empty = ee.Image().byte();
+  var outlines = empty.paint({
+    featureCollection: geometry,
+    color: 'gray',
+    width: 5
+  });
+  Map.addLayer(outlines, {palette: "gray"}, 'Boundary');  
+}
+
+draw_bounds(aoi);
