@@ -88,8 +88,12 @@ Map.setOptions('Hybrid');
 var cluster = ee.ImageCollection("JRC/GHSL/P2016/SMOD_POP_GLOBE_V1")
 .first().select(['smod_code']).gt(1);
 
-Map.addLayer(smoothed_deg.select(['LST_Day_1km_1']).max().clip(aoi).updateMask(cluster), 
-  {min:35, max:45, palette:['blue','white','yellow','red']}, 
+var max_temp = smoothed_deg.select(['LST_Day_1km_1']).max().clip(aoi);
+
+var heatwave = max_temp.gt(35);
+
+Map.addLayer(max_temp.updateMask(heatwave).updateMask(cluster), 
+  {min:35, max:45, palette:['white','yellow','orange','red']}, 
   'Lowest LST in 5 Days');
 
 
@@ -98,10 +102,10 @@ Map.addLayer(smoothed_deg.select(['LST_Day_1km_1']).max().clip(aoi).updateMask(c
 
 var grayscale_basemap = [
   {   // Dial down the map saturation.
-  stylers: [ { saturation: -100} ,{ lightness: 50 } ]
+  stylers: [ { saturation: -100} ,{ lightness: -80 } ]
   },{ // Dial down the label darkness.
   elementType: 'labels',
-  stylers: [ { lightness: 70 } ]
+  stylers: [ { lightness: -20 } ]
   },{ // Simplify the road geometries.
   featureType: 'road',
   elementType: 'geometry',
