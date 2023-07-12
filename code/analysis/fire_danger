@@ -196,18 +196,7 @@ var fire_sample = fires.updateMask(natural_veg).sample({
 });
 
 // display detected fires
-Map.addLayer(fire_sample, {palette:'yellow'}, "Points");
-
-
-
-
-
-
-
-
-
-
-
+Map.addLayer(fire_sample, {color: 'blue'}, "Detected Fires");
 
 
 // Function to generate the legend
