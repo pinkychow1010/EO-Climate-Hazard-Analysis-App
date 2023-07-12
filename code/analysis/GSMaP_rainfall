@@ -1,0 +1,20 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    ee.Geometry.Point([79.01006766854343, 21.214417920585486]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var dataset = ee.ImageCollection('JAXA/GPM_L3/GSMaP/v6/operational')
+                  .filter(ee.Filter.date('2023-07-08', '2023-07-09'));
+var precipitation = dataset.select('hourlyPrecipRate').first();
+var precipitationVis = {
+  min: 0.0,
+  max: 5.0,
+  palette:
+      ['1621a280', 'ffffff80', '03ffff80', '13ff0380', 'efff0080', 'ffb10380', 'ff230080'],
+};
+Map.centerObject(geometry, 7);
+var rain = precipitation.gt(0.1);
+
+Map.setOptions("Hybrid");
+Map.addLayer(precipitation.updateMask(rain), precipitationVis, 'Precipitation');

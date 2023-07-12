@@ -1,0 +1,249 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var aoi = 
+    /* color: #98ff00 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[102.1517638675988, 22.33835840063753],
+          [102.1517638675988, 14.932544436813316],
+          [110.8968810550988, 14.932544436813316],
+          [110.8968810550988, 22.33835840063753]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/5143b2698a8fae68fbc67bc5f6b18d10  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+// https://wikifire.wsl.ch/tiki-index91e2.html?page=Sharples+fuel+moisture+and+fire+danger+rating+indices&structure=Fire
+
+// ############################################## //
+// ######    Fire Danger Inspection        ###### //
+// ############################################## //
+
+/**
+ * 
+ * This is an example script for visualizing fire danger by combining information about fuel wetness 
+ * (drought index) and fuel load (aboveground biomass).
+ * 
+ */
+
+// import module
+var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
+
+// get last 14 days
+var newDate = new Date();
+var today = ee.Date(newDate);
+var previous = today.advance(-14, 'day');
+
+// ## KBDI ##
+// get dataset for drought condition to inspect fire potential
+var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
+  .select('KBDI')
+  .filterDate(previous, today);
+
+// define vis params
+var bandViz = {
+  min: 300,
+  max: 700,
+  palette: [
+    "#CCCCCC",
+    "#FEFF2C",
+    "#FF6625",
+    "#CC001A",
+    "#730009"
+  ],
+  opacity: 0.3
+};
+
+var droughtViz = {
+  min: 300,
+  max: 700,
+  palette: [
+    "#CCCCCC",
+    "#FEFF2C",
+    "#FF6625",
+    "#CC001A",
+    "#730009"
+  ],
+  opacity: 0.9
+};
+
+Map.centerObject(aoi, 6);
+
+// define drought conditions
+var img = collection.max().clip(aoi);
+var drought = img.gt(150);
+
+var intervals =
+'<RasterSymbolizer>' +
+' <ColorMap type="intervals" extended="false" >' +
+    '<ColorMapEntry color="#CCCCCC" quantity="0" label="No Data"/>' +
+    '<ColorMapEntry color="#FEFF2C" quantity="200" label="Fire Hazard"/>' +
+    '<ColorMapEntry color="#FF6625" quantity="400" label="Fire Hazard"/>' +
+    '<ColorMapEntry color="#CC001A" quantity="600" label="Fire Hazard"/>' +
+    '<ColorMapEntry color="#730009" quantity="800" label="Fire Hazard"/>' +
+  '</ColorMap>' +
+'</RasterSymbolizer>';
+
+// Define a dictionary which will be used to make legend and visualize image on map
+var dict = {
+  "names": [
+    "Extremely Low",
+    "Low",
+    "Medium",
+    "High",
+    "Extremely High"
+  ],
+  "colors": [
+    "#CCCCCC",
+    "#FEFF2C",
+    "#FF6625",
+    "#CC001A",
+    "#730009"
+  ]};
+  
+  // Create a panel to hold the legend widget
+var legend = ui.Panel({
+  style: {
+    position: 'bottom-left',
+    padding: '8px 15px'
+  }
+});
+
+addCategoricalLegend(legend, dict, 'Fire Potential');
+
+// ## biomass dataset ##
+var agb = ee.ImageCollection("projects/sat-io/open-datasets/ESA/ESA_CCI_AGB")
+.limit(1, 'system:time_start', false).first().select('AGB');
+
+var potential = agb.gt(10);
+var danger = agb.gt(50);
+
+// display layers
+img = img.select('KBDI');
+Map.addLayer(img.sldStyle(intervals), {}, 'Keetch-Byram Drought Index', false);
+Map.addLayer(img.updateMask(drought).sldStyle(intervals), {}, 'Drought Alert', false);
+Map.addLayer(img.updateMask(drought).updateMask(potential).sldStyle(intervals), {}, 'Fire Alert');
+Map.addLayer(img.updateMask(drought).updateMask(danger).sldStyle(intervals), {}, 'Fire Danger');
+
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+Map.addLayer(agb, {min:0, max:200, palette:c.greens}, "CCI Biomass", false);
+
+// load satellite-based fire detection for reference
+var dataset = ee.ImageCollection('FIRMS').filter(
+    ee.Filter.date('2023-06-28', '2023-07-12')).sum();
+
+// get fires of high confidence
+var confident = dataset.select('confidence').gt(50);
+var fires = dataset.select('T21').updateMask(confident);
+
+var firesVis = {
+  min: 300.0,
+  max: 400.0,
+  palette: ['blue'],
+};
+
+// grayscale basemap to enhance fire visuals
+var grayscale_basemap = [
+  {   // Dial down the map saturation.
+  stylers: [ { saturation: -100} ,{ lightness: 50 } ]
+  },{ // Dial down the label darkness.
+  elementType: 'labels',
+  stylers: [ { lightness: 70 } ]
+  },{ // Simplify the road geometries.
+  featureType: 'road',
+  elementType: 'geometry',
+  stylers: [ { visibility: 'simplified' } ]
+  },{ // Turn off road labels.
+  featureType: 'road',
+  elementType: 'labels',
+  stylers: [ { visibility: 'off' } ]
+  },{ // Turn off all icons.
+  elementType: 'labels.icon',
+  stylers: [ { visibility: 'off' } ]
+  },{ // Turn off all POIs.
+  featureType: 'poi',
+  elementType: 'all',
+  stylers: [ { visibility: 'off' }]
+  }
+];
+
+Map.setOptions('Gray', {'Gray': grayscale_basemap});
+
+// reject agricultural fires as they are probably human-induced independent of fire danger
+var natural_veg = ee.ImageCollection('ESA/WorldCover/v200')
+.first()
+.clip(aoi)
+.lt(40);
+
+// transform raster to fire sample points (vector)
+var fire_sample = fires.updateMask(natural_veg).sample({
+  region:aoi,
+  scale:2000,
+  geometries:true
+});
+
+// display detected fires
+Map.addLayer(fire_sample, {color: 'blue', size: 3}, "Detected Fires");
+
+// Function to generate the legend
+function addCategoricalLegend(panel, dict, title) {
+  
+  // Create and add the legend title.
+  var legendTitle = ui.Label({
+    value: title,
+    style: {
+      fontWeight: 'bold',
+      fontSize: '18px',
+      margin: '0 0 4px 0',
+      padding: '0'
+    }
+  });
+  panel.add(legendTitle);
+  
+  var loading = ui.Label('Loading legend...', {margin: '2px 0 4px 0'});
+  panel.add(loading);
+  
+  // Creates and styles 1 row of the legend.
+  var makeRow = function(color, name) {
+    // Create the label that is actually the colored box.
+    var colorBox = ui.Label({
+      style: {
+        backgroundColor: color,
+        // Use padding to give the box height and width.
+        padding: '8px',
+        margin: '0 0 4px 0'
+      }
+    });
+  
+    // Create the label filled with the description text.
+    var description = ui.Label({
+      value: name,
+      style: {margin: '0 0 4px 6px'}
+    });
+  
+    return ui.Panel({
+      widgets: [colorBox, description],
+      layout: ui.Panel.Layout.Flow('horizontal')
+    });
+  };
+  
+  // Get the list of palette colors and class names from the image.
+  var palette = dict.colors;
+  var names = dict.names;
+  loading.style().set('shown', false);
+  
+  for (var i = 0; i < names.length; i++) {
+    panel.add(makeRow(palette[i], names[i]));
+  }
+  
+  Map.add(panel);
+}
+

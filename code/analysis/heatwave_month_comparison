@@ -17,7 +17,7 @@ var geometry =
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/88ef18ae136e8c681c4d5c42b7881cc9  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/b66f9d6f21199f72e145b8d790eeebc8  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -241,7 +241,7 @@ var chart = ui.Chart.image.series({
   scale: 1000
 }).setOptions({
       lineWidth: 1,
-      title: '🌡Temperature Abnormal Anomaly',
+      title: '🌡Anomaly of Temperature Differences',
       interpolateNulls: true,
       vAxis: {title: 'LST Difference (°C)',gridlines: {color: 'red'}, viewWindow: {min: -15, max: 15}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},

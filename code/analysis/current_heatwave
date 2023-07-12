@@ -1,0 +1,141 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[59.56345787266514, 37.83629577137325],
+          [59.56345787266514, 22.893179387175625],
+          [76.96580162266514, 22.893179387175625],
+          [76.96580162266514, 37.83629577137325]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/25037f8b94d28d3282a9f0417a3ea917  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ##################################### //
+// ######    Historical Heatwaves ###### //
+// ######       Detection         ###### //
+// ##################################### //
+
+/**
+ * Using 5 day moving window to detect abnormal heat anomaly (heatwave)
+ * using MODIS compared to long-term average (90th percentile)
+ */
+
+var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
+var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
+
+var startdate = ee.Date.fromYMD(2023,6,20);
+var enddate = ee.Date.fromYMD(2023,7,9);
+
+// Filter data
+var collection = ee.ImageCollection("MODIS/061/MYD11A1")
+  .select('LST_Day_1km')
+  .filterBounds(geometry)
+  .filterDate(startdate, enddate);
+  
+var join = ee.Join.saveAll({
+  matchesKey: 'images'
+});
+
+var timeField = 'system:time_start';
+
+var diffFilter = ee.Filter.maxDifference({
+  difference: 1000 * 60 * 60 * 24 * 10,
+  leftField: timeField, 
+  rightField: timeField
+});
+
+var threeNeighborJoin = join.apply({
+  primary: collection, 
+  secondary: collection, 
+  condition: diffFilter
+})
+
+var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
+  var collection = ee.ImageCollection.fromImages(image.get('images'));
+  return ee.Image(image).addBands(collection.min())
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+}));
+
+var smoothed_deg = smoothed.map(function(image) {
+  return image.multiply(0.02).subtract(273.15)
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+}) ;
+
+Map.setOptions('Hybrid');
+
+var cluster = ee.ImageCollection("JRC/GHSL/P2016/SMOD_POP_GLOBE_V1")
+.first().select(['smod_code']).gt(1);
+
+var max_temp = smoothed_deg.select(['LST_Day_1km_1']).max().clip(aoi);
+
+var heatwave = max_temp.gt(35);
+
+Map.addLayer(max_temp.updateMask(heatwave).updateMask(cluster), 
+  {min:35, max:43, palette:['white','yellow','orange','red']}, 
+  'Lowest LST in 10 Days');
+
+
+// Custom Basemap
+// credits: https://mygeoblog.com/2017/04/20/gray-basemap-in-gee/
+
+var grayscale_basemap = [
+  {   // Dial down the map saturation.
+  stylers: [ { saturation: -100} ,{ lightness: -80 } ]
+  },{ // Dial down the label darkness.
+  elementType: 'labels',
+  stylers: [ { lightness: -20 } ]
+  },{ // Simplify the road geometries.
+  featureType: 'road',
+  elementType: 'geometry',
+  stylers: [ { visibility: 'simplified' } ]
+  },{ // Turn off road labels.
+  featureType: 'road',
+  elementType: 'labels',
+  stylers: [ { visibility: 'off' } ]
+  },{ // Turn off all icons.
+  elementType: 'labels.icon',
+  stylers: [ { visibility: 'off' } ]
+  },{ // Turn off all POIs.
+  featureType: 'poi',
+  elementType: 'all',
+  stylers: [ { visibility: 'off' }]
+  }
+];
+
+Map.centerObject(aoi, 7);
+Map.setOptions('Gray', {'Gray': grayscale_basemap});
+
+// draw admin boundary selected by user
+function draw_bounds(geometry){
+  var empty = ee.Image().byte();
+  var outlines = empty.paint({
+    featureCollection: geometry,
+    color: 'white',
+    width: 1
+  });
+  Map.addLayer(outlines, {palette: "gray"}, 'Boundary');  
+}
+
+draw_bounds(aoi);
