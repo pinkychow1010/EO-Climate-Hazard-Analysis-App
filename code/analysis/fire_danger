@@ -137,7 +137,7 @@ Map.addLayer(img.updateMask(drought).updateMask(potential).sldStyle(intervals), 
 Map.addLayer(img.updateMask(drought).updateMask(danger).sldStyle(intervals), {}, 'Fire Danger');
 
 var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
-// Map.addLayer(agb, {min:0, max:200, palette:c.greens}, "CCI Biomass");
+Map.addLayer(agb, {min:0, max:200, palette:c.greens}, "CCI Biomass", false);
 
 // load satellite-based fire detection for reference
 var dataset = ee.ImageCollection('FIRMS').filter(
@@ -196,7 +196,7 @@ var fire_sample = fires.updateMask(natural_veg).sample({
 });
 
 // display detected fires
-Map.addLayer(fire_sample, {color: 'blue'}, "Detected Fires");
+Map.addLayer(fire_sample, {color: 'blue', size: 3}, "Detected Fires");
 
 
 // Function to generate the legend
