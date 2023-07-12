@@ -75,8 +75,7 @@ var droughtViz = {
   opacity: 0.9
 };
 
-Map.setOptions("Hybrid");
-Map.centerObject(aoi, 5);
+Map.centerObject(aoi, 6);
 
 // define drought conditions
 var img = collection.max().clip(aoi);
