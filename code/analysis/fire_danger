@@ -95,11 +95,11 @@ var intervals =
 // Define a dictionary which will be used to make legend and visualize image on map
 var dict = {
   "names": [
-    "No Hazard",
-    "Low Hazard",
-    "Water Deficit",
-    "Drought",
-    "Severe Drought"
+    "Very Low",
+    "Low",
+    "Medium",
+    "High",
+    "Very High"
   ],
   "colors": [
     "#CCCCCC",
@@ -117,7 +117,7 @@ var legend = ui.Panel({
   }
 });
 
-addCategoricalLegend(legend, dict, 'KBDI');
+addCategoricalLegend(legend, dict, 'Fire Potential');
 
 // ## biomass dataset ##
 var agb = ee.ImageCollection("projects/sat-io/open-datasets/ESA/ESA_CCI_AGB")
