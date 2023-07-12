@@ -24,27 +24,26 @@ var aoi =
 // https://wikifire.wsl.ch/tiki-index91e2.html?page=Sharples+fuel+moisture+and+fire+danger+rating+indices&structure=Fire
 
 // ############################################## //
-// ######    Keetch-Byram Drought Index    ###### //
+// ######    Fire Danger Inspection        ###### //
 // ############################################## //
 
 /**
  * 
- * This is an example script for visualizing KBDI drought index in Pakistan
- * 
- * Project details: https://wtlab.iis.u-tokyo.ac.jp/DMEWS/
- * Dataset Page: https://developers.google.com/earth-engine/datasets/catalog/UTOKYO_WTLAB_KBDI_v1
+ * This is an example script for visualizing fire danger by combining information about fuel wetness 
+ * (drought index) and fuel load (aboveground biomass).
  * 
  */
 
 // import module
 var helper = require('users/pinkychow1010/WB_IntraUrban:helper');
 
-// get last 10 days
+// get last 14 days
 var newDate = new Date();
 var today = ee.Date(newDate);
 var previous = today.advance(-14, 'day');
 
-// get dataset
+// ## KBDI ##
+// get dataset for drought condition to inspect fire potential
 var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous, today);
@@ -123,6 +122,7 @@ var legend = ui.Panel({
 
 addCategoricalLegend(legend, dict, 'KBDI');
 
+// ## biomass dataset ##
 var agb = ee.ImageCollection("projects/sat-io/open-datasets/ESA/ESA_CCI_AGB")
 .limit(1, 'system:time_start', false).first().select('AGB');
 
@@ -139,17 +139,21 @@ Map.addLayer(img.updateMask(drought).updateMask(danger).sldStyle(intervals), {},
 var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
 // Map.addLayer(agb, {min:0, max:200, palette:c.greens}, "CCI Biomass");
 
+// load satellite-based fire detection for reference
 var dataset = ee.ImageCollection('FIRMS').filter(
     ee.Filter.date('2023-06-28', '2023-07-12')).sum();
 
+// get fires of high confidence
 var confident = dataset.select('confidence').gt(50);
 var fires = dataset.select('T21').updateMask(confident);
+
 var firesVis = {
   min: 300.0,
   max: 400.0,
   palette: ['blue'],
 };
 
+// grayscale basemap to enhance fire visuals
 var grayscale_basemap = [
   {   // Dial down the map saturation.
   stylers: [ { saturation: -100} ,{ lightness: 50 } ]
@@ -176,6 +180,7 @@ var grayscale_basemap = [
 
 Map.setOptions('Gray', {'Gray': grayscale_basemap});
 
+// reject agricultural fires as they are probably human-induced independent of fire danger
 var lulc = ee.ImageCollection('ESA/WorldCover/v200')
 .first()
 .clip(aoi);
@@ -183,13 +188,15 @@ var lulc = ee.ImageCollection('ESA/WorldCover/v200')
 var natural_veg = lulc.lt(40);
 // Map.addLayer(fires.updateMask(natural_veg), firesVis, 'Fires');
 
+// transform raster to fire sample points (vector)
 var fire_sample = fires.updateMask(natural_veg).sample({
   region:aoi,
   scale:2000,
   geometries:true
 });
 
-Map.addLayer(fire_sample, {}, "Points");
+// display detected fires
+Map.addLayer(fire_sample, {palette:'yellow'}, "Points");
 
 
 
