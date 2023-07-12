@@ -8,10 +8,10 @@ var aoi =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[99.6029357425988, 22.33835840063753],
-          [99.6029357425988, 13.996404211278941],
-          [107.9964904300988, 13.996404211278941],
-          [107.9964904300988, 22.33835840063753]]], null, false);
+        [[[102.1517638675988, 22.33835840063753],
+          [102.1517638675988, 14.932544436813316],
+          [110.8968810550988, 14.932544436813316],
+          [110.8968810550988, 22.33835840063753]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
@@ -181,10 +181,15 @@ var lulc = ee.ImageCollection('ESA/WorldCover/v200')
 .clip(aoi);
 
 var natural_veg = lulc.lt(40);
-Map.addLayer(fires.updateMask(natural_veg), firesVis, 'Fires');
+// Map.addLayer(fires.updateMask(natural_veg), firesVis, 'Fires');
 
+var fire_sample = fires.updateMask(natural_veg).sample({
+  region:aoi,
+  scale:2000,
+  geometries:true
+});
 
-
+Map.addLayer(fire_sample, {}, "Points");
 
 
 
