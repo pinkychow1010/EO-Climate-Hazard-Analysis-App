@@ -95,11 +95,11 @@ var intervals =
 // Define a dictionary which will be used to make legend and visualize image on map
 var dict = {
   "names": [
-    "Very Low",
+    "Extremely Low",
     "Low",
     "Medium",
     "High",
-    "Very High"
+    "Extremely High"
   ],
   "colors": [
     "#CCCCCC",
