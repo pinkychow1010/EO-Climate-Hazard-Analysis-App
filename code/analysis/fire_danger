@@ -123,7 +123,7 @@ addCategoricalLegend(legend, dict, 'Fire Potential');
 var agb = ee.ImageCollection("projects/sat-io/open-datasets/ESA/ESA_CCI_AGB")
 .limit(1, 'system:time_start', false).first().select('AGB');
 
-var potential = agb.gt(1);
+var potential = agb.gt(10);
 var danger = agb.gt(50);
 
 // display layers
