@@ -58,7 +58,6 @@ var bandViz = {
     "#FF6625",
     "#CC001A",
     "#730009"
-  //  'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
   ],
   opacity: 0.3
 };
@@ -72,7 +71,6 @@ var droughtViz = {
     "#FF6625",
     "#CC001A",
     "#730009"
-    //'feb24c', 'fd8d3c', 'fc4e2a', 'e31a1c', 'b10026'
   ],
   opacity: 0.9
 };
@@ -131,8 +129,8 @@ var danger = agb.gt(50);
 
 // display layers
 img = img.select('KBDI');
-// Map.addLayer(img.sldStyle(intervals), {}, 'Keetch-Byram Drought Index');
-// Map.addLayer(img.updateMask(drought).sldStyle(intervals), {}, 'Drought Alert');
+Map.addLayer(img.sldStyle(intervals), {}, 'Keetch-Byram Drought Index', false);
+Map.addLayer(img.updateMask(drought).sldStyle(intervals), {}, 'Drought Alert', false);
 Map.addLayer(img.updateMask(drought).updateMask(potential).sldStyle(intervals), {}, 'Fire Alert');
 Map.addLayer(img.updateMask(drought).updateMask(danger).sldStyle(intervals), {}, 'Fire Danger');
 
@@ -186,7 +184,6 @@ var lulc = ee.ImageCollection('ESA/WorldCover/v200')
 .clip(aoi);
 
 var natural_veg = lulc.lt(40);
-// Map.addLayer(fires.updateMask(natural_veg), firesVis, 'Fires');
 
 // transform raster to fire sample points (vector)
 var fire_sample = fires.updateMask(natural_veg).sample({
@@ -197,7 +194,6 @@ var fire_sample = fires.updateMask(natural_veg).sample({
 
 // display detected fires
 Map.addLayer(fire_sample, {color: 'blue', size: 3}, "Detected Fires");
-
 
 // Function to generate the legend
 function addCategoricalLegend(panel, dict, title) {
