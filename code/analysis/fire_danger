@@ -78,24 +78,12 @@ var droughtViz = {
   opacity: 0.9
 };
 
-// define area of interest
-// var ADM2 = ee.FeatureCollection('projects/earthengine-legacy/assets/projects/sat-io/open-datasets/geoboundaries/CGAZ_ADM2');
-// var aoi = ADM2.filter(ee.Filter.eq('shapeGroup', 'PAK')); // Pakistan
-
 Map.setOptions("Hybrid");
 Map.centerObject(aoi, 5);
 
 // define drought conditions
 var img = collection.max().clip(aoi);
 var drought = img.gt(200);
-
-// display layers
-// Map.addLayer(img, bandViz, 'Keetch-Byram Drought Index');
-// Map.addLayer(img.updateMask(drought), droughtViz, 'Drought Alert');
-// draw_bounds(aoi);
-
-// var legend = helper.add_colorbar(droughtViz, "KBDI", 0);
-// Map.add(legend);
 
 var intervals =
 '<RasterSymbolizer>' +
