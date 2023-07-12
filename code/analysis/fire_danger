@@ -179,11 +179,10 @@ var grayscale_basemap = [
 Map.setOptions('Gray', {'Gray': grayscale_basemap});
 
 // reject agricultural fires as they are probably human-induced independent of fire danger
-var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+var natural_veg = ee.ImageCollection('ESA/WorldCover/v200')
 .first()
-.clip(aoi);
-
-var natural_veg = lulc.lt(40);
+.clip(aoi)
+.lt(40);
 
 // transform raster to fire sample points (vector)
 var fire_sample = fires.updateMask(natural_veg).sample({
