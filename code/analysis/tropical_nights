@@ -92,6 +92,28 @@ var chart = ui.Chart.image.series({
 
 print(chart);
 
+var chart2 = ui.Chart.image.series({
+  imageCollection: smoothed,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000,
+})
+.setOptions({
+      lineWidth: 1,
+      title: '🌡Trends of Tropical Nights',
+      interpolateNulls: true,
+      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {
+      0: {curveType: 'function', lineWidth: 2, color: 'orange', lineDashStyle: [4, 1]}
+    },
+      explorer: {}
+    });
+
+print(chart2);
+
+
 function daysAbove25(monthOffset) {
   var date = startDate.advance(monthOffset, 'months');
   return collection
