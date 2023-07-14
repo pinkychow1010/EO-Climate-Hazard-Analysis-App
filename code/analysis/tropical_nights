@@ -7,14 +7,14 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[113.90762939813871, 22.505847223760764],
-          [113.90762939813871, 22.223273895237373],
-          [114.31549682977933, 22.223273895237373],
-          [114.31549682977933, 22.505847223760764]]], null, false);
+        [[[114.15482178095121, 22.28745877215135],
+          [114.15482178095121, 22.265855267654743],
+          [114.18915405634183, 22.265855267654743],
+          [114.18915405634183, 22.28745877215135]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var startDate = ee.Date.fromYMD(2001, 1, 1);
 var endDate = ee.Date.fromYMD(2023, 1, 1);
-var aoi = geometry;//Map.getBounds(true) 
+var aoi = geometry;
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .filterBounds(aoi);
@@ -26,31 +26,38 @@ print(numberOfMonths);
 var daysAbove25Collection = ee.ImageCollection(
   ee.List.sequence(0, numberOfMonths.subtract(1))
     .map(daysAbove25)
-    // .set('system:time_start', numberOfMonths)
 );
 
 print(daysAbove25Collection);
+
+// ploting style
+var textStyle = {
+  color: 'black',
+  fontName: 'arial',
+  fontSize: 16,
+  bold: true,
+  italic: false
+};
 
 var chart = ui.Chart.image.series({
   imageCollection: daysAbove25Collection,
   region: geometry,
   reducer: ee.Reducer.median(),
   scale: 1000,
-  // xProperty: 'date'
-});
-// .setOptions({
-//       lineWidth: 1,
-//       title: '🌡Trends of Tropical Nights',
-//       interpolateNulls: true,
-//       vAxis: {title: 'MODIS Night Time LST (°C)',gridlines: {color: '#36454F'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
-//       hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
-//       chartArea: {backgroundColor: '#000000'},
-//     series: {
-//       0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
-//       1: {pointSize: 2.5, lineWidth: 0.8, color: 'red'}
-//     },
-//       explorer: {}
-//     });
+})
+.setOptions({
+      lineWidth: 1,
+      title: '🌡Trends of Tropical Nights',
+      interpolateNulls: true,
+      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {
+      0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
+      1: {pointSize: 2.5, lineWidth: 0.8, color: 'red'}
+    },
+      explorer: {}
+    });
 
 print(chart);
 
