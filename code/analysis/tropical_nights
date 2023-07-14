@@ -30,37 +30,37 @@ var daysAbove25Collection = ee.ImageCollection(
 
 print(daysAbove25Collection);
 
-// var join = ee.Join.saveAll({
-//   matchesKey: 'images'
-// });
+var join = ee.Join.saveAll({
+  matchesKey: 'images'
+});
 
-// var timeField = 'system:time_start';
+var timeField = 'system:time_start';
 
-// // Moving window filter
-// var diffFilter = ee.Filter.maxDifference({
-//   difference: 1000 * 60 * 60 * 24 * 365,
-//   leftField: timeField, 
-//   rightField: timeField
-// });
+// Moving window filter
+var diffFilter = ee.Filter.maxDifference({
+  difference: 1000 * 60 * 60 * 24 * 365,
+  leftField: timeField, 
+  rightField: timeField
+});
 
-// // Apply moving window
-// var threeNeighborJoin = join.apply({
-//   primary: daysAbove25Collection,
-//   secondary: daysAbove25Collection, 
-//   condition: diffFilter
-// });
+// Apply moving window
+var threeNeighborJoin = join.apply({
+  primary: daysAbove25Collection,
+  secondary: daysAbove25Collection, 
+  condition: diffFilter
+});
 
-// // Extract filtered temperature for collection
-// var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
-//   var collection = ee.ImageCollection.fromImages(image.get('images'));
-//   return ee.Image(image).addBands(collection.sum())
-//   .copyProperties({
-//         source: image,
-//         properties: ['system:time_start']
-//       });
-// }));
+// Extract filtered temperature for collection
+var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
+  var collection = ee.ImageCollection.fromImages(image.get('images'));
+  return ee.Image(image).addBands(collection.sum())
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+}));
 
-// print(smoothed);
+print(smoothed);
 
 // ploting style
 var textStyle = {
@@ -110,5 +110,5 @@ function daysAbove25(monthOffset) {
     .unmask(0)
     .clip(aoi)
     .set('date', date.format('yyyy-MM-dd'))
-    .set('system:time_start', date.format('yyyy-MM-dd'));
+    .set('system:time_start', date.millis());//.format('yyyy-MM-dd'));
 }
