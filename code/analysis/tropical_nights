@@ -112,8 +112,8 @@ var chart2 = ui.Chart.image.series({
       hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
       chartArea: {backgroundColor: '#000000'},
     series: {
-      0: {curveType: 'function', lineWidth: 1, color: 'blue', lineDashStyle: [4, 1]},
-      1: {lineWidth: 2, color: 'red', lineDashStyle: [4, 1]}
+      1: {curveType: 'function', lineWidth: 1, color: 'blue', lineDashStyle: [4, 1]},
+      0: {lineWidth: 2, color: 'red', lineDashStyle: [4, 1]}
     },
       explorer: {}
     });
