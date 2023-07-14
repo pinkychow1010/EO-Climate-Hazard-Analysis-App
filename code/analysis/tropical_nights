@@ -7,10 +7,10 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[114.11362305048246, 22.286188070150484],
-          [114.11362305048246, 22.26712615439742],
-          [114.13628235224027, 22.26712615439742],
-          [114.13628235224027, 22.286188070150484]]], null, false);
+        [[[73.41477051141996, 32.25196189006431],
+          [73.41477051141996, 31.049064695094973],
+          [74.89174499872465, 31.049064695094973],
+          [74.89174499872465, 32.25196189006431]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var startDate = ee.Date.fromYMD(2001, 1, 1);
 var endDate = ee.Date.fromYMD(2023, 1, 1);
@@ -92,7 +92,7 @@ var chart = ui.Chart.image.series({
       lineWidth: 1,
       title: '🌡Monthly Tropical Nights',
       interpolateNulls: true,
-      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 10}, textStyle: textStyle,  titleTextStyle: textStyle},
+      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 20}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
       chartArea: {backgroundColor: '#000000'},
     series: {
@@ -113,7 +113,7 @@ var chart2 = ui.Chart.image.series({
       lineWidth: 1,
       title: '🌡Trends of Tropical Nights: 365 Days Sum Filter',
       interpolateNulls: true,
-      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 200}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
       chartArea: {backgroundColor: '#000000'},
     series: {
@@ -132,7 +132,7 @@ function daysAbove25(monthOffset) {
     .select('LST_Night_1km')
     .filterDate(date, date.advance(1, 'months'))
     .map(function (image) {
-      var above = image.multiply(0.02).subtract(273.15).gte(25);
+      var above = image.multiply(0.02).subtract(273.15).gte(28);
       return image
       .updateMask(above)
       .copyProperties({
