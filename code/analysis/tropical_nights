@@ -61,7 +61,12 @@ var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
 }));
 
 smoothed = smoothed.map(function(image) {
-  return image
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+    .first()
+    .clip(geometry);
+  var urban_mask = lulc.eq(50);
+  var local_image = image.updateMask(urban_mask);
+  return local_image
   .select(['LST_Night_1km','LST_Night_1km_1'])
   .rename(['Monthly Count','365 Days Total Count']);
 });
