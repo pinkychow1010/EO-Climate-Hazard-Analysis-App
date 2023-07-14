@@ -62,7 +62,7 @@ var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
 
 smoothed = smoothed.map(function(image) {
   return image
-  .select(['LST_Day_1km','LST_Day_1km_1'])
+  .select(['LST_Night_1km','LST_Night_1km_1'])
   .rename(['Monthly Count','365 Days Total Count']);
 });
 
