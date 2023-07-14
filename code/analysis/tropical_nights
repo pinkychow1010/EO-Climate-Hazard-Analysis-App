@@ -12,8 +12,8 @@ var geometry =
           [114.1266693151309, 22.35859963394529],
           [114.1266693151309, 22.37066457271771]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-var startDate = ee.Date.fromYMD(2010, 1, 1)
-var endDate = ee.Date.fromYMD(2013, 1, 1)
+var startDate = ee.Date.fromYMD(2001, 1, 1)
+var endDate = ee.Date.fromYMD(2023, 1, 1)
 var aoi = Map.getBounds(true) 
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
