@@ -29,8 +29,8 @@ var aoi =
 
 /**
  * 
- * This is an example script for visualizing fire danger by combining information about fuel wetness 
- * (drought index) and fuel load (aboveground biomass).
+ * This is an example script for visualizing fire danger by combining information about 
+ * fuel wetness (KBDI drought index) and fuel load (aboveground biomass).
  * 
  */
 
@@ -48,7 +48,7 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous, today);
 
-// define vis params
+// define vis params for KBDI
 var bandViz = {
   min: 300,
   max: 700,
@@ -75,6 +75,7 @@ var droughtViz = {
   opacity: 0.9
 };
 
+// center to area of interests
 Map.centerObject(aoi, 6);
 
 // define drought conditions
@@ -123,6 +124,7 @@ addCategoricalLegend(legend, dict, 'Fire Potential');
 var agb = ee.ImageCollection("projects/sat-io/open-datasets/ESA/ESA_CCI_AGB")
 .limit(1, 'system:time_start', false).first().select('AGB');
 
+// set thresholds for fire potential and danger based on biomass quantity
 var potential = agb.gt(10);
 var danger = agb.gt(50);
 
