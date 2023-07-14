@@ -49,12 +49,11 @@ var chart = ui.Chart.image.series({
       lineWidth: 1,
       title: '🌡Trends of Tropical Nights',
       interpolateNulls: true,
-      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 10}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
       chartArea: {backgroundColor: '#000000'},
     series: {
-      0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
-      1: {pointSize: 2.5, lineWidth: 0.8, color: 'red'}
+      0: {curveType: 'function', lineWidth: 2, color: 'orange', lineDashStyle: [4, 1]}
     },
       explorer: {}
     });
