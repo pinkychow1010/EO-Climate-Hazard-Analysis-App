@@ -129,12 +129,21 @@ var potential = agb.gt(10);
 var danger = agb.gt(50);
 
 // display layers
+
+// KBDI
 img = img.select('KBDI');
 Map.addLayer(img.sldStyle(intervals), {}, 'Keetch-Byram Drought Index', false);
+
+// Drought Index
 Map.addLayer(img.updateMask(drought).sldStyle(intervals), {}, 'Drought Alert', false);
+
+// Fire Alert
 Map.addLayer(img.updateMask(drought).updateMask(potential).sldStyle(intervals), {}, 'Fire Alert');
+
+// Fire Danger
 Map.addLayer(img.updateMask(drought).updateMask(danger).sldStyle(intervals), {}, 'Fire Danger');
 
+// Biomass Layer
 var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
 Map.addLayer(agb, {min:0, max:200, palette:c.greens}, "CCI Biomass", false);
 
@@ -146,6 +155,7 @@ var dataset = ee.ImageCollection('FIRMS').filter(
 var confident = dataset.select('confidence').gt(50);
 var fires = dataset.select('T21').updateMask(confident);
 
+// Visual params for fires.
 var firesVis = {
   min: 300.0,
   max: 400.0,
@@ -177,6 +187,7 @@ var grayscale_basemap = [
   }
 ];
 
+// Basemap
 Map.setOptions('Gray', {'Gray': grayscale_basemap});
 
 // reject agricultural fires as they are probably human-induced independent of fire danger
