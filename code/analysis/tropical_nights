@@ -7,14 +7,14 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[114.11087646845121, 22.37066457271771],
-          [114.11087646845121, 22.35859963394529],
-          [114.1266693151309, 22.35859963394529],
-          [114.1266693151309, 22.37066457271771]]], null, false);
+        [[[113.90762939813871, 22.505847223760764],
+          [113.90762939813871, 22.223273895237373],
+          [114.31549682977933, 22.223273895237373],
+          [114.31549682977933, 22.505847223760764]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-var startDate = ee.Date.fromYMD(2001, 1, 1)
-var endDate = ee.Date.fromYMD(2023, 1, 1)
-var aoi = Map.getBounds(true) 
+var startDate = ee.Date.fromYMD(2001, 1, 1);
+var endDate = ee.Date.fromYMD(2023, 1, 1);
+var aoi = geometry;//Map.getBounds(true) 
 
 var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .filterBounds(aoi);
