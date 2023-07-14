@@ -1,0 +1,76 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[114.11087646845121, 22.37066457271771],
+          [114.11087646845121, 22.35859963394529],
+          [114.1266693151309, 22.35859963394529],
+          [114.1266693151309, 22.37066457271771]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var startDate = ee.Date.fromYMD(2010, 1, 1)
+var endDate = ee.Date.fromYMD(2013, 1, 1)
+var aoi = Map.getBounds(true) 
+
+var collection = ee.ImageCollection('MODIS/006/MOD11A1')
+  .filterBounds(aoi);
+
+var numberOfMonths = endDate.difference(startDate, 'months').floor();
+
+print(numberOfMonths);
+
+var daysAbove25Collection = ee.ImageCollection(
+  ee.List.sequence(0, numberOfMonths.subtract(1))
+    .map(daysAbove25)
+    // .set('system:time_start', numberOfMonths)
+);
+
+print(daysAbove25Collection);
+
+var chart = ui.Chart.image.series({
+  imageCollection: daysAbove25Collection,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000,
+  // xProperty: 'date'
+});
+// .setOptions({
+//       lineWidth: 1,
+//       title: '🌡Trends of Tropical Nights',
+//       interpolateNulls: true,
+//       vAxis: {title: 'MODIS Night Time LST (°C)',gridlines: {color: '#36454F'}, viewWindow: {min: 10, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
+//       hAxis: {title: 'Time', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+//       chartArea: {backgroundColor: '#000000'},
+//     series: {
+//       0: {curveType: 'function', lineWidth: 2, color: '#00FFFF', lineDashStyle: [4, 1]},
+//       1: {pointSize: 2.5, lineWidth: 0.8, color: 'red'}
+//     },
+//       explorer: {}
+//     });
+
+print(chart);
+
+function daysAbove25(monthOffset) {
+  var date = startDate.advance(monthOffset, 'months');
+  return collection
+    .select('LST_Night_1km')
+    .filterDate(date, date.advance(1, 'months'))
+    .map(function (image) {
+      var above = image.multiply(0.02).subtract(273.15).gte(25);
+      return image
+      .updateMask(above)
+      .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+    })
+    .count()
+    .unmask(0)
+    .clip(aoi)
+    .set('date', date.format('yyyy-MM-dd'))
+    .set('system:time_start', date.format('yyyy-MM-dd'));
+}
