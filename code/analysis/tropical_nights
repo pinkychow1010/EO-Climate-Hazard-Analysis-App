@@ -7,10 +7,10 @@ var geometry =
       }
     ] */
     ee.Geometry.Polygon(
-        [[[73.41477051141996, 32.25196189006431],
-          [73.41477051141996, 31.049064695094973],
-          [74.89174499872465, 31.049064695094973],
-          [74.89174499872465, 32.25196189006431]]], null, false);
+        [[[103.75900879266996, 1.4523897377026542],
+          [103.75900879266996, 1.2588099904241512],
+          [103.95058288934965, 1.2588099904241512],
+          [103.95058288934965, 1.4523897377026542]]], null, false);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var startDate = ee.Date.fromYMD(2001, 1, 1);
 var endDate = ee.Date.fromYMD(2023, 1, 1);
@@ -20,8 +20,7 @@ var collection = ee.ImageCollection('MODIS/006/MOD11A1')
   .filterBounds(aoi);
 
 var numberOfMonths = endDate.difference(startDate, 'months').floor();
-
-print(numberOfMonths);
+// print(numberOfMonths);
 
 var daysAbove25Collection = ee.ImageCollection(
   ee.List.sequence(0, numberOfMonths.subtract(1))
@@ -132,7 +131,7 @@ function daysAbove25(monthOffset) {
     .select('LST_Night_1km')
     .filterDate(date, date.advance(1, 'months'))
     .map(function (image) {
-      var above = image.multiply(0.02).subtract(273.15).gte(28);
+      var above = image.multiply(0.02).subtract(273.15).gte(25);
       return image
       .updateMask(above)
       .copyProperties({
@@ -144,5 +143,5 @@ function daysAbove25(monthOffset) {
     .unmask(0)
     .clip(aoi)
     .set('date', date.format('yyyy-MM-dd'))
-    .set('system:time_start', date.millis());//.format('yyyy-MM-dd'));
+    .set('system:time_start', date.millis());
 }
