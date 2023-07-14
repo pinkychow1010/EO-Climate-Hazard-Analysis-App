@@ -60,6 +60,12 @@ var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
       });
 }));
 
+smoothed_deg = smoothed_deg.map(function(image) {
+  return image
+  .select(['LST_Day_1km','LST_Day_1km_1'])
+  .rename(['Monthly Count','365 Days Total Count']);
+});
+
 print(smoothed);
 
 // ploting style
@@ -79,7 +85,7 @@ var chart = ui.Chart.image.series({
 })
 .setOptions({
       lineWidth: 1,
-      title: '🌡Trends of Tropical Nights',
+      title: '🌡Monthly Tropical Nights',
       interpolateNulls: true,
       vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 10}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
@@ -100,13 +106,14 @@ var chart2 = ui.Chart.image.series({
 })
 .setOptions({
       lineWidth: 1,
-      title: '🌡Trends of Tropical Nights',
+      title: '🌡Trends of Tropical Nights: 365 Days Sum Filter',
       interpolateNulls: true,
       vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 50}, textStyle: textStyle,  titleTextStyle: textStyle},
       hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
       chartArea: {backgroundColor: '#000000'},
     series: {
-      0: {curveType: 'function', lineWidth: 2, color: 'orange', lineDashStyle: [4, 1]}
+      0: {curveType: 'function', lineWidth: 1, color: 'blue', lineDashStyle: [4, 1]},
+      1: {lineWidth: 2, color: 'red', lineDashStyle: [4, 1]}
     },
       explorer: {}
     });
