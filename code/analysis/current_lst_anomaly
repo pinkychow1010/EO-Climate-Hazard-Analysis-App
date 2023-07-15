@@ -46,7 +46,7 @@ var maskClouds = function(image) {
 var collection = ee.ImageCollection("MODIS/061/MYD11A1")
   .map(maskClouds)
   .select('LST_Day_1km')
-  .filterBounds(geometry)
+  // .filterBounds(geometry)
   .filterDate(startdate, enddate);
 
 // Apply scale factor and offset for collection
@@ -66,7 +66,7 @@ Map.setOptions("Hybrid");
 
 // Display LST layer
 Map.addLayer(
-  current_lst.select('LST_Day_1km').first().clip(geometry), 
+  current_lst.select('LST_Day_1km').first(),//.clip(geometry), 
   {min: 26, max: 40, palette: c.magma},
   'Current MODIS LST'
   );
@@ -79,7 +79,7 @@ var lta = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAY_M/v01")
 var diff = current_lst.select('LST_Day_1km').subtract(lta).rename('diff').double();
 
 Map.addLayer(
-  diff.select('diff').clip(geometry), 
-  {min: -5, max: 5, palette: c.reds},
-  'Compare to historical average'
+  diff.select('diff'),//.clip(geometry), 
+  {min: 0, max: 5, palette: c.reds},
+  'Deviations from Historical Average ()'
   );
