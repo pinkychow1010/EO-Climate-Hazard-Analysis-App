@@ -41,8 +41,8 @@ Map.setOptions("Hybrid");
 
 // get last 14 days
 var newDate = new Date();
-var startdate = ee.Date(newDate); // today
-var enddate = startdate.advance(-14, 'day'); // two weeks ago
+var enddate = ee.Date(newDate); // today
+var startdate = enddate.advance(-14, 'day'); // two weeks ago
 
 // Filter MODIS data by cloud coverage
 var maskClouds = function(image) {
