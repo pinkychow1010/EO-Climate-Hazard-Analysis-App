@@ -33,13 +33,16 @@ var geometry =
  * Inspect current temperature anomaly compared to historical average
  */
 
+// import module
 var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
 
 // Basemap
 Map.setOptions("Hybrid");
 
-var startdate = ee.Date.fromYMD(2023,7,8); // start of analysis time frame 
-var enddate = ee.Date.fromYMD(2023,7,15); // end of analysis time frame
+// get last 14 days
+var newDate = new Date();
+var startdate = ee.Date(newDate); // today
+var enddate = startdate.advance(-14, 'day'); // two weeks ago
 
 // Filter MODIS data by cloud coverage
 var maskClouds = function(image) {
