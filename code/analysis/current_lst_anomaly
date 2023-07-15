@@ -32,6 +32,11 @@ var geometry =
 /**
  */
 
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+
+// Basemap
+Map.setOptions("Hybrid");
+
 var startdate = ee.Date.fromYMD(2023,7,8); // start of analysis time frame 
 var enddate = ee.Date.fromYMD(2023,7,15); // end of analysis time frame
 
@@ -46,40 +51,33 @@ var maskClouds = function(image) {
 var collection = ee.ImageCollection("MODIS/061/MYD11A1")
   .map(maskClouds)
   .select('LST_Day_1km')
-  // .filterBounds(geometry)
   .filterDate(startdate, enddate);
 
 // Apply scale factor and offset for collection
 var current_lst = collection.map(function(image) {
   return image.multiply(0.02).subtract(273.15)
+  .limit(1, 'system:time_start', false).first()
   .copyProperties({
         source: image,
         properties: ['system:time_start']
       });
 });
 
-// Visualizing Lowest Land Surface Temperature for consecutive 3 Days
-var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
-
-// Basemap
-Map.setOptions("Hybrid");
-
 // Display LST layer
 Map.addLayer(
-  current_lst.select('LST_Day_1km').first(),//.clip(geometry), 
+  current_lst.select('LST_Day_1km').first(),
   {min: 26, max: 40, palette: c.magma},
   'Current MODIS LST'
   );
 
-current_lst = current_lst.limit(1, 'system:time_start', false).first();
-
 var lta = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAY_M/v01")
 .select('jul').multiply(0.02).subtract(273.15);
 
-var diff = current_lst.select('LST_Day_1km').subtract(lta).rename('diff').double();
+var diff = current_lst.select('LST_Day_1km').subtract(lta)
+.rename('diff').double().select('diff');
 
 Map.addLayer(
-  diff.select('diff'),//.clip(geometry), 
+  diff,
   {min: 0, max: 5, palette: c.reds},
-  'Deviations from Historical Average ()'
+  'Deviations from Historical Average (°C)'
   );
