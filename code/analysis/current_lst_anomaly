@@ -51,7 +51,7 @@ var maskClouds = function(image) {
   return image.updateMask(QA.bitwiseAnd(bitMask).eq(0));
 }; 
 
-// Get MODIS LST data layer
+// Get MODIS LST data layer for the last 14 days
 var collection = ee.ImageCollection("MODIS/061/MYD11A1")
   .map(maskClouds)
   .select('LST_Day_1km')
@@ -64,7 +64,7 @@ var current_lst = collection.map(function(image) {
         source: image,
         properties: ['system:time_start']
       });
-}).limit(1, 'system:time_start', false).first();
+}).limit(3, 'system:time_start', false).first(); // get the latest image
 
 // Display LST layer
 Map.addLayer(
@@ -77,9 +77,11 @@ Map.addLayer(
 var lta = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAY_M/v01")
 .select('jul').multiply(0.02).subtract(273.15);
 
+// Deviations from past average values
 var diff = current_lst.select('LST_Day_1km').subtract(lta)
 .rename('diff').double().select('diff');
 
+// Display Deviations
 Map.addLayer(
   diff,
   {min: 0, max: 5, palette: c.reds},
