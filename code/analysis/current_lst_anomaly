@@ -64,7 +64,7 @@ var current_lst = collection.map(function(image) {
 
 // Display LST layer
 Map.addLayer(
-  current_lst.select('LST_Day_1km').first(),
+  current_lst,
   {min: 26, max: 40, palette: c.magma},
   'Current MODIS LST'
   );
