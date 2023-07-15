@@ -64,7 +64,8 @@ var current_lst = collection.map(function(image) {
         source: image,
         properties: ['system:time_start']
       });
-}).limit(3, 'system:time_start', false).first(); // get the latest image
+}).limit(3, 'system:time_start', false).median(); 
+// get the latest composites with gap filled within a 3 day window
 
 // Display LST layer
 Map.addLayer(
