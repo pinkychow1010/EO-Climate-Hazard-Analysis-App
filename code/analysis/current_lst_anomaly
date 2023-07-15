@@ -73,6 +73,7 @@ Map.addLayer(
   'Current MODIS LST'
   );
 
+// Long Term Monthly Average for Day Time
 var lta = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAY_M/v01")
 .select('jul').multiply(0.02).subtract(273.15);
 
