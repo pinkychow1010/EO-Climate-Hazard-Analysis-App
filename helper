@@ -69,11 +69,12 @@ exports.get_summer = function get_summer(aoi) {
  
 // vis shall contains only min, max and palette
 // other properties might lead to unexpected behaviors
-exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
+exports.add_colorbar = function add_color_bar(vis, title, decimal, size, position) {
   
   if (decimal === undefined || decimal === null){var decimal = 2};
   if (title === undefined || title === null){var title = "Legend"};
   if (size === undefined || size === null){var size = "large"};
+  if (position === undefined || position === null){var position = "bottom-right"};
   
   var legend_size = {
     'large': {
@@ -95,7 +96,7 @@ exports.add_colorbar = function add_color_bar(vis, title, decimal, size) {
   // set position of panel
   var legendpos = ui.Panel({
     style: {
-      position: 'bottom-right',
+      position: position,//'bottom-right',
       padding: '6px 10px'
     }
   });
