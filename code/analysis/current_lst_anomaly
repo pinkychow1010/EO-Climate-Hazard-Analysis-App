@@ -1,0 +1,85 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-3.2401131348834245, 43.42260152741635],
+          [-3.2401131348834245, 41.5513412126073],
+          [3.2033683104290755, 41.5513412126073],
+          [3.2033683104290755, 43.42260152741635]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/b66f9d6f21199f72e145b8d790eeebc8  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ##################################### //
+// ######      Heat Anomaly       ###### //
+// ##################################### //
+
+/**
+ */
+
+var startdate = ee.Date.fromYMD(2023,7,8); // start of analysis time frame 
+var enddate = ee.Date.fromYMD(2023,7,15); // end of analysis time frame
+
+// Filter MODIS data by cloud coverage
+var maskClouds = function(image) {
+  var QA = image.select('QC_Day');
+  var bitMask = 1 << 10;
+  return image.updateMask(QA.bitwiseAnd(bitMask).eq(0));
+}; 
+
+// Get MODIS LST data layer
+var collection = ee.ImageCollection("MODIS/061/MYD11A1")
+  .map(maskClouds)
+  .select('LST_Day_1km')
+  .filterBounds(geometry)
+  .filterDate(startdate, enddate);
+
+// Apply scale factor and offset for collection
+var current_lst = collection.map(function(image) {
+  return image.multiply(0.02).subtract(273.15)
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+});
+
+// Visualizing Lowest Land Surface Temperature for consecutive 3 Days
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+
+// Basemap
+Map.setOptions("Hybrid");
+
+// Display LST layer
+Map.addLayer(
+  current_lst.select('LST_Day_1km').first().clip(geometry), 
+  {min: 26, max: 40, palette: c.magma},
+  'Current MODIS LST'
+  );
+
+current_lst = current_lst.limit(1, 'system:time_start', false).first();
+
+var lta = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAY_M/v01")
+.select('jul').multiply(0.02).subtract(273.15);
+
+var diff = current_lst.select('LST_Day_1km').subtract(lta).rename('diff').double();
+
+Map.addLayer(
+  diff.select('diff').clip(geometry), 
+  {min: -5, max: 5, palette: c.reds},
+  'Compare to historical average'
+  );
