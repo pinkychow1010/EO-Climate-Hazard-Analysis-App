@@ -56,12 +56,11 @@ var collection = ee.ImageCollection("MODIS/061/MYD11A1")
 // Apply scale factor and offset for collection
 var current_lst = collection.map(function(image) {
   return image.multiply(0.02).subtract(273.15)
-  .limit(1, 'system:time_start', false).first()
   .copyProperties({
         source: image,
         properties: ['system:time_start']
       });
-});
+}).limit(1, 'system:time_start', false).first();
 
 // Display LST layer
 Map.addLayer(
