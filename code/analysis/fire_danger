@@ -17,7 +17,7 @@ var aoi =
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/5143b2698a8fae68fbc67bc5f6b18d10  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/6b862ed26c0dded35a16b74abd757c14  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -29,8 +29,8 @@ var aoi =
 
 /**
  * 
- * This is an example script for visualizing fire danger by combining information about fuel wetness 
- * (drought index) and fuel load (aboveground biomass).
+ * This is an example script for visualizing fire danger by combining information about 
+ * fuel wetness (KBDI drought index) and fuel load (aboveground biomass).
  * 
  */
 
@@ -48,7 +48,7 @@ var collection = ee.ImageCollection('UTOKYO/WTLAB/KBDI/v1')
   .select('KBDI')
   .filterDate(previous, today);
 
-// define vis params
+// define vis params for KBDI
 var bandViz = {
   min: 300,
   max: 700,
@@ -75,6 +75,7 @@ var droughtViz = {
   opacity: 0.9
 };
 
+// center to area of interests
 Map.centerObject(aoi, 6);
 
 // define drought conditions
@@ -123,16 +124,26 @@ addCategoricalLegend(legend, dict, 'Fire Potential');
 var agb = ee.ImageCollection("projects/sat-io/open-datasets/ESA/ESA_CCI_AGB")
 .limit(1, 'system:time_start', false).first().select('AGB');
 
+// set thresholds for fire potential and danger based on biomass quantity
 var potential = agb.gt(10);
 var danger = agb.gt(50);
 
 // display layers
+
+// KBDI
 img = img.select('KBDI');
 Map.addLayer(img.sldStyle(intervals), {}, 'Keetch-Byram Drought Index', false);
+
+// Drought Index
 Map.addLayer(img.updateMask(drought).sldStyle(intervals), {}, 'Drought Alert', false);
+
+// Fire Alert
 Map.addLayer(img.updateMask(drought).updateMask(potential).sldStyle(intervals), {}, 'Fire Alert');
+
+// Fire Danger
 Map.addLayer(img.updateMask(drought).updateMask(danger).sldStyle(intervals), {}, 'Fire Danger');
 
+// Biomass Layer
 var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
 Map.addLayer(agb, {min:0, max:200, palette:c.greens}, "CCI Biomass", false);
 
@@ -144,6 +155,7 @@ var dataset = ee.ImageCollection('FIRMS').filter(
 var confident = dataset.select('confidence').gt(50);
 var fires = dataset.select('T21').updateMask(confident);
 
+// Visual params for fires.
 var firesVis = {
   min: 300.0,
   max: 400.0,
@@ -175,6 +187,7 @@ var grayscale_basemap = [
   }
 ];
 
+// Basemap
 Map.setOptions('Gray', {'Gray': grayscale_basemap});
 
 // reject agricultural fires as they are probably human-induced independent of fire danger

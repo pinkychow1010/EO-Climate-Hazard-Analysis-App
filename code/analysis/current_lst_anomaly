@@ -1,0 +1,90 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-3.2401131348834245, 43.42260152741635],
+          [-3.2401131348834245, 41.5513412126073],
+          [3.2033683104290755, 41.5513412126073],
+          [3.2033683104290755, 43.42260152741635]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▄▀
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/da9b705dca30170dee135c1d351d473c  ▄▀▄▀▄▀▄
+//▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
+//▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+
+
+
+// released under Open Source GPL License Copyright © 2023 Ka Hei Chow
+
+// ##################################### //
+// ######      Heat Anomaly       ###### //
+// ##################################### //
+
+/**
+ * Inspect current temperature anomaly compared to historical average
+ */
+
+// import module
+var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
+
+// Basemap
+Map.setOptions("Hybrid");
+
+// get last 14 days
+var newDate = new Date();
+var enddate = ee.Date(newDate); // today
+var startdate = enddate.advance(-14, 'day'); // two weeks ago
+
+// Filter MODIS data by cloud coverage
+var maskClouds = function(image) {
+  var QA = image.select('QC_Day');
+  var bitMask = 1 << 10;
+  return image.updateMask(QA.bitwiseAnd(bitMask).eq(0));
+}; 
+
+// Get MODIS LST data layer for the last 14 days
+var collection = ee.ImageCollection("MODIS/061/MYD11A1")
+  .map(maskClouds)
+  .select('LST_Day_1km')
+  .filterDate(startdate, enddate);
+
+// Apply scale factor and offset for collection
+var current_lst = collection.map(function(image) {
+  return image.multiply(0.02).subtract(273.15)
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+}).limit(3, 'system:time_start', false).median(); 
+// get the latest composites with gap filled within a 3 day window
+
+// Display LST layer
+Map.addLayer(
+  current_lst,
+  {min: 26, max: 40, palette: c.magma},
+  'Current MODIS LST', false
+  );
+
+// Long Term Monthly Average for Day Time
+var lta = ee.Image("OpenLandMap/CLM/CLM_LST_MOD11A2-DAY_M/v01")
+.select('jul').multiply(0.02).subtract(273.15);
+
+// Deviations from past average values
+var diff = current_lst.select('LST_Day_1km').subtract(lta)
+.rename('diff').double().select('diff');
+
+// Display Deviations
+Map.addLayer(
+  diff,
+  {min: 0, max: 5, palette: c.reds},
+  'Deviations from Historical Average (°C)'
+  );

@@ -1,0 +1,147 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = 
+    /* color: #d63000 */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[103.75900879266996, 1.4523897377026542],
+          [103.75900879266996, 1.2588099904241512],
+          [103.95058288934965, 1.2588099904241512],
+          [103.95058288934965, 1.4523897377026542]]], null, false);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var startDate = ee.Date.fromYMD(2001, 1, 1);
+var endDate = ee.Date.fromYMD(2023, 1, 1);
+var aoi = geometry;
+
+var collection = ee.ImageCollection('MODIS/006/MOD11A1')
+  .filterBounds(aoi);
+
+var numberOfMonths = endDate.difference(startDate, 'months').floor();
+// print(numberOfMonths);
+
+var daysAbove25Collection = ee.ImageCollection(
+  ee.List.sequence(0, numberOfMonths.subtract(1))
+    .map(daysAbove25)
+);
+
+print(daysAbove25Collection);
+
+var join = ee.Join.saveAll({
+  matchesKey: 'images'
+});
+
+var timeField = 'system:time_start';
+
+// Moving window filter
+var diffFilter = ee.Filter.maxDifference({
+  difference: 1000 * 60 * 60 * 24 * 365,
+  leftField: timeField, 
+  rightField: timeField
+});
+
+// Apply moving window
+var threeNeighborJoin = join.apply({
+  primary: daysAbove25Collection,
+  secondary: daysAbove25Collection, 
+  condition: diffFilter
+});
+
+// Extract filtered temperature for collection
+var smoothed = ee.ImageCollection(threeNeighborJoin.map(function(image) {
+  var collection = ee.ImageCollection.fromImages(image.get('images'));
+  return ee.Image(image).addBands(collection.sum())
+  .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+}));
+
+smoothed = smoothed.map(function(image) {
+  var lulc = ee.ImageCollection('ESA/WorldCover/v200')
+    .first()
+    .clip(geometry);
+  var urban_mask = lulc.eq(50);
+  var local_image = image.updateMask(urban_mask);
+  return local_image
+  .select(['LST_Night_1km','LST_Night_1km_1'])
+  .rename(['Monthly Count','365 Days Total Count']);
+});
+
+print(smoothed);
+
+// ploting style
+var textStyle = {
+  color: 'black',
+  fontName: 'arial',
+  fontSize: 16,
+  bold: true,
+  italic: false
+};
+
+var chart = ui.Chart.image.series({
+  imageCollection: daysAbove25Collection,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000,
+})
+.setOptions({
+      lineWidth: 1,
+      title: '🌡Monthly Tropical Nights',
+      interpolateNulls: true,
+      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 20}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {
+      0: {curveType: 'function', lineWidth: 2, color: 'orange', lineDashStyle: [4, 1]}
+    },
+      explorer: {}
+    });
+
+print(chart);
+
+var chart2 = ui.Chart.image.series({
+  imageCollection: smoothed,
+  region: geometry,
+  reducer: ee.Reducer.median(),
+  scale: 1000,
+})
+.setOptions({
+      lineWidth: 1,
+      title: '🌡Trends of Tropical Nights: 365 Days Sum Filter',
+      interpolateNulls: true,
+      vAxis: {title: 'Day Count',gridlines: {color: '#36454F'}, viewWindow: {min: 0, max: 200}, textStyle: textStyle,  titleTextStyle: textStyle},
+      hAxis: {title: 'Month', gridlines: {color: '#36454F'}, format: 'YYYY-MMM', textStyle: textStyle,  titleTextStyle: textStyle},
+      chartArea: {backgroundColor: '#000000'},
+    series: {
+      1: {curveType: 'function', lineWidth: 1, color: 'yellow', lineDashStyle: [4, 1]},
+      0: {lineWidth: 2, color: 'red', lineDashStyle: [4, 1]}
+    },
+      explorer: {}
+    });
+
+print(chart2);
+
+
+function daysAbove25(monthOffset) {
+  var date = startDate.advance(monthOffset, 'months');
+  return collection
+    .select('LST_Night_1km')
+    .filterDate(date, date.advance(1, 'months'))
+    .map(function (image) {
+      var above = image.multiply(0.02).subtract(273.15).gte(25);
+      return image
+      .updateMask(above)
+      .copyProperties({
+        source: image,
+        properties: ['system:time_start']
+      });
+    })
+    .count()
+    .unmask(0)
+    .clip(aoi)
+    .set('date', date.format('yyyy-MM-dd'))
+    .set('system:time_start', date.millis());
+}
