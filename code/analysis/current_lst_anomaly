@@ -17,7 +17,7 @@ var geometry =
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/b66f9d6f21199f72e145b8d790eeebc8  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/412e77137a462afb6854ac728b621f2a  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -30,6 +30,7 @@ var geometry =
 // ##################################### //
 
 /**
+ * Inspect current temperature anomaly compared to historical average
  */
 
 var c = require('users/pinkychow1010/WB_IntraUrban:helper').color;
