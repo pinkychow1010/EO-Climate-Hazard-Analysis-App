@@ -94,8 +94,8 @@ Map.addLayer(
   'Deviations from Historical Average (°C)'
   );
   
-var current_legend = helper.add_colorbar(current_vis, 'Latest LST');
-var diff_legend = helper.add_colorbar(diff_vis, 'Deviations');
+var current_legend = helper.add_colorbar(current_vis, 'Latest LST', 2, 'small');
+var diff_legend = helper.add_colorbar(diff_vis, 'Deviations', 2, 'small');
 
-Map.add(current_legend, 2, 'small');
-Map.add(diff_legend, 2, 'small');
+Map.add(current_legend);
+Map.add(diff_legend);
