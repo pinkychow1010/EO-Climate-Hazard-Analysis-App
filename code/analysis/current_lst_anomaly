@@ -17,7 +17,7 @@ var geometry =
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄           COPY THIS URL LINK TO PLAY AROUND WITH THE CODE              ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
-//▄▀▄▀▄  https://code.earthengine.google.com/412e77137a462afb6854ac728b621f2a  ▄▀▄▀▄▀▄
+//▄▀▄▀▄  https://code.earthengine.google.com/643da653977187244fa41f03176c6841  ▄▀▄▀▄▀▄
 //▄▀▄▀▄                                                                        ▄▀▄▀▄▀▄
 //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
 
@@ -70,7 +70,7 @@ var current_lst = collection.map(function(image) {
 Map.addLayer(
   current_lst,
   {min: 26, max: 40, palette: c.magma},
-  'Current MODIS LST'
+  'Current MODIS LST', false
   );
 
 // Long Term Monthly Average for Day Time
